@@ -1,0 +1,136 @@
+name: Build Play Store AAB
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-aab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+
+      - name: Install Android API 36
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "platforms;android-36" "build-tools;35.0.0"
+
+      - name: Read version
+        shell: bash
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('version.json'))['version'])")
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          MAJOR=${MAJOR:-0}; MINOR=${MINOR:-0}; PATCH=${PATCH:-0}
+          VERSION_CODE=$((10#$MAJOR * 10000 + 10#$MINOR * 100 + 10#$PATCH))
+          if [ "$VERSION_CODE" -lt 1 ]; then VERSION_CODE=1; fi
+          echo "APP_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "VERSION_CODE=$VERSION_CODE" >> "$GITHUB_ENV"
+
+      - name: Restore release signing key
+        shell: bash
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$KEYSTORE_BASE64"
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/virendra-release.jks"
+
+      - name: Recreate Android project from APK workflow
+        shell: bash
+        env:
+          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -e
+          test -n "$STORE_PASSWORD"
+          test -n "$KEY_ALIAS"
+          test -n "$KEY_PASSWORD"
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('.github/workflows/build-apk.yml')
+          text = p.read_text(encoding='utf-8')
+          marker = '      - name: Create Android project\n'
+          start = text.find(marker)
+          if start < 0:
+              raise SystemExit('Create Android project step not found in build-apk.yml')
+
+          run_marker = '        run: |\n'
+          run_start = text.find(run_marker, start)
+          if run_start < 0:
+              raise SystemExit('run block not found in Create Android project step')
+          run_start += len(run_marker)
+
+          end = text.find('\n      - name:', run_start)
+          if end < 0:
+              end = len(text)
+
+          block = text[run_start:end]
+          out = []
+          for line in block.splitlines():
+              if line.startswith('          '):
+                  out.append(line[10:])
+              else:
+                  out.append(line)
+
+          Path('/tmp/create_android_project.sh').write_text(
+              '\n'.join(out) + '\n', encoding='utf-8'
+          )
+          PY
+
+          bash /tmp/create_android_project.sh
+
+      - name: Upgrade project for Play Store API 36
+        shell: bash
+        run: |
+          set -e
+          sed -i "s/id 'com.android.application' version '8.7.3'/id 'com.android.application' version '8.11.1'/" android-app/build.gradle
+          sed -i 's/compileSdk 35/compileSdk 36/' android-app/app/build.gradle
+          sed -i 's/targetSdk 35/targetSdk 36/' android-app/app/build.gradle
+
+          echo '--- Android build settings ---'
+          grep -nE "com.android.application|compileSdk|targetSdk|versionCode|versionName" android-app/build.gradle android-app/app/build.gradle
+
+      - name: Build signed Play Store AAB
+        working-directory: android-app
+        env:
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: gradle --no-daemon bundleRelease
+
+      - name: Verify and name AAB
+        shell: bash
+        run: |
+          set -e
+          AAB="android-app/app/build/outputs/bundle/release/app-release.aab"
+          test -f "$AAB"
+          jarsigner -verify "$AAB"
+          cp "$AAB" "Virendra-Calculator-v${APP_VERSION}-PlayStore.aab"
+          ls -lh "Virendra-Calculator-v${APP_VERSION}-PlayStore.aab"
+
+      - name: Upload Play Store AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: Virendra-Calculator-v${{ env.APP_VERSION }}-PlayStore-AAB
+          path: Virendra-Calculator-v${{ env.APP_VERSION }}-PlayStore.aab
+          if-no-files-found: error
+          retention-days: 30
