@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: |
           yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platforms;android-36" "build-tools;35.0.0"
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - name: Read version
         shell: bash
