@@ -1,4 +1,4 @@
 {
-  "version": "1.1.8",
-  "notes": "Document Scanner camera/gallery fixed, auto-add photo, live camera fallback, Back returns to Tools, PDF/ZIP reliability and update URL fixes."
+  "version": "1.1.9",
+  "notes": "Calculator live-update fixed: changing input now refreshes the answer immediately. Camera, icon and auto-update fixes retained."
 }

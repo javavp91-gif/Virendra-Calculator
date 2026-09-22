@@ -4116,10 +4116,9 @@ function clearConcrete(){
   document.getElementById('conC').value='1';document.getElementById('conS').value='2';document.getElementById('conA').value='4';document.getElementById('conDry').value='1.54';
   concreteMixChange();
 }
-['conL','conW','conT','conCount','conWaste','conC','conS','conA','conDry'].forEach(function(id){document.getElementById(id).addEventListener('input',concreteCalc)});
-['conLU','conWU','conTU'].forEach(function(id){document.getElementById(id).addEventListener('change',concreteCalc)});
-document.getElementById('conMix').addEventListener('change',concreteMixChange);
-concreteMixChange();
+['conL','conW','conT','conCount','conWaste','conC','conS','conA','conDry'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',concreteCalc)});
+['conLU','conWU','conTU'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('change',concreteCalc)});
+var conMixEl=document.getElementById('conMix');if(conMixEl){conMixEl.addEventListener('change',concreteMixChange);try{concreteMixChange()}catch(e){}}
 
 // PDF download for all calculator sections (offline, no external library)
 function calcPdfSafe(v){
@@ -5047,7 +5046,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.8';
+  var VC_APP_VERSION='1.1.9';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
