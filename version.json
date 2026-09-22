@@ -1,4 +1,4 @@
 {
-  "version": "1.1.11",
-  "notes": "This exact index.html is now the app base. Soil Cut / Fill Quantity and GSB Quantity are retained, with working live calculator updates and corrected auto-update URLs."
+  "version": "1.1.13",
+  "notes": "Developer HTML File link hidden from the app. Secret access: tap the Virendra Calculator title 7 times within 4 seconds, then enter the developer password. Previous live-result and camera fixes retained."
 }

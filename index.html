@@ -247,6 +247,7 @@ table{width:100%;border-collapse:collapse;font-size:18px}th{background:#173453;c
 #pdfEditor input[type=file],#pdfEditor input[type=text],#docScanner input[type=file],#docScanner input[type=number],#docScanner select,#docScanner input[type=range]{width:100%;border:1.4px solid #cbd5e1;border-radius:11px;background:#f8fafc;padding:11px;color:#173453;font-size:14px;height:auto}
 #pdfEditor .tool-btn,#docScanner .tool-btn{width:100%;border:0;border-radius:12px;padding:13px 10px;font-size:14px;font-weight:800;cursor:pointer;background:#173453;color:#fff;margin-top:9px}
 #pdfEditor .tool-btn.green,#docScanner .tool-btn.green{background:#0f766e}
+#docScanner .ds-camera-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:#0b6aa8;font-size:16px;padding:14px 12px}
 #pdfEditor .tool-btn.gray,#docScanner .tool-btn.gray{background:#e5e7eb;color:#1f2937}
 #pdfEditor .tool-btn.red{background:#b91c1c;color:#fff}
 #pdfEditor .tool-status,#docScanner .tool-status{font-size:12px;color:#475569;text-align:center;line-height:1.5;min-height:18px;margin-top:9px}
@@ -937,7 +938,7 @@ body.tool-open .vc-dev-footer{display:none}
 </script>
 
 <div class="top"></div>
-<header class="head" onclick="openToolMenu()" title="Tools" style="cursor:pointer"><h1>Virendra Calculator</h1><p>All tools in one app</p></header>
+<header class="head" onclick="openToolMenu()" title="Tools" style="cursor:pointer"><h1 id="vcSecretDevTap" onclick="event.stopPropagation();vcSecretDeveloperTap()" style="cursor:default;user-select:none;-webkit-user-select:none">Virendra Calculator</h1><p>All tools in one app</p></header>
 
 <main class="wrap">
 
@@ -2370,7 +2371,8 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
   <div class="tool-safe">Photos आपके device/browser में ही process होती हैं.</div>
   <div class="tool-box">
     <label>Take Document Photo</label>
-    <input id="dsCamera" type="file" accept="image/*" capture="environment">
+    <input id="dsCamera" type="file" accept="image/*" capture="environment" style="display:none" onchange="dsAddSelected()">
+    <button type="button" class="tool-btn ds-camera-btn" onclick="document.getElementById('dsCamera').click()">📷 TAKE PHOTO</button>
     <label style="margin-top:11px">Or Select Images</label>
     <input id="dsFiles" type="file" accept="image/*" multiple="">
     <button class="tool-btn" onclick="dsAddSelected()">ADD TO SCANNER</button>
@@ -2651,11 +2653,6 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
     <button onclick="show('translate')"><span class="toolIcon">Aa</span><span class="toolLabel">Translate Text</span></button>
   </nav>
 </div>
-
-<div class="vc-dev-footer" id="vcDevFooter">
-  <button type="button" class="vc-dev-link" onclick="vcDevOpen()">Developer HTML File</button>
-</div>
-
 <div id="vcDevModal" class="vc-dev-modal hidden" aria-hidden="false">
   <div class="vc-dev-box">
     <div id="vcDevLockedView" class="hidden">
@@ -6014,7 +6011,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.11';
+  var VC_APP_VERSION='1.1.13';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -6905,6 +6902,99 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   }else{
     init();
   }
+})();
+</script>
+
+
+<script>
+/* Virendra Calculator: instant live-result refresh */
+(function(){
+  var vcEarthTimer=null, vcSlabTimer=null;
+
+  function safe(fn){
+    try{ if(typeof fn==='function') fn(); }catch(e){ console.warn('Live calculate:',e); }
+  }
+
+  function liveRefresh(target){
+    if(!target || !target.closest)return;
+    var sec=target.closest('section');
+    if(!sec)return;
+
+    switch(sec.id){
+      case 'two':
+        safe(window.twoCalc);
+        break;
+      case 'single':
+        safe(window.singleCalc);
+        break;
+      case 'multiple':
+        safe(window.multiCalc);
+        break;
+      case 'units':
+        safe(window.convertUnit);
+        break;
+      case 'price':
+        safe(window.calcFindPrice);
+        safe(window.calcFindWeight);
+        break;
+      case 'gsbQty':
+        safe(window.gsbDensityMode);
+        safe(window.gsbQuantityCalc);
+        break;
+      case 'material':
+        safe(window.materialCalc);
+        break;
+      case 'pegLevel':
+        safe(window.pegRecalc);
+        break;
+      case 'toeCalc':
+        safe(window.toeRecalc);
+        break;
+      case 'slab':
+        clearTimeout(vcSlabTimer);
+        vcSlabTimer=setTimeout(function(){
+          safe(window.slabCalcMulti);
+          safe(window.slabRefreshStaffReadings);
+        },60);
+        break;
+      case 'earthwork':
+        clearTimeout(vcEarthTimer);
+        vcEarthTimer=setTimeout(function(){
+          safe(window.ewCalculate);
+        },100);
+        break;
+    }
+  }
+
+  document.addEventListener('input',function(e){ liveRefresh(e.target); },true);
+  document.addEventListener('change',function(e){ liveRefresh(e.target); },true);
+
+  // Dynamic rows in Slab / Toe / Earthwork are covered by event delegation above.
+  document.addEventListener('DOMContentLoaded',function(){
+    ['twoCalc','singleCalc','multiCalc','convertUnit','calcFindPrice',
+     'calcFindWeight','gsbQuantityCalc','materialCalc','pegRecalc','toeRecalc']
+      .forEach(function(name){ safe(window[name]); });
+  });
+})();
+</script>
+
+
+<script>
+/* Hidden developer access: tap the app title 7 times within 4 seconds. */
+(function(){
+  var taps=0, timer=null;
+  window.vcSecretDeveloperTap=function(){
+    taps++;
+    clearTimeout(timer);
+    timer=setTimeout(function(){taps=0},4000);
+    if(taps>=7){
+      taps=0;
+      clearTimeout(timer);
+      try{
+        if(typeof window.vcDevOpen==='function')window.vcDevOpen();
+      }catch(e){}
+    }
+  };
 })();
 </script>
 
