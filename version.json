@@ -1,4 +1,4 @@
 {
-  "version": "1.1.15",
-  "notes": "Subgrade/GSB Peg Level now uses manual offsets only and opens with 3 rows. Multiple Offset RL Equal Spacing and instant update fixed. Soil Cut/Fill live update strengthened. Added null-safe bindings to prevent calculator script crashes."
+  "version": "1.1.16",
+  "notes": "CV Maker now starts blank with generic suggestions and no fixed personal photo/data. RL PDF Viewer has larger text, non-sticky header by default, and sharper Original PDF rendering. Soil Cut/Fill keeps Offset/RL/DRL entry boxes editable from the start and adds Required Soil to results/PDF. Previous crash/live-update fixes retained."
 }
