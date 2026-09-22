@@ -1,1 +1,80 @@
 
+name: Build Virendra Calculator Release APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'index.html'
+      - 'version.json'
+      - 'icon.png'
+      - '.github/workflows/build-apk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Read version
+        shell: bash
+        run: |
+          VERSION=$(python3 -c "import json; print(json.load(open('version.json'))['version'])")
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          MAJOR=${MAJOR:-0}; MINOR=${MINOR:-0}; PATCH=${PATCH:-0}
+          VERSION_CODE=$((10#$MAJOR * 10000 + 10#$MINOR * 100 + 10#$PATCH))
+          if [ "$VERSION_CODE" -lt 1 ]; then VERSION_CODE=1; fi
+          echo "APP_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "VERSION_CODE=$VERSION_CODE" >> "$GITHUB_ENV"
+
+      - name: Check release signing setup
+        shell: bash
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          missing=0
+          if [ -z "${KEYSTORE_BASE64:-}" ]; then
+            echo "::error::ANDROID_KEYSTORE_BASE64 secret missing है"
+            missing=1
+          fi
+          if [ -z "${STORE_PASSWORD:-}" ]; then
+            echo "::error::ANDROID_STORE_PASSWORD secret missing है"
+            missing=1
+          fi
+          if [ -z "${KEY_ALIAS:-}" ]; then
+            echo "::error::ANDROID_KEY_ALIAS secret missing है"
+            missing=1
+          fi
+          if [ -z "${KEY_PASSWORD:-}" ]; then
+            echo "::error::ANDROID_KEY_PASSWORD secret missing है"
+            missing=1
+          fi
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
+          KEYSTORE="$RUNNER_TEMP/virendra-release.jks"
+          CHECKSTORE="$RUNNER_TEMP/signing-check.p12"
+
+          if ! printf '%s'
