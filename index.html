@@ -1585,7 +1585,8 @@ Temperature: °C, °F, Kelvin.
 }
 html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .app{height:100%;display:flex;flex-direction:column}
-.top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;position:relative;z-index:1}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;position:relative;z-index:1;max-height:420px;overflow:hidden;transition:max-height .22s ease,padding .22s ease,border-width .22s ease}
+.top.viewer-scrolled{max-height:0;padding-top:0;padding-bottom:0;border-bottom-width:0}
 .title{font-size:18px;font-weight:800}
 .sub{font-size:12px;color:var(--muted);margin-top:2px}
 .controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:8px}
@@ -1606,13 +1607,17 @@ thead th{background:var(--head);font-weight:800}
 tbody tr:nth-child(even) td{background:#f9fbfd}
 tbody tr.selected-group td{font-weight:800!important}
 tbody tr.hit td{box-shadow:inset 0 0 0 2px #f59e0b}
+#grid.search-only tbody tr{display:none}
+#grid.search-only tbody tr.search-match{display:table-row}
+#grid.search-only tbody tr.search-match td{font-size:20px!important;padding:12px 13px!important;font-weight:800!important}
 .freeze-col{background:var(--freeze)!important}
 .freeze-row{background:var(--row)!important}
 .freeze-both{background:var(--both)!important}
 .manual-mode thead th,.manual-mode tbody td:first-child{cursor:pointer}
 .manual-mode thead th:hover,.manual-mode tbody td:first-child:hover{outline:2px solid #2563eb;outline-offset:-2px}
-.originalPages{display:none;padding:10px;min-width:max-content}
-.pageCanvas{display:block;margin:0 auto 14px;background:#fff;box-shadow:0 1px 7px rgba(0,0,0,.15)}
+.originalPages{display:none;padding:8px;width:100%;min-width:0}
+.pageWrap{position:relative;margin:0 auto 14px;background:#fff;max-width:100%}
+.pageCanvas{display:block;margin:0 auto;background:#fff;box-shadow:0 1px 7px rgba(0,0,0,.15);max-width:100%;height:auto}
 .empty{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);padding:30px}
 .loading{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.84);z-index:999;font-weight:800}
 .error{color:#b42318}
@@ -1620,13 +1625,14 @@ tbody tr.hit td{box-shadow:inset 0 0 0 2px #f59e0b}
  .top{padding:9px}.title{font-size:16px}
  button,.fileBtn,#search{font-size:13px;padding:7px 9px}
  th,td{font-size:14px;padding:9px 9px;min-width:74px}
+ #grid.search-only tbody tr.search-match td{font-size:18px!important;padding:11px 10px!important}
  .viewer{margin:6px}
 }
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;div class=&quot;app&quot;&gt;
- &lt;div class=&quot;top&quot;&gt;
+ &lt;div class=&quot;top&quot; id=&quot;topPanel&quot;&gt;
    &lt;div class=&quot;title&quot;&gt;RL PDF Viewer&lt;/div&gt;
    &lt;div class=&quot;sub&quot;&gt;PDF Table Viewer&lt;/div&gt;
 
@@ -1643,7 +1649,7 @@ tbody tr.hit td{box-shadow:inset 0 0 0 2px #f59e0b}
      &lt;button id=&quot;originalBtn&quot;&gt;Original PDF&lt;/button&gt;
      &lt;button id=&quot;autoBtn&quot; class=&quot;active&quot;&gt;Auto Freeze&lt;/button&gt;
      &lt;button id=&quot;manualBtn&quot;&gt;Manual Freeze&lt;/button&gt;
-     &lt;button id=&quot;headerBtn&quot;&gt;Header Row&lt;/button&gt;
+     &lt;button id=&quot;headerBtn&quot; class=&quot;active&quot;&gt;Header Row&lt;/button&gt;
      &lt;button id=&quot;clearBtn&quot; class=&quot;warn&quot;&gt;Clear Freeze&lt;/button&gt;
      &lt;button id=&quot;compactBtn&quot;&gt;Compact&lt;/button&gt;
    &lt;/div&gt;
@@ -1652,7 +1658,7 @@ tbody tr.hit td{box-shadow:inset 0 0 0 2px #f59e0b}
      &lt;span class=&quot;badge&quot; id=&quot;fileBadge&quot;&gt;No PDF&lt;/span&gt;
      &lt;span class=&quot;badge&quot; id=&quot;pageBadge&quot;&gt;Pages: 0&lt;/span&gt;
      &lt;span class=&quot;badge&quot; id=&quot;rowBadge&quot;&gt;Rows: 0&lt;/span&gt;
-     &lt;span class=&quot;badge&quot; id=&quot;freezeBadge&quot;&gt;Auto: First Column&lt;/span&gt;
+     &lt;span class=&quot;badge&quot; id=&quot;freezeBadge&quot;&gt;Auto: First Column + Header&lt;/span&gt;
    &lt;/div&gt;
  &lt;/div&gt;
 
@@ -1688,15 +1694,56 @@ const $=id=&gt;document.getElementById(id);
 const viewer=$(&#x27;viewer&#x27;),empty=$(&#x27;empty&#x27;),head=$(&#x27;head&#x27;),body=$(&#x27;body&#x27;),grid=$(&#x27;grid&#x27;);
 const originalPages=$(&#x27;originalPages&#x27;),msg=$(&#x27;msg&#x27;),loading=$(&#x27;loading&#x27;);
 const fileBadge=$(&#x27;fileBadge&#x27;),pageBadge=$(&#x27;pageBadge&#x27;),rowBadge=$(&#x27;rowBadge&#x27;),freezeBadge=$(&#x27;freezeBadge&#x27;);
+const topPanel=$(&#x27;topPanel&#x27;);
+let topPanelCollapsed=false;
+viewer.addEventListener(&#x27;scroll&#x27;,()=&gt;{
+ const hide=viewer.scrollTop&gt;24;
+ if(hide===topPanelCollapsed)return;
+ topPanelCollapsed=hide;
+ if(topPanel)topPanel.classList.toggle(&#x27;viewer-scrolled&#x27;,hide);
+ setTimeout(()=&gt;{if(currentRows.length)applyFreeze()},240);
+},{passive:true});
 
-let pdfDoc=null,currentHeaders=[],currentRows=[],currentGroups=[];
-let mode=&#x27;auto&#x27;,headerFrozen=false,frozenCols=new Set([0]),frozenRows=new Set();
+
+let pdfDoc=null,currentHeaders=[],currentRows=[],currentGroups=[],pageSearchIndex=[];
+let mode=&#x27;auto&#x27;,headerFrozen=true,frozenCols=new Set([0]),frozenRows=new Set();
 let currentView=&#x27;table&#x27;,compact=false,selectedGroup=&#x27;&#x27;;
 
 function esc(s){return String(s??&#x27;&#x27;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,m=&gt;({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[m]))}
 function clean(s){return String(s??&#x27;&#x27;).replace(/\s+/g,&#x27; &#x27;).trim()}
-function isChainage(s){return /^\d{1,5}\+\d{1,4}(?:\.\d+)?$/.test(clean(s))}
+function normalizeChainage(v){
+ const s=clean(v).replace(/,/g,&#x27;&#x27;);
+ let m=s.match(/(?:^|[^0-9])(\d{1,5})\s*\+\s*(\d{1,4}(?:\.\d+)?)(?!\d)/);
+ if(!m){
+   m=s.match(/^\s*(\d{1,5})\s*[-–—]\s*(\d{1,4}(?:\.\d+)?)\s*$/);
+ }
+ if(!m)return &#x27;&#x27;;
+ let tail=String(m[2]).replace(/\.0+$/,&#x27;&#x27;).replace(/(\.\d*?[1-9])0+$/,&#x27;$1&#x27;);
+ return String(Number(m[1]))+&#x27;+&#x27;+tail;
+}
+function extractChainage(s){return normalizeChainage(s)}
+function allChainages(s){
+ const out=[],re=/(\d{1,5})\s*\+\s*(\d{1,4}(?:\.\d+)?)/g;
+ let m;
+ while((m=re.exec(String(s||&#x27;&#x27;)))){
+   const ch=normalizeChainage(m[1]+&#x27;+&#x27;+m[2]);
+   if(ch &amp;&amp; !out.includes(ch))out.push(ch);
+ }
+ return out;
+}
+function isExactChainage(s){return /^\s*\d{1,5}\s*\+\s*\d{1,4}(?:\.\d+)?\s*$/.test(String(s||&#x27;&#x27;))}
+function isChainage(s){return !!extractChainage(s)}
 function isNumberLike(s){return /^[+-]?\d+(?:\.\d+)?%?$/.test(clean(s))}
+function countPlainNumbers(s){
+ const stripped=String(s||&#x27;&#x27;).replace(/\d{1,5}\s*\+\s*\d{1,4}(?:\.\d+)?/g,&#x27; &#x27;);
+ return (stripped.match(/[+-]?\d+(?:\.\d+)?%?/g)||[]).length;
+}
+function lineHasDataChainage(line){
+ const items=(line&amp;&amp;line.items)||[];
+ if(items.some(i=&gt;isExactChainage(i.text)))return true;
+ const joined=clean(items.map(i=&gt;i.text).join(&#x27; &#x27;));
+ return !!extractChainage(joined) &amp;&amp; items.length&gt;=3 &amp;&amp; countPlainNumbers(joined)&gt;=2;
+}
 function median(a){if(!a.length)return 0;const b=[...a].sort((x,y)=&gt;x-y),m=Math.floor(b.length/2);return b.length%2?b[m]:(b[m-1]+b[m])/2}
 function setLoading(v){loading.style.display=v?&#x27;flex&#x27;:&#x27;none&#x27;}
 function setMsg(t,err=false){msg.textContent=t;msg.classList.toggle(&#x27;error&#x27;,err)}
@@ -1768,7 +1815,9 @@ function mergeClose(items,fontH){
    const curLeft=Math.min(it.x0,it.x1);
    const gap=curLeft-prevRight;
    const sameRow=Math.abs(prev.cy-it.cy)&lt;Math.max(3,fontH*.5);
-   if(sameRow &amp;&amp; gap&gt;=-1 &amp;&amp; gap&lt;=gapLimit){
+   // Chainage को पास वाली value के साथ merge न करें; इसी से search/group टूटता था.
+   const chainBoundary=isChainage(prev.text)||isChainage(it.text);
+   if(sameRow &amp;&amp; gap&gt;=-1 &amp;&amp; gap&lt;=gapLimit &amp;&amp; !chainBoundary){
      prev.text=clean(prev.text+&#x27; &#x27;+it.text);
      prev.x1=it.x1;
      prev.cx=(Math.min(prev.x0,prev.x1)+Math.max(prev.x0,prev.x1))/2;
@@ -1862,15 +1911,16 @@ function parseTableFromItems(items){
    idx,cy:l.cy,items:mergeClose(l.items,fontH)
  }));
 
- const firstDataIndex=mergedLines.findIndex(l=&gt;l.items.some(i=&gt;isChainage(i.text)));
+ const firstDataIndex=mergedLines.findIndex(l=&gt;lineHasDataChainage(l));
  if(firstDataIndex&lt;0)return null;
 
  // Data row: Chainage हो, या उसी data area में पर्याप्त numeric cells हों.
  const candidates=[];
  for(let i=firstDataIndex;i&lt;mergedLines.length;i++){
    const l=mergedLines[i];
-   const numCount=l.items.filter(x=&gt;isNumberLike(x.text)).length;
-   const hasChain=l.items.some(x=&gt;isChainage(x.text));
+   const joined=clean(l.items.map(x=&gt;x.text).join(&#x27; &#x27;));
+   const numCount=l.items.reduce((n,x)=&gt;n+countPlainNumbers(x.text),0);
+   const hasChain=lineHasDataChainage(l);
    if(hasChain || numCount&gt;=3){
      candidates.push({...l,numCount,hasChain});
    }
@@ -1936,9 +1986,10 @@ function parseTableFromItems(items){
 
    // Chainage कहीं भी map हो गया हो तो उसे first column में रखें.
    const chItem=r.items.find(i=&gt;isChainage(i.text));
-   if(chItem){
-     currentGroup=chItem.text;
-     out[0]=chItem.text;
+   const ch=chItem?extractChainage(chItem.text):extractChainage(r.items.map(i=&gt;i.text).join(&#x27; &#x27;));
+   if(ch){
+     currentGroup=ch;
+     out[0]=ch;
    }
    // continuation rows में Chainage blank ही रहने दें, group hidden state में रहेगा.
    if(!currentGroup &amp;&amp; isChainage(out[0]))currentGroup=out[0];
@@ -1980,7 +2031,12 @@ async function parsePage(page){
  const viewport=page.getViewport({scale:1});
  const tc=await page.getTextContent({normalizeWhitespace:true});
  const items=(tc.items||[]).map(i=&gt;toItem(i,viewport)).filter(i=&gt;i.text);
- return parseTableFromItems(items);
+ const grouped=groupByY(items);
+ const lines=grouped.lines.map(l=&gt;clean([...l.items].sort((a,b)=&gt;a.cx-b.cx).map(i=&gt;i.text).join(&#x27; &#x27;))).filter(Boolean);
+ const plainText=lines.join(&#x27;\n&#x27;);
+ const chainages=[];
+ lines.forEach(line=&gt;allChainages(line).forEach(ch=&gt;{if(!chainages.includes(ch))chainages.push(ch)}));
+ return {table:parseTableFromItems(items),text:plainText,chainages};
 }
 
 function scoreHeaders(h){return (h||[]).filter(x=&gt;x&amp;&amp;!/^Col \d+$/.test(x)).length}
@@ -2086,7 +2142,7 @@ function applyFreeze(){
 }
 
 function updateFreezeBadge(){
- if(mode===&#x27;auto&#x27;){freezeBadge.textContent=&#x27;Auto: First Column&#x27;;return}
+ if(mode===&#x27;auto&#x27;){freezeBadge.textContent=&#x27;Auto: First Column + Header&#x27;;return}
  const cols=[...frozenCols].sort((a,b)=&gt;a-b).map(i=&gt;currentHeaders[i]||(&#x27;Col &#x27;+(i+1)));
  const rows=[...frozenRows].sort((a,b)=&gt;a-b).map(i=&gt;{
    const g=currentGroups[i];
@@ -2103,26 +2159,29 @@ async function renderOriginal(){
  originalPages.innerHTML=&#x27;&#x27;;
  setLoading(true);
  try{
-   const available=Math.max(300,(viewer.clientWidth||360)-24);
+   const available=Math.max(260,(viewer.clientWidth||360)-20);
    for(let p=1;p&lt;=pdfDoc.numPages;p++){
      const page=await pdfDoc.getPage(p);
      const base=page.getViewport({scale:1});
-     // Scan/image PDFs: fit phone width but keep enough resolution for table text.
-     const fit=available/base.width;
-     const scale=Math.max(0.95,Math.min(1.55,fit*1.65));
-     const viewport=page.getViewport({scale:scale});
-     const pixelRatio=Math.min(2.25,Math.max(1.75,window.devicePixelRatio||2));
+
+     // पूरे page को phone width में दिखाएँ, पर canvas high-resolution रखें.
+     const cssWidth=Math.max(220,Math.min(available,base.width));
+     const cssScale=cssWidth/base.width;
+     const renderScale=Math.max(1.45,Math.min(2.15,cssScale*3.2));
+     const viewport=page.getViewport({scale:renderScale});
+     const pixelRatio=Math.min(1.5,Math.max(1,window.devicePixelRatio||1));
 
      const wrap=document.createElement(&#x27;div&#x27;);
-     wrap.style.cssText=&#x27;position:relative;margin:0 auto 14px;width:max-content;background:#fff;&#x27;;
+     wrap.className=&#x27;pageWrap&#x27;;
+     wrap.dataset.page=String(p);
+     wrap.style.width=Math.round(cssWidth)+&#x27;px&#x27;;
 
      const c=document.createElement(&#x27;canvas&#x27;);
      c.className=&#x27;pageCanvas&#x27;;
      c.width=Math.max(1,Math.floor(viewport.width*pixelRatio));
      c.height=Math.max(1,Math.floor(viewport.height*pixelRatio));
-     c.style.width=Math.floor(viewport.width)+&#x27;px&#x27;;
-     c.style.height=Math.floor(viewport.height)+&#x27;px&#x27;;
-     c.style.maxWidth=&#x27;none&#x27;;
+     c.style.width=Math.round(cssWidth)+&#x27;px&#x27;;
+     c.style.height=Math.round(base.height*cssScale)+&#x27;px&#x27;;
 
      const tag=document.createElement(&#x27;div&#x27;);
      tag.textContent=&#x27;&#x27;+p+&#x27; / &#x27;+pdfDoc.numPages;
@@ -2132,8 +2191,11 @@ async function renderOriginal(){
      wrap.appendChild(tag);
      originalPages.appendChild(wrap);
 
-     await page.render({canvasContext:c.getContext(&#x27;2d&#x27;,{alpha:false}),viewport:viewport,transform:[pixelRatio,0,0,pixelRatio,0,0]}).promise;
-     // Give Android WebView a chance to paint each page instead of locking on big scans.
+     await page.render({
+       canvasContext:c.getContext(&#x27;2d&#x27;,{alpha:false}),
+       viewport:viewport,
+       transform:pixelRatio===1?null:[pixelRatio,0,0,pixelRatio,0,0]
+     }).promise;
      await new Promise(function(resolve){setTimeout(resolve,0)});
    }
  }finally{setLoading(false)}
@@ -2158,18 +2220,27 @@ async function openPdf(file){
      pdfDoc=await pdfjsLib.getDocument({data}).promise;
    }
 
-   fileBadge.textContent=file.name;
+   fileBadge.textContent=file.name||&#x27;PDF&#x27;;
    pageBadge.textContent=&#x27;Pages: &#x27;+pdfDoc.numPages;
+   originalPages.innerHTML=&#x27;&#x27;;
+   pageSearchIndex=[];
 
    let allRows=[],allGroups=[],headers=null,parsedPages=0;
    for(let p=1;p&lt;=pdfDoc.numPages;p++){
      setMsg(`Loading… Page ${p}/${pdfDoc.numPages}`);
-     const result=await parsePage(await pdfDoc.getPage(p));
-     if(result &amp;&amp; result.rows.length){
-       parsedPages++;
-       headers=chooseHeaders(headers,result.headers);
-       allRows.push(...result.rows);
-       allGroups.push(...result.groups);
+     try{
+       const parsed=await parsePage(await pdfDoc.getPage(p));
+       pageSearchIndex.push({page:p,text:parsed.text||&#x27;&#x27;,chainages:parsed.chainages||[]});
+       const result=parsed.table;
+       if(result &amp;&amp; result.rows.length){
+         parsedPages++;
+         headers=chooseHeaders(headers,result.headers);
+         allRows.push(...result.rows);
+         allGroups.push(...result.groups);
+       }
+     }catch(pageErr){
+       console.warn(&#x27;Page parse skipped&#x27;,p,pageErr);
+       pageSearchIndex.push({page:p,text:&#x27;&#x27;,chainages:[]});
      }
    }
 
@@ -2177,22 +2248,28 @@ async function openPdf(file){
 
    if(allRows.length){
      ({headers,rows:allRows}=normalize(headers,allRows));
-
-     // groups length rows जितनी रखें
      while(allGroups.length&lt;allRows.length)allGroups.push(&#x27;&#x27;);
 
-     mode=&#x27;auto&#x27;;headerFrozen=false;frozenCols=new Set([0]);frozenRows=new Set();selectedGroup=&#x27;&#x27;;
-     $(&#x27;autoBtn&#x27;).classList.add(&#x27;active&#x27;);$(&#x27;manualBtn&#x27;).classList.remove(&#x27;active&#x27;);$(&#x27;headerBtn&#x27;).classList.remove(&#x27;active&#x27;);
+     mode=&#x27;auto&#x27;;headerFrozen=true;frozenCols=new Set([0]);frozenRows=new Set();selectedGroup=&#x27;&#x27;;
+     $(&#x27;autoBtn&#x27;).classList.add(&#x27;active&#x27;);$(&#x27;manualBtn&#x27;).classList.remove(&#x27;active&#x27;);$(&#x27;headerBtn&#x27;).classList.add(&#x27;active&#x27;);
 
      renderTable(headers,allRows,allGroups);
      rowBadge.textContent=&#x27;Rows: &#x27;+allRows.length;
-     showTable();
-     setMsg(`${allRows.length} Rows`);
+
+     // अगर हर page table में पढ़ गया तो Table View; mixed/odd PDF में Original पूरा PDF पहले दिखे.
+     if(parsedPages===pdfDoc.numPages){
+       showTable();
+       setMsg(`${allRows.length} Rows • ${pdfDoc.numPages} Page`);
+     }else{
+       await showOriginal();
+       setMsg(`PDF पूरा खुला • ${pdfDoc.numPages} Pages • Table data ${parsedPages} page`);
+     }
    }else{
      currentHeaders=[];currentRows=[];currentGroups=[];
      rowBadge.textContent=&#x27;Rows: 0&#x27;;
      await showOriginal();
-     setMsg(&#x27;Scanned PDF • &#x27;+pdfDoc.numPages+&#x27; Pages&#x27;);
+     const hasText=pageSearchIndex.some(x=&gt;clean(x.text));
+     setMsg((hasText?&#x27;PDF text layout&#x27;:&#x27;Scanned/Image PDF&#x27;)+&#x27; • &#x27;+pdfDoc.numPages+&#x27; Pages • Original पूरा खुला&#x27;);
    }
  }catch(e){
    console.error(e);
@@ -2215,14 +2292,20 @@ async function showOriginal(){
  viewer.scrollTo({top:0,left:0});
 }
 
+async function showOriginalPage(pageNo){
+ await showOriginal();
+ const wrap=originalPages.querySelector(&#x27;[data-page=&quot;&#x27;+pageNo+&#x27;&quot;]&#x27;);
+ if(wrap)setTimeout(()=&gt;wrap.scrollIntoView({behavior:&#x27;smooth&#x27;,block:&#x27;start&#x27;,inline:&#x27;nearest&#x27;}),40);
+}
+
 $(&#x27;pdfFile&#x27;).addEventListener(&#x27;change&#x27;,e=&gt;{const f=e.target.files?.[0];if(f)openPdf(f)});
 $(&#x27;tableBtn&#x27;).onclick=()=&gt;currentRows.length?showTable():alert(&#x27;Table View unavailable.&#x27;);
 $(&#x27;originalBtn&#x27;).onclick=()=&gt;showOriginal();
 
 $(&#x27;autoBtn&#x27;).onclick=()=&gt;{
  if(!currentRows.length)return;
- mode=&#x27;auto&#x27;;headerFrozen=false;frozenCols=new Set([0]);frozenRows.clear();
- $(&#x27;autoBtn&#x27;).classList.add(&#x27;active&#x27;);$(&#x27;manualBtn&#x27;).classList.remove(&#x27;active&#x27;);$(&#x27;headerBtn&#x27;).classList.remove(&#x27;active&#x27;);
+ mode=&#x27;auto&#x27;;headerFrozen=true;frozenCols=new Set([0]);frozenRows.clear();
+ $(&#x27;autoBtn&#x27;).classList.add(&#x27;active&#x27;);$(&#x27;manualBtn&#x27;).classList.remove(&#x27;active&#x27;);$(&#x27;headerBtn&#x27;).classList.add(&#x27;active&#x27;);
  setMsg(&#x27;Auto Freeze&#x27;);
  applyFreeze();
 };
@@ -2246,26 +2329,74 @@ $(&#x27;clearBtn&#x27;).onclick=()=&gt;{
  applyFreeze();
 };
 
-$(&#x27;goBtn&#x27;).onclick=go;
-$(&#x27;search&#x27;).addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Enter&#x27;)go()});
-function go(){
- if(!currentRows.length)return;
- if(currentView!==&#x27;table&#x27;)showTable();
- const q=$(&#x27;search&#x27;).value.trim().toLowerCase();if(!q)return;
- const trs=[...body.querySelectorAll(&#x27;tr&#x27;)];trs.forEach(x=&gt;x.classList.remove(&#x27;hit&#x27;));
- const tr=trs.find(x=&gt;(x.dataset.group||&#x27;&#x27;).toLowerCase()===q) ||
-          trs.find(x=&gt;(x.dataset.group||&#x27;&#x27;).toLowerCase().includes(q));
- if(!tr)return alert(&#x27;Chainage नहीं मिला&#x27;);
- const g=tr.dataset.group||&#x27;&#x27;;
- if(g)selectGroup(g);
- tr.classList.add(&#x27;hit&#x27;);tr.scrollIntoView({behavior:&#x27;smooth&#x27;,block:&#x27;center&#x27;,inline:&#x27;nearest&#x27;});
- setTimeout(()=&gt;tr.classList.remove(&#x27;hit&#x27;),1800);
+$(&#x27;goBtn&#x27;).onclick=()=&gt;{go().catch(e=&gt;{console.error(e);setMsg(&#x27;Search error&#x27;,true)})};
+$(&#x27;search&#x27;).addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Enter&#x27;)go().catch(err=&gt;{console.error(err);setMsg(&#x27;Search error&#x27;,true)})});
+function chainSearchKey(v){
+ let s=String(v||&#x27;&#x27;).trim().toLowerCase().replace(/,/g,&#x27;&#x27;).replace(/\s+/g,&#x27;&#x27;);
+ let ch=normalizeChainage(s);
+ if(ch)return ch.toLowerCase();
+ // 37800 जैसा input भी 37+800 मानें.
+ if(/^\d{4,7}$/.test(s)){
+   const n=Number(s),km=Math.floor(n/1000),m=n-km*1000;
+   return km+&#x27;+&#x27;+String(m).padStart(3,&#x27;0&#x27;);
+ }
+ return s.replace(/\.0+$/,&#x27;&#x27;);
+}
+function clearSearchOnly(){
+ grid.classList.remove(&#x27;search-only&#x27;);
+ body.querySelectorAll(&#x27;tr&#x27;).forEach(tr=&gt;tr.classList.remove(&#x27;search-match&#x27;,&#x27;selected-group&#x27;,&#x27;hit&#x27;));
+}
+async function go(){
+ const q=chainSearchKey($(&#x27;search&#x27;).value);if(!q)return;
+
+ // पहले parsed table में exact chainage group खोजें.
+ if(currentRows.length){
+   if(currentView!==&#x27;table&#x27;)showTable();
+   const trs=[...body.querySelectorAll(&#x27;tr&#x27;)];
+   const tr=trs.find(x=&gt;chainSearchKey(x.dataset.group||&#x27;&#x27;)===q);
+   if(tr){
+     const g=tr.dataset.group||&#x27;&#x27;;
+     selectedGroup=g;
+     grid.classList.add(&#x27;search-only&#x27;);
+     trs.forEach(x=&gt;{
+       const match=chainSearchKey(x.dataset.group||&#x27;&#x27;)===chainSearchKey(g);
+       x.classList.toggle(&#x27;search-match&#x27;,match);
+       x.classList.toggle(&#x27;selected-group&#x27;,match);
+       x.classList.remove(&#x27;hit&#x27;);
+     });
+     tr.classList.add(&#x27;hit&#x27;);
+     viewer.scrollTo({top:0,left:0,behavior:&#x27;auto&#x27;});
+     setTimeout(()=&gt;{tr.scrollIntoView({behavior:&#x27;smooth&#x27;,block:&#x27;start&#x27;,inline:&#x27;nearest&#x27;});applyFreeze()},40);
+     setTimeout(()=&gt;tr.classList.remove(&#x27;hit&#x27;),1800);
+     setMsg(&#x27;Chainage &#x27;+g+&#x27; • केवल यही value दिखाई गई&#x27;);
+     return;
+   }
+   clearSearchOnly();
+ }
+
+ // Table parser miss करे तो PDF के raw text में chainage खोजें और वही original page खोलें.
+ const hit=pageSearchIndex.find(x=&gt;(x.chainages||[]).some(ch=&gt;chainSearchKey(ch)===q));
+ if(hit){
+   await showOriginalPage(hit.page);
+   setMsg(&#x27;Chainage &#x27;+q+&#x27; • Original PDF Page &#x27;+hit.page+&#x27; / &#x27;+pdfDoc.numPages);
+   return;
+ }
+
+ // Scanned/Image PDF में OCR के बिना chainage text search संभव नहीं, लेकिन PDF पूरा खुला रहे.
+ const hasText=pageSearchIndex.some(x=&gt;clean(x.text));
+ await showOriginal();
+ if(!hasText){
+   setMsg(&#x27;Scanned/Image PDF • Original पूरा खुला है • text search उपलब्ध नहीं&#x27;,false);
+ }else{
+   setMsg(&#x27;Chainage &#x27;+q+&#x27; text में नहीं मिला • Original PDF पूरा खुला है&#x27;,true);
+ }
 }
 
 $(&#x27;resetBtn&#x27;).onclick=()=&gt;{
- $(&#x27;search&#x27;).value=&#x27;&#x27;;selectedGroup=&#x27;&#x27;;
- body.querySelectorAll(&#x27;tr&#x27;).forEach(tr=&gt;tr.classList.remove(&#x27;selected-group&#x27;,&#x27;hit&#x27;));
+ $(&#x27;search&#x27;).value=&#x27;&#x27;;selectedGroup=&#x27;&#x27;;clearSearchOnly();
+ if(currentRows.length)showTable();else showOriginal();
  viewer.scrollTo({top:0,left:0,behavior:&#x27;smooth&#x27;});
+ setTimeout(()=&gt;{if(currentRows.length)applyFreeze()},30);
 };
 
 $(&#x27;compactBtn&#x27;).onclick=()=&gt;{
@@ -6019,7 +6150,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.16';
+  var VC_APP_VERSION='1.1.19';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
