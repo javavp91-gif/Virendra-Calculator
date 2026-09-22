@@ -1447,7 +1447,7 @@ Temperature: °C, °F, Kelvin.
 
 <section id="pegLevel" class="card hidden">
 <h2>Subgrade / GSB Peg Level</h2>
-<p class="peg-sub">Manual Chainage • Multiple Offset • PCL RL, Camber, Depth और HI से result</p>
+<p class="peg-sub">Manual Chainage • Manual Offset • PCL RL, Camber, Depth और HI से result</p>
 
 <div class="peg-example">
   <div class="peg-ex-title">Example</div>
@@ -1461,12 +1461,7 @@ Temperature: °C, °F, Kelvin.
     <div><label>Camber (%)</label><input id="pegCamber" type="number" step="any" value="-2.5"></div>
     <div><label>Depth (mm)</label><input id="pegDepth" type="number" step="any" value="150"></div>
   </div>
-  <div id="pegSameOffsetBox" style="margin-top: 10px; display: block;">
-    <label id="pegSameOffsetLabel">Same Offset for All Chainage</label>
-    <input id="pegSameOffset" type="text" inputmode="decimal" value="2, 4, 6" placeholder="2, 4, 6">
-  </div>
-  <div class="peg-toggle"><input id="pegSameOffsetToggle" type="checkbox" checked=""><label for="pegSameOffsetToggle" style="margin:0">Same Offset for All Chainage for all chainages</label></div>
-  <div class="peg-help" style="margin-top:10px"><b>Offsets:</b> हमेशा multiple हैं। ऐसे डालें: <b>2, 4, 6</b>. Same Offset for All Chainage बंद करने पर हर chainage में अलग offset list डाल सकते हैं।</div>
+  <div class="peg-help" style="margin-top:10px"><b>Offsets:</b> हर row में manual डालें। एक या multiple offset ऐसे डाल सकते हैं: <b>2</b> या <b>2, 4, 6</b>.</div>
   <div class="peg-actions" style="grid-template-columns:1fr">
     <button class="peg-btn gray" onclick="pegClearValues()">CLEAR VALUES</button>
   </div>
@@ -1484,7 +1479,7 @@ Temperature: °C, °F, Kelvin.
     <button class="peg-btn" onclick="pegDownloadPDF()">DOWNLOAD PDF</button>
   </div>
   <div class="peg-help"><b>Formula:</b> Peg RL = PCL RL + (Offset × Camber ÷ 100) − Depth(m)<br>Staff Reading = HI − Peg RL<br><b>Chainage और PCL RL अलग-अलग column हैं।</b><br><b>Chainage:</b> हर row में Chainage manual डालें। Chainage box पर tap करते ही number keypad खुलेगा, जिसमें <b>+</b> key भी रहेगी। जैसे <b>37+200</b>।<br><b>Depth:</b> ऊपर set किया गया Depth सभी rows में same रहेगा।<br><b>HI:</b> केवल जहाँ HI बदलती है वहीं नई HI डालें; बाकी rows में पिछली HI अपने-आप use होगी।</div>
-  <div id="pegSummary" class="peg-summary">Chainage, PCL RL और HI डालते ही result automatic आएगा.</div>
+  <div id="pegSummary" class="peg-summary">Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.</div>
 </div>
 <div id="pegChainageKeypad" class="peg-keypad hidden">
   <div class="peg-keypad-title">Chainage Keyboard</div>
@@ -5176,7 +5171,7 @@ function materialCalc(){
   document.getElementById('mtot').textContent=vol.toLocaleString('en-IN',{maximumFractionDigits:3})+' m³';
   return {volume:vol};
 }
-['mlu','mwu','mtu'].forEach(function(id){document.getElementById(id).addEventListener('change',materialCalc)});
+['mlu','mwu','mtu'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('change',materialCalc)});
 materialCalc();
 function downloadCalculatorPDF(type){
   var title='',sections=[],filename='Calculator_Report.pdf';
@@ -5254,23 +5249,29 @@ function singleCalc(){
 function clearSingle(){['srl','so','sc'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});var r=document.getElementById('sres');if(r)r.textContent='—';var t=document.getElementById('singleResultTitle');if(t)t.textContent='Find Offset RL';}
 ['srl','so','sc'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',singleCalc)});
 singleCalc();
-let mode='custom';
+let multiMode='custom';
 let eqRowCount=1;
 function setMode(v){
- mode=v;
- document.getElementById('customBox').classList.toggle('hidden',v!=='custom');
- document.getElementById('equalBox').classList.toggle('hidden',v!=='equal');
- document.getElementById('customTab').classList.toggle('active',v==='custom');
- document.getElementById('equalTab').classList.toggle('active',v==='equal');
- multiCalc();
+  if(v!=='custom'&&v!=='equal')v='custom';
+  multiMode=v;
+  var custom=document.getElementById('customBox'),equal=document.getElementById('equalBox');
+  var customTab=document.getElementById('customTab'),equalTab=document.getElementById('equalTab');
+  if(custom)custom.classList.toggle('hidden',v!=='custom');
+  if(equal)equal.classList.toggle('hidden',v!=='equal');
+  if(customTab)customTab.classList.toggle('active',v==='custom');
+  if(equalTab)equalTab.classList.toggle('active',v==='equal');
+  multiCalc();
 }
 function getOffsets(){
- if(mode==='custom'){
-   return document.getElementById('offsetList').value
-     .split(/[\s,]+/).map(Number).filter(x=>Number.isFinite(x));
+ if(multiMode==='custom'){
+   var listEl=document.getElementById('offsetList');
+   if(!listEl)return [];
+   return listEl.value.split(/[\s,;]+/).map(Number).filter(function(x){return Number.isFinite(x)});
  }
- let start=+document.getElementById('eqStart').value;
- let spacing=+document.getElementById('eqSpacing').value;
+ var startEl=document.getElementById('eqStart'),spacingEl=document.getElementById('eqSpacing');
+ if(!startEl||!spacingEl)return [];
+ let start=+startEl.value;
+ let spacing=+spacingEl.value;
  let count=Math.max(1,eqRowCount);
  if(!Number.isFinite(start)||!Number.isFinite(spacing)) return [];
  return Array.from({length:count},(_,i)=>start+i*spacing);
@@ -5281,27 +5282,29 @@ function equalAddRow(){
 }
 
 function multiCalc(){
- let pcl=+document.getElementById('mrl').value;
- let camber=+document.getElementById('mc').value;
+ var pclEl=document.getElementById('mrl'),camEl=document.getElementById('mc'),out=document.getElementById('multiAnswers');
+ if(!pclEl||!camEl||!out)return false;
+ let pcl=Number(pclEl.value);
+ let camber=Number(camEl.value);
  let offsets=getOffsets();
- let out=document.getElementById('multiAnswers');
  let ok=Number.isFinite(pcl)&&Number.isFinite(camber)&&offsets.length>0;
- if(out){
-   if(!ok){out.innerHTML='<div class="multi-empty">Valid value भरें</div>';}
-   else{
-     out.innerHTML=offsets.map(function(off){
-       var rl=pcl+(off*camber/100);
-       var offText=(Math.round(off*1000)/1000).toString();
-       return '<div class="multi-answer-row"><span class="ma-off">'+offText+'</span><span class="ma-rl">'+rl.toFixed(3)+'</span></div>';
-     }).join('');
-   }
+ if(!ok){out.innerHTML='<div class="multi-empty">Valid value भरें</div>';}
+ else{
+   out.innerHTML=offsets.map(function(off){
+     var rl=pcl+(off*camber/100);
+     var offText=(Math.round(off*1000)/1000).toString();
+     return '<div class="multi-answer-row"><span class="ma-off">'+offText+'</span><span class="ma-rl">'+rl.toFixed(3)+'</span></div>';
+   }).join('');
  }
  return ok;
 }
-['mrl','mc','offsetList','eqStart','eqSpacing'].forEach(x=>{
- document.getElementById(x).addEventListener('input',multiCalc);
+['mrl','mc','offsetList','eqStart','eqSpacing'].forEach(function(id){
+ var el=document.getElementById(id);if(el){el.addEventListener('input',multiCalc);el.addEventListener('change',multiCalc)}
 });
-multiCalc();
+var customTabEl=document.getElementById('customTab'),equalTabEl=document.getElementById('equalTab');
+if(customTabEl)customTabEl.addEventListener('click',function(){setMode('custom')});
+if(equalTabEl)equalTabEl.addEventListener('click',function(){setMode('equal')});
+setMode('custom');
 
 
 function pdfJoinBytes(parts){
@@ -5635,7 +5638,7 @@ function pegMakeRow(chainage){
 function pegBuild50FromFirst(){
   var body=document.getElementById('pegRows'),rows=Array.from(body.querySelectorAll('tr'));
   if(!rows.length){pegMakeRow('');rows=Array.from(body.querySelectorAll('tr'))}
-  var first=rows[0],start=pegParseChainage(first.querySelector('.peg-ch').value),sp=Number(document.getElementById('pegSpacing').value)||10;
+  var first=rows[0],start=pegParseChainage(first.querySelector('.peg-ch').value),spEl=document.getElementById('pegSpacing'),sp=spEl?(Number(spEl.value)||10):10;
   if(!isFinite(start))return;
   var needed=Math.floor(50/sp)+1;
   while(rows.length<needed){pegMakeRow('');rows=Array.from(body.querySelectorAll('tr'))}
@@ -5651,11 +5654,12 @@ function pegAddRow(){
 }
 function pegDeleteRow(btn){var tr=btn.closest('tr');if(tr)tr.remove();pegRecalc()}
 function pegSyncOffsets(doRecalc){
-  var same=document.getElementById('pegSameOffsetToggle').checked,val=document.getElementById('pegSameOffset').value;
-  document.getElementById('pegSameOffsetBox').style.display=same?'block':'none';
-  document.getElementById('pegSameOffsetLabel').textContent='Same Offset for All Chainage';
-  document.getElementById('pegSameOffset').placeholder='2, 4, 6';document.getElementById('pegSameOffset').inputMode='decimal';
-  document.querySelectorAll('#pegRows .peg-off').forEach(function(i){i.readOnly=same;if(same)i.value=val;i.style.background=same?'#eef2f7':'#f8fafc';i.placeholder='2, 4, 6';i.inputMode='decimal';});
+  document.querySelectorAll('#pegRows .peg-off').forEach(function(i){
+    i.readOnly=false;
+    i.style.background='#f8fafc';
+    i.placeholder='2 or 2, 4, 6';
+    i.inputMode='decimal';
+  });
   if(doRecalc!==false)pegRecalc();
 }
 function pegFormatMultiResult(items,key){if(!items.length)return '—';return items.map(function(x){return '<div>'+x.off+'m: '+x[key].toFixed(3)+'</div>'}).join('')}
@@ -5671,11 +5675,15 @@ function pegRecalc(){
     var results=[];if(isFinite(pcl)&&offs.length&&isFinite(depth)&&isFinite(camber))offs.forEach(function(off){var pr=pcl+(off*camber/100)-(depth/1000),sr=isFinite(currentHI)?currentHI-pr:NaN;results.push({off:off,peg:pr,staff:sr});if(isFinite(sr))ok++});
     tr.querySelector('.peg-rl').innerHTML=pegFormatMultiResult(results,'peg');var staffResults=results.filter(function(x){return isFinite(x.staff)});tr.querySelector('.peg-staff').innerHTML=pegFormatMultiResult(staffResults,'staff');var chEnd=tr.querySelector('.peg-chainage-end');if(chEnd)chEnd.textContent=tr.querySelector('.peg-ch').value||'—';
   });
-  document.getElementById('pegSummary').textContent=ok?ok+' result(s) calculated • Multiple Offset • Depth '+(isFinite(depth)?depth:'—')+' mm same • HI जहाँ बदले वहीं डालें':'Chainage, PCL RL और HI डालते ही result automatic आएगा.';
+  document.getElementById('pegSummary').textContent=ok?ok+' result(s) calculated • Manual Offset • Depth '+(isFinite(depth)?depth:'—')+' mm same • HI जहाँ बदले वहीं डालें':'Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.';
 }
 function pegClearValues(){
-  var rows=Array.from(document.querySelectorAll('#pegRows tr'));rows.forEach(function(tr,i){tr.querySelector('.peg-pcl').value='';tr.querySelector('.peg-hi').value='';if(!document.getElementById('pegSameOffsetToggle').checked)tr.querySelector('.peg-off').value=''});
-  while(rows.length>1){rows.pop().remove()}if(rows.length)rows[0].querySelector('.peg-ch').value='';pegRecalc();
+  var body=document.getElementById('pegRows');
+  if(!body)return;
+  body.innerHTML='';
+  pegRowSeq=0;
+  for(var i=0;i<3;i++)pegMakeRow('');
+  pegRecalc();
 }
 function pegDownloadPDF(){
   var rows=Array.from(document.querySelectorAll('#pegRows tr'));if(!rows.length){alert('पहले rows बनाएं');return}
@@ -5687,8 +5695,14 @@ function pegDownloadPDF(){
   doc.save('Peg_Level_Report.pdf');
 }
 function pegInit(){
-  var t=document.getElementById('pegSameOffsetToggle'),o=document.getElementById('pegSameOffset'),c=document.getElementById('pegCamber'),d=document.getElementById('pegDepth');if(!t)return;
-  t.addEventListener('change',function(){pegSyncOffsets(true)});o.addEventListener('input',function(){pegSyncOffsets(true)});c.addEventListener('input',pegRecalc);d.addEventListener('input',pegRecalc);document.getElementById('pegRows').innerHTML='';pegRowSeq=0;pegMakeRow('');pegSyncOffsets(true);
+  var c=document.getElementById('pegCamber'),d=document.getElementById('pegDepth'),body=document.getElementById('pegRows');
+  if(!c||!d||!body)return;
+  c.addEventListener('input',pegRecalc);
+  d.addEventListener('input',pegRecalc);
+  body.innerHTML='';
+  pegRowSeq=0;
+  for(var i=0;i<3;i++)pegMakeRow('');
+  pegSyncOffsets(true);
 }
 
 pegInit();
@@ -6011,7 +6025,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.13';
+  var VC_APP_VERSION='1.1.15';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -6892,9 +6906,23 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     ewSaveDraft(false);
   };
 
+  var ewLiveTimer=null;
+  function ewScheduleLive(){
+    clearTimeout(ewLiveTimer);
+    ewLiveTimer=setTimeout(function(){
+      try{ if(typeof window.ewCalculate==='function')window.ewCalculate(); }catch(e){ console.warn('Earthwork live calculate',e); }
+    },80);
+  }
+
   function init(){
     setTabs();
     loadSaved();
+    var root=byId('earthwork');
+    if(root&&!root.dataset.ewLiveBound){
+      root.addEventListener('input',ewScheduleLive,true);
+      root.addEventListener('change',ewScheduleLive,true);
+      root.dataset.ewLiveBound='1';
+    }
   }
 
   if(document.readyState==='loading'){
@@ -6972,7 +7000,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   // Dynamic rows in Slab / Toe / Earthwork are covered by event delegation above.
   document.addEventListener('DOMContentLoaded',function(){
     ['twoCalc','singleCalc','multiCalc','convertUnit','calcFindPrice',
-     'calcFindWeight','gsbQuantityCalc','materialCalc','pegRecalc','toeRecalc']
+     'calcFindWeight','gsbQuantityCalc','materialCalc','pegRecalc','toeRecalc','ewCalculate']
       .forEach(function(name){ safe(window[name]); });
   });
 })();
