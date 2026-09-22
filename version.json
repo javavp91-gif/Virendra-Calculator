@@ -1,4 +1,4 @@
 {
-  "version": "1.1.9",
-  "notes": "Calculator live-update fixed: changing input now refreshes the answer immediately. Camera, icon and auto-update fixes retained."
+  "version": "1.1.11",
+  "notes": "This exact index.html is now the app base. Soil Cut / Fill Quantity and GSB Quantity are retained, with working live calculator updates and corrected auto-update URLs."
 }
