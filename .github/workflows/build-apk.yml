@@ -112,7 +112,24 @@ jobs:
           mkdir -p android-app/app/src/main/res/mipmap-anydpi-v26
           mkdir -p android-app/app/src/main/res/values
 
-          cp index.html android-app/app/src/main/assets/index.html
+          # Embed the APK version inside index.html too. This prevents the in-app
+          # updater from asking for the same update again on every app launch.
+          python3 - <<'PY_PATCH_HTML'
+          import os, re
+          from pathlib import Path
+
+          html = Path('index.html').read_text(encoding='utf-8')
+          version = os.environ['APP_VERSION']
+          html, count = re.subn(
+              r"var\s+VC_APP_VERSION\s*=\s*['\"][^'\"]*['\"]\s*;",
+              f"var VC_APP_VERSION='{version}';",
+              html,
+              count=1
+          )
+          if count == 0:
+              raise SystemExit('VC_APP_VERSION not found in index.html')
+          Path('android-app/app/src/main/assets/index.html').write_text(html, encoding='utf-8')
+          PY_PATCH_HTML
 
           cat > android-app/settings.gradle <<'EOF'
           pluginManagement {
@@ -385,7 +402,7 @@ jobs:
                       public void onPageFinished(WebView view, String url) {
                           super.onPageFinished(view, url);
 
-                          // Native splash already ran for 3 seconds.
+                          // Native splash already ran for 2 seconds.
                           // Remove the HTML splash so it cannot run a second time.
                           view.evaluateJavascript(
                                   "(function(){var s=document.getElementById('vcAppSplash');" +
