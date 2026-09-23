@@ -782,6 +782,188 @@ body.tool-open main.wrap>section.card:not(.hidden){margin-top:0}
 .hiis-rl{font-size:16px;font-weight:900;color:#173453;white-space:nowrap}
 .hiis-del{border:0;background:#fee2e2;color:#991b1b;border-radius:8px;width:30px;height:30px;font-size:16px;font-weight:900}
 
+
+/* Calculator full-screen integration */
+#basicCalc.card{
+  position:fixed!important;
+  inset:0!important;
+  z-index:10020!important;
+  width:100%!important;
+  max-width:none!important;
+  height:100dvh!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#0f172a!important;
+  overflow:hidden!important;
+  box-shadow:none!important;
+}
+#basicCalc.hidden{display:none!important}
+#basicCalc .vcCalcFullHeader{
+  height:52px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:env(safe-area-inset-top,0) 12px 0;
+  background:#ffffff;
+  color:#173453;
+  border-bottom:1px solid #dbe3ee;
+  position:relative;
+  z-index:2;
+}
+#basicCalc .vcCalcFullHeader strong{
+  font-size:20px;
+  font-weight:900;
+}
+#basicCalc .vcCalcBack{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
+  background:#e8eef6;
+  color:#173453;
+  font-size:25px;
+  line-height:1;
+  font-weight:900;
+}
+#basicCalc .vcCalcFullBody{
+  width:100%;
+  height:calc(100dvh - 52px);
+  margin:0;
+  padding:0;
+  overflow:hidden;
+}
+#basicCalc #basicCalcFrame{
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+}
+
+
+/* ===== Full-screen layout for ALL app tools ===== */
+body.tool-open{
+  overflow:hidden!important;
+}
+body.tool-open main.wrap > section.card:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  z-index:10010!important;
+  width:100vw!important;
+  max-width:none!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  margin:0!important;
+  padding:0 12px 24px!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+  background:#fff!important;
+}
+
+/* Calculator already has its own full-screen body/header. */
+body.tool-open #basicCalc.card{
+  padding:0!important;
+  overflow:hidden!important;
+  background:#0f172a!important;
+}
+
+body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader{
+  position:sticky!important;
+  top:0!important;
+  z-index:1000!important;
+  height:56px!important;
+  min-height:56px!important;
+  margin:0 -12px 14px!important;
+  padding:0 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  background:#fff!important;
+  color:#173453!important;
+  border-bottom:1px solid #dbe3ee!important;
+  box-shadow:0 2px 8px rgba(23,52,83,.08)!important;
+}
+
+body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader strong{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:20px!important;
+  line-height:1.15!important;
+  font-weight:900!important;
+}
+
+body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader .vcToolFullBack{
+  flex:0 0 38px;
+  width:38px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:#e8eef6!important;
+  color:#173453!important;
+  font-size:25px!important;
+  line-height:38px!important;
+  font-weight:900!important;
+  box-shadow:none!important;
+}
+
+/* The sticky bar now carries the tool title. */
+body.tool-open main.wrap > section.card:not(#basicCalc) > h2:first-of-type{
+  display:none!important;
+}
+
+/* Remove only the old bottom Back buttons; action/clear buttons inside tools stay untouched. */
+body.tool-open main.wrap > section.card:not(#basicCalc) > button[onclick="navBack()"]{
+  display:none!important;
+}
+
+/* RL PDF Viewer: let its embedded viewer use the remaining full screen. */
+body.tool-open #pdfFreezeViewer{
+  padding:0!important;
+  overflow:hidden!important;
+}
+body.tool-open #pdfFreezeViewer > .vcToolFullHeader{
+  margin:0!important;
+  padding:0 12px!important;
+}
+body.tool-open #pdfFreezeViewerFrame{
+  display:block!important;
+  width:100%!important;
+  height:calc(100dvh - 56px)!important;
+  min-height:calc(100dvh - 56px)!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+}
+
+/* Give wide tables/editors as much mobile width as possible. */
+body.tool-open main.wrap > section.card:not(#basicCalc):not(#pdfFreezeViewer){
+  scrollbar-gutter:stable;
+}
+
+@media(max-width:430px){
+  body.tool-open main.wrap > section.card:not(.hidden):not(#basicCalc){
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+  body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader{
+    margin-left:-10px!important;
+    margin-right:-10px!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+  body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader strong{
+    font-size:18px!important;
+  }
+}
+
 </style>
 
 <!-- Image/PDF Converter libraries -->
@@ -946,6 +1128,8 @@ body.tool-open .vc-dev-footer{display:none}
 
 
 <section id="two" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Offset RL Calculator</strong></div>
+
 <h2>Offset RL Calculator</h2>
 <div class="two-example">
   <div class="ex-title">Example</div>
@@ -973,6 +1157,8 @@ body.tool-open .vc-dev-footer{display:none}
 
 
 <section id="earthwork" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Soil Cut / Fill</strong></div>
+
 <h2>Soil Cut / Fill</h2>
 
 <div class="ew-tabs">
@@ -1071,6 +1257,8 @@ body.tool-open .vc-dev-footer{display:none}
 
 
 <section id="gsbQty" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>GSB Quantity</strong></div>
+
 <h2>GSB Quantity</h2>
 <div class="two-pair-row">
   <div class="two-field">
@@ -1112,6 +1300,8 @@ body.tool-open .vc-dev-footer{display:none}
 </section>
 
 <section id="material" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Concrete Quantity</strong></div>
+
 <h2>Concrete Quantity</h2>
 <div class="row"><label>Length (m)</label><input id="ml" type="number" step="any" inputmode="decimal" oninput="materialCalc()"></div>
 <div class="row"><label>Width (m)</label><input id="mw" type="number" step="any" inputmode="decimal" oninput="materialCalc()"></div>
@@ -1121,6 +1311,8 @@ body.tool-open .vc-dev-footer{display:none}
 </section>
 
 <section id="single" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>RL Calculator</strong></div>
+
 <h2>RL Calculator</h2>
 <div class="two-example">
   <div class="ex-title">Example</div>
@@ -1139,6 +1331,8 @@ body.tool-open .vc-dev-footer{display:none}
 </section>
 
 <section id="multiple" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Multiple Offset RL</strong></div>
+
 <h2>Multiple Offset RL</h2>
 
 <div class="tabs">
@@ -1175,6 +1369,8 @@ body.tool-open .vc-dev-footer{display:none}
 
 
 <section id="units" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Unit Converter</strong></div>
+
 <h2>Unit Converter</h2>
 
 <div class="row unit-category-row">
@@ -1229,6 +1425,8 @@ Temperature: °C, °F, Kelvin.
 </section>
 
 <section id="price" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Price Calculator</strong></div>
+
 <h2>Price Calculator</h2>
 
 <div class="tabs">
@@ -1306,6 +1504,8 @@ Temperature: °C, °F, Kelvin.
 
 
 <section id="photoTool" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Photo &amp; Signature Tool</strong></div>
+
 <h2>Photo &amp; Signature Tool</h2>
 <div class="ps-tabs">
   <button id="psPhotoTab" class="ps-tab active" onclick="psSetMode('photo')">PHOTO</button>
@@ -1412,6 +1612,8 @@ Temperature: °C, °F, Kelvin.
 </section>
 
 <section id="translate" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Translate Text</strong></div>
+
 <h2>Translate Text</h2>
 <p class="tr-sub">English ↔ हिंदी • साफ़ और पढ़ने योग्य translation</p>
 
@@ -1448,6 +1650,8 @@ Temperature: °C, °F, Kelvin.
 
 
 <section id="pegLevel" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Subgrade / GSB Peg Level</strong></div>
+
 <h2>Subgrade / GSB Peg Level</h2>
 <p class="peg-sub">Manual Chainage • Manual Offset • PCL RL, Camber, Depth और HI से result</p>
 
@@ -1499,6 +1703,8 @@ Temperature: °C, °F, Kelvin.
 
 
 <section id="slab" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Slab RL Calculator</strong></div>
+
 <h2>Slab RL Calculator</h2>
 
 <div class="slab-panel" style="padding-bottom:12px">
@@ -1572,6 +1778,8 @@ Temperature: °C, °F, Kelvin.
 
 
 <section id="pdfFreezeViewer" class="card hidden" style="padding:14px 10px 18px">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>RL PDF Viewer</strong></div>
+
   <iframe id="pdfFreezeViewerFrame" title="RL PDF Viewer" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;hi&quot;&gt;
 &lt;head&gt;
@@ -2420,6 +2628,8 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </section>
 
 <section id="pdfEditor" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>PDF Editor</strong></div>
+
   <h2>PDF Editor</h2>
   <p class="tool-sub">Original PDF को ही edit करें — preview canvas केवल selection के लिए है. Download में original PDF page vector/text quality बनी रहती है.</p>
   <div class="tool-safe">PDF आपके device/browser में process होगी. File server पर upload नहीं होगी.</div>
@@ -2497,6 +2707,8 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 
 
 <section id="docScanner" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Document Scanner</strong></div>
+
   <h2>Document Scanner</h2>
   <p class="tool-sub">Camera या gallery से document scan करें, enhance करें और multi-page PDF बनाएं.</p>
   <div class="tool-safe">Photos आपके device/browser में ही process होती हैं.</div>
@@ -2527,6 +2739,8 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </section>
 
 <section id="pdfConverter" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Image ↔ PDF Converter</strong></div>
+
   <h2>Image ↔ PDF Converter</h2>
   <p class="pc-sub">Image को PDF में बनाएं या PDF के सभी/चुने हुए pages को JPG/PNG में बदलें.</p>
   <div class="pc-safe">Files आपके device/browser में process होती हैं. किसी server पर upload नहीं की जातीं.</div>
@@ -2600,6 +2814,8 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </section>
 
 <section id="documents" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Government Document Download</strong></div>
+
 <h2>Government Document Download</h2>
 <p class="doc-sub">Official government pages directly open होंगे। Card number, OTP और Captcha आप official website पर ही भरेंगे।</p>
 <div class="doc-safe">इस app में Aadhaar/PAN/EPIC number या OTP save नहीं होता।</div>
@@ -2612,6 +2828,8 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 
 
 <section id="toeCalc" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Toe Calculator</strong></div>
+
   <h2>Toe Calculator</h2>
   <div class="toe-title" id="toeHeading">Toe by Chainage</div>
   <p class="toe-sub" id="toeSub">Set common values once, then add rows one at a time.</p>
@@ -2658,8 +2876,11 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 
 
 <section class="card hidden" id="basicCalc">
-  <h2>Calculator</h2>
-  <div style="width:100%;max-width:470px;margin:0 auto">
+  <div class="vcCalcFullHeader">
+    <button type="button" class="vcCalcBack" onclick="navBack()">←</button>
+    <strong>Calculator</strong>
+  </div>
+  <div class="vcCalcFullBody">
     <iframe
       id="basicCalcFrame"
       title="Calculator"
@@ -2690,12 +2911,12 @@ html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-ap
 radial-gradient(circle at 20% 10%,#1d4ed8 0,transparent 27%),
 radial-gradient(circle at 85% 75%,#0ea5e9 0,transparent 25%),
 linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--text)}
-body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+body{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:6px}
 .calc{
-  width:min(100%,410px);
+  width:100%;max-width:none;
   background:linear-gradient(180deg,rgba(17,24,39,.97),rgba(10,15,28,.98));
   border:1px solid rgba(255,255,255,.08);
-  border-radius:30px;
+  border-radius:18px;
   box-shadow:var(--shadow);
   overflow:hidden;
 }
@@ -2793,6 +3014,7 @@ button.key.zero{grid-column:auto}
 .h-res{font-size:17px;font-weight:800;margin-top:2px}
 .empty{color:var(--muted);font-size:13px;text-align:center;padding:10px}
 @media(max-width:380px){
+  body{padding:4px}
   button.key{height:60px;font-size:20px}
   button.key.eq{height:60px}
   .result{font-size:36px}
@@ -3195,13 +3417,14 @@ body.day .sound-toggle{
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;"
-      style="width:100%;height:760px;border:0;border-radius:22px;background:#0f172a;display:block"
+      style="width:100%;height:calc(100dvh - 52px);min-height:620px;border:0;border-radius:0;background:#0f172a;display:block"
       loading="eager"></iframe>
   </div>
-  <button class="clear" onclick="navBack()">Back</button>
 </section>
 
 <section class="card hidden" id="cvMaker">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Special CV Maker</strong></div>
+
 <h2>Special CV Maker</h2>
 <p class="cv-sub">Professional CV बनाइए। Data भरते ही नीचे live preview तैयार होगा। अब इसमें कई नए modern और professional templates भी हैं।</p>
 <div class="cv-panel">
@@ -6726,7 +6949,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.30';
+  var VC_APP_VERSION='1.1.32';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';

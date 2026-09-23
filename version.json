@@ -1,4 +1,4 @@
 {
-  "version": "1.1.30",
-  "notes": "Added a new General Utility tool named Calculator. It includes the approved calculator design with AC, %, bracket, DEL, ×, −, +, =, ÷, history, Day/Night mode, vibration, Sound ON/OFF and calculator key sound. All existing app tools and CV privacy cleanup are retained."
+  "version": "1.1.32",
+  "notes": "All app tools now open full-screen like Calculator. Each tool gets a compact sticky top Back bar with its tool name, outer card margins/rounded corners are removed while a tool is open, and the RL PDF Viewer also expands to the full remaining screen. Existing calculator, CV, PDF, scanner and calculator functions are retained."
 }
