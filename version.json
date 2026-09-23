@@ -1,4 +1,4 @@
 {
-  "version": "1.1.32",
-  "notes": "All app tools now open full-screen like Calculator. Each tool gets a compact sticky top Back bar with its tool name, outer card margins/rounded corners are removed while a tool is open, and the RL PDF Viewer also expands to the full remaining screen. Existing calculator, CV, PDF, scanner and calculator functions are retained."
+  "version": "1.1.33",
+  "notes": "Native 3-second splash screen fix. App now shows Welcome to Virendra Calculator before the WebView opens, and the HTML splash is removed after load to avoid a double splash. Existing calculator, scanner, update, download and back-navigation functions are retained."
 }
