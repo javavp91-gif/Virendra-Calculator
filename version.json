@@ -1,4 +1,4 @@
 {
-  "version": "1.1.33",
-  "notes": "Native 3-second splash screen fix. App now shows Welcome to Virendra Calculator before the WebView opens, and the HTML splash is removed after load to avoid a double splash. Existing calculator, scanner, update, download and back-navigation functions are retained."
+  "version": "1.1.34",
+  "notes": "2-second native splash image added using splash.png. Auto update is retained, so users do not need to press an update button repeatedly for HTML tool changes. If native APK features change, install the new APK version once."
 }
