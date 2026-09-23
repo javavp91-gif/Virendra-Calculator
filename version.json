@@ -1,4 +1,4 @@
 {
-  "version": "1.1.19",
-  "notes": "RL PDF Viewer fixed for different PDF layouts and full multi-page/scanned PDFs. Chainage detection is more robust, table-parser misses fall back to raw PDF text and original page, scanned PDFs open completely, and Original PDF pages fit the screen at high resolution. Previous row/column/manual freeze behavior retained."
+  "version": "1.1.30",
+  "notes": "Added a new General Utility tool named Calculator. It includes the approved calculator design with AC, %, bracket, DEL, ×, −, +, =, ÷, history, Day/Night mode, vibration, Sound ON/OFF and calculator key sound. All existing app tools and CV privacy cleanup are retained."
 }

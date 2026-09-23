@@ -928,6 +928,7 @@ body.tool-open .vc-dev-footer{display:none}
 
 </head>
 <body class="">
+<div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
 
 <script>
 (function(){
@@ -2655,6 +2656,551 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </section>
 
 
+
+<section class="card hidden" id="basicCalc">
+  <h2>Calculator</h2>
+  <div style="width:100%;max-width:470px;margin:0 auto">
+    <iframe
+      id="basicCalcFrame"
+      title="Calculator"
+      srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1,viewport-fit=cover&quot;&gt;
+&lt;title&gt;Virendra Modern Calculator&lt;/title&gt;
+&lt;style&gt;
+:root{
+  --bg1:#0f172a;
+  --bg2:#172554;
+  --card:#111827ee;
+  --screen:#0b1220;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --key:#1e293b;
+  --key2:#273449;
+  --op:#15803d;
+  --op2:#22c55e;
+  --eq:#22c55e;
+  --danger:#ef4444;
+  --shadow:0 24px 70px rgba(0,0,0,.38);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&quot;Segoe UI&quot;,Roboto,Arial,sans-serif;background:
+radial-gradient(circle at 20% 10%,#1d4ed8 0,transparent 27%),
+radial-gradient(circle at 85% 75%,#0ea5e9 0,transparent 25%),
+linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--text)}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.calc{
+  width:min(100%,410px);
+  background:linear-gradient(180deg,rgba(17,24,39,.97),rgba(10,15,28,.98));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.top{
+  padding:18px 18px 6px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{font-weight:800;font-size:16px;letter-spacing:.3px}
+.sub{font-size:11px;color:var(--muted);margin-top:3px}
+.history-btn{
+  border:0;background:#ffffff10;color:#dbeafe;border-radius:12px;
+  width:40px;height:40px;font-size:19px;cursor:pointer
+}
+.screen{
+  margin:8px 16px 14px;
+  background:linear-gradient(180deg,#07101f,#0b1220);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:22px;
+  min-height:150px;
+  padding:18px 16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  box-shadow:inset 0 8px 24px rgba(0,0,0,.2);
+}
+.expression{
+  min-height:30px;
+  color:#93c5fd;
+  text-align:right;
+  font-size:17px;
+  font-weight:650;
+  overflow-wrap:anywhere;
+}
+.result{
+  margin-top:10px;
+  text-align:right;
+  font-size:42px;
+  line-height:1.12;
+  font-weight:850;
+  letter-spacing:-1.5px;
+  overflow-wrap:anywhere;
+}
+.keys{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:0 16px 18px;
+}
+button.key{
+  border:0;
+  height:66px;
+  border-radius:18px;
+  color:#f8fafc;
+  font-size:22px;
+  font-weight:800;
+  background:linear-gradient(180deg,var(--key2),var(--key));
+  box-shadow:0 7px 16px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.05);
+  cursor:pointer;
+  transition:transform .08s ease,filter .12s ease;
+}
+button.key:active{transform:scale(.96);filter:brightness(1.12)}
+button.key.func{color:#bfdbfe;background:linear-gradient(180deg,#263a55,#1e293b)}
+button.key.danger{color:#fff;background:linear-gradient(180deg,#ef4444,#b91c1c)}
+button.key.op{background:linear-gradient(180deg,#bbf7d0,#86efac);color:#14532d;font-size:25px}
+button.key.eq{background:linear-gradient(180deg,#bbf7d0,#86efac);color:#14532d;height:66px;font-size:26px}
+button.key.zero{grid-column:auto}
+.blank-key{visibility:hidden}
+.topkeys{padding-bottom:10px}
+.number-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  padding:0 16px 10px;
+}
+.number-grid .key{width:100%}
+.number-grid .zero{grid-column:span 2}
+
+.history{
+  display:none;
+  margin:0 16px 16px;
+  border-radius:18px;
+  background:#ffffff08;
+  border:1px solid rgba(255,255,255,.06);
+  padding:12px;
+  max-height:210px;
+  overflow:auto;
+}
+.history.open{display:block}
+.h-title{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:8px}
+.clear-history{border:0;background:transparent;color:#93c5fd;font-weight:800;cursor:pointer}
+.h-item{padding:9px 4px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right}
+.h-exp{font-size:12px;color:var(--muted)}
+.h-res{font-size:17px;font-weight:800;margin-top:2px}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:10px}
+@media(max-width:380px){
+  button.key{height:60px;font-size:20px}
+  button.key.eq{height:60px}
+  .result{font-size:36px}
+}
+
+body.day{
+  background:
+    radial-gradient(circle at 18% 10%,#dbeafe 0,transparent 30%),
+    radial-gradient(circle at 85% 78%,#dcfce7 0,transparent 28%),
+    linear-gradient(155deg,#f8fafc,#e2e8f0);
+  color:#0f172a;
+}
+body.day .calc{
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+  border-color:#cbd5e1;
+  box-shadow:0 22px 60px rgba(15,23,42,.15);
+}
+body.day .top .brand{color:#0f172a}
+body.day .sub{color:#64748b}
+body.day .history-btn{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+body.day .screen{
+  background:linear-gradient(180deg,#f8fafc,#eef2ff);
+  border-color:#dbeafe;
+}
+body.day .expression{color:#475569}
+body.day .result{color:#0f172a}
+body.day button.key{
+  color:#0f172a;
+  background:linear-gradient(180deg,#ffffff,#edf2f7);
+  box-shadow:0 6px 14px rgba(15,23,42,.12),inset 0 1px 0 #fff;
+}
+body.day button.key.func{
+  color:#0f766e;
+  background:linear-gradient(180deg,#ecfdf5,#d1fae5);
+}
+body.day button.key.danger{
+  color:#fff;
+  background:linear-gradient(180deg,#ef4444,#b91c1c);
+}
+body.day button.key.op,
+body.day button.key.eq{
+  color:#14532d;
+  background:linear-gradient(180deg,#dcfce7,#bbf7d0);
+}
+body.day .history{
+  background:#ffffffcc;
+  border-color:#cbd5e1;
+}
+body.day .h-exp{color:#64748b}
+body.day .h-res{color:#0f172a}
+.theme-toggle{
+  border:0;
+  background:#ffffff10;
+  color:#dbeafe;
+  border-radius:12px;
+  height:40px;
+  padding:0 12px;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+body.day .theme-toggle{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+
+.sound-toggle{
+  border:0;
+  background:#ffffff10;
+  color:#dbeafe;
+  border-radius:10px;
+  min-width:62px;
+  height:34px;
+  padding:0;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+body.day .sound-toggle{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;calc&quot;&gt;
+  &lt;div class=&quot;top&quot;&gt;
+    &lt;div&gt;
+      &lt;div class=&quot;brand&quot;&gt;Virendra Calculator&lt;/div&gt;
+      &lt;div class=&quot;sub&quot;&gt;Modern Auto Calculator&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;display:flex;gap:7px;align-items:center&quot;&gt;
+      &lt;button class=&quot;sound-toggle&quot; id=&quot;soundToggle&quot; title=&quot;Calculator Sound&quot;&gt;🔊&lt;/button&gt;
+      &lt;button class=&quot;theme-toggle&quot; id=&quot;themeToggle&quot; title=&quot;Day / Night&quot;&gt;DAY&lt;/button&gt;
+      &lt;button class=&quot;history-btn&quot; id=&quot;historyBtn&quot; title=&quot;History&quot;&gt;↺&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;screen&quot;&gt;
+    &lt;div class=&quot;expression&quot; id=&quot;expression&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;result&quot; id=&quot;result&quot;&gt;0&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;history&quot; id=&quot;history&quot;&gt;
+    &lt;div class=&quot;h-title&quot;&gt;
+      &lt;span&gt;History&lt;/span&gt;
+      &lt;button class=&quot;clear-history&quot; id=&quot;clearHistory&quot;&gt;CLEAR&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;historyList&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;keys&quot;&gt;
+    &lt;button class=&quot;key danger&quot; data-action=&quot;clear&quot;&gt;AC&lt;/button&gt;
+    &lt;button class=&quot;key func&quot; data-value=&quot;%&quot;&gt;%&lt;/button&gt;
+    &lt;button class=&quot;key func&quot; data-action=&quot;bracket&quot;&gt;( )&lt;/button&gt;
+    &lt;button class=&quot;key func&quot; data-action=&quot;delete&quot;&gt;DEL&lt;/button&gt;
+
+    &lt;button class=&quot;key&quot; data-value=&quot;7&quot;&gt;7&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;8&quot;&gt;8&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;9&quot;&gt;9&lt;/button&gt;
+    &lt;button class=&quot;key op&quot; data-value=&quot;×&quot;&gt;×&lt;/button&gt;
+
+    &lt;button class=&quot;key&quot; data-value=&quot;4&quot;&gt;4&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;5&quot;&gt;5&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;6&quot;&gt;6&lt;/button&gt;
+    &lt;button class=&quot;key op&quot; data-value=&quot;-&quot;&gt;−&lt;/button&gt;
+
+    &lt;button class=&quot;key&quot; data-value=&quot;1&quot;&gt;1&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;2&quot;&gt;2&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;3&quot;&gt;3&lt;/button&gt;
+    &lt;button class=&quot;key op&quot; data-value=&quot;+&quot;&gt;+&lt;/button&gt;
+
+    &lt;button class=&quot;key zero&quot; data-value=&quot;0&quot;&gt;0&lt;/button&gt;
+    &lt;button class=&quot;key&quot; data-value=&quot;.&quot;&gt;.&lt;/button&gt;
+    &lt;button class=&quot;key eq&quot; data-action=&quot;equals&quot;&gt;=&lt;/button&gt;
+    &lt;button class=&quot;key op&quot; data-value=&quot;÷&quot;&gt;÷&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+(function(){
+  const expEl=document.getElementById(&#x27;expression&#x27;);
+  const resEl=document.getElementById(&#x27;result&#x27;);
+  const hist=document.getElementById(&#x27;history&#x27;);
+  const histList=document.getElementById(&#x27;historyList&#x27;);
+  let expr=&#x27;&#x27;;
+  let lastAnswer=&#x27;0&#x27;;
+  let history=[];
+
+
+  let soundEnabled=true;
+  let audioCtx=null;
+
+  function playClickSound(){
+    if(!soundEnabled)return;
+    try{
+      const ACtx=window.AudioContext||window.webkitAudioContext;
+      if(!ACtx)return;
+      if(!audioCtx)audioCtx=new ACtx();
+
+      const play=function(){
+        const now=audioCtx.currentTime;
+        const osc=audioCtx.createOscillator();
+        const gain=audioCtx.createGain();
+
+        // Soft normal calculator-style key tone.
+        osc.type=&#x27;sine&#x27;;
+        osc.frequency.setValueAtTime(720,now);
+        osc.frequency.exponentialRampToValueAtTime(610,now+0.055);
+
+        gain.gain.setValueAtTime(0.075,now);
+        gain.gain.exponentialRampToValueAtTime(0.0001,now+0.065);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now+0.07);
+      };
+
+      if(audioCtx.state===&#x27;suspended&#x27;){
+        audioCtx.resume().then(play).catch(function(){});
+      }else{
+        play();
+      }
+    }catch(e){}
+  }
+
+  function applySoundState(on){
+    soundEnabled=!!on;
+    const b=document.getElementById(&#x27;soundToggle&#x27;);
+    if(b){
+      b.textContent=soundEnabled?&#x27;🔊 ON&#x27;:&#x27;🔇 OFF&#x27;;
+      b.title=soundEnabled?&#x27;Calculator Sound: ON&#x27;:&#x27;Calculator Sound: OFF&#x27;;
+    }
+    try{localStorage.setItem(&#x27;virendraCalcSound&#x27;,soundEnabled?&#x27;1&#x27;:&#x27;0&#x27;)}catch(e){}
+  }
+
+  function haptic(){
+    try{
+      if(navigator.vibrate) navigator.vibrate(18);
+    }catch(e){}
+  }
+
+  function display(){
+    expEl.textContent=expr;
+    if(!expr){resEl.textContent=&#x27;0&#x27;;return}
+    try{
+      const v=evaluate(expr,false);
+      if(v!==null &amp;&amp; isFinite(v))resEl.textContent=format(v);
+    }catch(e){}
+  }
+
+  function format(n){
+    if(!isFinite(n))return &#x27;Error&#x27;;
+    const abs=Math.abs(n);
+    if(abs!==0 &amp;&amp; (abs&gt;=1e12 || abs&lt;1e-8)) return n.toExponential(6).replace(/\.?0+e/,&#x27;e&#x27;);
+    let s=(Math.round((n+Number.EPSILON)*1e10)/1e10).toString();
+    return s;
+  }
+
+  function sanitize(s){
+    return s.replace(/×/g,&#x27;*&#x27;).replace(/÷/g,&#x27;/&#x27;).replace(/(\d+(?:\.\d+)?)%/g,&#x27;($1/100)&#x27;);
+  }
+
+  function evaluate(s, strict=true){
+    if(!s)return null;
+    let x=sanitize(s);
+    if(strict &amp;&amp; /[+\-*/.]$/.test(x)) throw new Error(&#x27;Incomplete&#x27;);
+    if(/[^0-9+\-*/().\s]/.test(x)) throw new Error(&#x27;Invalid&#x27;);
+    // eslint-disable-next-line no-new-func
+    const out=Function(&#x27;&quot;use strict&quot;;return (&#x27;+x+&#x27;)&#x27;)();
+    if(typeof out!==&#x27;number&#x27; || !isFinite(out)) throw new Error(&#x27;Math&#x27;);
+    return out;
+  }
+
+  function append(v){
+    const ops=[&#x27;+&#x27;,&#x27;-&#x27;,&#x27;×&#x27;,&#x27;÷&#x27;];
+    const last=expr.slice(-1);
+
+    if(v===&#x27;.&#x27;){
+      const part=expr.split(/[+\-×÷]/).pop();
+      if(part.includes(&#x27;.&#x27;))return;
+      if(!part)expr+=&#x27;0&#x27;;
+    }
+
+    if(ops.includes(v)){
+      if(!expr &amp;&amp; v!==&#x27;-&#x27;)return;
+      if(ops.includes(last)){
+        expr=expr.slice(0,-1)+v;
+        display();return;
+      }
+    }
+
+    if(v===&#x27;%&#x27;){
+      if(!expr || ops.includes(last) || last===&#x27;%&#x27; || last===&#x27;.&#x27;)return;
+    }
+
+    expr+=v;
+    display();
+  }
+
+  function smartBracket(){
+    const opens=(expr.match(/\(/g)||[]).length;
+    const closes=(expr.match(/\)/g)||[]).length;
+    const last=expr.slice(-1);
+
+    if(!expr || [&#x27;+&#x27;,&#x27;-&#x27;,&#x27;×&#x27;,&#x27;(&#x27;].includes(last)){
+      expr+=&#x27;(&#x27;;
+    }else if(opens&gt;closes &amp;&amp; /[0-9)%]/.test(last)){
+      expr+=&#x27;)&#x27;;
+    }else if(/[0-9)%]/.test(last)){
+      expr+=&#x27;×(&#x27;;
+    }else{
+      expr+=&#x27;(&#x27;;
+    }
+    display();
+  }
+
+  function equals(){
+    try{
+      const v=evaluate(expr,true);
+      const old=expr;
+      lastAnswer=format(v);
+      resEl.textContent=lastAnswer;
+      if(old){
+        history.unshift({exp:old,res:lastAnswer});
+        history=history.slice(0,20);
+        renderHistory();
+      }
+      expr=lastAnswer;
+      expEl.textContent=old+&#x27; =&#x27;;
+    }catch(e){
+      resEl.textContent=&#x27;Error&#x27;;
+    }
+  }
+
+  function clearAll(){
+    expr=&#x27;&#x27;;
+    lastAnswer=&#x27;0&#x27;;
+    display();
+  }
+
+  function del(){
+    expr=expr.slice(0,-1);
+    display();
+  }
+
+  function renderHistory(){
+    histList.innerHTML=&#x27;&#x27;;
+    if(!history.length){
+      histList.innerHTML=&#x27;&lt;div class=&quot;empty&quot;&gt;No calculation yet&lt;/div&gt;&#x27;;
+      return;
+    }
+    history.forEach(item=&gt;{
+      const d=document.createElement(&#x27;div&#x27;);
+      d.className=&#x27;h-item&#x27;;
+      d.innerHTML=&#x27;&lt;div class=&quot;h-exp&quot;&gt;&#x27;+escapeHtml(item.exp)+&#x27;&lt;/div&gt;&lt;div class=&quot;h-res&quot;&gt;= &#x27;+escapeHtml(item.res)+&#x27;&lt;/div&gt;&#x27;;
+      d.onclick=function(){expr=item.res;display();hist.classList.remove(&#x27;open&#x27;)};
+      histList.appendChild(d);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,c=&gt;({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[c]));
+  }
+
+  document.querySelectorAll(&#x27;.key&#x27;).forEach(btn=&gt;{
+    btn.addEventListener(&#x27;click&#x27;,()=&gt;{
+      haptic();
+      playClickSound();
+      const a=btn.dataset.action;
+      if(a===&#x27;clear&#x27;)clearAll();
+      else if(a===&#x27;delete&#x27;)del();
+      else if(a===&#x27;bracket&#x27;)smartBracket();
+      else if(a===&#x27;equals&#x27;)equals();
+      else append(btn.dataset.value||&#x27;&#x27;);
+    });
+  });
+
+  document.getElementById(&#x27;historyBtn&#x27;).onclick=()=&gt;{
+    haptic();
+    playClickSound();
+    hist.classList.toggle(&#x27;open&#x27;);
+    renderHistory();
+  };
+  document.getElementById(&#x27;clearHistory&#x27;).onclick=()=&gt;{
+    haptic();
+    playClickSound();
+    history=[];
+    renderHistory();
+  };
+
+  document.addEventListener(&#x27;keydown&#x27;,e=&gt;{
+    if(e.key&gt;=&#x27;0&#x27;&amp;&amp;e.key&lt;=&#x27;9&#x27;)append(e.key);
+    else if(e.key===&#x27;.&#x27;){append(&#x27;.&#x27;)}
+    else if(e.key===&#x27;+&#x27;){append(&#x27;+&#x27;)}
+    else if(e.key===&#x27;-&#x27;){append(&#x27;-&#x27;)}
+    else if(e.key===&#x27;*&#x27;){append(&#x27;×&#x27;)}
+    else if(e.key===&#x27;/&#x27;){e.preventDefault();append(&#x27;÷&#x27;)}
+    else if(e.key===&#x27;%&#x27;){append(&#x27;%&#x27;)}
+    else if(e.key===&#x27;Enter&#x27;||e.key===&#x27;=&#x27;){e.preventDefault();equals()}
+    else if(e.key===&#x27;Backspace&#x27;)del();
+    else if(e.key===&#x27;Escape&#x27;)clearAll();
+  });
+
+
+  const soundToggle=document.getElementById(&#x27;soundToggle&#x27;);
+  let savedSound=&#x27;1&#x27;;
+  try{savedSound=localStorage.getItem(&#x27;virendraCalcSound&#x27;)||&#x27;1&#x27;}catch(e){}
+  applySoundState(savedSound!==&#x27;0&#x27;);
+
+  soundToggle.addEventListener(&#x27;click&#x27;,function(){
+    haptic();
+    applySoundState(!soundEnabled);
+    if(soundEnabled)playClickSound();
+  });
+
+  const themeToggle=document.getElementById(&#x27;themeToggle&#x27;);
+  function applyTheme(mode){
+    document.body.classList.toggle(&#x27;day&#x27;,mode===&#x27;day&#x27;);
+    themeToggle.textContent=mode===&#x27;day&#x27;?&#x27;NIGHT&#x27;:&#x27;DAY&#x27;;
+    try{localStorage.setItem(&#x27;virendraCalcThemeMode&#x27;,mode)}catch(e){}
+  }
+  themeToggle.addEventListener(&#x27;click&#x27;,function(){
+    haptic();
+    playClickSound();
+    applyTheme(document.body.classList.contains(&#x27;day&#x27;)?&#x27;night&#x27;:&#x27;day&#x27;);
+  });
+  let savedTheme=&#x27;night&#x27;;
+  try{savedTheme=localStorage.getItem(&#x27;virendraCalcThemeMode&#x27;)||&#x27;night&#x27;}catch(e){}
+  applyTheme(savedTheme);
+
+  renderHistory();
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;"
+      style="width:100%;height:760px;border:0;border-radius:22px;background:#0f172a;display:block"
+      loading="eager"></iframe>
+  </div>
+  <button class="clear" onclick="navBack()">Back</button>
+</section>
+
 <section class="card hidden" id="cvMaker">
 <h2>Special CV Maker</h2>
 <p class="cv-sub">Professional CV बनाइए। Data भरते ही नीचे live preview तैयार होगा। अब इसमें कई नए modern और professional templates भी हैं।</p>
@@ -2684,14 +3230,14 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </select>
 </div>
 </div>
-<div class="cv-field"><label>CV Type</label><select id="cvType" onchange="cvSave();cvRender()"><option>Professional</option><option>Survey / Civil</option><option>Supervisor</option><option>Fresher</option></select></div>
+<div class="cv-field"><label>CV Type</label><select id="cvType" onchange="cvSave();cvRender()"><option>Professional</option><option>Technical</option><option>Experienced</option><option>Fresher</option></select></div>
 </div>
 </div>
 <div class="cv-panel">
 <h3>Personal Details</h3>
 <div class="cv-grid">
 <div class="cv-field"><label>Full Name</label><input id="cvName" placeholder="Example:- Your full name"/></div>
-<div class="cv-field"><label>Job Title / Role</label><input id="cvRole" placeholder="Example:- Survey Supervisor"/></div>
+<div class="cv-field"><label>Job Title / Role</label><input id="cvRole" placeholder="Example:- Job Title"/></div>
 <div class="cv-field"><label>Mobile</label><input id="cvPhone" inputmode="tel" placeholder="Example:- Mobile number"/></div>
 <div class="cv-field"><label>Email</label><input id="cvEmail" inputmode="email" placeholder="Example:- Email"/></div>
 <div class="cv-field"><label>City / Address</label><input id="cvAddress" placeholder="Example:- City, State"/></div>
@@ -2700,13 +3246,13 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 <div class="cv-field full"><label>Photo (optional)</label><div class="cv-photo-wrap"><img alt="Photo preview" class="cv-photo-thumb" id="cvPhotoThumb" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2288%22 viewBox=%220 0 72 88%22%3E%3Crect width=%2272%22 height=%2288%22 rx=%229%22 fill=%22%23f8fafc%22/%3E%3Ccircle cx=%2236%22 cy=%2230%22 r=%2212%22 fill=%22%23cbd5e1%22/%3E%3Cpath d=%22M15 76c2-17 12-25 21-25s19 8 21 25%22 fill=%22%23cbd5e1%22/%3E%3C/svg%3E"/><input accept="image/*" id="cvPhoto" onchange="cvLoadImage(this,'photo')" type="file"/></div></div>
 </div>
 </div>
-<div class="cv-panel"><h3>Work Experience</h3><div id="cvExpRows"><div class="cv-rowcard cv-exp"><button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid"><div><label>Company / Project</label><input class="ce-company" placeholder="Example:- ABC Infrastructure Pvt. Ltd." value=""/></div><div><label>Role</label><input class="ce-role" placeholder="Example:- Survey Supervisor" value=""/></div><div><label>From</label><input class="ce-from" placeholder="Example:- 2024" value=""/></div><div><label>To</label><input class="ce-to" placeholder="Example:- Present" value=""/></div><div class="full"><label>Work Details</label><textarea class="ce-desc" placeholder="Example:- Road survey, level checking, chainage and site supervision"></textarea></div></div></div></div><button class="cv-add" onclick="cvAddExp()">+ Add Experience</button></div>
-<div class="cv-panel"><h3>Education</h3><div id="cvEduRows"><div class="cv-rowcard cv-edu"><button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid"><div><label>Qualification</label><input class="cd-course" placeholder="Example:- Diploma in Civil Engineering" value=""/></div><div><label>School / Board / Institute</label><input class="cd-school" placeholder="Example:- Bihar School Examination Board" value=""/></div><div><label>Year</label><input class="cd-year" placeholder="Example:- 2019" value=""/></div><div><label>Result / Percentage</label><input class="cd-result" placeholder="Example:- 72% or First Division" value=""/></div></div></div></div><button class="cv-add" onclick="cvAddEdu()">+ Add Education</button></div>
+<div class="cv-panel"><h3>Work Experience</h3><div id="cvExpRows"><div class="cv-rowcard cv-exp"><button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid"><div><label>Company / Project</label><input class="ce-company" placeholder="Example:- Company / Project Name" value=""/></div><div><label>Role</label><input class="ce-role" placeholder="Example:- Job Title" value=""/></div><div><label>From</label><input class="ce-from" placeholder="Example:- 2024" value=""/></div><div><label>To</label><input class="ce-to" placeholder="Example:- Present" value=""/></div><div class="full"><label>Work Details</label><textarea class="ce-desc" placeholder="Example:- Write your main work responsibilities"></textarea></div></div></div></div><button class="cv-add" onclick="cvAddExp()">+ Add Experience</button></div>
+<div class="cv-panel"><h3>Education</h3><div id="cvEduRows"><div class="cv-rowcard cv-edu"><button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid"><div><label>Qualification</label><input class="cd-course" placeholder="Example:- Degree / Course" value=""/></div><div><label>School / Board / Institute</label><input class="cd-school" placeholder="Example:- Bihar School Examination Board" value=""/></div><div><label>Year</label><input class="cd-year" placeholder="Example:- 2019" value=""/></div><div><label>Result / Percentage</label><input class="cd-result" placeholder="Example:- 72% or First Division" value=""/></div></div></div></div><button class="cv-add" onclick="cvAddEdu()">+ Add Education</button></div>
 <div class="cv-panel">
 <h3>Skills &amp; Extra Details</h3>
 <div class="cv-grid">
 <div class="cv-field full"><label>Skills (comma separated)</label><textarea id="cvSkills" placeholder="Example:- Auto Level, Total Station, MS Excel, Road Work..."></textarea></div>
-<div class="cv-field"><label>Languages</label><input id="cvLanguages" placeholder="Example:- Hindi, English"/></div>
+<div class="cv-field"><label>Languages</label><input id="cvLanguages" placeholder="Example:- Language 1, Language 2"/></div>
 </div>
 </div>
 <div class="cv-actions">
@@ -2769,6 +3315,7 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 <div class="toolGroup">
   <div class="toolGroupTitle"><span>🧰</span> General Utility</div>
   <nav class="nav">
+    <button onclick="show('basicCalc')"><span class="toolIcon">🧮</span><span class="toolLabel">Calculator</span></button>
     <button onclick="show('units')"><span class="toolIcon">📐</span><span class="toolLabel">Unit Converter</span></button>
     <button onclick="show('translate')"><span class="toolIcon">Aa</span><span class="toolLabel">Translate Text</span></button>
   </nav>
@@ -5845,12 +6392,12 @@ var cvPhotoData='';
 function cvEsc(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function cvExpHTML(d){d=d||{};return '<div class="cv-rowcard cv-exp">'+
  '<button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid">'+
- '<div><label>Company / Project</label><input class="ce-company" value="'+cvEsc(d.company)+'" placeholder="Example:- ABC Infrastructure Pvt. Ltd."></div><div><label>Role</label><input class="ce-role" value="'+cvEsc(d.role)+'" placeholder="Example:- Survey Supervisor"></div>'+
+ '<div><label>Company / Project</label><input class="ce-company" value="'+cvEsc(d.company)+'" placeholder="Example:- Company / Project Name"></div><div><label>Role</label><input class="ce-role" value="'+cvEsc(d.role)+'" placeholder="Example:- Job Title"></div>'+
  '<div><label>From</label><input class="ce-from" value="'+cvEsc(d.from)+'" placeholder="Example:- 2024"></div><div><label>To</label><input class="ce-to" value="'+cvEsc(d.to)+'" placeholder="Example:- Present"></div>'+
- '<div class="full"><label>Work Details</label><textarea class="ce-desc" placeholder="Example:- Road survey, level checking, chainage and site supervision">'+cvEsc(d.desc)+'</textarea></div></div></div>'}
+ '<div class="full"><label>Work Details</label><textarea class="ce-desc" placeholder="Example:- Write your main work responsibilities">'+cvEsc(d.desc)+'</textarea></div></div></div>'}
 function cvEduHTML(d){d=d||{};return '<div class="cv-rowcard cv-edu">'+
  '<button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid">'+
- '<div><label>Qualification</label><input class="cd-course" value="'+cvEsc(d.course)+'" placeholder="Example:- Diploma in Civil Engineering"></div><div><label>School / Board / Institute</label><input class="cd-school" value="'+cvEsc(d.school)+'" placeholder="Example:- Bihar School Examination Board"></div>'+
+ '<div><label>Qualification</label><input class="cd-course" value="'+cvEsc(d.course)+'" placeholder="Example:- Degree / Course"></div><div><label>School / Board / Institute</label><input class="cd-school" value="'+cvEsc(d.school)+'" placeholder="Example:- Bihar School Examination Board"></div>'+
  '<div><label>Year</label><input class="cd-year" value="'+cvEsc(d.year)+'" placeholder="Example:- 2019"></div><div><label>Result / Percentage</label><input class="cd-result" value="'+cvEsc(d.result)+'" placeholder="Example:- 72% or First Division"></div></div></div>'}
 function cvToggleTemplates(){
   var p=document.getElementById('cvTemplatePanel'),b=document.getElementById('cvTemplateToggle');
@@ -6000,7 +6547,36 @@ function cvBuildTemplate(d){
 }
 function cvRender(){var d=cvData(),sheet=document.getElementById('cvSheet');if(!sheet)return;sheet.innerHTML=cvBuildTemplate(d);cvScalePreview();}
 function cvScalePreview(){var w=document.querySelector('#cvMaker .cv-preview-wrap'),s=document.getElementById('cvSheet');if(!w||!s)return;var avail=w.clientWidth-12,scale=Math.min(1,avail/794);s.style.transform='scale('+scale+')';s.style.marginBottom=((1123*scale)-1123)+'px'}
-function cvLoad(){var d=null;try{d=JSON.parse(localStorage.getItem('virendraSpecialCV')||'null')}catch(e){};var set=function(id,v){var e=document.getElementById(id);if(e&&v!==undefined&&v!==null)e.value=v};if(d){['template','type','name','role','phone','email','address','dob','summary','skills','languages'].forEach(function(k){var map={template:'cvTemplate',type:'cvType',name:'cvName',role:'cvRole',phone:'cvPhone',email:'cvEmail',address:'cvAddress',dob:'cvDob',summary:'cvSummary',skills:'cvSkills',languages:'cvLanguages'};set(map[k],d[k])});cvPhotoData=d.photo||'';if(cvPhotoData){var thumb=document.getElementById('cvPhotoThumb');if(thumb)thumb.src=cvPhotoData;}(d.exp||[]).forEach(cvAddExp);(d.edu||[]).forEach(cvAddEdu)}if(!document.querySelector('#cvExpRows .cv-exp'))cvAddExp();if(!document.querySelector('#cvEduRows .cv-edu'))cvAddEdu();cvBind();cvUpdateTemplateLabel();cvRender()}
+function cvLoad(){
+  var PRIVACY_RESET_KEY='virendraCvPrivacyResetV129';
+  try{
+    if(localStorage.getItem(PRIVACY_RESET_KEY)!=='1'){
+      localStorage.removeItem('virendraSpecialCV');
+      localStorage.setItem(PRIVACY_RESET_KEY,'1');
+    }
+  }catch(e){}
+  var d=null;
+  try{d=JSON.parse(localStorage.getItem('virendraSpecialCV')||'null')}catch(e){}
+  var set=function(id,v){var e=document.getElementById(id);if(e&&v!==undefined&&v!==null)e.value=v};
+  if(d){
+    ['template','type','name','role','phone','email','address','dob','summary','skills','languages'].forEach(function(k){
+      var map={template:'cvTemplate',type:'cvType',name:'cvName',role:'cvRole',phone:'cvPhone',email:'cvEmail',address:'cvAddress',dob:'cvDob',summary:'cvSummary',skills:'cvSkills',languages:'cvLanguages'};
+      set(map[k],d[k])
+    });
+    cvPhotoData=d.photo||'';
+    if(cvPhotoData){
+      var thumb=document.getElementById('cvPhotoThumb');
+      if(thumb)thumb.src=cvPhotoData;
+    }
+    (d.exp||[]).forEach(cvAddExp);
+    (d.edu||[]).forEach(cvAddEdu)
+  }
+  if(!document.querySelector('#cvExpRows .cv-exp'))cvAddExp();
+  if(!document.querySelector('#cvEduRows .cv-edu'))cvAddEdu();
+  cvBind();
+  cvUpdateTemplateLabel();
+  cvRender()
+}
 function cvClear(){if(!confirm('पूरा CV data clear करें?'))return;try{localStorage.removeItem('virendraSpecialCV')}catch(e){};location.reload()}
 function cvPrintPDF(){
   try{
@@ -6150,7 +6726,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.19';
+  var VC_APP_VERSION='1.1.30';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -7153,4 +7729,26 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 })();
 </script>
 
+<script id="vcSplashRuntime">
+(function(){
+  function closeSplash(){
+    var s=document.getElementById('vcAppSplash');
+    if(!s)return;
+    s.classList.add('vc-hide');
+    setTimeout(function(){
+      if(s && s.parentNode)s.parentNode.removeChild(s);
+    },550);
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){setTimeout(closeSplash,2800);});
+  }else{
+    setTimeout(closeSplash,2800);
+  }
+  // Extra fail-safe: remove the splash even if another script has an error.
+  setTimeout(function(){
+    var s=document.getElementById('vcAppSplash');
+    if(s && s.parentNode)s.parentNode.removeChild(s);
+  },4200);
+})();
+</script>
 </body></html>
