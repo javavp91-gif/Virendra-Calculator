@@ -8,6 +8,7 @@ on:
       - 'index.html'
       - 'version.json'
       - 'icon.png'
+      - 'splash.png'
       - '.github/workflows/build-apk.yml'
 
 permissions:
@@ -209,6 +210,12 @@ jobs:
           cp android-app/app/src/main/res/drawable/app_icon.png \
              android-app/app/src/main/res/mipmap/ic_launcher.png
 
+          if [ -f splash.png ]; then
+            cp splash.png android-app/app/src/main/res/drawable/splash_image.png
+          else
+            cp android-app/app/src/main/res/drawable/app_icon.png android-app/app/src/main/res/drawable/splash_image.png
+          fi
+
           cat > android-app/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml <<'EOF'
           <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
               <background android:drawable="@color/navy"/>
@@ -302,7 +309,7 @@ jobs:
 
               private static final int FILE_CHOOSER = 1001;
               private static final int CAMERA_PERMISSION = 1002;
-              private static final long SPLASH_MS = 3000L;
+              private static final long SPLASH_MS = 2000L;
 
               private static final String REMOTE_VERSION_URL =
                       "https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json";
@@ -335,66 +342,23 @@ jobs:
               }
 
               private void showNativeSplash() {
-                  getWindow().setStatusBarColor(Color.rgb(23, 52, 83));
-                  getWindow().setNavigationBarColor(Color.rgb(23, 52, 83));
+                  getWindow().setStatusBarColor(Color.BLACK);
+                  getWindow().setNavigationBarColor(Color.BLACK);
 
-                  LinearLayout root = new LinearLayout(this);
-                  root.setOrientation(LinearLayout.VERTICAL);
-                  root.setGravity(Gravity.CENTER);
-                  root.setPadding(dp(24), dp(24), dp(24), dp(24));
-                  root.setBackgroundColor(Color.WHITE);
+                  android.widget.FrameLayout root = new android.widget.FrameLayout(this);
+                  root.setBackgroundColor(Color.BLACK);
 
-                  ImageView icon = new ImageView(this);
-                  icon.setImageResource(R.drawable.app_icon);
-                  icon.setAdjustViewBounds(true);
-                  icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                  ImageView splash = new ImageView(this);
+                  splash.setImageResource(R.drawable.splash_image);
+                  splash.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                  LinearLayout.LayoutParams iconParams =
-                          new LinearLayout.LayoutParams(dp(150), dp(150));
-                  iconParams.bottomMargin = dp(24);
-                  root.addView(icon, iconParams);
-
-                  TextView welcome = new TextView(this);
-                  welcome.setText("Welcome to");
-                  welcome.setTextColor(Color.rgb(23, 52, 83));
-                  welcome.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                  welcome.setGravity(Gravity.CENTER);
                   root.addView(
-                          welcome,
-                          new LinearLayout.LayoutParams(
+                          splash,
+                          new android.widget.FrameLayout.LayoutParams(
                                   ViewGroup.LayoutParams.MATCH_PARENT,
-                                  ViewGroup.LayoutParams.WRAP_CONTENT
+                                  ViewGroup.LayoutParams.MATCH_PARENT
                           )
                   );
-
-                  TextView title = new TextView(this);
-                  title.setText("Virendra Calculator");
-                  title.setTextColor(Color.rgb(23, 52, 83));
-                  title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 31);
-                  title.setTypeface(Typeface.DEFAULT_BOLD);
-                  title.setGravity(Gravity.CENTER);
-
-                  LinearLayout.LayoutParams titleParams =
-                          new LinearLayout.LayoutParams(
-                                  ViewGroup.LayoutParams.MATCH_PARENT,
-                                  ViewGroup.LayoutParams.WRAP_CONTENT
-                          );
-                  titleParams.topMargin = dp(4);
-                  root.addView(title, titleParams);
-
-                  TextView subtitle = new TextView(this);
-                  subtitle.setText("Smart • Simple • Offline");
-                  subtitle.setTextColor(Color.rgb(90, 105, 120));
-                  subtitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                  subtitle.setGravity(Gravity.CENTER);
-
-                  LinearLayout.LayoutParams subtitleParams =
-                          new LinearLayout.LayoutParams(
-                                  ViewGroup.LayoutParams.MATCH_PARENT,
-                                  ViewGroup.LayoutParams.WRAP_CONTENT
-                          );
-                  subtitleParams.topMargin = dp(12);
-                  root.addView(subtitle, subtitleParams);
 
                   setContentView(root);
               }
