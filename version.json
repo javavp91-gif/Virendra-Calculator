@@ -1,4 +1,4 @@
 {
-  "version": "1.1.33",
-  "notes": "Home tools redesigned in a bright white 3D style: premium Welcome banner, colored 3D category headers, two-column glossy tool cards, larger raised icon boxes, circular arrow buttons and stronger depth/shadows. All tool functions and full-screen tool pages from v1.1.32 are retained."
+  "version": "1.1.35",
+  "notes": "Translator full-screen layout fixed: removed the 50% horizontal shift that made the Translator appear half off-screen. Translation engine fixes from v1.1.34 are retained."
 }

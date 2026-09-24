@@ -99,6 +99,16 @@ table{width:100%;border-collapse:collapse;font-size:18px}th{background:#173453;c
 #translate .tr-quality{display:flex;gap:7px;align-items:center;justify-content:center;margin-top:8px;color:#64748b;font-size:12px}
 #translate .tr-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block}
 @media(min-width:700px){#translate .pdfBtn{margin-left:0;width:100%}}
+/* v1.1.35 Translator full-screen alignment fix */
+body.tool-open #translate{
+  left:0!important;
+  right:0!important;
+  transform:none!important;
+  width:100vw!important;
+  max-width:none!important;
+  margin:0!important;
+}
+
 
 .quickWeights{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 32px}
 .quickWeights button{height:58px;border:1px solid #dbe3ec;border-radius:15px;background:#f8fafc;color:#42566d;font-size:18px;cursor:pointer}
@@ -6669,24 +6679,77 @@ function trDecodeHtml(v){
 function trCleanText(v){
  return trDecodeHtml(v).replace(/\s+([,.!?;:।])/g,'$1').replace(/[ \t]+\n/g,'\n').trim();
 }
+async function trFetchJson(url,timeoutMs){
+ const c=new AbortController();
+ const timer=setTimeout(function(){c.abort()},timeoutMs||9000);
+ try{
+  const res=await fetch(url,{cache:'no-store',signal:c.signal});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  return await res.json();
+ }finally{clearTimeout(timer)}
+}
 async function trGoogle(text,from,to){
  const url='https://translate.googleapis.com/translate_a/single?client=gtx&sl='+encodeURIComponent(from)+'&tl='+encodeURIComponent(to)+'&dt=t&q='+encodeURIComponent(text);
- const res=await fetch(url,{cache:'no-store'});
- if(!res.ok) throw new Error('google');
- const data=await res.json();
+ const data=await trFetchJson(url,8000);
  if(!Array.isArray(data)||!Array.isArray(data[0])) throw new Error('google-result');
  const result=data[0].map(function(x){return Array.isArray(x)?(x[0]||''):''}).join('');
  if(!result.trim()) throw new Error('google-empty');
  return trCleanText(result);
 }
+async function trLingva(text,from,to){
+ const hosts=['https://lingva.ml','https://translate.dr460nf1r3.org','https://lingva.garudalinux.org'];
+ let lastErr=null;
+ for(const host of hosts){
+  try{
+   const url=host+'/api/v1/'+encodeURIComponent(from)+'/'+encodeURIComponent(to)+'/'+encodeURIComponent(text);
+   const data=await trFetchJson(url,8000);
+   const result=data&&data.translation;
+   if(result&&String(result).trim()) return trCleanText(result);
+  }catch(e){lastErr=e}
+ }
+ throw lastErr||new Error('lingva');
+}
+function trUtf8Bytes(s){
+ try{return new TextEncoder().encode(String(s||'')).length}catch(e){return unescape(encodeURIComponent(String(s||''))).length}
+}
+function trSplitForMemory(text,maxBytes){
+ maxBytes=maxBytes||430;
+ const src=String(text||'').trim();
+ if(!src)return [];
+ if(trUtf8Bytes(src)<=maxBytes)return [src];
+ const units=src.split(/(?<=[.!?।\n])\s+/);
+ const out=[];let cur='';
+ function pushCur(){if(cur.trim()){out.push(cur.trim());cur=''}}
+ units.forEach(function(unit){
+  if(trUtf8Bytes(unit)<=maxBytes){
+   const cand=cur?cur+' '+unit:unit;
+   if(trUtf8Bytes(cand)<=maxBytes)cur=cand;else{pushCur();cur=unit}
+   return;
+  }
+  pushCur();
+  const words=unit.split(/\s+/);let small='';
+  words.forEach(function(w){
+   const cand=small?small+' '+w:w;
+   if(trUtf8Bytes(cand)<=maxBytes)small=cand;
+   else{if(small)out.push(small);small=w}
+  });
+  if(small)out.push(small);
+ });
+ pushCur();
+ return out;
+}
 async function trMyMemory(text,from,to){
- const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+from+'|'+to;
- const res=await fetch(url,{cache:'no-store'});
- if(!res.ok) throw new Error('memory');
- const data=await res.json();
- const result=data&&data.responseData&&data.responseData.translatedText;
- if(!result) throw new Error('memory-result');
- return trCleanText(result);
+ const chunks=trSplitForMemory(text,430);
+ if(!chunks.length)throw new Error('memory-empty');
+ const translated=[];
+ for(const chunk of chunks){
+  const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(chunk)+'&langpair='+encodeURIComponent(from+'|'+to);
+  const data=await trFetchJson(url,9000);
+  const result=data&&data.responseData&&data.responseData.translatedText;
+  if(!result||/QUERY LENGTH LIMIT EXCEEDED/i.test(String(result)))throw new Error('memory-result');
+  translated.push(trCleanText(result));
+ }
+ return translated.join(' ');
 }
 function trAutoGrow(el){
  if(!el)return;
@@ -6708,12 +6771,14 @@ async function translateText(){
  const status=document.getElementById('translateStatus');
  if(!text){out.value='';trAutoGrow(out);status.textContent='पहले translate करने के लिए text लिखें।';return}
  const parts=pair.split('-'),from=parts[0],to=parts[1];
- if(navigator.onLine===false){out.value='';trAutoGrow(out);status.textContent='Translation के लिए internet चाहिए।';return}
  out.value='';trAutoGrow(out);out.placeholder='Translating...';status.textContent='Translation हो रही है...';
  try{
    let result='';
    try{result=await trGoogle(text,from,to)}
-   catch(primaryErr){result=await trMyMemory(text,from,to)}
+   catch(primaryErr){
+    try{result=await trLingva(text,from,to)}
+    catch(backupErr){result=await trMyMemory(text,from,to)}
+   }
    out.value=result;
    trAutoGrow(out);
    out.placeholder=to==='hi'?'अनुवाद यहाँ दिखाई देगा...':'Translation will appear here...';
@@ -7363,7 +7428,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.33';
+  var VC_APP_VERSION='1.1.35';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
