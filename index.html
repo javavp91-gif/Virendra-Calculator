@@ -5355,6 +5355,8 @@ var pcEnhancePreviewTimer=0;
 var pcEnhancePreviewRun=0;
 var pcSelectedPreviewIndex=0;
 var pcLastPdfUrl='';
+var pcLastPdfBytes=null;
+var pcLastPdfName='Images_to_PDF.pdf';
 var pcFileCache=new WeakMap();
 function pcSetMode(mode){
   var a=document.getElementById('pcImgPanel'),b=document.getElementById('pcPdfPanel');
@@ -5364,6 +5366,7 @@ function pcSetMode(mode){
 }
 async function pcPreviewSelectedImages(){
   if(pcLastPdfUrl){try{URL.revokeObjectURL(pcLastPdfUrl)}catch(e){}pcLastPdfUrl=''}
+  pcLastPdfBytes=null;pcLastPdfName='Images_to_PDF.pdf';
   var oldDl=document.getElementById('pcPdfDownloadLink');if(oldDl){oldDl.classList.add('hidden');oldDl.removeAttribute('href')}
   var picked=Array.from((document.getElementById('pcImages').files||[]));
   var gm=((document.getElementById('pcGlobalEnhance')||{}).value||'enhance');
@@ -5688,6 +5691,68 @@ function pcChoosePdfFont(pdf,word){
   else{name=bold&&italic?S.HelveticaBoldOblique:bold?S.HelveticaBold:italic?S.HelveticaOblique:S.Helvetica}
   return pdf.embedFont(name);
 }
+
+function pcBytesToBase64(bytes){
+  var CHUNK=0x8000,parts=[];
+  for(var i=0;i<bytes.length;i+=CHUNK){
+    var sub=bytes.subarray(i,Math.min(i+CHUNK,bytes.length));
+    var s='';
+    for(var j=0;j<sub.length;j++)s+=String.fromCharCode(sub[j]);
+    parts.push(s);
+  }
+  return btoa(parts.join(''));
+}
+
+function pcNativeSavePdf(bytes,fileName){
+  try{
+    if(window.AndroidBridge&&typeof window.AndroidBridge.saveBase64==='function'){
+      var b64=pcBytesToBase64(bytes);
+      window.AndroidBridge.saveBase64(fileName,'application/pdf',b64);
+      return true;
+    }
+  }catch(e){
+    console.warn('Native PDF save failed',e);
+  }
+  return false;
+}
+
+async function pcSaveLastPdf(ev){
+  if(ev&&ev.preventDefault)ev.preventDefault();
+  if(!pcLastPdfBytes||!pcLastPdfBytes.length){
+    alert('पहले PDF बनाएं');
+    return false;
+  }
+
+  var status=document.getElementById('pcImgStatus');
+  if(status)status.textContent='PDF save हो रही है…';
+
+  // APK/WebView: use the native Android bridge so the file goes to Downloads.
+  if(pcNativeSavePdf(pcLastPdfBytes,pcLastPdfName)){
+    if(status)status.textContent='PDF Downloads में save हो गई ✓';
+    return false;
+  }
+
+  // Browser fallback.
+  try{
+    var blob=new Blob([pcLastPdfBytes],{type:'application/pdf'});
+    if(pcLastPdfUrl){try{URL.revokeObjectURL(pcLastPdfUrl)}catch(e){}}
+    pcLastPdfUrl=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=pcLastPdfUrl;
+    a.download=pcLastPdfName;
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){try{a.remove()}catch(e){}},100);
+    if(status)status.textContent='PDF download शुरू ✓';
+  }catch(e){
+    console.error(e);
+    if(status)status.textContent='PDF save नहीं हो पाई';
+    alert('PDF save नहीं हो पाई');
+  }
+  return false;
+}
+
 async function pcImagesToPdf(){
   var input=document.getElementById('pcImages'),status=document.getElementById('pcImgStatus'),btn=document.getElementById('pcCreatePdfBtn');
   var files=pcSelectedImageFiles.slice();
@@ -5733,30 +5798,41 @@ async function pcImagesToPdf(){
       }
     }
     var out=await pdf.save({useObjectStreams:true,addDefaultPage:false});
+    pcLastPdfBytes=out;
+    pcLastPdfName=pdfName+'.pdf';
+
     var blob=new Blob([out],{type:'application/pdf'});
     if(pcLastPdfUrl){try{URL.revokeObjectURL(pcLastPdfUrl)}catch(e){}}
     pcLastPdfUrl=URL.createObjectURL(blob);
 
     var dl=document.getElementById('pcPdfDownloadLink');
     if(dl){
-      dl.href=pcLastPdfUrl;
-      dl.download=pdfName+'.pdf';
+      dl.href='#';
+      dl.download=pcLastPdfName;
+      dl.onclick=pcSaveLastPdf;
       dl.classList.remove('hidden');
+      dl.textContent='SAVE PDF';
     }
 
-    // Try automatic download first. Some Android/local-file browsers block it
-    // after async PDF generation, so the visible DOWNLOAD PDF button remains as fallback.
-    try{
-      var a=document.createElement('a');
-      a.href=pcLastPdfUrl;
-      a.download=pdfName+'.pdf';
-      a.style.display='none';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(function(){try{a.remove()}catch(e){}},100);
-    }catch(downloadErr){console.warn('Automatic PDF download blocked',downloadErr)}
-
-    status.textContent='PDF ready ✓ अगर अपने-आप download न हो तो नीचे DOWNLOAD PDF दबाएँ';
+    // APK/WebView: save directly through the native Android bridge.
+    if(pcNativeSavePdf(out,pcLastPdfName)){
+      status.textContent='PDF Downloads में save हो गई ✓';
+    }else{
+      // Normal browser fallback.
+      try{
+        var a=document.createElement('a');
+        a.href=pcLastPdfUrl;
+        a.download=pcLastPdfName;
+        a.style.display='none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function(){try{a.remove()}catch(e){}},100);
+        status.textContent='PDF ready ✓ अगर download न हो तो SAVE PDF दबाएँ';
+      }catch(downloadErr){
+        console.warn('Automatic PDF download blocked',downloadErr);
+        status.textContent='PDF ready ✓ SAVE PDF दबाएँ';
+      }
+    }
   }catch(e){console.error(e);status.textContent='Error: '+(e.message||e);alert('PDF नहीं बन पाई: '+(e.message||e)+'\n\nअगर photo Google Photos/cloud में है तो उसे पहले phone में download करके फिर चुनें।')}
   finally{btn.disabled=false;btn.textContent='CREATE & DOWNLOAD PDF'}
 }
@@ -8131,7 +8207,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.58';
+  var VC_APP_VERSION='1.1.59';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';

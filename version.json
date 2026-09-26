@@ -1,4 +1,4 @@
 {
-  "version": "1.1.58",
-  "notes": "Fixed IMAGE→PDF image-read failures on Android/Google Photos. Selected images are now copied into an in-memory cache immediately after selection, and PDF generation uses robust object-URL + FileReader fallback loading."
+  "version": "1.1.59",
+  "notes": "Fixed Image→PDF download inside the Android APK. Generated PDFs now use the existing AndroidBridge.saveBase64 native saver to write directly to the phone Downloads folder, with a SAVE PDF button and browser fallback."
 }
