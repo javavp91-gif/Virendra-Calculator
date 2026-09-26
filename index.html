@@ -163,6 +163,17 @@ body.tool-open #translate{
 #photoTool .ps-swatch{height:38px;border-radius:10px;border:2px solid #cbd5e1;margin-bottom:4px;box-shadow:inset 0 0 0 1px #fff8}
 #photoTool .ps-color input:checked + .ps-swatch{border-color:#173453;box-shadow:0 0 0 3px #17345322}
 #photoTool .ps-create{width:100%;border:0;border-radius:13px;padding:14px;background:#173453;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+#photoTool .ps-removeTitle{font-size:14px;font-weight:800;color:#334155;margin:3px 0 8px}
+#photoTool .ps-removeModes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 10px}
+#photoTool .ps-removeMode{position:relative;display:block;cursor:pointer}
+#photoTool .ps-removeMode input{position:absolute;opacity:0;pointer-events:none}
+#photoTool .ps-removeCard{min-height:73px;border:2px solid #d6e0ea;border-radius:14px;background:#f8fafc;padding:10px 9px;text-align:center;transition:.15s ease}
+#photoTool .ps-removeCard b{display:block;font-size:14px;color:#173453;margin-bottom:4px}
+#photoTool .ps-removeCard small{display:block;font-size:10px;line-height:1.35;color:#64748b}
+#photoTool .ps-removeMode input:checked + .ps-removeCard{border-color:#173453;background:#eef5fb;box-shadow:0 0 0 3px rgba(23,52,83,.08)}
+#photoTool .ps-fastBox{border:1px solid #dbe3ec;background:#f8fafc;border-radius:12px;padding:9px 10px;margin:0 0 12px}
+#photoTool .ps-fastBox .ps-rangeRow{margin:0}
+#photoTool .ps-aiSetup{width:100%;border:1px solid #b8c7d8;border-radius:11px;background:#fff;color:#173453;font-size:12px;font-weight:800;padding:10px;cursor:pointer;margin:0 0 12px}
 #photoTool .ps-previewBox{display:none;margin-top:14px;border:1px solid #dbe3ec;border-radius:16px;padding:12px;background:#f8fafc;text-align:center}
 #photoTool .ps-previewBox.show{display:block}
 #photoTool .ps-previewBox canvas{max-width:100%;height:auto;border-radius:8px;box-shadow:0 2px 10px #0002;background:#fff}
@@ -1521,6 +1532,45 @@ body.tool-open .vc-dev-footer{display:none}
 }
 </style>
 
+
+<style id="pprStyles">
+/* PDF Password Remover */
+#pdfPasswordRemover{--ppr-navy:#173a5e;--ppr-navy2:#0f2b46;--ppr-bg:#eef5fb;--ppr-line:#d9e5ef;--ppr-text:#15324d;--ppr-muted:#6f8498;--ppr-ok:#17643f;--ppr-danger:#8c2d2d;color:var(--ppr-text)}
+#pdfPasswordRemover .ppr-wrap{max-width:680px;margin:0 auto;padding:14px 12px 34px}
+#pdfPasswordRemover .ppr-intro{margin:4px 0 14px;padding:14px 15px;border-radius:16px;background:#eef6fd;border:1px solid #d4e6f4;color:#28506e;font-size:13px;line-height:1.5}
+#pdfPasswordRemover .ppr-card{background:#fff;border:1px solid rgba(217,229,239,.95);border-radius:22px;box-shadow:0 12px 28px rgba(24,58,92,.12);padding:16px}
+#pdfPasswordRemover .ppr-drop{border:2px dashed #a8bfd3;border-radius:19px;padding:24px 14px;text-align:center;background:#f8fbfe;transition:.2s;cursor:pointer;user-select:none}
+#pdfPasswordRemover .ppr-drop.ppr-drag{border-color:var(--ppr-navy);background:#edf6ff}
+#pdfPasswordRemover .ppr-drop .ppr-icon{font-size:44px;line-height:1;margin-bottom:9px}
+#pdfPasswordRemover .ppr-drop .ppr-title{font-weight:850;font-size:18px}
+#pdfPasswordRemover .ppr-drop .ppr-sub{font-size:12px;color:var(--ppr-muted);margin-top:5px}
+#pdfPasswordRemover #pprFile{display:none}
+#pdfPasswordRemover .ppr-filebox{display:none;margin-top:13px;padding:12px 13px;border-radius:13px;background:#eef6fd;border:1px solid #d4e5f3}
+#pdfPasswordRemover .ppr-filebox strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+#pdfPasswordRemover .ppr-filebox span{font-size:12px;color:var(--ppr-muted)}
+#pdfPasswordRemover .ppr-label{display:block;font-size:13px;font-weight:850;margin:17px 2px 7px}
+#pdfPasswordRemover .ppr-passrow{position:relative}
+#pdfPasswordRemover .ppr-passrow input{width:100%;border:1px solid #cddbe7;border-radius:14px;padding:14px 49px 14px 13px;font-size:16px;outline:none;background:#fff;color:var(--ppr-text)}
+#pdfPasswordRemover .ppr-passrow input:focus{border-color:#6c95b8;box-shadow:0 0 0 3px rgba(108,149,184,.14)}
+#pdfPasswordRemover .ppr-eye{position:absolute;right:7px;top:50%;transform:translateY(-50%);border:0;background:#edf4fa;border-radius:10px;width:38px;height:38px;font-size:17px;cursor:pointer}
+#pdfPasswordRemover .ppr-hint{font-size:12px;color:var(--ppr-muted);margin:7px 2px 0;line-height:1.45}
+#pdfPasswordRemover .ppr-btn{width:100%;border:0;border-radius:15px;padding:14px 14px;font-size:15px;font-weight:850;cursor:pointer;margin-top:16px}
+#pdfPasswordRemover .ppr-btn:active{transform:scale(.99)}
+#pdfPasswordRemover .ppr-primary{background:linear-gradient(135deg,var(--ppr-navy2),#245d8d);color:#fff;box-shadow:0 8px 18px rgba(23,58,94,.2)}
+#pdfPasswordRemover .ppr-primary:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+#pdfPasswordRemover .ppr-secondary{background:#edf4fa;color:var(--ppr-navy);margin-top:10px}
+#pdfPasswordRemover .ppr-status{display:none;margin-top:14px;padding:12px 13px;border-radius:13px;font-size:13px;line-height:1.45}
+#pdfPasswordRemover .ppr-status.info{display:block;background:#eef6fd;color:#28506e;border:1px solid #d4e6f4}
+#pdfPasswordRemover .ppr-status.ok{display:block;background:#ecf8f1;color:var(--ppr-ok);border:1px solid #c9ead7}
+#pdfPasswordRemover .ppr-status.err{display:block;background:#fff0f0;color:var(--ppr-danger);border:1px solid #f0caca}
+#pdfPasswordRemover .ppr-loader{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:pprSpin .7s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes pprSpin{to{transform:rotate(360deg)}}
+#pdfPasswordRemover .ppr-download{display:none;text-decoration:none;text-align:center}
+#pdfPasswordRemover .ppr-download.show{display:block}
+#pdfPasswordRemover .ppr-privacy{font-size:12px;color:var(--ppr-muted);line-height:1.55;text-align:center;padding:15px 8px 0}
+#pdfPasswordRemover .ppr-tiny{font-size:11px;color:#8396a8;margin-top:6px}
+</style>
+
 </head>
 <body class="">
 <div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
@@ -1933,12 +1983,18 @@ Temperature: °C, °F, Kelvin.
     <div><label>Photo Size</label><div class="ps-fixedSize">Passport 35 × 45 mm</div></div>
   </div>
   <div class="ps-miniNote">Fixed output: 413 × 531 px. Width/Height बदलने की जरूरत नहीं है.</div>
+  <div class="ps-removeTitle">AI Background Remove</div>
+  <div class="ps-removeModes" style="grid-template-columns:1fr">
+    <div class="ps-removeCard" style="border-color:#173453;background:#eef5fb;box-shadow:0 0 0 3px rgba(23,52,83,.08)">
+      <b>✨ AI BEST</b><small>Hair + complex background · better edge</small>
+    </div>
+  </div>
+  <button type="button" class="ps-aiSetup" onclick="psPrepareOfflineAI('photo')">AI OFFLINE SETUP · ONE TIME</button>
   <div class="ps-cropBox">
     <div class="ps-cropTitle">Passport Crop · Drag Photo to Set</div>
     <div class="ps-dragHint">Photo par ungli se drag karke face aur chhati set karein.</div>
     <canvas id="psPhotoCropCanvas" class="ps-cropCanvas" width="206" height="266"></canvas>
-    <div id="psPhotoAIStatus" class="ps-aiStatus">AI background removal will run when you tap CREATE PHOTO.</div>
-  <button type="button" class="ps-autoCrop" onclick="psPrepareOfflineAI('photo')">AI OFFLINE SETUP · ONE TIME</button>
+    <div id="psPhotoAIStatus" class="ps-aiStatus">AI BEST ready — पहली बार model load होने में थोड़ा समय लग सकता है.</div>
     <div class="ps-rangeRow"><label>Zoom</label><input id="psPhotoZoom" type="range" min="0.75" max="1.80" step="0.05" value="1"><span id="psPhotoZoomVal" class="ps-rangeVal">1.00×</span></div>
     <input id="psPhotoX" type="hidden" value="0"><input id="psPhotoY" type="hidden" value="0">
     <button type="button" class="ps-autoCrop" onclick="psResetCrop('photo')">RESET AUTO CROP</button>
@@ -1990,12 +2046,18 @@ Temperature: °C, °F, Kelvin.
     <div></div>
   </div>
   <div class="ps-miniNote">Photo fixed at 413 × 531 px; signature नीचे जोड़ा जाएगा.</div>
+  <div class="ps-removeTitle">AI Background Remove</div>
+  <div class="ps-removeModes" style="grid-template-columns:1fr">
+    <div class="ps-removeCard" style="border-color:#173453;background:#eef5fb;box-shadow:0 0 0 3px rgba(23,52,83,.08)">
+      <b>✨ AI BEST</b><small>Hair + complex background · better edge</small>
+    </div>
+  </div>
+  <button type="button" class="ps-aiSetup" onclick="psPrepareOfflineAI('both')">AI OFFLINE SETUP · ONE TIME</button>
   <div class="ps-cropBox">
     <div class="ps-cropTitle">Passport Crop · Drag Photo to Set</div>
     <div class="ps-dragHint">Photo par ungli se drag karke face aur chhati set karein.</div>
     <canvas id="psBothCropCanvas" class="ps-cropCanvas" width="206" height="266"></canvas>
-    <div id="psBothAIStatus" class="ps-aiStatus">AI background removal will run when you create the combined image.</div>
-  <button type="button" class="ps-autoCrop" onclick="psPrepareOfflineAI('both')">AI OFFLINE SETUP · ONE TIME</button>
+    <div id="psBothAIStatus" class="ps-aiStatus">AI BEST ready — पहली बार model load होने में थोड़ा समय लग सकता है.</div>
     <div class="ps-rangeRow"><label>Zoom</label><input id="psBothZoom" type="range" min="0.75" max="1.80" step="0.05" value="1"><span id="psBothZoomVal" class="ps-rangeVal">1.00×</span></div>
     <input id="psBothX" type="hidden" value="0"><input id="psBothY" type="hidden" value="0">
     <button type="button" class="ps-autoCrop" onclick="psResetCrop('both')">RESET AUTO CROP</button>
@@ -2020,7 +2082,7 @@ Temperature: °C, °F, Kelvin.
   <div id="psBothPreviewBox" class="ps-previewBox"><canvas id="psBothCanvas"></canvas><div id="psBothStatus" class="ps-status"></div><button id="psBothDownload" class="ps-download" onclick="psDownload('both')">DOWNLOAD PHOTO + SIGNATURE</button></div>
 </div>
 
-<p class="ps-note">Photo को drag करके face और chest set करें। Photo + Signature mode में signature को भी drag और zoom करके set कर सकते हैं। Photo background के लिए AI processing रहेगी, जबकि signature सिर्फ crop/resize होगा।</p>
+<p class="ps-note">Photo को drag करके face और chest set करें। Photo + Signature mode में signature को भी drag और zoom करके set कर सकते हैं। Photo background AI BEST से remove होगा। Signature सिर्फ crop/resize होगा।</p>
 <button class="ps-back" onclick="navBack()">Back</button>
 </section>
 
@@ -3040,6 +3102,36 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
   <button class="clear" onclick="navBack()">Back</button>
 </section>
 
+
+<section id="pdfPasswordRemover" class="card hidden">
+  <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>PDF Password Remover</strong></div>
+  <div class="ppr-wrap">
+    <div class="ppr-intro"><b>🔓 PDF Password Remover</b><br>जिस PDF का सही password आपको पता है, उसका password हटाकर नई unlocked PDF बनाएं। आपकी PDF कहीं upload नहीं होगी।</div>
+    <div class="ppr-card">
+      <div id="pprDrop" class="ppr-drop" role="button" tabindex="0" aria-label="Choose PDF file">
+        <div class="ppr-icon">📄</div>
+        <div class="ppr-title">PDF चुनें</div>
+        <div class="ppr-sub">यहाँ tap करें और password-protected PDF चुनें</div>
+      </div>
+      <input id="pprFile" type="file" accept="application/pdf,.pdf">
+      <div id="pprFilebox" class="ppr-filebox"><strong id="pprFilename"></strong><span id="pprFilesize"></span></div>
+
+      <label class="ppr-label" for="pprPassword">वर्तमान PDF Password</label>
+      <div class="ppr-passrow">
+        <input id="pprPassword" type="password" autocomplete="off" placeholder="Current password लिखें">
+        <button id="pprEye" class="ppr-eye" type="button" aria-label="Show password">👁</button>
+      </div>
+      <div class="ppr-hint">Password सिर्फ इसी device पर PDF खोलने के लिए इस्तेमाल होगा।</div>
+
+      <button id="pprUnlockBtn" class="ppr-btn ppr-primary" type="button">REMOVE PASSWORD</button>
+      <a id="pprDownloadBtn" class="ppr-btn ppr-primary ppr-download" download="unlocked.pdf">DOWNLOAD UNLOCKED PDF</a>
+      <button id="pprResetBtn" class="ppr-btn ppr-secondary" type="button">CLEAR</button>
+      <div id="pprStatus" class="ppr-status"></div>
+    </div>
+    <div class="ppr-privacy">🔒 PDF file आपके device/browser में process होती है और server पर upload नहीं की जाती।<div class="ppr-tiny">PDF engine load करने के लिए internet जरूरी है। केवल अपनी या अधिकृत PDF पर उपयोग करें।</div></div>
+  </div>
+</section>
+
 <section id="pdfEditor" class="card hidden">
 <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>PDF Editor</strong></div>
 
@@ -3320,17 +3412,18 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
   --shadow:0 24px 70px rgba(0,0,0,.38);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&quot;Segoe UI&quot;,Roboto,Arial,sans-serif;background:
+html,body{margin:0;width:100%;height:100%;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&quot;Segoe UI&quot;,Roboto,Arial,sans-serif;background:
 radial-gradient(circle at 20% 10%,#1d4ed8 0,transparent 27%),
 radial-gradient(circle at 85% 75%,#0ea5e9 0,transparent 25%),
-linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--text)}
-body{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:6px}
+linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--text);overflow:hidden}
+body{height:100dvh;min-height:100dvh;display:flex;align-items:stretch;justify-content:stretch;padding:0}
 .calc{
-  width:100%;max-width:none;
+  width:100%;max-width:none;height:100dvh;min-height:100dvh;
+  display:flex;flex-direction:column;
   background:linear-gradient(180deg,rgba(17,24,39,.97),rgba(10,15,28,.98));
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:18px;
-  box-shadow:var(--shadow);
+  border:0;
+  border-radius:0;
+  box-shadow:none;
   overflow:hidden;
 }
 .top{
@@ -3347,11 +3440,13 @@ body{min-height:100vh;display:flex;align-items:flex-start;justify-content:center
 }
 .screen{
   margin:8px 16px 14px;
+  flex:0 0 auto;
+  height:clamp(150px,24vh,190px);
   background:linear-gradient(180deg,#07101f,#0b1220);
-  border:1px solid rgba(255,255,255,.06);
+  border:1.5px solid rgba(255,255,255,.10);
   border-radius:22px;
   min-height:150px;
-  padding:18px 16px;
+  padding:18px 18px;
   display:flex;
   flex-direction:column;
   justify-content:flex-end;
@@ -3361,42 +3456,46 @@ body{min-height:100vh;display:flex;align-items:flex-start;justify-content:center
   min-height:30px;
   color:#93c5fd;
   text-align:right;
-  font-size:17px;
-  font-weight:650;
+  font-size:19px;
+  font-weight:800;
   overflow-wrap:anywhere;
 }
 .result{
-  margin-top:10px;
+  margin-top:12px;
   text-align:right;
-  font-size:42px;
-  line-height:1.12;
-  font-weight:850;
-  letter-spacing:-1.5px;
+  font-size:54px;
+  line-height:1.06;
+  font-weight:900;
+  letter-spacing:-1.7px;
   overflow-wrap:anywhere;
 }
 .keys{
   display:grid;
   grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(5,clamp(58px,8vh,72px));
   gap:10px;
-  padding:0 16px 18px;
+  padding:0 16px max(14px,env(safe-area-inset-bottom));
+  flex:0 0 auto;
+  min-height:0;
 }
 button.key{
-  border:0;
-  height:66px;
+  border:2px solid rgba(255,255,255,.20);
+  height:auto;
+  min-height:54px;
   border-radius:18px;
   color:#f8fafc;
-  font-size:22px;
-  font-weight:800;
+  font-size:24px;
+  font-weight:900;
   background:linear-gradient(180deg,var(--key2),var(--key));
   box-shadow:0 7px 16px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.05);
   cursor:pointer;
   transition:transform .08s ease,filter .12s ease;
 }
 button.key:active{transform:scale(.96);filter:brightness(1.12)}
-button.key.func{color:#bfdbfe;background:linear-gradient(180deg,#263a55,#1e293b)}
-button.key.danger{color:#fff;background:linear-gradient(180deg,#ef4444,#b91c1c)}
-button.key.op{background:linear-gradient(180deg,#bbf7d0,#86efac);color:#14532d;font-size:25px}
-button.key.eq{background:linear-gradient(180deg,#bbf7d0,#86efac);color:#14532d;height:66px;font-size:26px}
+button.key.func{color:#bfdbfe;background:linear-gradient(180deg,#263a55,#1e293b);border-color:rgba(147,197,253,.28)}
+button.key.danger{color:#fff;background:linear-gradient(180deg,#ef4444,#b91c1c);border-color:rgba(254,202,202,.42)}
+button.key.op{background:linear-gradient(180deg,#bbf7d0,#86efac);color:#14532d;font-size:27px;border-color:rgba(20,83,45,.30)}
+button.key.eq{background:linear-gradient(180deg,#bbf7d0,#86efac);color:#14532d;height:auto;min-height:54px;font-size:28px;border-color:rgba(20,83,45,.34)}
 button.key.zero{grid-column:auto}
 .blank-key{visibility:hidden}
 .topkeys{padding-bottom:10px}
@@ -3427,10 +3526,13 @@ button.key.zero{grid-column:auto}
 .h-res{font-size:17px;font-weight:800;margin-top:2px}
 .empty{color:var(--muted);font-size:13px;text-align:center;padding:10px}
 @media(max-width:380px){
-  body{padding:4px}
-  button.key{height:60px;font-size:20px}
-  button.key.eq{height:60px}
-  .result{font-size:36px}
+  body{padding:0}
+  .top{padding:12px 12px 4px}
+  .screen{margin:6px 12px 10px;height:clamp(138px,22vh,165px);min-height:138px;padding:15px 14px}
+  .keys{grid-template-rows:repeat(5,clamp(54px,7.6vh,64px));gap:7px;padding:0 12px max(10px,env(safe-area-inset-bottom))}
+  button.key{min-height:50px;font-size:22px;font-weight:900;border-radius:15px;border-width:2px}
+  button.key.eq{min-height:50px}
+  .result{font-size:48px;font-weight:900}
 }
 
 body.day{
@@ -3946,6 +4048,7 @@ body.day .sound-toggle{
     <button onclick="show('pdfConverter')"><span class="toolIcon">🖼️</span><span class="toolLabel">Image ↔ PDF Converter</span></button>
     <button onclick="show('pdfFreezeViewer')"><span class="toolIcon">📌</span><span class="toolLabel">RL PDF Viewer</span></button>
     <button onclick="show('pdfEditor')"><span class="toolIcon">PDF</span><span class="toolLabel">PDF Editor</span></button>
+    <button onclick="show('pdfPasswordRemover')"><span class="toolIcon">🔓</span><span class="toolLabel">PDF Password Remover</span></button>
     <button onclick="show('docScanner')" class=""><span class="toolIcon">📠</span><span class="toolLabel">Document Scanner</span></button>
     <button onclick="show('documents')"><span class="toolIcon">🏛️</span><span class="toolLabel">Government Document Download</span></button>
   </nav>
@@ -5493,6 +5596,106 @@ function psAIStatus(kind,msg){
   var el=document.getElementById(kind==='both'?'psBothAIStatus':'psPhotoAIStatus');
   if(el)el.textContent=msg||'';
 }
+
+var psBgResultCache={photo:{fast:null,ai:null},both:{fast:null,ai:null}};
+
+function psSelectedRemoveMode(name){
+  return 'ai';
+}
+function psFastStrength(kind){
+  var el=document.getElementById(kind==='both'?'psBothFastStrength':'psPhotoFastStrength');
+  var v=el?Number(el.value):38;
+  return Math.max(18,Math.min(70,isFinite(v)?v:38));
+}
+function psBgBaseKey(kind,file,controls){
+  controls=controls||{};
+  return [kind,file&&file.name||'',file&&file.size||0,file&&file.lastModified||0,
+    Number(controls.zoom||1).toFixed(3),Number(controls.x||0).toFixed(1),Number(controls.y||0).toFixed(1)].join('|');
+}
+function psBgCacheKey(kind,file,bg,controls,mode){
+  return [psBgBaseKey(kind,file,controls),mode||'',bg||'',mode==='fast'?psFastStrength(kind):''].join('|');
+}
+function psCloneCanvas(source){
+  var c=document.createElement('canvas');
+  c.width=source.width;c.height=source.height;
+  c.getContext('2d').drawImage(source,0,0);
+  c._psBgChanged=source._psBgChanged;c._psBgReason=source._psBgReason;
+  return c;
+}
+function psCompositeForeground(fgCanvas,bgHex){
+  var out=document.createElement('canvas');out.width=fgCanvas.width;out.height=fgCanvas.height;
+  var ctx=out.getContext('2d');ctx.fillStyle=bgHex;ctx.fillRect(0,0,out.width,out.height);ctx.drawImage(fgCanvas,0,0);
+  out._psBgChanged=true;out._psBgReason='ai';return out;
+}
+
+function psFastRemoveBetter(sourceCanvas,bgHex,kind,strength){
+  var out=psCloneCanvas(sourceCanvas),w=out.width,h=out.height;
+  var ctx=out.getContext('2d',{willReadFrequently:true}),img=ctx.getImageData(0,0,w,h),d=img.data;
+  strength=Math.max(18,Math.min(70,Number(strength)||38));
+
+  // Find dominant colour on outer border. This is much safer than averaging all corners.
+  var bins=new Map(),samples=[];
+  function sample(x,y){
+    x=Math.max(0,Math.min(w-1,x|0));y=Math.max(0,Math.min(h-1,y|0));
+    var i=(y*w+x)*4,r=d[i],g=d[i+1],b=d[i+2];
+    var key=(r>>5)+'|'+(g>>5)+'|'+(b>>5),z=bins.get(key)||{n:0,r:0,g:0,b:0};
+    z.n++;z.r+=r;z.g+=g;z.b+=b;bins.set(key,z);samples.push([r,g,b]);
+  }
+  var step=Math.max(2,Math.round(Math.min(w,h)/80));
+  for(var x=0;x<w;x+=step){sample(x,0);sample(x,Math.min(h-1,Math.round(h*.025)));}
+  for(var y=0;y<h;y+=step){sample(0,y);sample(w-1,y);}
+  for(var x=0;x<w*.22;x+=step)sample(x,h-1);
+  for(var x=Math.round(w*.78);x<w;x+=step)sample(x,h-1);
+  var dom=null;bins.forEach(function(z){if(!dom||z.n>dom.n)dom=z});
+  if(!dom||dom.n<4){out._psBgChanged=false;out._psBgReason='fast-no-bg';return out;}
+  var br=dom.r/dom.n,bg=dom.g/dom.n,bb=dom.b/dom.n;
+
+  var spread=0,spreadN=0;
+  samples.forEach(function(c){var dr=c[0]-br,dg=c[1]-bg,db=c[2]-bb,dist=Math.sqrt(dr*dr+dg*dg+db*db);if(dist<70){spread+=dist;spreadN++;}});
+  spread=spreadN?spread/spreadN:8;
+  var threshold=Math.max(16,Math.min(92,strength+spread*.45));
+  var threshold2=threshold*threshold;
+  var seen=new Uint8Array(w*h),queue=new Int32Array(w*h),head=0,tail=0;
+  function coreProtect(x,y){
+    // Protect only the central person core. Background around hair/shoulders remains removable.
+    var nx=(x-w*.5)/(w*.16),ny=(y-h*.34)/(h*.27);
+    if(nx*nx+ny*ny<1)return true;
+    if(y>h*.48){var half=w*(.08+(y/h-.48)*.16);if(Math.abs(x-w*.5)<half)return true;}
+    return false;
+  }
+  function close(q){var i=q*4,dr=d[i]-br,dg=d[i+1]-bg,db=d[i+2]-bb;return dr*dr+dg*dg+db*db<=threshold2;}
+  function seed(x,y){var q=y*w+x;if(!seen[q]&&!coreProtect(x,y)&&close(q)){seen[q]=1;queue[tail++]=q;}}
+  for(var x=0;x<w;x+=1){seed(x,0);seed(x,h-1);}
+  for(var y=1;y<h-1;y++){seed(0,y);seed(w-1,y);}
+  while(head<tail){
+    var q=queue[head++],x=q%w,y=(q/w)|0,n;
+    if(x>0){n=q-1;if(!seen[n]&&!coreProtect(x-1,y)&&close(n)){seen[n]=1;queue[tail++]=n}}
+    if(x<w-1){n=q+1;if(!seen[n]&&!coreProtect(x+1,y)&&close(n)){seen[n]=1;queue[tail++]=n}}
+    if(y>0){n=q-w;if(!seen[n]&&!coreProtect(x,y-1)&&close(n)){seen[n]=1;queue[tail++]=n}}
+    if(y<h-1){n=q+w;if(!seen[n]&&!coreProtect(x,y+1)&&close(n)){seen[n]=1;queue[tail++]=n}}
+  }
+  var ratio=tail/(w*h),newBg=psHexRgb(bgHex),orig=new Uint8ClampedArray(d);
+  if(ratio<.035){
+    out._psBgChanged=false;out._psBgReason='fast-low-detect';
+    psAIStatus(kind,'FAST: background साफ़ detect नहीं हुआ — AI BEST चुनें या Strength बढ़ाएँ.');
+    return out;
+  }
+  for(var y=0;y<h;y++)for(var x=0;x<w;x++){
+    var q=y*w+x;if(!seen[q])continue;
+    var edge=(x>0&&!seen[q-1])||(x<w-1&&!seen[q+1])||(y>0&&!seen[q-w])||(y<h-1&&!seen[q+w]);
+    var a=edge?.84:1,i=q*4;
+    d[i]=Math.round(orig[i]*(1-a)+newBg.r*a);d[i+1]=Math.round(orig[i+1]*(1-a)+newBg.g*a);d[i+2]=Math.round(orig[i+2]*(1-a)+newBg.b*a);d[i+3]=255;
+  }
+  ctx.putImageData(img,0,0);out._psBgChanged=true;out._psBgReason='fast-v2';
+  psAIStatus(kind,'FAST background ready ✓ Strength '+Math.round(strength));
+  return out;
+}
+function psFastChangeBackground(sourceCanvas,bgHex,kind){return psFastRemoveBetter(sourceCanvas,bgHex,kind,psFastStrength(kind));}
+async function psSmartChangeBackground(sourceCanvas,bgHex,kind){
+  var mode=psSelectedRemoveMode(kind==='both'?'psBothRemoveMode':'psPhotoRemoveMode');
+  if(mode==='ai')return await psAIChangeBackground(sourceCanvas,bgHex,kind);
+  return psFastChangeBackground(sourceCanvas,bgHex,kind);
+}
 async function psGetAIModule(kind){
   if(!psAIImportPromise){
     psAIStatus(kind,'Loading AI background remover…');
@@ -5640,40 +5843,30 @@ function psCanvasToBlob(canvas,type,quality){
     canvas.toBlob(function(blob){if(blob)resolve(blob);else reject(new Error('Image export failed'))},type||'image/png',quality==null?1:quality);
   });
 }
-async function psAIChangeBackground(sourceCanvas,bgHex,kind){
+async function psAIExtractForeground(sourceCanvas,kind){
   if(!navigator.onLine && !psAIImportPromise && localStorage.getItem('virendraAISetupReady')!=='1'){
-    throw new Error('पहले एक बार AI OFFLINE SETUP internet के साथ पूरा करें');
+    throw new Error('AI के लिए पहले internet से AI OFFLINE SETUP एक बार पूरा करें');
   }
-  var mod=await psGetAIModule(kind);
-  var removeBackground=mod.default||mod.removeBackground;
+  var mod=await psGetAIModule(kind),removeBackground=mod.default||mod.removeBackground;
   if(typeof removeBackground!=='function')throw new Error('AI background remover load नहीं हुआ');
-  var sourceBlob=await psCanvasToBlob(sourceCanvas,'image/png',1);
-  var lastPercent=-1;
-  var config={
-    model:'isnet_quint8',
-    device:'cpu',
-    output:{format:'image/png',quality:1,type:'foreground'},
-    progress:function(key,current,total){
-      if(total>0){
-        var pct=Math.max(0,Math.min(100,Math.round(current/total*100)));
-        if(pct!==lastPercent){lastPercent=pct;psAIStatus(kind,'AI model / processing: '+pct+'%');}
-      }else psAIStatus(kind,'AI processing…');
-    }
-  };
-  psAIStatus(kind,'AI is removing background…');
-  var foregroundBlob=await removeBackground(sourceBlob,config);
-  var fg=await psLoadImage(foregroundBlob);
+  var sourceBlob=await psCanvasToBlob(sourceCanvas,'image/jpeg',.94),lastPercent=-1;
+  var config={model:'isnet_quint8',device:'cpu',output:{format:'image/png',quality:1,type:'foreground'},progress:function(key,current,total){
+    if(total>0){var pct=Math.max(0,Math.min(100,Math.round(current/total*100)));if(pct!==lastPercent){lastPercent=pct;psAIStatus(kind,'AI processing: '+pct+'%')}}
+    else psAIStatus(kind,'AI processing…');
+  }};
+  psAIStatus(kind,'AI BEST: background remove हो रहा है…');
+  var foregroundBlob=await removeBackground(sourceBlob,config),fg=await psLoadImage(foregroundBlob);
   var fgCanvas=document.createElement('canvas');fgCanvas.width=sourceCanvas.width;fgCanvas.height=sourceCanvas.height;
-  var fgCtx=fgCanvas.getContext('2d',{willReadFrequently:true});
-  fgCtx.drawImage(fg,0,0,fgCanvas.width,fgCanvas.height);
-  psCleanForegroundEdges(fgCanvas);
-  psRefineForegroundMatte(fgCanvas);
-  psHairPreserveAndFeather(fgCanvas,sourceCanvas);
-  var out=document.createElement('canvas');out.width=sourceCanvas.width;out.height=sourceCanvas.height;
-  var ctx=out.getContext('2d');ctx.fillStyle=bgHex;ctx.fillRect(0,0,out.width,out.height);ctx.drawImage(fgCanvas,0,0,out.width,out.height);
-  out._psBgChanged=true;out._psBgReason='ai';
-  psAIStatus(kind,'AI background ready ✓ Hair preserve + soft edge applied');
-  return out;
+  var fgCtx=fgCanvas.getContext('2d',{willReadFrequently:true});fgCtx.clearRect(0,0,fgCanvas.width,fgCanvas.height);fgCtx.drawImage(fg,0,0,fgCanvas.width,fgCanvas.height);
+  // Preserve the AI model's own matte; only snap nearly transparent/opaque pixels.
+  var im=fgCtx.getImageData(0,0,fgCanvas.width,fgCanvas.height),dd=im.data;
+  for(var i=3;i<dd.length;i+=4){var a=dd[i];if(a<7)dd[i]=0;else if(a>248)dd[i]=255;}
+  fgCtx.putImageData(im,0,0);
+  psAIStatus(kind,'AI BEST foreground ready ✓');
+  return fgCanvas;
+}
+async function psAIChangeBackground(sourceCanvas,bgHex,kind){
+  var fg=await psAIExtractForeground(sourceCanvas,kind);return psCompositeForeground(fg,bgHex);
 }
 async function psCropOnlyCanvas(file,w,h,controls){
   w=Math.max(50,Math.min(2400,Math.round(w)));h=Math.max(30,Math.min(2400,Math.round(h)));
@@ -5827,16 +6020,26 @@ var psPhotoFileEl=document.getElementById('psPhotoFile');if(psPhotoFileEl)psPhot
 var psSignFileEl=document.getElementById('psSignFile');if(psSignFileEl)psSignFileEl.addEventListener('change',function(){psResetCrop('sign');setTimeout(function(){psRenderCropCanvas('sign')},30);psSchedulePreview('sign')});
 var psBothPhotoEl=document.getElementById('psBothPhotoFile');if(psBothPhotoEl)psBothPhotoEl.addEventListener('change',function(){psResetCrop('both');setTimeout(function(){psRenderCropCanvas('both')},30);psSchedulePreview('both')});
 var psBothSignEl=document.getElementById('psBothSignFile');if(psBothSignEl)psBothSignEl.addEventListener('change',function(){psResetCrop('bothsign');setTimeout(function(){psRenderCropCanvas('bothsign')},30);psSchedulePreview('bothsign')});
-Array.from(document.querySelectorAll('input[name="psPhotoBg"],input[name="psBothBg"]')).forEach(function(el){el.addEventListener('change',function(){var kind=this.name==='psBothBg'?'both':'photo';psAIStatus(kind,'Background selected. Tap CREATE to apply with AI.')})});
+Array.from(document.querySelectorAll('input[name="psPhotoBg"],input[name="psBothBg"]')).forEach(function(el){el.addEventListener('change',function(){var kind=this.name==='psBothBg'?'both':'photo';psAIStatus(kind,'Background colour selected — cached AI foreground हो तो तुरंत लगेगा.');})});
 async function psCreatePhoto(){
   try{
     var file=document.getElementById('psPhotoFile').files[0],kb=+document.getElementById('psPhotoKB').value,w=413,h=531;
     if(!file||!isFinite(kb)||kb<=0)throw new Error('Photo और KB सही भरें');
-    var btn=document.querySelector('#psPhotoPanel .ps-create');if(btn){btn.disabled=true;btn.textContent='AI PROCESSING…'}
-    var crop=await psCropOnlyCanvas(file,w,h,psCropControls('photo'));
-    var ai=await psAIChangeBackground(crop,psSelectedBg('psPhotoBg'),'photo');
-    psSetOutput('photo',await psCompressToKB(ai,kb),kb);
-  }catch(e){psAIStatus('photo',e.message||'AI background failed');alert(e.message||'Photo could not be created')}
+    var btn=document.querySelector('#psPhotoPanel .ps-create');if(btn){btn.disabled=true;btn.textContent='PROCESSING…'}
+    var controls=psCropControls('photo'),bg=psSelectedBg('psPhotoBg'),mode=psSelectedRemoveMode('psPhotoRemoveMode');
+    var crop=await psCropOnlyCanvas(file,w,h,controls),photo;
+    if(mode==='ai'){
+      var baseKey=psBgBaseKey('photo',file,controls),cache=psBgResultCache.photo.ai,fg;
+      if(cache&&cache.key===baseKey){fg=psCloneCanvas(cache.foreground);psAIStatus('photo','AI foreground reused ✓ Background colour instant.');}
+      else{fg=await psAIExtractForeground(crop,'photo');psBgResultCache.photo.ai={key:baseKey,foreground:psCloneCanvas(fg)};}
+      photo=psCompositeForeground(fg,bg);
+    }else{
+      var key=psBgCacheKey('photo',file,bg,controls,'fast'),fc=psBgResultCache.photo.fast;
+      if(fc&&fc.key===key){photo=psCloneCanvas(fc.canvas);psAIStatus('photo','FAST result reused ✓');}
+      else{photo=psFastChangeBackground(crop,bg,'photo');psBgResultCache.photo.fast={key:key,canvas:psCloneCanvas(photo)};}
+    }
+    psSetOutput('photo',await psCompressToKB(photo,kb),kb);
+  }catch(e){psAIStatus('photo',e.message||'Background remove failed');alert(e.message||'Photo could not be created')}
   finally{var btn=document.querySelector('#psPhotoPanel .ps-create');if(btn){btn.disabled=false;btn.textContent='CREATE PHOTO'}}
 }
 async function psCreateSignature(){
@@ -5852,15 +6055,24 @@ async function psCreateCombined(){
     var pf=document.getElementById('psBothPhotoFile').files[0],sf=document.getElementById('psBothSignFile').files[0];
     var kb=+document.getElementById('psBothKB').value,w=413,ph=531,sh=+document.getElementById('psBothSignH').value;
     if(!pf||!sf||!isFinite(kb)||kb<=0||!isFinite(sh))throw new Error('Photo, Signature और सभी values सही भरें');
-    var btn=document.querySelector('#psBothPanel .ps-create');if(btn){btn.disabled=true;btn.textContent='AI PROCESSING…'}
-    var bg=psSelectedBg('psBothBg');
-    var crop=await psCropOnlyCanvas(pf,w,ph,psCropControls('both'));
-    var photo=await psAIChangeBackground(crop,bg,'both');
+    var btn=document.querySelector('#psBothPanel .ps-create');if(btn){btn.disabled=true;btn.textContent='PROCESSING…'}
+    var bg=psSelectedBg('psBothBg'),controls=psCropControls('both'),mode=psSelectedRemoveMode('psBothRemoveMode');
+    var crop=await psCropOnlyCanvas(pf,w,ph,controls),photo;
+    if(mode==='ai'){
+      var baseKey=psBgBaseKey('both',pf,controls),cache=psBgResultCache.both.ai,fg;
+      if(cache&&cache.key===baseKey){fg=psCloneCanvas(cache.foreground);psAIStatus('both','AI foreground reused ✓ Background colour instant.');}
+      else{fg=await psAIExtractForeground(crop,'both');psBgResultCache.both.ai={key:baseKey,foreground:psCloneCanvas(fg)};}
+      photo=psCompositeForeground(fg,bg);
+    }else{
+      var key=psBgCacheKey('both',pf,bg,controls,'fast'),fc=psBgResultCache.both.fast;
+      if(fc&&fc.key===key){photo=psCloneCanvas(fc.canvas);psAIStatus('both','FAST result reused ✓');}
+      else{photo=psFastChangeBackground(crop,bg,'both');psBgResultCache.both.fast={key:key,canvas:psCloneCanvas(photo)};}
+    }
     var sign=await psProcessedCanvas(sf,w,sh,'#ffffff','sign',psCropControls('bothsign'));
     var gap=10,c=document.createElement('canvas');c.width=Math.round(w);c.height=Math.round(ph+gap+sh);var ctx=c.getContext('2d');ctx.fillStyle=bg;ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(photo,0,0);ctx.drawImage(sign,0,ph+gap);
-    c._psBgChanged=true;c._psBgReason='ai';
+    c._psBgChanged=true;c._psBgReason=photo._psBgReason||mode;
     psSetOutput('both',await psCompressToKB(c,kb),kb);
-  }catch(e){psAIStatus('both',e.message||'AI background failed');alert(e.message||'Combined image could not be created')}
+  }catch(e){psAIStatus('both',e.message||'Background remove failed');alert(e.message||'Combined image could not be created')}
   finally{var btn=document.querySelector('#psBothPanel .ps-create');if(btn){btn.disabled=false;btn.textContent='CREATE PHOTO + SIGNATURE'}}
 }
 function psDownload(kind){
@@ -7428,7 +7640,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.35';
+  var VC_APP_VERSION='1.1.43';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -8453,4 +8665,65 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   },4200);
 })();
 </script>
+
+<script id="pprRuntime">
+/* PDF Password Remover - local PDF processing, qpdf WASM engine */
+(function(){
+  var QPDF_JS='https://cdn.jsdelivr.net/npm/qpdf-run@0.2.3/vendor/qpdf/lib/qpdf.js';
+  var QPDF_WASM='https://cdn.jsdelivr.net/npm/qpdf-run@0.2.3/vendor/qpdf/lib/qpdf.wasm';
+  var selectedFile=null, worker=null, objectUrl=null, msgId=1, pending=new Map(), initialized=false;
+
+  function el(id){return document.getElementById(id)}
+  function formatBytes(n){if(n<1024)return n+' B';if(n<1048576)return(n/1024).toFixed(1)+' KB';return(n/1048576).toFixed(2)+' MB'}
+  function setStatus(type,html){var s=el('pprStatus');if(!s)return;s.className='ppr-status '+type;s.innerHTML=html}
+  function clearDownload(){var d=el('pprDownloadBtn');if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(e){}objectUrl=null}if(d){d.classList.remove('show');d.removeAttribute('href')}}
+  function setFile(f){
+    clearDownload();var box=el('pprFilebox'),input=el('pprFile');
+    if(!f){selectedFile=null;if(box)box.style.display='none';if(input)input.value='';return}
+    if(!(f.type==='application/pdf'||/\.pdf$/i.test(f.name))){setStatus('err','PDF file चुनें।');return}
+    selectedFile=f;el('pprFilename').textContent=f.name;el('pprFilesize').textContent=formatBytes(f.size);box.style.display='block';
+    setStatus('info','PDF चुनी गई है। अब current password डालकर <b>REMOVE PASSWORD</b> दबाएँ।');
+  }
+
+  var workerSource=`
+    var qpdfReady=false,qpdfInitPromise=null,qpdfWasmUrl='',currentStdout=[],currentStderr=[];
+    var Module={thisProgram:'qpdf',noInitialRun:true,print:function(t){currentStdout.push(String(t));},printErr:function(t){currentStderr.push(String(t));},onRuntimeInitialized:function(){qpdfReady=true;if(qpdfInitPromise)qpdfInitPromise.resolve();},locateFile:function(path,prefix){if(path.endsWith('.wasm')&&qpdfWasmUrl)return qpdfWasmUrl;return prefix+path;},quit:function(status,toThrow){if(toThrow)throw toThrow;throw status;}};
+    self.onmessage=async function(e){var m=e.data||{};if(m.type==='init'){try{await init(m.qpdfJsUrl,m.wasmUrl);postMessage({id:m.id,ok:true,type:'ready'});}catch(err){postMessage({id:m.id,ok:false,message:err&&err.message||String(err),stderr:currentStderr});}return;}if(m.type==='run'){currentStdout=[];currentStderr=[];try{await init(m.qpdfJsUrl,m.wasmUrl);cleanup(['input.pdf','output.pdf']);FS.createDataFile('/','input.pdf',new Uint8Array(m.bytes),true,false);var code=0;try{var r=callMain(m.args||[]);code=Number.isFinite(r)?r:(typeof EXITSTATUS==='number'?EXITSTATUS:0);}catch(err){code=(typeof EXITSTATUS==='number'?EXITSTATUS:0);if(!code)throw err;}try{flush(1,currentStdout);flush(2,currentStderr);}catch(_){}if(code!==0&&code!==3)throw new Error('qpdf exited with status '+code);if(!FS.analyzePath('output.pdf').exists)throw new Error('Output PDF was not created');var out=FS.readFile('output.pdf',{encoding:'binary'});var copy=new Uint8Array(out.buffer.slice(out.byteOffset,out.byteOffset+out.byteLength));cleanup(['input.pdf','output.pdf']);postMessage({id:m.id,ok:true,bytes:copy,stdout:currentStdout,stderr:currentStderr},[copy.buffer]);}catch(err){postMessage({id:m.id,ok:false,message:err&&err.message||String(err),stdout:currentStdout,stderr:currentStderr});}}};
+    function init(js,wasm){if(qpdfReady)return Promise.resolve();if(qpdfInitPromise)return qpdfInitPromise.promise;qpdfWasmUrl=wasm;qpdfInitPromise={};qpdfInitPromise.promise=new Promise(function(resolve,reject){qpdfInitPromise.resolve=resolve;qpdfInitPromise.reject=reject;});try{importScripts(js);}catch(e){qpdfInitPromise.reject(e);}return qpdfInitPromise.promise;}
+    function cleanup(names){names.forEach(function(n){try{if(FS.analyzePath(n).exists)FS.unlink(n);}catch(_){}});}
+    function flush(fd,target){if(typeof TTY==='undefined'||!TTY.ttys||!TTY.ttys[fd])return;var out=TTY.ttys[fd].output||[];if(!out.length)return;target.push(typeof TextDecoder!=='undefined'?new TextDecoder().decode(new Uint8Array(out)):String.fromCharCode.apply(null,out));TTY.ttys[fd].output=[];}
+  `;
+
+  function createWorker(){
+    if(worker)return worker;
+    var blob=new Blob([workerSource],{type:'text/javascript'}),blobUrl=URL.createObjectURL(blob);
+    worker=new Worker(blobUrl);URL.revokeObjectURL(blobUrl);
+    worker.onmessage=function(e){var m=e.data||{},p=pending.get(m.id);if(!p)return;pending.delete(m.id);clearTimeout(p.timer);m.ok?p.resolve(m):p.reject(m)};
+    worker.onerror=function(e){pending.forEach(function(p){clearTimeout(p.timer);p.reject({message:e.message||'PDF engine failed'})});pending.clear();initialized=false};
+    return worker;
+  }
+  function send(msg,transfer,timeout){var w=createWorker(),id=String(msgId++);msg.id=id;return new Promise(function(resolve,reject){var timer=setTimeout(function(){pending.delete(id);reject({message:'PDF engine timed out'})},timeout||45000);pending.set(id,{resolve:resolve,reject:reject,timer:timer});w.postMessage(msg,transfer||[])})}
+  async function ensureEngine(){if(initialized)return;setStatus('info','PDF engine load हो रहा है…');await send({type:'init',qpdfJsUrl:QPDF_JS,wasmUrl:QPDF_WASM},[],60000);initialized=true}
+  function errorText(err){var parts=[];if(err&&Array.isArray(err.stderr))parts.push(err.stderr.join(' '));if(err&&err.message)parts.push(err.message);var t=parts.join(' ').toLowerCase();if(/invalid password|password is incorrect|incorrect password/.test(t))return 'Password गलत है। सही PDF password डालें।';if(/encrypted|password/.test(t))return 'PDF unlock नहीं हुई। Password जाँचकर फिर कोशिश करें।';if(/failed to fetch|network|importscripts|script error/.test(t))return 'PDF engine load नहीं हुआ। Internet चालू करके फिर कोशिश करें।';return 'इस PDF से password नहीं हट सका।'}
+  async function unlockPdf(){
+    if(!selectedFile){setStatus('err','पहले PDF चुनें।');return}
+    clearDownload();var btn=el('pprUnlockBtn');btn.disabled=true;btn.innerHTML='<span class="ppr-loader"></span>REMOVING PASSWORD…';
+    try{
+      await ensureEngine();var buf=await selectedFile.arrayBuffer(),pw=el('pprPassword').value||'',bytes=new Uint8Array(buf);
+      var result=await send({type:'run',qpdfJsUrl:QPDF_JS,wasmUrl:QPDF_WASM,bytes:bytes,args:['--password='+pw,'--decrypt','input.pdf','output.pdf']},[bytes.buffer],90000);
+      var out=new Uint8Array(result.bytes),blob=new Blob([out],{type:'application/pdf'});objectUrl=URL.createObjectURL(blob);
+      var d=el('pprDownloadBtn'),base=selectedFile.name.replace(/\.pdf$/i,'');d.href=objectUrl;d.download=base+'_unlocked.pdf';d.classList.add('show');
+      setStatus('ok','✅ Password हट गया। अब <b>DOWNLOAD UNLOCKED PDF</b> दबाएँ।');
+    }catch(err){setStatus('err','❌ '+errorText(err))}finally{btn.disabled=false;btn.textContent='REMOVE PASSWORD'}
+  }
+  function bind(){
+    var drop=el('pprDrop'),file=el('pprFile'),eye=el('pprEye'),unlock=el('pprUnlockBtn'),reset=el('pprResetBtn');if(!drop||drop.dataset.bound)return;drop.dataset.bound='1';
+    drop.addEventListener('click',function(){file.click()});drop.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}});file.addEventListener('change',function(){setFile(file.files[0])});
+    ['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('ppr-drag')})});['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('ppr-drag')})});drop.addEventListener('drop',function(e){setFile(e.dataTransfer.files[0])});
+    eye.addEventListener('click',function(){var pass=el('pprPassword'),show=pass.type==='password';pass.type=show?'text':'password';eye.textContent=show?'🙈':'👁'});unlock.addEventListener('click',unlockPdf);reset.addEventListener('click',function(){setFile(null);el('pprPassword').value='';clearDownload();var s=el('pprStatus');s.className='ppr-status';s.textContent=''});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+})();
+</script>
+
 </body></html>
