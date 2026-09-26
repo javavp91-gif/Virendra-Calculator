@@ -213,6 +213,8 @@ body.tool-open #translate{
 #pdfConverter .pc-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
 #pdfConverter .pc-btn{width:100%;border:0;border-radius:12px;padding:13px 12px;font-size:14px;font-weight:800;cursor:pointer;background:#173453;color:#fff}
 #pdfConverter .pc-btn.green{background:#0f766e}
+#pdfConverter .pc-pdfDownload{display:block;text-align:center;text-decoration:none;margin-top:9px}
+#pdfConverter .pc-pdfDownload.hidden{display:none!important}
 #pdfConverter .pc-btn.gray{background:#e5e7eb;color:#1f2937;margin-top:8px}
 #pdfConverter .pc-status{font-size:12px;line-height:1.5;color:#475569;text-align:center;min-height:18px;margin:10px 0 0}
 #pdfConverter .pc-safe{font-size:12px;line-height:1.5;color:#166534;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:11px;padding:9px;text-align:center;margin:0 0 13px}
@@ -254,6 +256,19 @@ body.tool-open #translate{
 #pdfConverter .pc-enhancePreviewTitle{font-size:11px;font-weight:800;color:#475569;margin-bottom:6px}
 #pdfConverter #pcEnhancePreview{display:none;width:100%;max-height:280px;object-fit:contain;background:#fff;border:1px solid #dbe3ec;border-radius:10px}
 #pdfConverter .pc-resetEnhance{width:100%;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#334155;padding:7px 8px;font-size:11px;font-weight:800;margin-top:5px}
+#pdfConverter .pc-scannerEnhance{margin:12px 0;padding:14px;border:1px solid #dbe3ec;border-radius:17px;background:#fff}
+#pdfConverter .pc-enhanceGrid{display:grid;grid-template-columns:1fr;gap:9px;margin-bottom:10px}
+#pdfConverter .pc-scannerEnhance select{width:100%;border:1.4px solid #cbd5e1;border-radius:11px;background:#f8fafc;padding:11px;color:#173453;font-size:14px}
+#pdfConverter .pc-scannerEnhance .pc-adjustLine{display:grid;grid-template-columns:82px 1fr 44px;gap:7px;align-items:center;margin:8px 0}
+#pdfConverter .pc-scannerEnhance .pc-adjustLine label{margin:0;font-size:12px;font-weight:800}
+#pdfConverter .pc-scannerEnhance .pc-adjustLine input{padding:0;border:0;background:transparent;width:100%;accent-color:#0f766e}
+#pdfConverter .pc-scannerEnhance .pc-adjustVal{font-size:11px;color:#64748b;text-align:right;font-weight:700}
+#pdfConverter .pc-autoTone{display:flex!important;gap:8px;align-items:center;font-size:12px!important;color:#475569!important;margin:10px 0!important;font-weight:700!important}
+#pdfConverter .pc-autoTone input{width:19px;height:19px;flex:0 0 19px}
+#pdfConverter .pc-autoCropNote{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#475569;margin:9px 0;line-height:1.35}
+#pdfConverter .pc-autoCropNote>span{font-size:18px;line-height:1;color:#0f766e}
+#pdfConverter .pc-scannerEnhance .pc-resetEnhance{font-size:12px;padding:10px;margin-top:7px}
+
 @media(max-width:430px){#pdfConverter .pc-preview{grid-template-columns:1fr 1fr}#pdfConverter .pc-grid2{grid-template-columns:1fr 1fr}}
 
 
@@ -308,6 +323,29 @@ body.tool-open #translate{
 #docScanner .ds-check input{width:19px;height:19px}
 #docScanner .ds-page.ds-processing:after{content:'Enhancing…';position:absolute;inset:7px 7px 34px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.72);color:#173453;font-weight:800;font-size:12px;border-radius:7px;backdrop-filter:blur(1px)}
 #docScanner .ds-page img{transition:opacity .18s ease}
+#docScanner .ds-page img{cursor:pointer}
+#docScanner .ds-pages{grid-template-columns:1fr!important;gap:12px!important}
+#docScanner .ds-page{padding:10px!important;text-align:left!important}
+#docScanner .ds-page img{width:100%!important;height:min(58vh,720px)!important;max-height:720px!important;object-fit:contain!important;background:#fff!important;border-radius:10px!important;display:block!important}
+#docScanner .ds-name{font-size:14px!important;line-height:1.35!important;color:#334155!important;margin:8px 0 4px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;word-break:break-word!important}
+#docScanner .ds-tapHint{font-size:13px!important;font-weight:800!important;color:#475569!important;margin:0 0 10px!important}
+#docScanner .mini-actions{gap:6px!important}
+#docScanner .mini-actions button{padding:10px 4px!important;font-size:14px!important;border-radius:10px!important}
+
+#docScanner .ds-page .ds-tapHint{font-size:9px;color:#64748b;margin:3px 0 5px;font-weight:700}
+#docScanner .mini-actions{grid-template-columns:repeat(5,1fr)}
+#dsCropEditor{position:fixed;inset:0;z-index:99999;background:#111;display:none;flex-direction:column;overflow:hidden;overscroll-behavior:none}
+#dsCropEditor.open{display:flex}
+#dsCropEditor .dsce-top{height:54px;flex:0 0 54px;background:#fff;border-bottom:1px solid #d1d5db;display:flex;align-items:center;justify-content:space-between;padding:0 10px;gap:8px}
+#dsCropEditor .dsce-title{font-size:17px;font-weight:900;color:#173453;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dsCropEditor .dsce-close{border:0;background:#f1f5f9;color:#173453;width:39px;height:39px;border-radius:50%;font-size:22px;font-weight:900}
+#dsCropEditor .dsce-stage{position:relative;flex:1;min-height:0;display:block;padding:0;background:#111;overflow-x:hidden;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+#dsCropCanvas{display:block;width:100vw;height:auto;max-width:none;max-height:none;margin:0;background:#fff;box-shadow:none;touch-action:none;user-select:none;-webkit-user-select:none}
+#dsCropEditor .dsce-help{position:fixed;left:50%;top:62px;transform:translateX(-50%);z-index:100002;background:rgba(0,0,0,.62);color:#fff;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;white-space:nowrap;pointer-events:none}
+#dsCropEditor .dsce-bottom{flex:0 0 auto;background:#fff;border-top:1px solid #d1d5db;padding:6px 7px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+#dsCropEditor .dsce-bottom button{border:1px solid #cbd5e1;background:#f8fafc;color:#173453;border-radius:10px;padding:9px 3px;font-size:10px;font-weight:900}
+#dsCropEditor .dsce-bottom button.apply{grid-column:span 2;background:#173453;color:#fff;border-color:#173453;font-size:13px}
+#dsCropEditor .dsce-bottom button.cancel{grid-column:span 2;background:#e5e7eb;color:#1f2937}
 @media(max-width:430px){#pdfEditor .pde-pages,#docScanner .ds-pages{grid-template-columns:1fr 1fr}#docScanner .ds-grid2{grid-template-columns:1fr 1fr}}
 
 /* Government Document Download */
@@ -3099,6 +3137,22 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 &lt;/body&gt;
 &lt;/html&gt;" style="display:block;width:100%;height:78vh;min-height:620px;border:0;border-radius:16px;background:#fff">
   </iframe>
+  <div id="dsCropEditor" aria-hidden="true">
+    <div class="dsce-top">
+      <button type="button" class="dsce-close" onclick="dsCloseCrop()">×</button>
+      <div id="dsCropTitle" class="dsce-title">Crop Document</div>
+      <div style="width:39px"></div>
+    </div>
+    <div class="dsce-stage"><div class="dsce-help">एक ही नीली LINE को पकड़कर खिसकाएँ</div><canvas id="dsCropCanvas"></canvas></div>
+    <div class="dsce-bottom">
+      <button type="button" onclick="dsCropRotate(-90)">↶ ROTATE</button>
+      <button type="button" onclick="dsCropRotate(90)">↷ ROTATE</button>
+      <button type="button" onclick="dsCropAuto()">▣ AUTO DETECT</button>
+      <button type="button" onclick="dsCropReset()">□ FULL</button>
+      <button type="button" class="cancel" onclick="dsCloseCrop()">CANCEL</button>
+      <button type="button" class="apply" onclick="dsApplyCrop()">✓ APPLY CROP</button>
+    </div>
+  </div>
   <button class="clear" onclick="navBack()">Back</button>
 </section>
 
@@ -3235,7 +3289,7 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
     <div class="ds-range"><label>Contrast</label><input id="dsContrast" type="range" min="70" max="190" step="1" value="128" oninput="dsRangeLabel('dsContrast','dsContrastVal');dsSchedulePreview()"><span id="dsContrastVal">128%</span></div>
     <div class="ds-range"><label>Sharpness</label><input id="dsSharpness" type="range" min="0" max="100" step="1" value="38" oninput="dsRangeLabel('dsSharpness','dsSharpnessVal');dsSchedulePreview()"><span id="dsSharpnessVal">38</span></div>
     <label class="ds-check"><input id="dsAutoTone" type="checkbox" checked="" onchange="dsSchedulePreview(20)"> Auto Enhance light &amp; paper white</label>
-    <label class="ds-check"><input id="dsAutoCrop" type="checkbox" checked="" onchange="dsSchedulePreview(20)"> Auto Crop document edges (best effort)</label>
+    <div class="ds-check" style="align-items:flex-start"><span style="font-size:18px;line-height:1">✓</span><span><b>Auto Detect Crop Suggestion</b><br><small>Image पर tap करें → suggested blue boundary आएगी → उसी line को manual adjust करके Apply Crop करें.</small></span></div>
     <button id="dsPdfBtn" class="tool-btn green" onclick="dsCreatePdf(false)">DOWNLOAD PDF</button>
     <button id="dsImgBtn" class="tool-btn" onclick="dsDownloadImages()">DOWNLOAD IMAGE</button>
     <div id="dsStatus" class="tool-status"></div>
@@ -3260,30 +3314,36 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
       <input id="pcImages" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.bmp" multiple="" onchange="pcPreviewSelectedImages()">
       <div class="pc-fileHint">हर image पर × Remove, Page No., ←/→ order और ↶/↷ rotate रहेगा.</div>
     </div>
-    <div class="pc-row">
-      <label>Scan / Enhance</label>
-      <select id="pcGlobalEnhance" onchange="pcApplyEnhanceAll(this.value)">
-        <option value="enhance" selected="">Color Enhance</option>
-        <option value="gray">Grayscale</option>
-        <option value="bw">Black &amp; White</option>
-        <option value="original">Original</option>
-      </select>
-      <div class="pc-fileHint">Document Scanner जैसा enhance सभी selected images पर एक साथ लागू होगा.</div>
-      <div class="pc-adjustBox">
-        <div class="pc-adjustLine"><label>Brightness</label><input id="pcBrightness" type="range" min="-40" max="40" step="1" value="6" oninput="pcEnhanceSettingChanged('pcBrightness','pcBrightnessVal','')"><span id="pcBrightnessVal" class="pc-adjustVal">6</span></div>
-        <div class="pc-adjustLine"><label>Contrast</label><input id="pcContrast" type="range" min="70" max="190" step="1" value="128" oninput="pcEnhanceSettingChanged('pcContrast','pcContrastVal','%')"><span id="pcContrastVal" class="pc-adjustVal">128%</span></div>
-        <div class="pc-adjustLine"><label>Sharpness</label><input id="pcSharpness" type="range" min="0" max="100" step="1" value="38" oninput="pcEnhanceSettingChanged('pcSharpness','pcSharpnessVal','')"><span id="pcSharpnessVal" class="pc-adjustVal">38</span></div>
-        <button type="button" class="pc-resetEnhance" onclick="pcResetEnhanceAdjust()">RESET ENHANCE</button>
-        <div class="pc-enhancePreviewWrap"><div id="pcEnhancePreviewTitle" class="pc-enhancePreviewTitle">Live Preview · Tap a page</div><canvas id="pcEnhancePreview"></canvas></div>
-      </div>
-    </div>
     <div id="pcSelectedImages" class="pc-miniPreview"></div>
+
+    <div class="pc-scannerEnhance">
+      <div class="pc-enhanceGrid">
+        <div>
+          <label>Scan Mode</label>
+          <select id="pcGlobalEnhance" onchange="pcApplyEnhanceAll(this.value)">
+            <option value="enhance" selected="">Color Enhance</option>
+            <option value="gray">Grayscale</option>
+            <option value="bw">Black &amp; White</option>
+            <option value="original">Original</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pc-adjustLine"><label>Brightness</label><input id="pcBrightness" type="range" min="-40" max="40" step="1" value="6" oninput="pcEnhanceSettingChanged('pcBrightness','pcBrightnessVal','')"><span id="pcBrightnessVal" class="pc-adjustVal">6</span></div>
+      <div class="pc-adjustLine"><label>Contrast</label><input id="pcContrast" type="range" min="70" max="190" step="1" value="128" oninput="pcEnhanceSettingChanged('pcContrast','pcContrastVal','%')"><span id="pcContrastVal" class="pc-adjustVal">128%</span></div>
+      <div class="pc-adjustLine"><label>Sharpness</label><input id="pcSharpness" type="range" min="0" max="100" step="1" value="38" oninput="pcEnhanceSettingChanged('pcSharpness','pcSharpnessVal','')"><span id="pcSharpnessVal" class="pc-adjustVal">38</span></div>
+
+      <label class="pc-autoTone"><input id="pcAutoTone" type="checkbox" checked onchange="pcEnhanceAutoToneChanged()"> Auto Enhance light &amp; paper white</label>
+      <div class="pc-autoCropNote"><span>✓</span><div><b>Auto Detect Crop Suggestion</b><br><small>Image पर tap करें → suggested blue boundary आएगी → उसी line को manual adjust करके Apply Crop करें.</small></div></div>
+      <button type="button" class="pc-resetEnhance" onclick="pcResetEnhanceAdjust()">RESET ENHANCE</button>
+    </div>
     <div class="pc-row">
       <label>PDF Name</label>
       <input id="pcPdfName" type="text" value="Images_to_PDF" placeholder="Enter PDF name" style="width:100%;border:1.4px solid #cbd5e1;border-radius:11px;background:#f8fafc;padding:11px;color:#173453;font-size:15px">
       <div class="pc-fileHint">Page setting fixed: A4 · Normal margin · Auto orientation</div>
     </div>
     <button id="pcCreatePdfBtn" class="pc-btn" onclick="pcImagesToPdf()">CREATE &amp; DOWNLOAD PDF</button>
+    <a id="pcPdfDownloadLink" class="pc-btn green pc-pdfDownload hidden" href="#" download="Images_to_PDF.pdf">DOWNLOAD PDF</a>
     <div id="pcImgStatus" class="pc-status"></div>
     <div class="pc-note">PDF हमेशा A4 में बनेगी, normal margin और auto orientation के साथ. Scan/Enhance सभी pages पर लागू होगा.</div>
   </div>
@@ -4842,37 +4902,341 @@ async function pdeSave(){
 
 
 /* Document Scanner */
-var dsItems=[],dsPreviewTimer=null,dsPreviewRun=0;
+var dsItems=[],dsPreviewTimer=null,dsPreviewRun=0,dsCropEditIndex=-1,dsCropState=null,dsCropSourceCanvas=null;
+
+function dsEnsureCropEditor(){
+  var ed=document.getElementById('dsCropEditor');
+  if(ed && ed.parentNode!==document.body){
+    document.body.appendChild(ed);
+  }
+  return ed;
+}
 function dsRangeLabel(id,out){var v=document.getElementById(id).value;document.getElementById(out).textContent=id==='dsContrast'?v+'%':v}
 function dsSchedulePreview(delay){clearTimeout(dsPreviewTimer);dsPreviewTimer=setTimeout(function(){dsRefreshPreviews(false)},delay==null?280:delay)}
 function dsClear(){dsItems.forEach(function(x){try{URL.revokeObjectURL(x.url)}catch(e){}try{if(x.previewUrl)URL.revokeObjectURL(x.previewUrl)}catch(e){}});dsItems=[];document.getElementById('dsPages').innerHTML='';document.getElementById('dsCamera').value='';document.getElementById('dsFiles').value='';document.getElementById('dsStatus').textContent=''}
-function dsPushFiles(files){Array.from(files||[]).forEach(function(f){if(f&&f.type.indexOf('image/')===0)dsItems.push({file:f,url:URL.createObjectURL(f),previewUrl:'',rotation:0,deleted:false,processing:false})});dsRender();dsSchedulePreview(30)}
+function dsPushFiles(files){Array.from(files||[]).forEach(function(f){if(f&&f.type.indexOf('image/')===0)dsItems.push({file:f,url:URL.createObjectURL(f),previewUrl:'',previewKey:'',rotation:0,crop:null,deleted:false,processing:false})});dsRender();var st=document.getElementById('dsStatus');if(st)st.textContent='Photo added ✓ Original preview ready';dsSchedulePreview(180)}
 function dsAddSelected(){var c=document.getElementById('dsCamera'),f=document.getElementById('dsFiles');dsPushFiles(c.files);dsPushFiles(f.files);c.value='';f.value=''}
 function dsRender(){
   var box=document.getElementById('dsPages');box.innerHTML='';
-  dsItems.forEach(function(m,i){var d=document.createElement('div');d.className='ds-page'+(m.deleted?' ds-deleted':'')+(m.processing?' ds-processing':'');var im=document.createElement('img');im.src=m.previewUrl||m.url;im.style.transform='rotate('+(m.previewUrl?0:m.rotation)+'deg)';var nm=document.createElement('div');nm.className='ds-name';nm.textContent=(i+1)+'. '+m.file.name+(m.previewUrl?' · Enhanced':'');var a=document.createElement('div');a.className='mini-actions';[['↑','up'],['↓','down'],['↻','rot'],[m.deleted?'↩':'✕','del']].forEach(function(x){var b=document.createElement('button');b.textContent=x[0];if(x[1]==='del')b.className='del';b.onclick=function(){dsAction(i,x[1])};a.appendChild(b)});d.appendChild(im);d.appendChild(nm);d.appendChild(a);box.appendChild(d)})
+  dsItems.forEach(function(m,i){
+    var d=document.createElement('div');d.className='ds-page'+(m.deleted?' ds-deleted':'')+(m.processing?' ds-processing':'');
+    var im=document.createElement('img');im.src=m.previewUrl||m.url;im.style.transform='rotate('+(m.previewUrl?0:m.rotation)+'deg)';im.title='Tap image for Full Screen Crop';im.onclick=function(){if(!m.deleted)dsOpenCrop(i)};
+    var nm=document.createElement('div');nm.className='ds-name';nm.textContent=(i+1)+'. '+m.file.name+(m.previewUrl?' · Enhanced':'')+(m.crop?' · Cropped':'');
+    var hint=document.createElement('div');hint.className='ds-tapHint';hint.textContent='Tap image → Full Screen Crop';
+    var a=document.createElement('div');a.className='mini-actions';[['↑','up'],['↓','down'],['✂','crop'],['↻','rot'],[m.deleted?'↩':'✕','del']].forEach(function(x){var b=document.createElement('button');b.textContent=x[0];if(x[1]==='del')b.className='del';b.onclick=function(ev){if(ev)ev.stopPropagation();dsAction(i,x[1])};a.appendChild(b)});
+    d.appendChild(im);d.appendChild(nm);d.appendChild(hint);d.appendChild(a);box.appendChild(d)
+  })
 }
-function dsAction(i,a){if(a==='up'&&i>0){var t=dsItems[i-1];dsItems[i-1]=dsItems[i];dsItems[i]=t}else if(a==='down'&&i<dsItems.length-1){var t2=dsItems[i+1];dsItems[i+1]=dsItems[i];dsItems[i]=t2}else if(a==='rot'){dsItems[i].rotation=(dsItems[i].rotation+90)%360;dsSchedulePreview(20)}else if(a==='del')dsItems[i].deleted=!dsItems[i].deleted;dsRender()}
+function dsAction(i,a){if(a==='up'&&i>0){var t=dsItems[i-1];dsItems[i-1]=dsItems[i];dsItems[i]=t}else if(a==='down'&&i<dsItems.length-1){var t2=dsItems[i+1];dsItems[i+1]=dsItems[i];dsItems[i]=t2}else if(a==='crop'){dsOpenCrop(i);return}else if(a==='rot'){dsItems[i].rotation=(dsItems[i].rotation+90)%360;dsItems[i].crop=null;if(dsItems[i].previewUrl){try{URL.revokeObjectURL(dsItems[i].previewUrl)}catch(e){}dsItems[i].previewUrl=''}dsItems[i].previewKey='';dsSchedulePreview(80)}else if(a==='del')dsItems[i].deleted=!dsItems[i].deleted;dsRender()}
 function dsLoadImage(file){return new Promise(function(resolve,reject){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){URL.revokeObjectURL(u);resolve(im)};im.onerror=function(){URL.revokeObjectURL(u);reject(new Error('Image read failed'))};im.src=u})}
+function dsRotateCanvas(base,rot){
+  rot=((rot%360)+360)%360;var swap=rot===90||rot===270,c=document.createElement('canvas');c.width=swap?base.height:base.width;c.height=swap?base.width:base.height;var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.save();x.translate(c.width/2,c.height/2);x.rotate(rot*Math.PI/180);x.drawImage(base,-base.width/2,-base.height/2);x.restore();return c
+}
+function dsClampCrop(c){
+  c=c||{x:0,y:0,w:1,h:1};var min=.04;x=Math.max(0,Math.min(1,Number(c.x)||0));y=Math.max(0,Math.min(1,Number(c.y)||0));w=Math.max(min,Math.min(1-x,Number(c.w)||1));h=Math.max(min,Math.min(1-y,Number(c.h)||1));return{x:x,y:y,w:w,h:h}
+}
+async function dsBuildRotatedSource(item,maxSize){
+  var img=await dsLoadImage(item.file),max=maxSize||1800,sc=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight)),ow=Math.max(1,Math.round(img.naturalWidth*sc)),oh=Math.max(1,Math.round(img.naturalHeight*sc)),base=document.createElement('canvas');base.width=ow;base.height=oh;var b=base.getContext('2d');b.imageSmoothingEnabled=true;b.imageSmoothingQuality='high';b.drawImage(img,0,0,ow,oh);return dsRotateCanvas(base,item.rotation||0)
+}
+function dsCropNormFromBox(box,canvas){return dsClampCrop({x:box.x/canvas.width,y:box.y/canvas.height,w:box.w/canvas.width,h:box.h/canvas.height})}
+function dsCropRender(){
+  var cv=document.getElementById('dsCropCanvas');if(!cv||!dsCropSourceCanvas||!dsCropState)return;
+  var ctx=cv.getContext('2d'),w=dsCropSourceCanvas.width,h=dsCropSourceCanvas.height;
+  cv.width=w;cv.height=h;
+  ctx.clearRect(0,0,w,h);
+  ctx.drawImage(dsCropSourceCanvas,0,0);
+
+  var c=dsClampCrop(dsCropState);dsCropState=c;
+  var x=c.x*w,y=c.y*h,cw=c.w*w,ch=c.h*h;
+
+  var rect=cv.getBoundingClientRect();
+  var sx=w/Math.max(1,rect.width),sy=h/Math.max(1,rect.height),scale=Math.max(sx,sy);
+  var line=Math.max(4,4.2*scale),half=line/2;
+
+  ctx.save();
+
+  // Shade only the area outside the suggested crop.
+  ctx.fillStyle='rgba(0,0,0,.44)';
+  ctx.fillRect(0,0,w,y);
+  ctx.fillRect(0,y,x,ch);
+  ctx.fillRect(x+cw,y,w-x-cw,ch);
+  ctx.fillRect(0,y+ch,w,h-y-ch);
+
+  // Keep ONE blue boundary fully visible, even when it touches an image edge.
+  var l=Math.max(half,x),t=Math.max(half,y);
+  var r=Math.min(w-half,x+cw),b=Math.min(h-half,y+ch);
+  ctx.strokeStyle='#00a7ef';
+  ctx.lineWidth=line;
+  ctx.lineJoin='round';
+  ctx.lineCap='round';
+  ctx.strokeRect(l,t,Math.max(1,r-l),Math.max(1,b-t));
+
+  ctx.restore();
+}
+async function dsOpenCrop(i){
+  var item=dsItems[i];if(!item||item.deleted)return;
+  var ed=dsEnsureCropEditor();
+  if(!ed){alert('Crop editor नहीं मिला');return}
+  dsCropEditIndex=i;document.getElementById('dsCropTitle').textContent='Crop Page '+(i+1);
+  ed.classList.add('open');ed.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';document.getElementById('dsStatus').textContent='Full-size crop खोल रहा है…';
+  try{
+    dsCropSourceCanvas=await dsBuildRotatedSource(item,2400);
+    if(item.crop)dsCropState=dsClampCrop(item.crop);
+    else dsCropState=dsCropNormFromBox(dsAutoCropBox(dsCropSourceCanvas),dsCropSourceCanvas);
+    dsCropBindPointer();
+    var stage=document.querySelector('#dsCropEditor .dsce-stage');
+    if(stage)stage.scrollTop=0;
+    requestAnimationFrame(function(){dsCropRender();setTimeout(dsCropRender,60);setTimeout(dsCropRender,180)});
+    document.getElementById('dsStatus').textContent='Auto Detect suggestion ✓  उसी नीली line को manual adjust करें — Apply Crop दबाने तक crop final नहीं होगा'
+  }catch(e){console.error(e);dsCloseCrop();alert('Crop editor image नहीं खोल पाया')}
+}
+function dsCloseCrop(){var ed=document.getElementById('dsCropEditor');if(ed){ed.classList.remove('open');ed.setAttribute('aria-hidden','true')}document.body.style.overflow='';dsCropEditIndex=-1;dsCropSourceCanvas=null;dsCropState=null}
+function dsCropReset(){dsCropState={x:0,y:0,w:1,h:1};dsCropRender()}
+function dsCropAuto(){if(!dsCropSourceCanvas)return;dsCropState=dsCropNormFromBox(dsAutoCropBox(dsCropSourceCanvas),dsCropSourceCanvas);dsCropRender()}
+async function dsCropRotate(delta){if(dsCropEditIndex<0)return;var item=dsItems[dsCropEditIndex];item.rotation=((item.rotation||0)+delta+360)%360;item.crop=null;dsCropSourceCanvas=await dsBuildRotatedSource(item,2400);dsCropState=dsCropNormFromBox(dsAutoCropBox(dsCropSourceCanvas),dsCropSourceCanvas);dsCropRender();dsCropBindPointer()}
+function dsApplyCrop(){if(dsCropEditIndex<0||!dsCropState)return;var item=dsItems[dsCropEditIndex];item.crop=dsClampCrop(dsCropState);item.previewKey='';if(item.previewUrl){try{URL.revokeObjectURL(item.previewUrl)}catch(e){}item.previewUrl=''}var idx=dsCropEditIndex;dsCloseCrop();document.getElementById('dsStatus').textContent='Crop applied to page '+(idx+1)+' ✓';dsRender();dsSchedulePreview(80)}
+var dsCropPointerBound=false;
+window.addEventListener('resize',function(){
+  var ed=document.getElementById('dsCropEditor');
+  if(ed&&ed.classList.contains('open')&&typeof dsCropRender==='function'){
+    setTimeout(dsCropRender,60);
+  }
+});
+function dsCropBindPointer(){
+  var cv=document.getElementById('dsCropCanvas');if(!cv||cv.dataset.cropBound)return;
+  cv.dataset.cropBound='1';
+  var drag=null;
+
+  function pt(e){
+    var r=cv.getBoundingClientRect(),sx=cv.width/Math.max(1,r.width),sy=cv.height/Math.max(1,r.height);
+    return{x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy,sx:sx,sy:sy}
+  }
+
+  function info(){
+    var c=dsClampCrop(dsCropState),w=cv.width,h=cv.height;
+    return{x:c.x*w,y:c.y*h,w:c.w*w,h:c.h*h}
+  }
+
+  cv.addEventListener('pointerdown',function(e){
+    if(!dsCropState)return;
+
+    var p=pt(e),b=info();
+    // Large invisible touch area around the ONE visible crop line.
+    var hx=30*p.sx,hy=30*p.sy;
+    var insideX=p.x>=b.x-hx&&p.x<=b.x+b.w+hx;
+    var insideY=p.y>=b.y-hy&&p.y<=b.y+b.h+hy;
+
+    var hits=[];
+    if(insideX&&Math.abs(p.y-b.y)<=hy)hits.push(['t',Math.abs(p.y-b.y)/Math.max(1,hy)]);
+    if(insideX&&Math.abs(p.y-(b.y+b.h))<=hy)hits.push(['b',Math.abs(p.y-(b.y+b.h))/Math.max(1,hy)]);
+    if(insideY&&Math.abs(p.x-b.x)<=hx)hits.push(['l',Math.abs(p.x-b.x)/Math.max(1,hx)]);
+    if(insideY&&Math.abs(p.x-(b.x+b.w))<=hx)hits.push(['r',Math.abs(p.x-(b.x+b.w))/Math.max(1,hx)]);
+
+    hits.sort(function(a,b2){return a[1]-b2[1]});
+    if(!hits.length){
+      drag=null;
+      return;
+    }
+
+    e.preventDefault();
+    try{cv.setPointerCapture(e.pointerId)}catch(_e){}
+    drag={mode:hits[0][0],start:p,orig:Object.assign({},dsCropState)};
+  });
+
+  cv.addEventListener('pointermove',function(e){
+    if(!drag)return;
+    e.preventDefault();
+
+    var p=pt(e),dx=(p.x-drag.start.x)/cv.width,dy=(p.y-drag.start.y)/cv.height;
+    var o=drag.orig,min=.04;
+    var l=o.x,t=o.y,r=o.x+o.w,b=o.y+o.h;
+
+    if(drag.mode==='l')l=Math.max(0,Math.min(r-min,l+dx));
+    if(drag.mode==='r')r=Math.min(1,Math.max(l+min,r+dx));
+    if(drag.mode==='t')t=Math.max(0,Math.min(b-min,t+dy));
+    if(drag.mode==='b')b=Math.min(1,Math.max(t+min,b+dy));
+
+    dsCropState=dsClampCrop({x:l,y:t,w:r-l,h:b-t});
+    dsCropRender();
+  });
+
+  function end(e){
+    drag=null;
+    try{cv.releasePointerCapture(e.pointerId)}catch(_e){}
+  }
+  cv.addEventListener('pointerup',end);
+  cv.addEventListener('pointercancel',end);
+}
 function dsAutoCropBox(canvas){
   var w=canvas.width,h=canvas.height,ctx=canvas.getContext('2d',{willReadFrequently:true}),im=ctx.getImageData(0,0,w,h).data;
-  var step=Math.max(1,Math.round(Math.max(w,h)/500)),samples=[];
-  for(var x=0;x<w;x+=step){samples.push([im[x*4],im[x*4+1],im[x*4+2]]);var q=((h-1)*w+x)*4;samples.push([im[q],im[q+1],im[q+2]])}
-  for(var y=0;y<h;y+=step){var q1=(y*w)*4,q2=(y*w+w-1)*4;samples.push([im[q1],im[q1+1],im[q1+2]]);samples.push([im[q2],im[q2+1],im[q2+2]])}
-  var br=0,bg=0,bb=0;samples.forEach(function(v){br+=v[0];bg+=v[1];bb+=v[2]});br/=samples.length;bg/=samples.length;bb/=samples.length;
-  var minX=w,minY=h,maxX=-1,maxY=-1,thr=42;
-  for(var yy=0;yy<h;yy+=step)for(var xx=0;xx<w;xx+=step){var ii=(yy*w+xx)*4,dr=im[ii]-br,dg=im[ii+1]-bg,db=im[ii+2]-bb,dist=Math.sqrt(dr*dr+dg*dg+db*db);if(dist>thr){if(xx<minX)minX=xx;if(xx>maxX)maxX=xx;if(yy<minY)minY=yy;if(yy>maxY)maxY=yy}}
-  if(maxX<0||maxY<0||((maxX-minX)*(maxY-minY)<w*h*.22))return {x:0,y:0,w:w,h:h};
-  var px=Math.round((maxX-minX)*.025),py=Math.round((maxY-minY)*.025);return{x:Math.max(0,minX-px),y:Math.max(0,minY-py),w:Math.min(w,maxX-minX+px*2),h:Math.min(h,maxY-minY+py*2)}
+  var step=Math.max(2,Math.round(Math.max(w,h)/420));
+
+  function rgbAt(x,y){
+    var i=(Math.max(0,Math.min(h-1,y))*w+Math.max(0,Math.min(w-1,x)))*4;
+    return[im[i],im[i+1],im[i+2]];
+  }
+  function luminance(r,g,b){return .299*r+.587*g+.114*b}
+  function median(a){
+    if(!a.length)return 0;
+    a.sort(function(x,y){return x-y});
+    return a[Math.floor(a.length/2)]||0;
+  }
+  function longestRun(flags,minCount){
+    var bestS=-1,bestE=-1,s=-1;
+    for(var i=0;i<=flags.length;i++){
+      var on=i<flags.length&&flags[i]>=minCount;
+      if(on&&s<0)s=i;
+      if((!on||i===flags.length)&&s>=0){
+        var e=i-1;
+        if(bestS<0||e-s>bestE-bestS){bestS=s;bestE=e}
+        s=-1;
+      }
+    }
+    return bestS>=0?[bestS,bestE]:null;
+  }
+
+  // Estimate surrounding surface from border bands.
+  var borderRGB=[],borderLum=[];
+  var bx=Math.max(1,Math.round(w*.02)),by=Math.max(1,Math.round(h*.02));
+  for(var x=0;x<w;x+=step){
+    var a=rgbAt(x,by),b=rgbAt(x,h-1-by);
+    borderRGB.push(a,b);borderLum.push(luminance(a[0],a[1],a[2]),luminance(b[0],b[1],b[2]));
+  }
+  for(var y=0;y<h;y+=step){
+    var c=rgbAt(bx,y),d=rgbAt(w-1-bx,y);
+    borderRGB.push(c,d);borderLum.push(luminance(c[0],c[1],c[2]),luminance(d[0],d[1],d[2]));
+  }
+
+  var baseLum=median(borderLum.slice());
+  var br=median(borderRGB.map(function(v){return v[0]}));
+  var bg=median(borderRGB.map(function(v){return v[1]}));
+  var bb=median(borderRGB.map(function(v){return v[2]}));
+
+  // PAPER detector:
+  // Scan rows for a broad, continuous region significantly brighter than the surrounding surface.
+  var brightThr=Math.max(105,Math.min(225,baseLum+32));
+  var xs=[];
+  for(var xx=0;xx<w;xx+=step)xs.push(xx);
+  var ys=[];
+  for(var yy=0;yy<h;yy+=step)ys.push(yy);
+
+  var rowScore=[];
+  for(var yi=0;yi<ys.length;yi++){
+    var yy2=ys[yi],count=0;
+    for(var xi=0;xi<xs.length;xi++){
+      var xx2=xs[xi],ii=(yy2*w+xx2)*4;
+      var L=luminance(im[ii],im[ii+1],im[ii+2]);
+      if(L>=brightThr)count++;
+    }
+    rowScore.push(count);
+  }
+
+  // Require roughly one-third of sampled width to look like paper.
+  var rowNeed=Math.max(3,Math.round(xs.length*.32));
+  var yr=longestRun(rowScore,rowNeed);
+
+  if(yr){
+    var y0s=ys[yr[0]],y1s=Math.min(h-1,ys[yr[1]]+step);
+    if(y1s-y0s>=h*.18){
+      var colScore=[];
+      for(var xi2=0;xi2<xs.length;xi2++){
+        var xx3=xs[xi2],count2=0,total2=0;
+        for(var yy3=y0s;yy3<=y1s;yy3+=step){
+          var iii=(yy3*w+xx3)*4;
+          var LL=luminance(im[iii],im[iii+1],im[iii+2]);
+          total2++;
+          if(LL>=brightThr)count2++;
+        }
+        colScore.push(total2?count2/total2:0);
+      }
+
+      var colFlags=colScore.map(function(v){return v>=.34?1:0});
+      var xr=longestRun(colFlags,1);
+      if(xr){
+        var x0s=xs[xr[0]],x1s=Math.min(w-1,xs[xr[1]]+step);
+        if(x1s-x0s>=w*.22){
+          // Refine top/bottom within detected horizontal paper span.
+          var xStart=Math.max(0,x0s),xEnd=Math.min(w-1,x1s);
+          var spanSamples=Math.max(1,Math.floor((xEnd-xStart)/step)+1);
+          var refinedRows=[];
+          for(var yri=0;yri<ys.length;yri++){
+            var ry=ys[yri],rc=0;
+            for(var rx=xStart;rx<=xEnd;rx+=step){
+              var ri=(ry*w+rx)*4;
+              if(luminance(im[ri],im[ri+1],im[ri+2])>=brightThr)rc++;
+            }
+            refinedRows.push(rc);
+          }
+          var refined=longestRun(refinedRows,Math.max(3,Math.round(spanSamples*.48)));
+          if(refined){
+            y0s=ys[refined[0]];
+            y1s=Math.min(h-1,ys[refined[1]]+step);
+          }
+
+          var padX=Math.round((x1s-x0s)*.012),padY=Math.round((y1s-y0s)*.012);
+          var px0=Math.max(0,x0s-padX),py0=Math.max(0,y0s-padY);
+          var px1=Math.min(w,x1s+padX),py1=Math.min(h,y1s+padY);
+
+          // If detector still touches an image edge, leave a tiny visible/manual adjustment margin.
+          var edgeX=Math.max(2,Math.round(w*.004)),edgeY=Math.max(2,Math.round(h*.004));
+          if(px0<=0)px0=edgeX;
+          if(py0<=0)py0=edgeY;
+          if(px1>=w)px1=w-edgeX;
+          if(py1>=h)py1=h-edgeY;
+
+          return{x:px0,y:py0,w:Math.max(1,px1-px0),h:Math.max(1,py1-py0)}
+        }
+      }
+    }
+  }
+
+  // General fallback: colour-distance from surrounding surface.
+  var minX=w,minY=h,maxX=-1,maxY=-1,thr=36;
+  for(var y4=0;y4<h;y4+=step){
+    for(var x4=0;x4<w;x4+=step){
+      var q=(y4*w+x4)*4,dr=im[q]-br,dg=im[q+1]-bg,db=im[q+2]-bb;
+      var dist=Math.sqrt(dr*dr+dg*dg+db*db);
+      if(dist>thr){
+        if(x4<minX)minX=x4;if(x4>maxX)maxX=x4;
+        if(y4<minY)minY=y4;if(y4>maxY)maxY=y4;
+      }
+    }
+  }
+
+  var bw=maxX-minX,bh=maxY-minY;
+  if(maxX<0||maxY<0||bw<0||bh<0||bw*bh<w*h*.20){
+    var mx=Math.round(w*.025),my=Math.round(h*.025);
+    return{x:mx,y:my,w:w-mx*2,h:h-my*2}
+  }
+
+  var padFallbackX=Math.round(bw*.012),padFallbackY=Math.round(bh*.012);
+  var fx0=Math.max(2,minX-padFallbackX),fy0=Math.max(2,minY-padFallbackY);
+  var fx1=Math.min(w-2,maxX+padFallbackX),fy1=Math.min(h-2,maxY+padFallbackY);
+  return{x:fx0,y:fy0,w:Math.max(1,fx1-fx0),h:Math.max(1,fy1-fy0)}
 }
 function dsPercentile(arr,p){if(!arr.length)return p<.5?0:255;arr.sort(function(a,b){return a-b});return arr[Math.max(0,Math.min(arr.length-1,Math.floor((arr.length-1)*p)))]}
 function dsSharpenCanvas(canvas,amount){amount=Math.max(0,Math.min(1,amount||0));if(amount<.02)return canvas;var w=canvas.width,h=canvas.height,ctx=canvas.getContext('2d',{willReadFrequently:true}),src=ctx.getImageData(0,0,w,h),d=src.data,out=ctx.createImageData(w,h),o=out.data,k=amount*.55;
   // Lightweight cross-kernel sharpen. Skip outer pixels.
   o.set(d);for(var y=1;y<h-1;y++){for(var x=1;x<w-1;x++){var i=(y*w+x)*4,l=i-4,r=i+4,u=i-w*4,dn=i+w*4;for(var c=0;c<3;c++){var v=d[i+c]*(1+4*k)-k*(d[l+c]+d[r+c]+d[u+c]+d[dn+c]);o[i+c]=Math.max(0,Math.min(255,v))}o[i+3]=255}}ctx.putImageData(out,0,0);return canvas}
+function dsPreviewSettingsKey(item){
+  var c=item&&item.crop?dsClampCrop(item.crop):null;
+  return [
+    item&&item.rotation||0,
+    c?([c.x,c.y,c.w,c.h].map(function(v){return Number(v).toFixed(5)}).join(',')):'full',
+    (document.getElementById('dsMode')||{}).value||'enhance',
+    (document.getElementById('dsBrightness')||{}).value||'0',
+    (document.getElementById('dsContrast')||{}).value||'100',
+    (document.getElementById('dsSharpness')||{}).value||'0',
+    document.getElementById('dsAutoTone')&&document.getElementById('dsAutoTone').checked?'tone1':'tone0'
+  ].join('|');
+}
 async function dsProcess(item,preview){
-  var img=await dsLoadImage(item.file),rot=item.rotation%360,swap=rot===90||rot===270,max=preview?1500:2600,sc=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
-  var ow=Math.max(1,Math.round(img.naturalWidth*sc)),oh=Math.max(1,Math.round(img.naturalHeight*sc)),base=document.createElement('canvas');base.width=ow;base.height=oh;var b=base.getContext('2d');b.imageSmoothingEnabled=true;b.imageSmoothingQuality='high';b.drawImage(img,0,0,ow,oh);
-  var box=document.getElementById('dsAutoCrop').checked?dsAutoCropBox(base):{x:0,y:0,w:ow,h:oh},c=document.createElement('canvas');c.width=swap?box.h:box.w;c.height=swap?box.w:box.h;var ctx=c.getContext('2d',{willReadFrequently:true});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.save();ctx.translate(c.width/2,c.height/2);ctx.rotate(rot*Math.PI/180);ctx.drawImage(base,box.x,box.y,box.w,box.h,-box.w/2,-box.h/2,box.w,box.h);ctx.restore();
+  var rotBase=await dsBuildRotatedSource(item,preview?900:2600),fullW=rotBase.width,fullH=rotBase.height,box;
+  if(item.crop){var cr=dsClampCrop(item.crop);box={x:Math.round(cr.x*fullW),y:Math.round(cr.y*fullH),w:Math.max(1,Math.round(cr.w*fullW)),h:Math.max(1,Math.round(cr.h*fullH))}}
+  else box={x:0,y:0,w:fullW,h:fullH};
+  box.x=Math.max(0,Math.min(fullW-1,box.x));box.y=Math.max(0,Math.min(fullH-1,box.y));box.w=Math.max(1,Math.min(fullW-box.x,box.w));box.h=Math.max(1,Math.min(fullH-box.y,box.h));
+  var c=document.createElement('canvas');c.width=box.w;c.height=box.h;var ctx=c.getContext('2d',{willReadFrequently:true});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(rotBase,box.x,box.y,box.w,box.h,0,0,box.w,box.h);
   var data=ctx.getImageData(0,0,c.width,c.height),d=data.data,mode=document.getElementById('dsMode').value,bright=Number(document.getElementById('dsBrightness').value)||0,cont=(Number(document.getElementById('dsContrast').value)||100)/100,autoTone=document.getElementById('dsAutoTone').checked;
   var lo=0,hi=255;if(autoTone&&mode!=='original'){var vals=[],sampleStep=Math.max(4,Math.floor(d.length/4/70000));for(var s=0;s<d.length;s+=4*sampleStep){vals.push(.2126*d[s]+.7152*d[s+1]+.0722*d[s+2])}lo=dsPercentile(vals,.025);hi=dsPercentile(vals,.965);if(hi-lo<70){lo=Math.max(0,lo-18);hi=Math.min(255,hi+18)}}
   var stretch=255/Math.max(45,hi-lo);
@@ -4888,9 +5252,35 @@ async function dsProcess(item,preview){
 function dsCanvasBlob(canvas,quality){return new Promise(function(resolve){canvas.toBlob(function(b){resolve(b)},'image/jpeg',quality||.9)})}
 function dsBlobFromCanvas(canvas,quality,type){return new Promise(function(resolve){canvas.toBlob(function(b){resolve(b)},type||'image/jpeg',quality==null?.92:quality)})}
 async function dsRefreshPreviews(force){
-  var run=++dsPreviewRun,st=document.getElementById('dsStatus'),active=dsItems.filter(function(x){return !x.deleted});if(!active.length)return;
-  st.textContent='Photo enhance हो रहा है…';
-  for(var i=0;i<dsItems.length;i++){var m=dsItems[i];if(m.deleted)continue;m.processing=true;dsRender();try{var c=await dsProcess(m,true);if(run!==dsPreviewRun)return;var blob=await dsCanvasBlob(c,.88);if(run!==dsPreviewRun)return;if(m.previewUrl)try{URL.revokeObjectURL(m.previewUrl)}catch(e){}m.previewUrl=URL.createObjectURL(blob)}catch(e){console.error(e)}m.processing=false;dsRender();await new Promise(function(r){setTimeout(r,0)})}
+  var run=++dsPreviewRun,st=document.getElementById('dsStatus');
+  var active=dsItems.filter(function(x){return !x.deleted});
+  if(!active.length)return;
+
+  var todo=0;
+  active.forEach(function(m){
+    var key=dsPreviewSettingsKey(m);
+    if(force||!m.previewUrl||m.previewKey!==key)todo++;
+  });
+  if(!todo){st.textContent='Enhanced preview ready ✓';return}
+
+  st.textContent='Original preview ready ✓  Enhanced preview '+todo+' page(s) background में…';
+
+  for(var i=0;i<dsItems.length;i++){
+    var m=dsItems[i];if(m.deleted)continue;
+    var key=dsPreviewSettingsKey(m);
+    if(!force&&m.previewUrl&&m.previewKey===key)continue;
+
+    m.processing=true;dsRender();
+    try{
+      var c=await dsProcess(m,true);if(run!==dsPreviewRun)return;
+      var blob=await dsCanvasBlob(c,.82);if(run!==dsPreviewRun)return;
+      if(m.previewUrl)try{URL.revokeObjectURL(m.previewUrl)}catch(e){}
+      m.previewUrl=URL.createObjectURL(blob);
+      m.previewKey=key;
+    }catch(e){console.error(e)}
+    m.processing=false;dsRender();
+    await new Promise(function(r){setTimeout(r,20)})
+  }
   if(run===dsPreviewRun)st.textContent='Enhanced preview ready ✓';
 }
 async function dsDownloadImages(opts){
@@ -4964,17 +5354,43 @@ var pcLoadedPdfPageCount=0;
 var pcEnhancePreviewTimer=0;
 var pcEnhancePreviewRun=0;
 var pcSelectedPreviewIndex=0;
+var pcLastPdfUrl='';
+var pcFileCache=new WeakMap();
 function pcSetMode(mode){
   var a=document.getElementById('pcImgPanel'),b=document.getElementById('pcPdfPanel');
   var ta=document.getElementById('pcImgTab'),tb=document.getElementById('pcPdfTab');
   if(mode==='pdf2img'){a.classList.add('hidden');b.classList.remove('hidden');ta.classList.remove('active');tb.classList.add('active')}
   else{b.classList.add('hidden');a.classList.remove('hidden');tb.classList.remove('active');ta.classList.add('active')}
 }
-function pcPreviewSelectedImages(){
+async function pcPreviewSelectedImages(){
+  if(pcLastPdfUrl){try{URL.revokeObjectURL(pcLastPdfUrl)}catch(e){}pcLastPdfUrl=''}
+  var oldDl=document.getElementById('pcPdfDownloadLink');if(oldDl){oldDl.classList.add('hidden');oldDl.removeAttribute('href')}
   var picked=Array.from((document.getElementById('pcImages').files||[]));
-  var gm=((document.getElementById('pcGlobalEnhance')||{}).value||'enhance');pcSelectedImageFiles=picked.map(function(file){return {file:file,rotation:0,enhanceMode:gm}});
+  var gm=((document.getElementById('pcGlobalEnhance')||{}).value||'enhance');
+  pcSelectedImageFiles=picked.map(function(file){return {file:file,rotation:0,enhanceMode:gm}});
   pcSelectedPreviewIndex=0;
   pcRenderSelectedImages();
+
+  // Copy the file bytes immediately. This avoids Android/Google Photos temporary
+  // content references expiring before CREATE PDF is pressed.
+  var st=document.getElementById('pcImgStatus');
+  if(st&&picked.length)st.textContent='Images तैयार हो रही हैं…';
+  for(var i=0;i<picked.length;i++){
+    var f=picked[i];
+    try{
+      if(!pcFileCache.has(f)){
+        var ab=await f.arrayBuffer();
+        var mime=f.type||'image/jpeg';
+        var blob=new Blob([ab],{type:mime});
+        pcFileCache.set(f,{blob:blob,name:f.name,type:mime});
+      }
+    }catch(e){
+      console.warn('Image cache failed',f&&f.name,e);
+    }
+    if(st)st.textContent='Image '+(i+1)+' / '+picked.length+' ready';
+    await new Promise(function(r){setTimeout(r,0)});
+  }
+  if(st&&picked.length)st.textContent='Images ready ✓';
 }
 function pcRenderSelectedImages(){
   pcChosenImageUrls.forEach(function(u){try{URL.revokeObjectURL(u)}catch(e){}});pcChosenImageUrls=[];
@@ -5018,11 +5434,18 @@ function pcEnhanceSettingChanged(id,labelId,suffix){
   if(el&&lab)lab.textContent=el.value+(suffix||'');
   pcRenderSelectedImages();
 }
+function pcEnhanceAutoToneChanged(){
+  pcRenderSelectedImages();
+  var st=document.getElementById('pcImgStatus');
+  var a=document.getElementById('pcAutoTone');
+  if(st&&pcSelectedImageFiles.length)st.textContent=(a&&a.checked?'Auto Enhance ON ✓':'Auto Enhance OFF');
+}
 function pcResetEnhanceAdjust(){
   var b=document.getElementById('pcBrightness'),c=document.getElementById('pcContrast'),sh=document.getElementById('pcSharpness');
   if(b)b.value='6';if(c)c.value='128';if(sh)sh.value='38';
   var bv=document.getElementById('pcBrightnessVal'),cv=document.getElementById('pcContrastVal'),sv=document.getElementById('pcSharpnessVal');
   if(bv)bv.textContent='6';if(cv)cv.textContent='128%';if(sv)sv.textContent='38';
+  var at=document.getElementById('pcAutoTone');if(at)at.checked=true;
   pcRenderSelectedImages();
 }
 function pcScheduleEnhancePreview(){
@@ -5066,11 +5489,17 @@ function pcApplyPixelEffect(canvas,mode){
     var img=ctx.getImageData(0,0,w,h),d=img.data;
     // Same Document Scanner processing, with user-adjustable Brightness / Contrast / Sharpness.
     var adj=pcEnhanceValues();
-    var vals=[],sampleStep=Math.max(4,Math.floor(d.length/4/70000));
-    for(var s=0;s<d.length;s+=4*sampleStep){vals.push(.2126*d[s]+.7152*d[s+1]+.0722*d[s+2])}
-    var lo=dsPercentile(vals,.025),hi=dsPercentile(vals,.965);
-    if(hi-lo<70){lo=Math.max(0,lo-18);hi=Math.min(255,hi+18)}
-    var stretch=255/Math.max(45,hi-lo),bright=adj.bright,cont=adj.contrast;
+    var autoToneEl=document.getElementById('pcAutoTone');
+    var autoTone=!autoToneEl||autoToneEl.checked;
+    var lo=0,hi=255,stretch=1;
+    if(autoTone){
+      var vals=[],sampleStep=Math.max(4,Math.floor(d.length/4/70000));
+      for(var s=0;s<d.length;s+=4*sampleStep){vals.push(.2126*d[s]+.7152*d[s+1]+.0722*d[s+2])}
+      lo=dsPercentile(vals,.025);hi=dsPercentile(vals,.965);
+      if(hi-lo<70){lo=Math.max(0,lo-18);hi=Math.min(255,hi+18)}
+      stretch=255/Math.max(45,hi-lo);
+    }
+    var bright=adj.bright,cont=adj.contrast;
     for(var i=0;i<d.length;i+=4){
       var r=(d[i]-lo)*stretch,g=(d[i+1]-lo)*stretch,b=(d[i+2]-lo)*stretch;
       r=(r-128)*cont+128+bright;g=(g-128)*cont+128+bright;b=(b-128)*cont+128+bright;
@@ -5082,7 +5511,7 @@ function pcApplyPixelEffect(canvas,mode){
       }else if(mode==='enhance'){
         var avg=(r+g+b)/3,sat=1.10;
         r=avg+(r-avg)*sat;g=avg+(g-avg)*sat;b=avg+(b-avg)*sat;
-        var white=Math.max(r,g,b);if(white>208){var lift=(white-208)*.11;r+=lift;g+=lift;b+=lift}
+        if(autoTone){var white=Math.max(r,g,b);if(white>208){var lift=(white-208)*.11;r+=lift;g+=lift;b+=lift}}
         r=pcClamp255(r);g=pcClamp255(g);b=pcClamp255(b);
       }
       d[i]=r;d[i+1]=g;d[i+2]=b;d[i+3]=255;
@@ -5140,13 +5569,52 @@ async function pcReadPdfInfo(){
     if(info)info.textContent=file.name+' • '+pdf.numPages+' page(s)';
   }catch(e){if(info)info.textContent='PDF info नहीं पढ़ी गई';if(st)st.textContent='PDF file फिर से चुनें';}
 }
-function pcLoadImageFile(file){
-  return new Promise(function(resolve,reject){
-    var url=URL.createObjectURL(file),img=new Image();
-    img.onload=function(){URL.revokeObjectURL(url);resolve(img)};
-    img.onerror=function(){URL.revokeObjectURL(url);reject(new Error('Image read नहीं हो पाई: '+file.name))};
-    img.src=url;
-  });
+async function pcLoadImageFile(file){
+  if(!file)throw new Error('Image file नहीं मिली');
+
+  var source=file;
+  var cached=pcFileCache.get(file);
+  if(cached&&cached.blob)source=cached.blob;
+  else{
+    // If not cached yet, make a safe in-memory copy now.
+    try{
+      var ab=await file.arrayBuffer();
+      var blob=new Blob([ab],{type:file.type||'image/jpeg'});
+      pcFileCache.set(file,{blob:blob,name:file.name,type:file.type||'image/jpeg'});
+      source=blob;
+    }catch(e){}
+  }
+
+  function loadFromObjectUrl(blob){
+    return new Promise(function(resolve,reject){
+      var url=URL.createObjectURL(blob),img=new Image();
+      img.onload=function(){try{URL.revokeObjectURL(url)}catch(e){}resolve(img)};
+      img.onerror=function(){try{URL.revokeObjectURL(url)}catch(e){}reject(new Error('object-url failed'))};
+      img.src=url;
+    });
+  }
+
+  try{
+    return await loadFromObjectUrl(source);
+  }catch(firstErr){
+    // Android/WebView fallback: FileReader data URL.
+    try{
+      var dataUrl=await new Promise(function(resolve,reject){
+        var r=new FileReader();
+        r.onload=function(){resolve(r.result)};
+        r.onerror=function(){reject(r.error||new Error('FileReader failed'))};
+        r.readAsDataURL(source);
+      });
+      return await new Promise(function(resolve,reject){
+        var img=new Image();
+        img.onload=function(){resolve(img)};
+        img.onerror=function(){reject(new Error('data-url failed'))};
+        img.src=dataUrl;
+      });
+    }catch(secondErr){
+      throw new Error('Image read नहीं हो पाई: '+(file.name||'selected image'));
+    }
+  }
 }
 async function pcLoadPreparedImage(item){
   var file=item.file||item,rotation=((item.rotation||0)%360+360)%360;
@@ -5223,7 +5691,8 @@ function pcChoosePdfFont(pdf,word){
 async function pcImagesToPdf(){
   var input=document.getElementById('pcImages'),status=document.getElementById('pcImgStatus'),btn=document.getElementById('pcCreatePdfBtn');
   var files=pcSelectedImageFiles.slice();
-  var globalEnhance=((document.getElementById('pcGlobalEnhance')||{}).value||'enhance');files.forEach(function(item){item.enhanceMode=globalEnhance});
+  var globalEnhance=((document.getElementById('pcGlobalEnhance')||{}).value||'enhance');
+  files.forEach(function(item){if(!item.enhanceMode)item.enhanceMode=globalEnhance});
   if(!files.length){alert('कम से कम एक image चुनें');return}
   if(!window.PDFLib||!window.PDFLib.PDFDocument){alert('PDF library load नहीं हुई. Internet connection check करें और app दोबारा खोलें.');return}
   // Fixed simple layout: A4 + normal 6 mm margin + auto orientation.
@@ -5231,6 +5700,7 @@ async function pcImagesToPdf(){
   var pageSize='a4',orientation='auto';
   var useOcr=false;
   var pdfName=String((document.getElementById('pcPdfName')||{}).value||'Images_to_PDF').trim().replace(/[\/:*?"<>|]+/g,'_')||'Images_to_PDF';
+  var prevDl=document.getElementById('pcPdfDownloadLink');if(prevDl)prevDl.classList.add('hidden');
   btn.disabled=true;btn.textContent='CREATING PDF…';status.textContent=useOcr?'Searchable PDF बन रही है…':'Fast PDF बन रही है…';
   try{
     var PDFDocument=PDFLib.PDFDocument,pdf=await PDFDocument.create(),vectorCount=0,mmToPt=72/25.4;
@@ -5263,10 +5733,31 @@ async function pcImagesToPdf(){
       }
     }
     var out=await pdf.save({useObjectStreams:true,addDefaultPage:false});
-    var blob=new Blob([out],{type:'application/pdf'}),url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download=pdfName+'.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},2500);
-    status.textContent='PDF ready ✓ '+files.length+' page(s)'+(useOcr?' · Searchable OCR':' · Fast mode');
-  }catch(e){console.error(e);status.textContent='Error: '+(e.message||e);alert('PDF नहीं बन पाई: '+(e.message||e))}
+    var blob=new Blob([out],{type:'application/pdf'});
+    if(pcLastPdfUrl){try{URL.revokeObjectURL(pcLastPdfUrl)}catch(e){}}
+    pcLastPdfUrl=URL.createObjectURL(blob);
+
+    var dl=document.getElementById('pcPdfDownloadLink');
+    if(dl){
+      dl.href=pcLastPdfUrl;
+      dl.download=pdfName+'.pdf';
+      dl.classList.remove('hidden');
+    }
+
+    // Try automatic download first. Some Android/local-file browsers block it
+    // after async PDF generation, so the visible DOWNLOAD PDF button remains as fallback.
+    try{
+      var a=document.createElement('a');
+      a.href=pcLastPdfUrl;
+      a.download=pdfName+'.pdf';
+      a.style.display='none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function(){try{a.remove()}catch(e){}},100);
+    }catch(downloadErr){console.warn('Automatic PDF download blocked',downloadErr)}
+
+    status.textContent='PDF ready ✓ अगर अपने-आप download न हो तो नीचे DOWNLOAD PDF दबाएँ';
+  }catch(e){console.error(e);status.textContent='Error: '+(e.message||e);alert('PDF नहीं बन पाई: '+(e.message||e)+'\n\nअगर photo Google Photos/cloud में है तो उसे पहले phone में download करके फिर चुनें।')}
   finally{btn.disabled=false;btn.textContent='CREATE & DOWNLOAD PDF'}
 }
 
@@ -7640,7 +8131,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.43';
+  var VC_APP_VERSION='1.1.58';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -8723,6 +9214,411 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     eye.addEventListener('click',function(){var pass=el('pprPassword'),show=pass.type==='password';pass.type=show?'text':'password';eye.textContent=show?'🙈':'👁'});unlock.addEventListener('click',unlockPdf);reset.addEventListener('click',function(){setFile(null);el('pprPassword').value='';clearDownload();var s=el('pprStatus');s.className='ppr-status';s.textContent=''});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+})();
+</script>
+
+<script>
+(function(){
+  function moveCropEditor(){
+    try{
+      var ed=document.getElementById('dsCropEditor');
+      if(ed && ed.parentNode!==document.body) document.body.appendChild(ed);
+    }catch(e){}
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',moveCropEditor,{once:true});
+  }else{
+    moveCropEditor();
+  }
+})();
+</script>
+
+<style>
+/* Image ↔ PDF Converter improved selected-image preview + crop */
+#pdfConverter .pc-miniPreview{display:grid!important;grid-template-columns:1fr!important;gap:14px!important;overflow:visible!important;padding:2px 0 10px!important}
+#pdfConverter .pc-miniItem{position:relative!important;flex:none!important;width:100%!important;max-width:none!important;border:1px solid #dbe3ec!important;border-radius:18px!important;background:#fff!important;padding:14px!important;text-align:left!important;box-shadow:0 2px 7px rgba(15,23,42,.06)!important}
+#pdfConverter .pc-miniItem.pc-selected{outline:0!important;box-shadow:0 0 0 2px rgba(37,99,235,.12),0 2px 7px rgba(15,23,42,.06)!important}
+#pdfConverter .pc-miniItem img{width:min(84%,520px)!important;height:min(48vh,540px)!important;min-height:240px!important;max-height:540px!important;object-fit:contain!important;border-radius:8px!important;background:#fff!important;display:block!important;margin:0 auto 10px auto!important;cursor:pointer!important}
+#pdfConverter .pc-miniName{font-size:14px!important;line-height:1.42!important;color:#334155!important;margin:2px 0 3px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;word-break:break-word!important}
+#pdfConverter .pc-tapHint{font-size:13px!important;font-weight:800!important;color:#475569!important;margin:0 0 10px!important}
+#pdfConverter .pc-miniPageRow{justify-content:flex-start!important;gap:8px!important;margin:3px 0 8px!important}
+#pdfConverter .pc-miniPageRow label{font-size:12px!important}
+#pdfConverter .pc-miniPageNo{width:72px!important;padding:7px 6px!important;font-size:14px!important}
+#pdfConverter .pc-miniTools{display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:8px!important;margin-top:2px!important}
+#pdfConverter .pc-miniTools button{padding:11px 4px!important;font-size:18px!important;font-weight:800!important;border-radius:12px!important;min-height:48px!important;border:0!important;background:#173453!important;color:#fff!important}
+#pdfConverter .pc-miniTools .pc-miniClose,#pdfConverter .pc-miniTools .pc-removeBtn{background:#c81e1e!important;color:#fff!important}
+#pdfConverter .pc-miniTools button:disabled{opacity:.45!important}
+#pdfConverter .pc-miniClose{position:static!important;box-shadow:none!important}
+
+#pcCropEditor{position:fixed;inset:0;z-index:100100;background:#111;display:none;flex-direction:column;overflow:hidden;overscroll-behavior:none}
+#pcCropEditor.open{display:flex}
+#pcCropEditor .pcce-top{height:54px;flex:0 0 54px;background:#fff;border-bottom:1px solid #d1d5db;display:flex;align-items:center;justify-content:space-between;padding:0 10px;gap:8px}
+#pcCropEditor .pcce-title{font-size:17px;font-weight:900;color:#173453;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#pcCropEditor .pcce-close{border:0;background:#f1f5f9;color:#173453;width:39px;height:39px;border-radius:50%;font-size:22px;font-weight:900}
+#pcCropEditor .pcce-stage{position:relative;flex:1;min-height:0;display:block;padding:0;background:#111;overflow-x:hidden;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+#pcCropCanvas{display:block;width:100vw;height:auto;max-width:none;max-height:none;margin:0;background:#fff;box-shadow:none;touch-action:none;user-select:none;-webkit-user-select:none}
+#pcCropEditor .pcce-help{position:fixed;left:50%;top:62px;transform:translateX(-50%);z-index:100101;background:rgba(0,0,0,.62);color:#fff;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;white-space:nowrap;pointer-events:none}
+#pcCropEditor .pcce-bottom{flex:0 0 auto;background:#fff;border-top:1px solid #d1d5db;padding:6px 7px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+#pcCropEditor .pcce-bottom button{border:1px solid #cbd5e1;background:#f8fafc;color:#173453;border-radius:10px;padding:9px 3px;font-size:10px;font-weight:900}
+#pcCropEditor .pcce-bottom button.apply{grid-column:span 2;background:#173453;color:#fff;border-color:#173453;font-size:13px}
+#pcCropEditor .pcce-bottom button.cancel{grid-column:span 2;background:#e5e7eb;color:#1f2937}
+</style>
+
+<div id="pcCropEditor" aria-hidden="true">
+  <div class="pcce-top">
+    <button type="button" class="pcce-close" onclick="pcCloseCrop()">×</button>
+    <div id="pcCropTitle" class="pcce-title">Crop Image</div>
+    <div style="width:39px"></div>
+  </div>
+  <div class="pcce-stage">
+    <div class="pcce-help">एक ही नीली LINE को पकड़कर खिसकाएँ</div>
+    <canvas id="pcCropCanvas"></canvas>
+  </div>
+  <div class="pcce-bottom">
+    <button type="button" onclick="pcCropRotate(-90)">↶ ROTATE</button>
+    <button type="button" onclick="pcCropRotate(90)">↷ ROTATE</button>
+    <button type="button" onclick="pcCropAuto()">▣ AUTO DETECT</button>
+    <button type="button" onclick="pcCropReset()">□ FULL</button>
+    <button type="button" class="cancel" onclick="pcCloseCrop()">CANCEL</button>
+    <button type="button" class="apply" onclick="pcApplyCrop()">✓ APPLY CROP</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  if(window.__pcCropPatched)return; window.__pcCropPatched=true;
+
+  var pcCropEditIndex=-1,pcCropState=null,pcCropSourceCanvas=null;
+
+  function pcClampCrop(c){
+    c=c||{x:0,y:0,w:1,h:1};
+    var min=.04;
+    var x=Math.max(0,Math.min(1,Number(c.x)||0));
+    var y=Math.max(0,Math.min(1,Number(c.y)||0));
+    var w=Math.max(min,Math.min(1-x,Number(c.w)||1));
+    var h=Math.max(min,Math.min(1-y,Number(c.h)||1));
+    return{x:x,y:y,w:w,h:h};
+  }
+  function pcCropNormFromBox(box,canvas){
+    var w=canvas.width,h=canvas.height;
+    return pcClampCrop({x:box.x/w,y:box.y/h,w:box.w/w,h:box.h/h});
+  }
+  async function pcBuildRotatedSource(item,maxSide){
+    maxSide=maxSide||2400;
+    var img=await pcLoadImageFile(item.file||item);
+    var sw=img.naturalWidth||img.width,sh=img.naturalHeight||img.height;
+    var scale=Math.min(1,maxSide/Math.max(sw,sh));
+    var base=document.createElement('canvas');base.width=Math.max(1,Math.round(sw*scale));base.height=Math.max(1,Math.round(sh*scale));
+    base.getContext('2d').drawImage(img,0,0,base.width,base.height);
+    var rot=((item.rotation||0)%360+360)%360;
+    if(!rot)return base;
+    var swap=rot===90||rot===270,c=document.createElement('canvas');
+    c.width=swap?base.height:base.width; c.height=swap?base.width:base.height;
+    var ctx=c.getContext('2d');
+    ctx.translate(c.width/2,c.height/2); ctx.rotate(rot*Math.PI/180); ctx.drawImage(base,-base.width/2,-base.height/2);
+    return c;
+  }
+  function pcAutoCropBox(canvas){
+    if(typeof dsAutoCropBox==='function') return dsAutoCropBox(canvas);
+    var w=canvas.width,h=canvas.height,ctx=canvas.getContext('2d',{willReadFrequently:true}),im=ctx.getImageData(0,0,w,h).data;
+    var step=Math.max(2,Math.round(Math.max(w,h)/420)),minX=w,minY=h,maxX=-1,maxY=-1;
+    var br=255,bg=255,bb=255,thr=36;
+    for(var y=0;y<h;y+=step){
+      for(var x=0;x<w;x+=step){
+        var q=(y*w+x)*4,dr=im[q]-br,dg=im[q+1]-bg,db=im[q+2]-bb;
+        var dist=Math.sqrt(dr*dr+dg*dg+db*db);
+        if(dist>thr){ if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y; }
+      }
+    }
+    if(maxX<0||maxY<0)return{x:Math.round(w*.025),y:Math.round(h*.025),w:Math.round(w*.95),h:Math.round(h*.95)};
+    return{x:minX,y:minY,w:maxX-minX,h:maxY-minY};
+  }
+
+  window.pcRenderSelectedImages_old = window.pcRenderSelectedImages_old || window.pcRenderSelectedImages;
+  window.pcRenderSelectedImages = function(){
+    window.pcRenderSelectedImages_old();
+    pcDecorateSelectedPreview();
+    pcRefreshCroppedCardPreviews();
+  };
+
+  function pcDecorateSelectedPreview(){
+    var wrap=document.getElementById('pcSelectedImages');
+    if(!wrap || !window.pcSelectedImageFiles)return;
+    var boxes=wrap.querySelectorAll('.pc-miniItem');
+    boxes.forEach(function(box,i){
+      var item=pcSelectedImageFiles[i];
+      if(!item)return;
+
+      var img=box.querySelector('img');
+      var name=box.querySelector('.pc-miniName');
+      var pageRow=box.querySelector('.pc-miniPageRow');
+      var tools=box.querySelector('.pc-miniTools');
+      if(!img || !name || !tools)return;
+
+      img.title='Tap image for Full Screen Crop';
+      img.onclick=function(ev){ if(ev)ev.stopPropagation(); pcOpenCrop(i); };
+
+      // Keep page row, but place it after tools like a secondary control.
+      if(pageRow && pageRow.parentNode!==box) box.appendChild(pageRow);
+
+      var baseName=(item.file&&item.file.name)?item.file.name:name.textContent.split(' · ')[0];
+      name.textContent=(i+1)+'. '+baseName+' · '+(item.enhanceMode==='original'?'Original':item.enhanceMode==='gray'?'Grayscale':item.enhanceMode==='bw'?'B/W':'Enhanced')+(item.crop?' · Cropped':'');
+      name.style.order='2';
+
+      var hint=box.querySelector('.pc-tapHint');
+      if(!hint){
+        hint=document.createElement('div');
+        hint.className='pc-tapHint';
+      }
+      hint.textContent='Tap image → Full Screen Crop';
+      if(hint.parentNode!==box) box.appendChild(hint);
+
+      // Build scanner-like tool row from existing actions.
+      var left=tools.querySelector('button:nth-child(1)');
+      var right=tools.querySelector('button:nth-child(2)');
+      var rl=tools.querySelector('button:nth-child(3)');
+      var rr=tools.querySelector('button:nth-child(4)');
+      var close=box.querySelector('.pc-miniClose');
+
+      // Replace rotate-left with crop button in the visible row.
+      var crop=tools.querySelector('.pc-cropBtn');
+      if(!crop){
+        crop=document.createElement('button');
+        crop.type='button';
+        crop.className='pc-cropBtn';
+        crop.textContent='✂';
+        crop.title='Crop';
+        crop.onclick=function(ev){ if(ev)ev.stopPropagation(); pcOpenCrop(i); };
+      }
+      crop.style.background='#173453';
+      crop.style.color='#fff';
+
+      // Use right-rotate only once, and remove page-row clutter from top flow.
+      tools.innerHTML='';
+      if(left){ left.textContent='↑'; left.title='Move Up'; }
+      if(right){ right.textContent='↓'; right.title='Move Down'; }
+      if(rr){ rr.textContent='↻'; rr.title='Rotate'; }
+      if(close){ close.textContent='✕'; close.title='Remove'; close.className='pc-removeBtn'; close.type='button'; }
+
+      [left,right,crop,rr,close].forEach(function(el){
+        if(el) tools.appendChild(el);
+      });
+
+      if(pageRow){
+        pageRow.style.marginTop='10px';
+        pageRow.style.display='flex';
+      }
+
+      // Ensure visual order
+      try{
+        box.innerHTML='';
+        box.appendChild(img);
+        box.appendChild(name);
+        box.appendChild(hint);
+        box.appendChild(tools);
+        if(pageRow) box.appendChild(pageRow);
+      }catch(e){}
+    });
+  }
+
+  var pcCropPreviewRun=0;
+  async function pcRefreshCroppedCardPreviews(){
+    var run=++pcCropPreviewRun;
+    var wrap=document.getElementById('pcSelectedImages');
+    if(!wrap || !window.pcSelectedImageFiles)return;
+    var boxes=wrap.querySelectorAll('.pc-miniItem');
+
+    for(var i=0;i<pcSelectedImageFiles.length;i++){
+      if(run!==pcCropPreviewRun)return;
+      var item=pcSelectedImageFiles[i],box=boxes[i];
+      if(!item||!box)continue;
+
+      var img=box.querySelector('img');
+      if(!img)continue;
+
+      // No crop: keep the normal original preview/rotation already produced by the app.
+      if(!item.crop)continue;
+
+      try{
+        // pcLoadPreparedImage already applies current rotation + crop.
+        var prep=await pcLoadPreparedImage(item);
+        if(run!==pcCropPreviewRun)return;
+
+        var max=1100;
+        var sc=Math.min(1,max/Math.max(prep.width,prep.height));
+        var w=Math.max(1,Math.round(prep.width*sc));
+        var h=Math.max(1,Math.round(prep.height*sc));
+
+        var c=document.createElement('canvas');
+        c.width=w;c.height=h;
+        var ctx=c.getContext('2d');
+        ctx.imageSmoothingEnabled=true;
+        ctx.imageSmoothingQuality='high';
+
+        if(prep.canvas)ctx.drawImage(prep.canvas,0,0,w,h);
+        else ctx.drawImage(prep.image,0,0,w,h);
+
+        // Keep enhancement preview consistent with the selected mode.
+        var mode=item.enhanceMode||((document.getElementById('pcGlobalEnhance')||{}).value||'enhance');
+        pcApplyPixelEffect(c,mode);
+
+        if(run!==pcCropPreviewRun)return;
+
+        // Crop and rotation are already baked into this image.
+        img.style.transform='none';
+        img.style.filter='none';
+        img.src=c.toDataURL('image/jpeg',0.9);
+        img.dataset.croppedPreview='1';
+      }catch(e){
+        console.warn('Cropped card preview failed',e);
+      }
+    }
+  }
+
+  window.pcPreviewSelectedImages_old = window.pcPreviewSelectedImages_old || window.pcPreviewSelectedImages;
+  window.pcPreviewSelectedImages = function(){
+    window.pcPreviewSelectedImages_old();
+    pcDecorateSelectedPreview();
+  };
+
+  window.pcOpenCrop = async function(index){
+    if(!window.pcSelectedImageFiles || index<0 || index>=pcSelectedImageFiles.length)return;
+    pcCropEditIndex=index;
+    var item=pcSelectedImageFiles[index];
+    var ed=document.getElementById('pcCropEditor');
+    document.getElementById('pcCropTitle').textContent='Crop Page '+(index+1);
+    ed.classList.add('open'); ed.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+    try{
+      pcCropSourceCanvas=await pcBuildRotatedSource(item,2400);
+      pcCropState=item.crop ? pcClampCrop(item.crop) : pcCropNormFromBox(pcAutoCropBox(pcCropSourceCanvas),pcCropSourceCanvas);
+      pcCropBindPointer();
+      var stage=document.querySelector('#pcCropEditor .pcce-stage'); if(stage)stage.scrollTop=0;
+      requestAnimationFrame(function(){pcCropRender();setTimeout(pcCropRender,60);setTimeout(pcCropRender,180);});
+    }catch(e){ console.error(e); pcCloseCrop(); alert('Crop editor image नहीं खोल पाया'); }
+  };
+  window.pcCloseCrop = function(){
+    var ed=document.getElementById('pcCropEditor');
+    if(ed){ed.classList.remove('open'); ed.setAttribute('aria-hidden','true');}
+    document.body.style.overflow='';
+    pcCropEditIndex=-1; pcCropSourceCanvas=null;
+  };
+  window.pcCropReset = function(){ pcCropState={x:0,y:0,w:1,h:1}; pcCropRender(); };
+  window.pcCropAuto = function(){ if(pcCropSourceCanvas){ pcCropState=pcCropNormFromBox(pcAutoCropBox(pcCropSourceCanvas),pcCropSourceCanvas); pcCropRender(); } };
+  window.pcCropRotate = async function(delta){
+    if(pcCropEditIndex<0)return;
+    var item=pcSelectedImageFiles[pcCropEditIndex];
+    item.rotation=((item.rotation||0)+delta+360)%360; item.crop=null;
+    pcCropSourceCanvas=await pcBuildRotatedSource(item,2400);
+    pcCropState=pcCropNormFromBox(pcAutoCropBox(pcCropSourceCanvas),pcCropSourceCanvas);
+    pcCropRender(); pcCropBindPointer();
+  };
+  window.pcApplyCrop = function(){
+    if(pcCropEditIndex<0)return;
+    var appliedIndex=pcCropEditIndex;
+    pcSelectedImageFiles[appliedIndex].crop=pcClampCrop(pcCropState);
+    pcCloseCrop();
+    if(typeof pcRenderSelectedImages==='function') pcRenderSelectedImages();
+    var st=document.getElementById('pcImgStatus');
+    if(st)st.textContent='Crop applied ✓ Preview update हो गया';
+  };
+  function pcCropRender(){
+    var cv=document.getElementById('pcCropCanvas'); if(!cv||!pcCropSourceCanvas||!pcCropState)return;
+    var ctx=cv.getContext('2d'),w=pcCropSourceCanvas.width,h=pcCropSourceCanvas.height;
+    cv.width=w; cv.height=h; ctx.clearRect(0,0,w,h); ctx.drawImage(pcCropSourceCanvas,0,0);
+
+    var c=pcClampCrop(pcCropState); pcCropState=c;
+    var x=c.x*w,y=c.y*h,cw=c.w*w,ch=c.h*h;
+    var rect=cv.getBoundingClientRect();
+    var sx=w/Math.max(1,rect.width),sy=h/Math.max(1,rect.height),scale=Math.max(sx,sy);
+    var line=Math.max(4,4.2*scale),half=line/2;
+
+    ctx.save();
+    ctx.fillStyle='rgba(0,0,0,.44)';
+    ctx.fillRect(0,0,w,y); ctx.fillRect(0,y,x,ch); ctx.fillRect(x+cw,y,w-x-cw,ch); ctx.fillRect(0,y+ch,w,h-y-ch);
+
+    var l=Math.max(half,x),t=Math.max(half,y),r=Math.min(w-half,x+cw),b=Math.min(h-half,y+ch);
+    ctx.strokeStyle='#00a7ef'; ctx.lineWidth=line; ctx.lineJoin='round'; ctx.lineCap='round';
+    ctx.strokeRect(l,t,Math.max(1,r-l),Math.max(1,b-t));
+    ctx.restore();
+  }
+  function pcCropBindPointer(){
+    var cv=document.getElementById('pcCropCanvas'); if(!cv || cv.dataset.cropBound)return;
+    cv.dataset.cropBound='1';
+    var drag=null;
+    function pt(e){
+      var r=cv.getBoundingClientRect(),sx=cv.width/Math.max(1,r.width),sy=cv.height/Math.max(1,r.height);
+      return{x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy,sx:sx,sy:sy}
+    }
+    function info(){
+      var c=pcClampCrop(pcCropState),w=cv.width,h=cv.height;
+      return{x:c.x*w,y:c.y*h,w:c.w*w,h:c.h*h}
+    }
+    cv.addEventListener('pointerdown',function(e){
+      if(!pcCropState)return;
+      var p=pt(e),b=info(),hx=30*p.sx,hy=30*p.sy;
+      var insideX=p.x>=b.x-hx&&p.x<=b.x+b.w+hx,insideY=p.y>=b.y-hy&&p.y<=b.y+b.h+hy;
+      var hits=[];
+      if(insideX&&Math.abs(p.y-b.y)<=hy)hits.push(['t',Math.abs(p.y-b.y)/Math.max(1,hy)]);
+      if(insideX&&Math.abs(p.y-(b.y+b.h))<=hy)hits.push(['b',Math.abs(p.y-(b.y+b.h))/Math.max(1,hy)]);
+      if(insideY&&Math.abs(p.x-b.x)<=hx)hits.push(['l',Math.abs(p.x-b.x)/Math.max(1,hx)]);
+      if(insideY&&Math.abs(p.x-(b.x+b.w))<=hx)hits.push(['r',Math.abs(p.x-(b.x+b.w))/Math.max(1,hx)]);
+      hits.sort(function(a,b2){return a[1]-b2[1]});
+      if(!hits.length){drag=null; return;}
+      e.preventDefault(); try{cv.setPointerCapture(e.pointerId)}catch(_e){}
+      drag={mode:hits[0][0],start:p,orig:Object.assign({},pcCropState)};
+    });
+    cv.addEventListener('pointermove',function(e){
+      if(!drag)return;
+      e.preventDefault();
+      var p=pt(e),dx=(p.x-drag.start.x)/cv.width,dy=(p.y-drag.start.y)/cv.height;
+      var o=drag.orig,min=.04,l=o.x,t=o.y,r=o.x+o.w,b=o.y+o.h;
+      if(drag.mode==='l')l=Math.max(0,Math.min(r-min,l+dx));
+      if(drag.mode==='r')r=Math.min(1,Math.max(l+min,r+dx));
+      if(drag.mode==='t')t=Math.max(0,Math.min(b-min,t+dy));
+      if(drag.mode==='b')b=Math.min(1,Math.max(t+min,b+dy));
+      pcCropState=pcClampCrop({x:l,y:t,w:r-l,h:b-t}); pcCropRender();
+    });
+    function end(e){drag=null; try{cv.releasePointerCapture(e.pointerId)}catch(_e){}}
+    cv.addEventListener('pointerup',end); cv.addEventListener('pointercancel',end);
+  }
+
+  // Apply crop to IMAGE→PDF output
+  window.pcLoadPreparedImage_old = window.pcLoadPreparedImage_old || window.pcLoadPreparedImage;
+  window.pcLoadPreparedImage = async function(item){
+    var file=item.file||item,rotation=((item.rotation||0)%360+360)%360;
+    var img=await pcLoadImageFile(file);
+
+    // If there is any rotation or crop, build from canvas so PDF gets final result.
+    if(rotation || item.crop){
+      var sw=img.naturalWidth||img.width,sh=img.naturalHeight||img.height,swap=rotation===90||rotation===270;
+      var base=document.createElement('canvas');
+      if(rotation){
+        base.width=swap?sh:sw; base.height=swap?sw:sh;
+        var bx=base.getContext('2d');
+        bx.translate(base.width/2,base.height/2); bx.rotate(rotation*Math.PI/180); bx.drawImage(img,-sw/2,-sh/2);
+      }else{
+        base.width=sw; base.height=sh; base.getContext('2d').drawImage(img,0,0);
+      }
+      if(item.crop){
+        var c=pcClampCrop(item.crop),sx=Math.round(c.x*base.width),sy=Math.round(c.y*base.height);
+        var cw=Math.max(1,Math.round(c.w*base.width)),ch=Math.max(1,Math.round(c.h*base.height));
+        cw=Math.min(cw,base.width-sx); ch=Math.min(ch,base.height-sy);
+        var out=document.createElement('canvas'); out.width=cw; out.height=ch;
+        out.getContext('2d').drawImage(base,sx,sy,cw,ch,0,0,cw,ch);
+        return {canvas:out,width:out.width,height:out.height,file:file};
+      }
+      return {canvas:base,width:base.width,height:base.height,file:file};
+    }
+    return {image:img,width:img.naturalWidth||img.width,height:img.naturalHeight||img.height,file:file};
+  };
+
+  window.addEventListener('resize',function(){
+    var ed=document.getElementById('pcCropEditor');
+    if(ed&&ed.classList.contains('open')) setTimeout(pcCropRender,60);
+  });
+
+  // Decorate any already-rendered list
+  setTimeout(pcDecorateSelectedPreview,50);
 })();
 </script>
 

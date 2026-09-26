@@ -1,4 +1,4 @@
 {
-  "version": "1.1.43",
-  "notes": "Hotfix: fixed a JavaScript syntax error introduced while removing FAST background removal. All app tools open normally again; Photo & Signature keeps AI BEST only."
+  "version": "1.1.58",
+  "notes": "Fixed IMAGE→PDF image-read failures on Android/Google Photos. Selected images are now copied into an in-memory cache immediately after selection, and PDF generation uses robust object-URL + FileReader fallback loading."
 }
