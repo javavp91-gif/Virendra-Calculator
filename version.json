@@ -1,4 +1,4 @@
 {
-  "version": "1.1.72",
-  "notes": "RL PDF Viewer auto-hide restored to simple responsive behavior: scroll down hides controls, scroll up shows them immediately, with no delay or movement threshold."
+  "version": "1.1.75",
+  "notes": "Brick Quantity Calculator added under Quantity & Construction Work with wall size, inch thickness, brick dimensions, mortar mix, wastage, total bricks, cement and sand quantities. Mortar joint 10 mm and dry mortar factor 1.33 are fixed."
 }

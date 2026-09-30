@@ -1802,6 +1802,122 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 }
 </style>
 
+
+<style id="vcConcreteMachineryStyles">
+/* Integrated Concrete Calculator */
+#material{--cc-line:#cbd5e1;--cc-muted:#64748b;--cc-gold:#fff3cf}
+#material h2,#machineryHour h2{margin:2px 0 14px}
+#material .cc-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#material .cc-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#material .cc-row{margin-bottom:9px}
+#material .cc-row label,#material .cc-taslaBox b{display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#35536e}
+#material input,#material select{width:100%;height:46px;border:1.4px solid var(--cc-line);border-radius:11px;background:#f8fafc;padding:0 10px;color:#173453;font-size:16px;outline:none}
+#material input:focus,#material select:focus{border-color:#173453;box-shadow:0 0 0 3px #17345312}
+#material .cc-dimPair{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+#material .cc-hint{font-size:9px;color:var(--cc-muted);text-align:center;margin-top:2px}
+#material .cc-hidden{display:none!important}
+#material .cc-ratio{background:#eef6ff;border:1px solid #cfe0f2;border-radius:11px;text-align:center;padding:9px;font-size:19px;font-weight:900;margin:2px 0 10px}
+#material .cc-densityTitle{font-size:13px;font-weight:900;color:#35536e;margin:7px 0 6px}
+#material .cc-densityGrid{margin-bottom:2px}
+#material .cc-densityGrid .cc-row{margin-bottom:6px}
+#material .cc-densityGrid input{height:42px;font-size:15px;text-align:center}
+#material .cc-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:2px}
+#material .cc-actions button{height:45px;border:0;border-radius:11px;font-size:14px;font-weight:900;cursor:pointer}
+#material .cc-calcBtn{background:#173453;color:#fff}
+#material .cc-clearBtn{background:#e8eef5;color:#173453}
+#material .cc-result{background:var(--cc-gold);border:1px solid #f0dfad;border-radius:14px;padding:10px;margin-top:2px}
+#material .cc-volume{text-align:center;font-size:25px;font-weight:900}
+#material .cc-volumeFt{text-align:center;font-size:11px;color:var(--cc-muted);margin:2px 0 9px}
+#material .cc-rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#material .cc-rbox{background:#fff;border:1px solid #ead8a6;border-radius:10px;padding:8px 5px;text-align:center;min-width:0}
+#material .cc-rbox b{display:block;font-size:10px;color:#6c5b2d;margin-bottom:4px}
+#material .cc-rbox span{display:block;font-size:14px;font-weight:900;overflow-wrap:anywhere}
+#material .cc-taslaTitle{font-size:16px;font-weight:900;margin:15px 0 8px}
+#material .cc-taslaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#material .cc-taslaBox{border:1px solid #dbe3ec;border-radius:11px;padding:8px;background:#f8fafc;min-width:0}
+#material .cc-taslaBox input{height:42px;font-size:15px}
+#material .cc-taslaAns{font-size:16px;font-weight:900;margin-top:6px;overflow-wrap:anywhere}
+#material .cc-taslaSub{font-size:9px;color:var(--cc-muted);margin-top:2px;line-height:1.3}
+
+/* Integrated Brick Quantity Calculator */
+#brickQty{--bq-line:#cbd5e1;--bq-muted:#53687c;--bq-gold:#fff3cf}
+#brickQty h2{margin:2px 0 14px}
+#brickQty .bq-block{border:1px solid #dbe4ed;border-radius:16px;background:#fff;padding:12px;margin-bottom:11px}
+#brickQty .bq-block h3{font-size:16px;margin:0 0 10px;color:#173453}
+#brickQty .bq-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#brickQty .bq-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#brickQty .bq-row{margin-bottom:8px;min-width:0}
+#brickQty label{display:block;font-size:12px;font-weight:900;margin-bottom:5px;color:#294a68;line-height:1.2}
+#brickQty input,#brickQty select{width:100%;height:46px;border:1.4px solid var(--bq-line);border-radius:11px;background:#f8fafc;padding:0 9px;color:#173453;font-size:15px;font-weight:700;outline:none;min-width:0}
+#brickQty input::placeholder{color:#73869a;opacity:1;font-weight:600}
+#brickQty input:focus,#brickQty select:focus{border-color:#173453;box-shadow:0 0 0 3px #17345312}
+#brickQty .bq-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+#brickQty .bq-actions button{height:45px;border:0;border-radius:11px;font-size:14px;font-weight:900;cursor:pointer}
+#brickQty .bq-primary{background:#173453;color:#fff}
+#brickQty .bq-secondary{background:#e8eef5;color:#173453}
+#brickQty .bq-result{background:var(--bq-gold);border:1px solid #eedca5;border-radius:13px;padding:10px}
+#brickQty .bq-big{font-size:27px;font-weight:900;margin:2px 0 8px}
+#brickQty .bq-rgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+#brickQty .bq-rbox{background:#fff;border:1px solid #ead8a6;border-radius:9px;padding:7px;min-width:0}
+#brickQty .bq-rbox b{font-size:10px;color:#725e2d;display:block;margin-bottom:3px}
+#brickQty .bq-rbox span{font-size:16px;font-weight:900;overflow-wrap:anywhere}
+#brickQty .bq-mini{font-size:11px;color:var(--bq-muted);line-height:1.4;margin-top:7px;font-weight:600}
+@media(max-width:430px){
+  #brickQty .bq-grid3{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  #brickQty .bq-grid2{gap:6px}
+  #brickQty label{font-size:11px}
+  #brickQty input,#brickQty select{height:44px;font-size:14px;padding:0 6px}
+  #brickQty .bq-rbox span{font-size:14px}
+}
+
+/* Integrated Machinery Hour Register */
+#machineryHour{--mh-line:#cbd5e1;--mh-muted:#64748b;--mh-green:#0f766e;--mh-blue:#2563eb}
+#machineryHour .mh-block{border:1px solid #dbe4ed;border-radius:16px;background:#fff;padding:12px;margin-bottom:12px}
+#machineryHour .mh-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#machineryHour .mh-row{margin-bottom:10px}
+#machineryHour label{display:block;font-size:12px;font-weight:900;margin-bottom:5px;color:#35536e}
+#machineryHour input,#machineryHour select,#machineryHour textarea{width:100%;border:1.4px solid var(--mh-line);border-radius:11px;background:#f8fafc;color:#173453;font-size:16px;outline:none}
+#machineryHour input,#machineryHour select{height:47px;padding:0 11px}
+#machineryHour textarea{min-height:82px;padding:10px;resize:vertical}
+#machineryHour input:focus,#machineryHour select:focus,#machineryHour textarea:focus{border-color:#173453;box-shadow:0 0 0 3px #17345312}
+#machineryHour .mh-total{background:#edf6ff;border:1px solid #cfe0f2;border-radius:15px;padding:11px;text-align:center;margin:3px 0 11px}
+#machineryHour .mh-total small{display:block;color:#5f7285;font-size:12px;font-weight:800;margin-bottom:3px}
+#machineryHour .mh-total > b{font-size:30px;display:block}
+#machineryHour .mh-hmLine{margin-top:4px;line-height:1.1}
+#machineryHour .mh-hmNum{font-size:22px;font-weight:900;color:#173453}
+#machineryHour .mh-hmWord{font-size:15px;font-weight:800;color:#475569}
+#machineryHour .mh-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#machineryHour .mh-actions button,#machineryHour .mh-itemActions button,#machineryHour .mh-pdfBtn{border:0;border-radius:11px;font-size:13px;font-weight:900;cursor:pointer}
+#machineryHour .mh-actions button{height:46px}
+#machineryHour .mh-primary{background:#173453;color:#fff}
+#machineryHour .mh-secondary{background:#e8eef5;color:#173453}
+#machineryHour .mh-red{background:#fee2e2;color:#991b1b}
+#machineryHour .mh-green{background:var(--mh-green);color:#fff}
+#machineryHour .mh-searchRow,#machineryHour .mh-statementTools{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#machineryHour .mh-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:2px 0 10px}
+#machineryHour .mh-sumBox{background:#f8fafc;border:1px solid #dbe4ed;border-radius:12px;padding:9px}
+#machineryHour .mh-sumBox small{display:block;color:var(--mh-muted);font-size:10px;font-weight:800}
+#machineryHour .mh-sumBox b{font-size:20px;margin-top:3px;display:block}
+#machineryHour .mh-list{display:grid;gap:9px}
+#machineryHour .mh-item{border:1px solid #dbe4ed;border-radius:14px;background:#fbfdff;padding:10px}
+#machineryHour .mh-itemTop{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+#machineryHour .mh-itemTitle{font-weight:900;font-size:15px}
+#machineryHour .mh-itemMeta{font-size:11px;color:var(--mh-muted);margin-top:3px;line-height:1.45}
+#machineryHour .mh-itemHours{font-size:20px;font-weight:900;white-space:nowrap}
+#machineryHour .mh-itemRemarks{margin-top:6px;font-size:12px;line-height:1.4;color:#314a61}
+#machineryHour .mh-itemActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+#machineryHour .mh-itemActions button{height:37px}
+#machineryHour .mh-empty{text-align:center;color:var(--mh-muted);padding:18px 4px;font-size:12px}
+#machineryHour .mh-pdfBtn{width:100%;height:46px;background:var(--mh-blue);color:#fff;margin-top:2px}
+#machineryHour .mh-mini{font-size:10px;color:var(--mh-muted);line-height:1.45;margin-top:7px}
+@media(max-width:430px){
+  #material .cc-grid3,#material .cc-rgrid,#material .cc-taslaGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #material .cc-rbox span{font-size:12px}
+  #material .cc-taslaAns{font-size:14px}
+  #machineryHour .mh-grid2,#machineryHour .mh-searchRow,#machineryHour .mh-statementTools{grid-template-columns:1fr}
+}
+</style>
+
 </head>
 <body class="">
 <div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
@@ -1994,14 +2110,138 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 </section>
 
 <section id="material" class="card hidden">
-<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Concrete Quantity</strong></div>
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Concrete Calculator</strong></div>
+<h2>Concrete Calculator</h2>
 
-<h2>Concrete Quantity</h2>
-<div class="row"><label>Length (m)</label><input id="ml" type="number" step="any" inputmode="decimal" oninput="materialCalc()"></div>
-<div class="row"><label>Width (m)</label><input id="mw" type="number" step="any" inputmode="decimal" oninput="materialCalc()"></div>
-<div class="row"><label>Thickness (mm)</label><input id="mt" type="number" step="any" inputmode="decimal" oninput="materialCalc()"></div>
-<div class="result"><div class="rtitle">Concrete</div><div class="answer" id="mtot">—</div></div>
-<button class="clear" onclick="navBack()">Back</button>
+<div class="cc-row"><label>Input Unit</label><select id="ccUnit" onchange="ccUpdateUnit();ccCalc()"><option value="m">Meter (m)</option><option value="ft">Feet (ft + inch)</option></select></div>
+<div class="cc-grid3">
+  <div class="cc-row"><label>Length</label><input id="ccLength" class="cc-mOnly" type="number" step="any" inputmode="decimal" placeholder="m" oninput="ccCalc()"><div class="cc-dimPair cc-ftOnly cc-hidden"><div><input id="ccLengthFt" type="number" step="1" inputmode="numeric" placeholder="ft" oninput="ccCalc()"><div class="cc-hint">ft</div></div><div><input id="ccLengthIn" type="number" step="any" inputmode="decimal" placeholder="in" oninput="ccCalc()"><div class="cc-hint">inch</div></div></div></div>
+  <div class="cc-row"><label>Width</label><input id="ccWidth" class="cc-mOnly" type="number" step="any" inputmode="decimal" placeholder="m" oninput="ccCalc()"><div class="cc-dimPair cc-ftOnly cc-hidden"><div><input id="ccWidthFt" type="number" step="1" inputmode="numeric" placeholder="ft" oninput="ccCalc()"><div class="cc-hint">ft</div></div><div><input id="ccWidthIn" type="number" step="any" inputmode="decimal" placeholder="in" oninput="ccCalc()"><div class="cc-hint">inch</div></div></div></div>
+  <div class="cc-row"><label>Depth</label><input id="ccDepth" class="cc-mOnly" type="number" step="any" inputmode="decimal" placeholder="m" oninput="ccCalc()"><div class="cc-dimPair cc-ftOnly cc-hidden"><div><input id="ccDepthFt" type="number" step="1" inputmode="numeric" placeholder="ft" oninput="ccCalc()"><div class="cc-hint">ft</div></div><div><input id="ccDepthIn" type="number" step="any" inputmode="decimal" placeholder="in" oninput="ccCalc()"><div class="cc-hint">inch</div></div></div></div>
+</div>
+
+<div class="cc-grid2">
+  <div class="cc-row"><label>Grade</label><select id="ccGrade" onchange="ccGradeChange()"><option value="M10">M10 — 1:3:6</option><option value="M15">M15 — 1:2:4</option><option value="M20" selected>M20 — 1:1.5:3</option><option value="CUSTOM">Custom</option></select></div>
+  <div class="cc-row"><label>Dry Volume Factor</label><input id="ccDryFactor" type="number" step="any" inputmode="decimal" value="1.54" oninput="ccCalc()"></div>
+</div>
+<div class="cc-grid3">
+  <div class="cc-row"><label>Cement</label><input id="ccCementRatio" type="number" step="any" value="1" oninput="ccCalc()"></div>
+  <div class="cc-row"><label>Sand</label><input id="ccSandRatio" type="number" step="any" value="1.5" oninput="ccCalc()"></div>
+  <div class="cc-row"><label>Aggregate / Gitti</label><input id="ccAggRatio" type="number" step="any" value="3" oninput="ccCalc()"></div>
+</div>
+<div class="cc-ratio" id="ccMixRatio">1 : 1.5 : 3</div>
+
+<div class="cc-densityTitle">Density (kg/m³)</div>
+<div class="cc-grid3 cc-densityGrid">
+  <div class="cc-row"><label>Cement</label><input id="ccCementDensity" type="number" step="any" inputmode="decimal" value="1440" oninput="ccCalc()"></div>
+  <div class="cc-row"><label>Sand</label><input id="ccSandDensity" type="number" step="any" inputmode="decimal" value="1600" oninput="ccCalc()"></div>
+  <div class="cc-row"><label>Aggregate / Gitti</label><input id="ccAggDensity" type="number" step="any" inputmode="decimal" value="1500" oninput="ccCalc()"></div>
+</div>
+
+<div class="cc-result">
+  <div class="cc-volume" id="ccWetVolume">0.000 m³</div><div class="cc-volumeFt" id="ccWetVolumeFt">0.000 ft³</div>
+  <div class="cc-rgrid">
+    <div class="cc-rbox"><b>Cement</b><span id="ccCementResult">0.00 Bag</span></div>
+    <div class="cc-rbox"><b>Sand</b><span id="ccSandResult">0.0 kg</span></div>
+    <div class="cc-rbox"><b>Aggregate / Gitti</b><span id="ccAggResult">0.0 kg</span></div>
+  </div>
+</div>
+
+<div class="cc-taslaTitle">Tasla / Construction Pan</div>
+<div class="cc-taslaGrid">
+  <div class="cc-taslaBox"><b>Cement — 1 Tasla / Pan (kg)</b><input id="ccCementTasla" type="number" step="any" inputmode="decimal" oninput="ccCalc()"><div id="ccCementTaslaAns" class="cc-taslaAns">0.00</div><div id="ccCementTaslaSub" class="cc-taslaSub">0.0 kg</div></div>
+  <div class="cc-taslaBox"><b>Sand — 1 Tasla / Pan (kg)</b><input id="ccSandTasla" type="number" step="any" inputmode="decimal" oninput="ccCalc()"><div id="ccSandTaslaAns" class="cc-taslaAns">0.00</div><div id="ccSandTaslaSub" class="cc-taslaSub">0.0 kg</div></div>
+  <div class="cc-taslaBox"><b>Aggregate / Gitti — 1 Tasla / Pan (kg)</b><input id="ccAggTasla" type="number" step="any" inputmode="decimal" oninput="ccCalc()"><div id="ccAggTaslaAns" class="cc-taslaAns">0.00</div><div id="ccAggTaslaSub" class="cc-taslaSub">0.0 kg</div></div>
+</div>
+<div class="cc-actions"><button class="cc-calcBtn" type="button" onclick="ccCalc()">CALCULATE</button><button class="cc-clearBtn" type="button" onclick="ccClear()">CLEAR</button></div>
+</section>
+
+<section id="machineryHour" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Machinery Hour Register</strong></div>
+<h2>Machinery Hour Register</h2>
+
+<div class="mh-block">
+  <div class="mh-grid2">
+    <div class="mh-row"><label>Date</label><input id="mhDate" type="date"></div>
+    <div class="mh-row"><label>Machine / Vehicle</label><select id="mhMachine" onchange="mhSyncManual()"><option>JCB</option><option>Excavator</option><option>Roller</option><option>Grader</option><option>Paver</option><option>Loader</option><option>Hydra</option><option>Tipper</option><option>Water Tanker</option><option>Tractor</option><option value="MANUAL">Manual Entry</option></select></div>
+  </div>
+  <div class="mh-row" id="mhManualRow" style="display:none"><label>Machine / Vehicle Name</label><input id="mhManual" placeholder="e.g. Dumper, Crane, Pickup, Bolero"></div>
+  <div class="mh-row"><label>Machine No. / Registration No.</label><input id="mhMachineNo" placeholder="e.g. MH-27-AB-1234"></div>
+  <div class="mh-grid2">
+    <div class="mh-row"><label>Opening Hour Meter</label><input id="mhOpening" type="number" step="any" inputmode="decimal" placeholder="e.g. 1250.4" oninput="mhCalcHours()"></div>
+    <div class="mh-row"><label>Closing Hour Meter</label><input id="mhClosing" type="number" step="any" inputmode="decimal" placeholder="e.g. 1258.9" oninput="mhCalcHours()"></div>
+  </div>
+  <div class="mh-total"><small>Total Running Hours</small><b id="mhTotalHours">0.00 Hr</b><div id="mhTotalHM" class="mh-hmLine"><span class="mh-hmNum">0</span> <span class="mh-hmWord">Hours</span> <span class="mh-hmNum">0</span> <span class="mh-hmWord">Minutes</span></div></div>
+  <div class="mh-grid2"><div class="mh-row"><label>Diesel Issued (Litre)</label><input id="mhDiesel" type="number" step="any" inputmode="decimal" placeholder="e.g. 35"></div><div class="mh-row"><label>Operator Name</label><input id="mhOperator" placeholder="Operator name"></div></div>
+  <div class="mh-row"><label>Work Location / Chainage</label><input id="mhLocation" placeholder="e.g. Ch. 2+300 to 2+650"></div>
+  <div class="mh-row"><label>Remarks / Work Done</label><textarea id="mhRemarks" placeholder="e.g. GSB spreading, excavation, grading..."></textarea></div>
+  <div class="mh-actions"><button class="mh-primary" type="button" onclick="mhSaveEntry()">SAVE ENTRY</button><button class="mh-secondary" type="button" onclick="mhNewEntry()">NEW / CLEAR</button></div>
+</div>
+
+<div class="mh-block">
+  <h2>Saved Register</h2>
+  <div class="mh-searchRow"><div class="mh-row"><label>Search Date / Machine / No.</label><input id="mhSearch" placeholder="Search..." oninput="mhRenderList()"></div><div class="mh-row"><label>Filter Date</label><input id="mhFilterDate" type="date" onchange="mhRenderList()"></div></div>
+  <div class="mh-summary"><div class="mh-sumBox"><small>Total Entries</small><b id="mhSumEntries">0</b></div><div class="mh-sumBox"><small>Total Hours</small><b id="mhSumHours">0.00</b></div><div class="mh-sumBox"><small>Total Diesel</small><b id="mhSumDiesel">0.00 L</b></div><div class="mh-sumBox"><small>Avg. L/Hr</small><b id="mhSumAvg">0.00</b></div></div>
+  <div id="mhList" class="mh-list"></div>
+</div>
+
+<div class="mh-block">
+  <h2>Date-wise PDF Statement</h2>
+  <div class="mh-statementTools"><div class="mh-row"><label>From Date</label><input id="mhFromDate" type="date"></div><div class="mh-row"><label>To Date</label><input id="mhToDate" type="date"></div></div>
+  <button class="mh-pdfBtn" type="button" onclick="mhDownloadStatement()">DOWNLOAD PDF STATEMENT</button>
+  <div class="mh-mini">S.No. • Date • Machine • Opening • Closing • Hours • Diesel • Operator • Location • Remarks</div>
+</div>
+</section>
+
+<section id="brickQty" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Brick Quantity Calculator</strong></div>
+<h2>Brick Quantity Calculator</h2>
+
+<div class="bq-block">
+  <h3>Wall Size</h3>
+  <div class="bq-grid3">
+    <div class="bq-row"><label>Wall Length</label><input id="bqWallL" type="number" step="any" inputmode="decimal" placeholder="E.g. 5" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Wall Height</label><input id="bqWallH" type="number" step="any" inputmode="decimal" placeholder="E.g. 3" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Length / Height Unit</label><select id="bqWallUnit" onchange="bqCalc()"><option value="m">Meter (m)</option><option value="ft">Feet (ft)</option></select></div>
+  </div>
+  <div class="bq-grid2">
+    <div class="bq-row"><label>Wall Thickness</label><input id="bqWallT" type="number" step="any" inputmode="decimal" placeholder="E.g. 9" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Thickness Unit</label><select id="bqThicknessUnit" onchange="bqCalc()"><option value="in" selected>Inch (in)</option><option value="m">Meter (m)</option><option value="ft">Feet (ft)</option></select></div>
+  </div>
+</div>
+
+<div class="bq-block">
+  <h3>Brick</h3>
+  <div class="bq-grid3">
+    <div class="bq-row"><label>Brick Length (mm)</label><input id="bqBrickL" type="number" step="any" inputmode="decimal" value="190" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Brick Width (mm)</label><input id="bqBrickW" type="number" step="any" inputmode="decimal" value="90" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Brick Height (mm)</label><input id="bqBrickH" type="number" step="any" inputmode="decimal" value="90" oninput="bqCalc()"></div>
+  </div>
+  <h3 style="margin-top:3px">Mortar Mix (Cement : Sand Ratio)</h3>
+  <div class="bq-grid3">
+    <div class="bq-row"><label>Cement</label><input id="bqCementRatio" type="number" step="any" inputmode="decimal" value="1" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Sand</label><input id="bqSandRatio" type="number" step="any" inputmode="decimal" value="6" oninput="bqCalc()"></div>
+    <div class="bq-row"><label>Wastage (%)</label><input id="bqWastage" type="number" step="any" inputmode="decimal" value="5" oninput="bqCalc()"></div>
+  </div>
+  <div class="bq-actions"><button class="bq-primary" type="button" onclick="bqCalc()">CALCULATE</button><button class="bq-secondary" type="button" onclick="bqClear()">CLEAR</button></div>
+</div>
+
+<div class="bq-block">
+  <h3>Result</h3>
+  <div class="bq-result">
+    <b>Total Bricks</b>
+    <div id="bqBricks" class="bq-big">0 Nos.</div>
+    <div class="bq-rgrid">
+      <div class="bq-rbox"><b>Wall Volume</b><span id="bqWallVol">0.000 m³</span></div>
+      <div class="bq-rbox"><b>Wet Mortar</b><span id="bqWetMortar">0.000 m³</span></div>
+      <div class="bq-rbox"><b>Cement</b><span id="bqCementKg">0 kg</span></div>
+      <div class="bq-rbox"><b>Cement Bags</b><span id="bqCementBags">0.00</span></div>
+      <div class="bq-rbox"><b>Sand</b><span id="bqSandVol">0.000 m³</span></div>
+      <div class="bq-rbox"><b>Sand Weight</b><span id="bqSandKg">0 kg</span></div>
+    </div>
+  </div>
+  <div class="bq-mini">Fixed: Mortar Joint = 10 mm • Dry Mortar Factor = 1.33</div>
+</div>
 </section>
 
 <section id="single" class="card hidden">
@@ -4356,7 +4596,9 @@ body.day .sound-toggle{
   <nav class="nav">
     <button onclick="show('earthwork')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 40h33l8 8H17z" fill="#e7a90d"/><rect x="12" y="27" width="27" height="14" rx="2" fill="#ffc928"/><path d="M13 27l8-10 18 10z" fill="#8d6e63"/><circle cx="20" cy="50" r="6" fill="#263238"/><circle cx="46" cy="50" r="6" fill="#263238"/><circle cx="20" cy="50" r="2" fill="#cfd8dc"/><circle cx="46" cy="50" r="2" fill="#cfd8dc"/></svg></span><span class="toolLabel">Soil Cut / Fill Quantity</span></button>
     <button onclick="show('gsbQty')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="49" rx="25" ry="7" fill="#cab9a8"/><circle cx="18" cy="39" r="8" fill="#85888b"/><circle cx="31" cy="34" r="10" fill="#abadb0"/><circle cx="46" cy="40" r="8" fill="#707376"/><circle cx="29" cy="46" r="7" fill="#66696c"/><circle cx="41" cy="48" r="6" fill="#989b9e"/></svg></span><span class="toolLabel">GSB Quantity</span></button>
-    <button onclick="show('material')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 49h38l-6-27H19z" fill="#b0bec5" stroke="#546e7a" stroke-width="2"/><path d="M19 22h26" stroke="#78909c" stroke-width="5"/><path d="M23 16h18l4 6H19z" fill="#f57c00"/><circle cx="17" cy="52" r="5" fill="#37474f"/><circle cx="47" cy="52" r="5" fill="#37474f"/></svg></span><span class="toolLabel">Concrete Quantity</span></button>
+    <button onclick="show('material')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 49h38l-6-27H19z" fill="#b0bec5" stroke="#546e7a" stroke-width="2"/><path d="M19 22h26" stroke="#78909c" stroke-width="5"/><path d="M23 16h18l4 6H19z" fill="#f57c00"/><circle cx="17" cy="52" r="5" fill="#37474f"/><circle cx="47" cy="52" r="5" fill="#37474f"/></svg></span><span class="toolLabel">Concrete Calculator</span></button>
+    <button onclick="show('brickQty')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="13" width="50" height="38" rx="3" fill="#f2d1a0" stroke="#8d5f32" stroke-width="2"/><path d="M7 25h50M7 38h50M20 13v12M43 13v12M14 25v13M34 25v13M50 25v13M23 38v13M45 38v13" stroke="#b56b37" stroke-width="3"/><path d="M9 53h46" stroke="#64748b" stroke-width="3"/></svg></span><span class="toolLabel">Brick Quantity Calculator</span></button>
+    <button onclick="show('machineryHour')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="29" width="38" height="18" rx="3" fill="#f4b942" stroke="#7a5a12" stroke-width="2"/><path d="M17 29l7-10h14l6 10" fill="#ffd66b" stroke="#7a5a12" stroke-width="2"/><circle cx="18" cy="49" r="7" fill="#37474f"/><circle cx="43" cy="49" r="7" fill="#37474f"/><circle cx="18" cy="49" r="3" fill="#cfd8dc"/><circle cx="43" cy="49" r="3" fill="#cfd8dc"/><circle cx="50" cy="17" r="9" fill="#fff" stroke="#173453" stroke-width="3"/><path d="M50 12v6l4 2" fill="none" stroke="#173453" stroke-width="2.5" stroke-linecap="round"/></svg></span><span class="toolLabel">Machinery Hour Register</span></button>
     
     <button onclick="show('price')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="52" rx="8" fill="#173453"/><rect x="16" y="12" width="32" height="11" rx="3" fill="#eaf5ff"/><text x="32" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#0d2d56">₹</text><g fill="#fff"><rect x="17" y="29" width="7" height="7" rx="2"/><rect x="28" y="29" width="7" height="7" rx="2"/><rect x="39" y="29" width="7" height="7" rx="2"/><rect x="17" y="40" width="7" height="7" rx="2"/><rect x="28" y="40" width="7" height="7" rx="2"/></g><rect x="39" y="40" width="7" height="15" rx="2" fill="#f59e0b"/><rect x="17" y="51" width="18" height="4" rx="2" fill="#fff"/></svg></span><span class="toolLabel">Price Calculator</span></button>
   </nav>
@@ -8478,7 +8720,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.66';
+  var VC_APP_VERSION='1.1.75';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -10377,6 +10619,103 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   document.addEventListener('input',function(e){if(e.target&&e.target.id==='nbText')updateMeta()});
   document.addEventListener('DOMContentLoaded',function(){if(el('nbWorkDate')&&!el('nbWorkDate').value)el('nbWorkDate').value=todayISO();statementDefaultDates();updateMeta();nbRenderNotes()});
   window.addEventListener('load',function(){if(el('nbWorkDate')&&!el('nbWorkDate').value)el('nbWorkDate').value=todayISO();statementDefaultDates();updateMeta();nbRenderNotes()});
+})();
+</script>
+
+
+<script id="vcConcreteMachineryScript">
+(function(){
+'use strict';
+var ccPresets={M10:[1,3,6],M15:[1,2,4],M20:[1,1.5,3]};
+function ccEl(id){return document.getElementById(id)}
+function ccNum(id){var el=ccEl(id),v=el?parseFloat(el.value):NaN;return Number.isFinite(v)?v:0}
+function ccF1(x){return Number.isFinite(x)?x.toFixed(1):'0.0'}
+function ccF2(x){return Number.isFinite(x)?x.toFixed(2):'0.00'}
+function ccF3(x){return Number.isFinite(x)?x.toFixed(3):'0.000'}
+function ccRatioFmt(x){return String(parseFloat((Number(x)||0).toFixed(3)))}
+window.ccUpdateUnit=function(){var ft=ccEl('ccUnit')&&ccEl('ccUnit').value==='ft';document.querySelectorAll('#material .cc-mOnly').forEach(function(x){x.classList.toggle('cc-hidden',ft)});document.querySelectorAll('#material .cc-ftOnly').forEach(function(x){x.classList.toggle('cc-hidden',!ft)})};
+function ccDimM(base){if(!ccEl('ccUnit')||ccEl('ccUnit').value!=='ft')return ccNum('cc'+base);var ft=ccNum('cc'+base+'Ft'),inch=ccNum('cc'+base+'In');return (ft+inch/12)*0.3048}
+function ccTasla(total,per){if(!(total>0)||!(per>0))return {a:'0.00',s:ccF1(total)+' kg'};var exact=total/per,full=Math.floor(exact),rem=total-full*per;return {a:ccF2(exact)+' Tasla / Pan',s:full+' full + '+ccF1(rem)+' kg'}}
+function ccRender(wet,cKg,sKg,aKg){
+  if(!ccEl('ccWetVolume'))return;
+  ccEl('ccWetVolume').textContent=ccF3(wet)+' m³';ccEl('ccWetVolumeFt').textContent=ccF3(wet*35.3146667)+' ft³';
+  ccEl('ccCementResult').textContent=ccF2(cKg/50)+' Bag / '+ccF1(cKg)+' kg';ccEl('ccSandResult').textContent=ccF1(sKg)+' kg';ccEl('ccAggResult').textContent=ccF1(aKg)+' kg';
+  var c=ccTasla(cKg,ccNum('ccCementTasla')),sd=ccTasla(sKg,ccNum('ccSandTasla')),a=ccTasla(aKg,ccNum('ccAggTasla'));
+  ccEl('ccCementTaslaAns').textContent=c.a;ccEl('ccCementTaslaSub').textContent=c.s;ccEl('ccSandTaslaAns').textContent=sd.a;ccEl('ccSandTaslaSub').textContent=sd.s;ccEl('ccAggTaslaAns').textContent=a.a;ccEl('ccAggTaslaSub').textContent=a.s;
+}
+window.ccCalc=function(){
+  if(!ccEl('ccUnit'))return;
+  var L=ccDimM('Length'),W=ccDimM('Width'),D=ccDimM('Depth'),cr=ccNum('ccCementRatio'),sr=ccNum('ccSandRatio'),ar=ccNum('ccAggRatio'),sum=cr+sr+ar;
+  ccEl('ccMixRatio').textContent=ccRatioFmt(cr)+' : '+ccRatioFmt(sr)+' : '+ccRatioFmt(ar);
+  if(L<=0||W<=0||D<=0||cr<=0||sr<0||ar<0||sum<=0){ccRender(0,0,0,0);return}
+  var wet=L*W*D,dry=wet*(ccNum('ccDryFactor')||1.54),cv=dry*cr/sum,sv=dry*sr/sum,av=dry*ar/sum;
+  var cDensity=ccNum('ccCementDensity')||1440,sDensity=ccNum('ccSandDensity')||1600,aDensity=ccNum('ccAggDensity')||1500;
+  ccRender(wet,cv*cDensity,sv*sDensity,av*aDensity);
+};
+window.ccGradeChange=function(){var g=ccEl('ccGrade').value,p=ccPresets[g];if(p){ccEl('ccCementRatio').value=p[0];ccEl('ccSandRatio').value=p[1];ccEl('ccAggRatio').value=p[2]}ccCalc()};
+window.ccClear=function(){
+  if(!ccEl('ccUnit'))return;ccEl('ccUnit').value='m';['ccLength','ccWidth','ccDepth','ccLengthFt','ccLengthIn','ccWidthFt','ccWidthIn','ccDepthFt','ccDepthIn','ccCementTasla','ccSandTasla','ccAggTasla'].forEach(function(id){var e=ccEl(id);if(e)e.value=''});
+  ccEl('ccGrade').value='M20';ccEl('ccCementRatio').value='1';ccEl('ccSandRatio').value='1.5';ccEl('ccAggRatio').value='3';ccEl('ccDryFactor').value='1.54';ccEl('ccCementDensity').value='1440';ccEl('ccSandDensity').value='1600';ccEl('ccAggDensity').value='1500';ccUpdateUnit();ccCalc();
+};
+
+
+function bqEl(id){return document.getElementById(id)}
+function bqNum(id){var e=bqEl(id),n=e?parseFloat(e.value):NaN;return Number.isFinite(n)?n:0}
+function bqToM(v,u){if(u==='ft')return v*0.3048;if(u==='in')return v*0.0254;return v}
+function bqShow(bricks,wallVol,wetMortar,cementKg,cementBags,sandVol,sandKg){
+  if(!bqEl('bqBricks'))return;
+  bqEl('bqBricks').textContent=Math.ceil(bricks||0)+' Nos.';
+  bqEl('bqWallVol').textContent=(wallVol||0).toFixed(3)+' m³';
+  bqEl('bqWetMortar').textContent=(wetMortar||0).toFixed(3)+' m³';
+  bqEl('bqCementKg').textContent=(cementKg||0).toFixed(1)+' kg';
+  bqEl('bqCementBags').textContent=(cementBags||0).toFixed(2);
+  bqEl('bqSandVol').textContent=(sandVol||0).toFixed(3)+' m³';
+  bqEl('bqSandKg').textContent=(sandKg||0).toFixed(1)+' kg';
+}
+window.bqCalc=function(){
+  if(!bqEl('bqWallL'))return;
+  var L=bqToM(bqNum('bqWallL'),bqEl('bqWallUnit').value),H=bqToM(bqNum('bqWallH'),bqEl('bqWallUnit').value),T=bqToM(bqNum('bqWallT'),bqEl('bqThicknessUnit').value);
+  var bL=bqNum('bqBrickL')/1000,bW=bqNum('bqBrickW')/1000,bH=bqNum('bqBrickH')/1000,j=0.010,waste=Math.max(0,bqNum('bqWastage')),c=bqNum('bqCementRatio'),s=bqNum('bqSandRatio'),dryF=1.33;
+  if(L<=0||H<=0||T<=0||bL<=0||bW<=0||bH<=0||c<0||s<0||(c+s)<=0){bqShow(0,0,0,0,0,0,0);return}
+  var wallVol=L*H*T,brickVol=bL*bW*bH,brickWithMortar=(bL+j)*(bW+j)*(bH+j),baseCount=wallVol/brickWithMortar,brickCount=Math.ceil(baseCount*(1+waste/100));
+  var wetMortar=wallVol-(baseCount*brickVol);if(wetMortar<0)wetMortar=0;
+  var dryMortar=wetMortar*dryF,totalRatio=c+s,cementVol=dryMortar*c/totalRatio,sandVol=dryMortar*s/totalRatio,cementKg=cementVol*1440,cementBags=cementKg/50,sandKg=sandVol*1600;
+  bqShow(brickCount,wallVol,wetMortar,cementKg,cementBags,sandVol,sandKg);
+};
+window.bqClear=function(){
+  if(!bqEl('bqWallL'))return;
+  ['bqWallL','bqWallH','bqWallT'].forEach(function(id){bqEl(id).value=''});
+  bqEl('bqWallUnit').value='m';bqEl('bqThicknessUnit').value='in';bqEl('bqBrickL').value='190';bqEl('bqBrickW').value='90';bqEl('bqBrickH').value='90';bqEl('bqCementRatio').value='1';bqEl('bqSandRatio').value='6';bqEl('bqWastage').value='5';bqCalc();
+};
+
+var MH_KEY='machineryHourRegisterV1',mhEditId=null,mhPreset=['JCB','Excavator','Roller','Grader','Paver','Loader','Hydra','Tipper','Water Tanker','Tractor'];
+function mhEl(id){return document.getElementById(id)}
+function mhNumVal(v){var n=parseFloat(v);return Number.isFinite(n)?n:0}
+function mhToday(){var d=new Date(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return d.getFullYear()+'-'+m+'-'+day}
+function mhLoad(){try{return JSON.parse(localStorage.getItem(MH_KEY)||'[]')}catch(e){return[]}}
+function mhStore(d){try{localStorage.setItem(MH_KEY,JSON.stringify(d))}catch(e){alert('Data save नहीं हो पाया') }}
+function mhEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+window.mhCalcHours=function(){if(!mhEl('mhOpening'))return 0;var o=mhNumVal(mhEl('mhOpening').value),c=mhNumVal(mhEl('mhClosing').value),h=(c>=o&&o>=0)?c-o:0;mhEl('mhTotalHours').textContent=h.toFixed(2)+' Hr';var tm=Math.round(h*60),hh=Math.floor(tm/60),mm=tm%60;mhEl('mhTotalHM').innerHTML='<span class="mh-hmNum">'+hh+'</span> <span class="mh-hmWord">Hours</span> <span class="mh-hmNum">'+mm+'</span> <span class="mh-hmWord">Minutes</span>';return h};
+window.mhSyncManual=function(){if(!mhEl('mhMachine'))return;var manual=mhEl('mhMachine').value==='MANUAL';mhEl('mhManualRow').style.display=manual?'block':'none';if(!manual)mhEl('mhManual').value=''};
+function mhMachineValue(){return mhEl('mhMachine').value==='MANUAL'?mhEl('mhManual').value.trim():mhEl('mhMachine').value}
+window.mhNewEntry=function(){if(!mhEl('mhDate'))return;mhEditId=null;mhEl('mhDate').value=mhToday();mhEl('mhMachine').value='JCB';mhEl('mhManual').value='';mhSyncManual();['mhMachineNo','mhOpening','mhClosing','mhDiesel','mhOperator','mhLocation','mhRemarks'].forEach(function(id){mhEl(id).value=''});mhCalcHours();var sec=mhEl('machineryHour');if(sec)sec.scrollTop=0};
+window.mhSaveEntry=function(){
+  var date=mhEl('mhDate').value,opening=mhNumVal(mhEl('mhOpening').value),closing=mhNumVal(mhEl('mhClosing').value),machine=mhMachineValue();
+  if(!date){alert('Date select करें');return}if(!machine){alert('Machine / Vehicle name डालें');return}if(mhEl('mhOpening').value===''||mhEl('mhClosing').value===''){alert('Opening और Closing Hour Meter डालें');return}if(closing<opening){alert('Closing Hour Meter, Opening से कम नहीं हो सकता');return}
+  var e={id:mhEditId||('m'+Date.now()),date:date,machine:machine,machineNo:mhEl('mhMachineNo').value.trim(),opening:opening,closing:closing,hours:closing-opening,diesel:mhNumVal(mhEl('mhDiesel').value),operator:mhEl('mhOperator').value.trim(),location:mhEl('mhLocation').value.trim(),remarks:mhEl('mhRemarks').value.trim(),updatedAt:Date.now()};
+  var d=mhLoad(),ix=d.findIndex(function(x){return x.id===e.id});if(ix>=0)d[ix]=e;else d.push(e);mhStore(d);mhRenderList();alert(ix>=0?'Entry updated':'Entry saved');mhNewEntry();
+};
+window.mhEditEntry=function(id){var e=mhLoad().find(function(x){return x.id===id});if(!e)return;mhEditId=id;mhEl('mhDate').value=e.date||mhToday();var m=e.machine||'JCB';if(mhPreset.indexOf(m)>=0){mhEl('mhMachine').value=m;mhEl('mhManual').value=''}else{mhEl('mhMachine').value='MANUAL';mhEl('mhManual').value=m==='Other'?'':m}mhSyncManual();if(mhEl('mhMachine').value==='MANUAL')mhEl('mhManual').value=m==='Other'?'':m;mhEl('mhMachineNo').value=e.machineNo||'';mhEl('mhOpening').value=e.opening==null?'':e.opening;mhEl('mhClosing').value=e.closing==null?'':e.closing;mhEl('mhDiesel').value=e.diesel==null?'':e.diesel;mhEl('mhOperator').value=e.operator||'';mhEl('mhLocation').value=e.location||'';mhEl('mhRemarks').value=e.remarks||'';mhCalcHours();var sec=mhEl('machineryHour');if(sec)sec.scrollTop=0};
+window.mhDeleteEntry=function(id){if(!confirm('यह entry delete करें?'))return;mhStore(mhLoad().filter(function(x){return x.id!==id}));mhRenderList()};
+function mhFiltered(){var d=mhLoad().slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.updatedAt||0)-(a.updatedAt||0)}),q=(mhEl('mhSearch').value||'').trim().toLowerCase(),fd=mhEl('mhFilterDate').value;if(q)d=d.filter(function(e){return [e.date,e.machine,e.machineNo,e.operator,e.location,e.remarks].join(' ').toLowerCase().indexOf(q)>=0});if(fd)d=d.filter(function(e){return e.date===fd});return d}
+window.mhRenderList=function(){if(!mhEl('mhList'))return;var d=mhFiltered(),list=mhEl('mhList');if(!d.length)list.innerHTML='<div class="mh-empty">कोई entry नहीं मिली</div>';else list.innerHTML=d.map(function(e){return '<div class="mh-item"><div class="mh-itemTop"><div><div class="mh-itemTitle">'+mhEsc(e.machine)+(e.machineNo?' - '+mhEsc(e.machineNo):'')+'</div><div class="mh-itemMeta">'+mhEsc(e.date)+' • Operator: '+mhEsc(e.operator||'—')+'<br>'+mhEsc(e.location||'')+'</div></div><div class="mh-itemHours">'+mhNumVal(e.hours).toFixed(2)+' Hr</div></div><div class="mh-itemMeta">Opening: '+mhNumVal(e.opening).toFixed(2)+' • Closing: '+mhNumVal(e.closing).toFixed(2)+' • Diesel: '+mhNumVal(e.diesel).toFixed(2)+' L</div>'+(e.remarks?'<div class="mh-itemRemarks">'+mhEsc(e.remarks)+'</div>':'')+'<div class="mh-itemActions"><button class="mh-secondary" onclick="mhEditEntry(\''+e.id+'\')">EDIT</button><button class="mh-red" onclick="mhDeleteEntry(\''+e.id+'\')">DELETE</button><button class="mh-green" onclick="mhDownloadSingle(\''+e.id+'\')">PDF</button></div></div>'}).join('');var h=d.reduce(function(t,e){return t+mhNumVal(e.hours)},0),diesel=d.reduce(function(t,e){return t+mhNumVal(e.diesel)},0);mhEl('mhSumEntries').textContent=d.length;mhEl('mhSumHours').textContent=h.toFixed(2);mhEl('mhSumDiesel').textContent=diesel.toFixed(2)+' L';mhEl('mhSumAvg').textContent=(h>0?diesel/h:0).toFixed(2)};
+function mhReportHtml(rows,title,range){var totalH=rows.reduce(function(t,e){return t+mhNumVal(e.hours)},0),totalD=rows.reduce(function(t,e){return t+mhNumVal(e.diesel)},0),trs=rows.map(function(e,i){return '<tr><td>'+(i+1)+'</td><td>'+mhEsc(e.date)+'</td><td>'+mhEsc(e.machine)+'</td><td>'+mhEsc(e.machineNo||'')+'</td><td>'+mhNumVal(e.opening).toFixed(2)+'</td><td>'+mhNumVal(e.closing).toFixed(2)+'</td><td>'+mhNumVal(e.hours).toFixed(2)+'</td><td>'+mhNumVal(e.diesel).toFixed(2)+'</td><td>'+mhEsc(e.operator||'')+'</td><td>'+mhEsc(e.location||'')+'</td><td>'+mhEsc(e.remarks||'')+'</td></tr>'}).join('');return '<!doctype html><html><head><meta charset="utf-8"><title>'+mhEsc(title)+'</title><style>@page{size:A4 landscape;margin:9mm}body{font-family:Arial,sans-serif;color:#111;margin:0}h1{text-align:center;font-size:20px;margin:0}.sub{text-align:center;font-size:11px;margin:5px 0 10px}table{width:100%;border-collapse:collapse;font-size:9px}th,td{border:1px solid #444;padding:5px 4px;text-align:center;vertical-align:top}th{background:#e8eef5}.sum{margin-top:8px;font-size:11px;font-weight:bold}.print{position:fixed;right:10px;top:10px;padding:9px 14px}@media print{.print{display:none}}</style></head><body><button class="print" onclick="window.print()">PRINT / SAVE PDF</button><h1>'+mhEsc(title)+'</h1><div class="sub">'+mhEsc(range)+'</div><table><thead><tr><th>S.No.</th><th>Date</th><th>Machine</th><th>Machine No.</th><th>Opening</th><th>Closing</th><th>Total Hr</th><th>Diesel L</th><th>Operator</th><th>Location</th><th>Remarks</th></tr></thead><tbody>'+trs+'</tbody></table><div class="sum">Total Entries: '+rows.length+' &nbsp;&nbsp; Total Running Hours: '+totalH.toFixed(2)+' Hr &nbsp;&nbsp; Total Diesel: '+totalD.toFixed(2)+' L &nbsp;&nbsp; Avg Diesel: '+(totalH>0?totalD/totalH:0).toFixed(2)+' L/Hr</div><script>setTimeout(function(){window.print()},450)<\/script></body></html>'}
+function mhOpenReport(rows,title,range){var w=window.open('','_blank');if(!w){alert('PDF/Print window नहीं खुली. Popup allow करें.');return}w.document.open();w.document.write(mhReportHtml(rows,title,range));w.document.close()}
+window.mhDownloadSingle=function(id){var e=mhLoad().find(function(x){return x.id===id});if(e)mhOpenReport([e],'Machinery Hour Register','Date: '+e.date)};
+window.mhDownloadStatement=function(){var from=mhEl('mhFromDate').value,to=mhEl('mhToDate').value;if(!from||!to){alert('From Date और To Date दोनों select करें');return}if(to<from){alert('To Date, From Date से पहले नहीं हो सकती');return}var rows=mhLoad().filter(function(e){return e.date>=from&&e.date<=to}).sort(function(a,b){return (a.date||'').localeCompare(b.date||'')});if(!rows.length){alert('इस date range में कोई entry नहीं है');return}mhOpenReport(rows,'Machinery Hour Register','From '+from+' To '+to)};
+
+function init(){if(ccEl('ccUnit')){ccUpdateUnit();ccCalc()}if(bqEl('bqWallL')){bqCalc()}if(mhEl('mhDate')){var t=mhToday();if(!mhEl('mhDate').value)mhEl('mhDate').value=t;if(!mhEl('mhFromDate').value)mhEl('mhFromDate').value=t;if(!mhEl('mhToDate').value)mhEl('mhToDate').value=t;mhSyncManual();mhRenderList();mhCalcHours()}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 
