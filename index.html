@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="theme-color" content="#173453">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Virendra Calculator">
@@ -563,11 +563,15 @@ main.wrap > section.card button{font-size:16px}
 #multiple .equal-three-field label{display:block;font-size:14px;font-weight:800;margin:0 0 6px;color:#173453;line-height:1.15}
 #multiple .equal-three-field input{height:56px;font-size:20px;padding:0 12px}
 #multiple .equal-add-field{display:flex;flex-direction:column}
-#multiple #eqAddRowBtn{height:56px;border:0;border-radius:14px;background:#173453;color:#fff;font-size:15px;font-weight:900;padding:0 8px;cursor:pointer;box-shadow:0 4px 10px rgba(23,52,83,.18)}
-#multiple #eqAddRowBtn:active{transform:scale(.98)}
+#multiple .equal-row-actions{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+#multiple #eqAddRowBtn,#multiple #eqRemoveRowBtn{height:56px;border:0;border-radius:14px;color:#fff;font-size:12px;font-weight:900;padding:0 4px;cursor:pointer;box-shadow:0 4px 10px rgba(23,52,83,.16)}
+#multiple #eqAddRowBtn{background:#173453}
+#multiple #eqRemoveRowBtn{background:#c62828}
+#multiple #eqRemoveRowBtn:disabled{background:#cbd5e1;color:#64748b;box-shadow:none;cursor:not-allowed}
+#multiple #eqAddRowBtn:active,#multiple #eqRemoveRowBtn:not(:disabled):active{transform:scale(.98)}
 #multiple .equal-three-field .unitrow{display:flex;gap:4px}
 #multiple .equal-three-field .unit{max-width:70px;font-size:15px;padding:0 8px}
-@media(max-width:430px){#multiple .multi-top-row{gap:7px}#multiple .multi-top-field label{font-size:14px}#multiple .equal-three-row{gap:5px}#multiple .equal-three-field label{font-size:11.5px;min-height:27px}#multiple .equal-three-field input{height:52px;font-size:16px;padding:0 7px}#multiple #eqAddRowBtn{height:52px;font-size:12.5px;padding:0 4px}}
+@media(max-width:430px){#multiple .multi-top-row{gap:7px}#multiple .multi-top-field label{font-size:14px}#multiple .equal-three-row{gap:5px}#multiple .equal-three-field label{font-size:11.5px;min-height:27px}#multiple .equal-three-field input{height:52px;font-size:16px;padding:0 7px}#multiple #eqAddRowBtn,#multiple #eqRemoveRowBtn{height:52px;font-size:10.5px;padding:0 2px}#multiple .equal-row-actions{gap:3px}}
 #multiple .multi-answer-list{margin:0 0 6px;display:grid;gap:7px}
 #multiple .multi-answer-head{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin:14px 0 0;padding:9px 2px 7px;border-bottom:2px solid #cbd5e1;font-size:15px;font-weight:900;color:#173453}
 #multiple .multi-answer-head span:last-child{text-align:right;min-width:84px}
@@ -1609,6 +1613,195 @@ body.tool-open .vc-dev-footer{display:none}
 #pdfPasswordRemover .ppr-tiny{font-size:11px;color:#8396a8;margin-top:6px}
 </style>
 
+
+<style id="vcKeyboardScrollFix">
+/* v1.1.60 — Android keyboard / form visibility fix */
+:root{
+  --vc-visible-height:100dvh;
+  --vc-viewport-top:0px;
+}
+
+/* While typing, the open tool becomes the height of the actually visible area
+   above the Android keyboard and remains freely scrollable. */
+body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basicCalc){
+  top:var(--vc-viewport-top)!important;
+  bottom:auto!important;
+  height:var(--vc-visible-height)!important;
+  min-height:var(--vc-visible-height)!important;
+  max-height:var(--vc-visible-height)!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:auto!important;
+  scroll-padding-top:78px!important;
+  scroll-padding-bottom:190px!important;
+  padding-bottom:190px!important;
+}
+
+/* Home/non full-screen forms, if any, also get extra room to move. */
+body.vc-keyboard-open:not(.tool-open){
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  padding-bottom:190px!important;
+}
+
+body.vc-keyboard-open input:focus,
+body.vc-keyboard-open textarea:focus,
+body.vc-keyboard-open [contenteditable="true"]:focus{
+  scroll-margin-top:90px!important;
+  scroll-margin-bottom:200px!important;
+}
+</style>
+
+
+<style id="vcMenuBottomGroupsFix">
+/* v1.1.62 — keep the complete Select Tools menu vertically scrollable.
+   This specifically prevents the last Career & Job / General Utility groups
+   from being clipped below the Android viewport. */
+html:not(:has(body.tool-open)),
+body:not(.tool-open){
+  height:auto!important;
+  min-height:100%!important;
+  max-height:none!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+body:not(.tool-open) main.wrap{
+  height:auto!important;
+  min-height:100vh!important;
+  max-height:none!important;
+  overflow:visible!important;
+  padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))!important;
+}
+body:not(.tool-open) #careerJobToolsGroup,
+body:not(.tool-open) #generalUtilityGroup{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+body:not(.tool-open) #careerJobToolsGroup .nav,
+body:not(.tool-open) #generalUtilityGroup .nav{
+  display:grid!important;
+}
+</style>
+
+
+<style id="vcBottomGroupColorFix">
+/* v1.1.63 — explicit colors for the two bottom groups.
+   They are after the nth-of-type colored groups, so their white title text
+   otherwise lands on a white card and becomes unreadable. */
+body:not(.tool-open) #careerJobToolsGroup .toolGroupTitle{
+  background:linear-gradient(120deg,#0f766e,#14b8a6)!important;
+  color:#ffffff!important;
+}
+body:not(.tool-open) #generalUtilityGroup .toolGroupTitle{
+  background:linear-gradient(120deg,#b45309,#f59e0b)!important;
+  color:#ffffff!important;
+}
+body:not(.tool-open) #careerJobToolsGroup .toolGroupTitle .groupWords b,
+body:not(.tool-open) #careerJobToolsGroup .toolGroupTitle .groupWords small,
+body:not(.tool-open) #generalUtilityGroup .toolGroupTitle .groupWords b,
+body:not(.tool-open) #generalUtilityGroup .toolGroupTitle .groupWords small{
+  color:#ffffff!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+body:not(.tool-open) #careerJobToolsGroup .nav button .toolLabel,
+body:not(.tool-open) #generalUtilityGroup .nav button .toolLabel{
+  color:#0d2d56!important;
+  opacity:1!important;
+  visibility:visible!important;
+  -webkit-text-fill-color:#0d2d56!important;
+}
+body:not(.tool-open) #careerJobToolsGroup .nav button,
+body:not(.tool-open) #generalUtilityGroup .nav button{
+  color:#0d2d56!important;
+}
+</style>
+
+
+<style id="vcCalculatorIconFix">
+.vcCalculatorIcon{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.vcCalculatorIcon svg{
+  display:block;
+  width:40px;
+  height:40px;
+}
+</style>
+
+
+<style id="vcAllToolRealIconStyle">
+.nav button .vcRealToolIcon{
+  width:48px!important;height:48px!important;min-width:48px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:12px!important;
+  background:linear-gradient(145deg,#ffffff,#eef4fa)!important;
+  border:1px solid rgba(23,52,83,.12)!important;
+  box-shadow:0 3px 8px rgba(23,52,83,.15),inset 0 1px 0 rgba(255,255,255,.9)!important;
+  overflow:hidden!important;padding:3px!important;box-sizing:border-box!important;
+}
+.nav button .vcRealToolIcon svg{
+  width:42px!important;height:42px!important;display:block!important;flex:none!important;
+}
+</style>
+
+
+<style id="vcNotebookStyle">
+/* v1.1.68 — Offline Notebook + date-wise statement PDF */
+#notebook{padding-bottom:26px}
+#notebook .nb-wrap{max-width:720px;margin:0 auto}
+#notebook .nb-editor{background:#f8fbff;border:1px solid #d7e3ef;border-radius:20px;padding:14px;margin-bottom:14px;box-shadow:0 4px 14px rgba(23,52,83,.06)}
+#notebook .nb-title{width:100%;height:52px;border:1.5px solid #cbd5e1;border-radius:14px;background:#fff;padding:0 14px;font-size:19px;font-weight:800;color:#173453;margin-bottom:10px}
+#notebook .nb-date-row{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:10px}
+#notebook .nb-date-row label{font-size:14px;font-weight:900;color:#173453;margin:0 2px}
+#notebook .nb-date{width:100%;height:52px;border:1.5px solid #cbd5e1;border-radius:14px;background:#fff;padding:0 14px;font-size:17px;font-weight:800;color:#173453;outline:none}
+#notebook .nb-note{width:100%;min-height:240px;resize:vertical;border:1.5px solid #cbd5e1;border-radius:14px;background:#fff;padding:14px;font:17px/1.55 Arial,Helvetica,sans-serif;color:#173453;outline:none}
+#notebook .nb-title:focus,#notebook .nb-date:focus,#notebook .nb-note:focus,#notebook .nb-search:focus{border-color:#173453;box-shadow:0 0 0 3px rgba(23,52,83,.10)}
+#notebook .nb-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 2px 0;color:#64748b;font-size:12px;line-height:1.3}
+#notebook .nb-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:13px 0 0}
+#notebook .nb-pdf-btn{grid-column:1/-1;background:#15803d}
+#notebook .nb-btn{border:0;border-radius:13px;min-height:48px;padding:10px 12px;font-size:15px;font-weight:900;cursor:pointer;background:#173453;color:#fff}
+#notebook .nb-btn.secondary{background:#e9f2fb;color:#173453;border:1px solid #c6d7e8}
+#notebook .nb-statement{background:#fff;border:1px solid #d7e3ef;border-radius:18px;padding:13px;margin:14px 0;box-shadow:0 4px 14px rgba(23,52,83,.05)}
+#notebook .nb-statement-title{font-size:17px;font-weight:900;color:#173453;margin:0 0 10px}
+#notebook .nb-range{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#notebook .nb-range label{display:block;font-size:12px;font-weight:900;color:#475569;margin:0 2px 5px}
+#notebook .nb-range input{width:100%;height:48px;border:1.5px solid #cbd5e1;border-radius:12px;background:#f8fafc;padding:0 10px;font-size:15px;font-weight:800;color:#173453}
+#notebook .nb-statement-btn{width:100%;margin-top:10px;border:0;border-radius:13px;min-height:48px;padding:10px 12px;font-size:14px;font-weight:900;cursor:pointer;background:#0f766e;color:#fff}
+#notebook .nb-statement-note{font-size:12px;line-height:1.4;color:#64748b;margin:8px 2px 0}
+#notebook .nb-search-box{margin:15px 0 10px}
+#notebook .nb-search{width:100%;height:50px;border:1.5px solid #cbd5e1;border-radius:14px;background:#fff;padding:0 14px;font-size:16px;color:#173453}
+#notebook .nb-list-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 2px 8px}
+#notebook .nb-list-head strong{font-size:18px;color:#173453}
+#notebook .nb-count{font-size:12px;font-weight:800;color:#64748b;background:#eef4fa;border-radius:999px;padding:5px 9px}
+#notebook .nb-list{display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
+#notebook .nb-card{border:1px solid #d8e2ec;border-radius:16px;background:#fff;padding:12px 12px 10px;box-shadow:0 3px 10px rgba(23,52,83,.06)}
+#notebook .nb-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+#notebook .nb-card-title{font-size:16px;font-weight:900;color:#173453;line-height:1.3;word-break:break-word}
+#notebook .nb-card-date{font-size:11px;color:#64748b;white-space:nowrap;margin-top:2px}
+#notebook .nb-preview{font-size:14px;line-height:1.45;color:#475569;margin:8px 0 10px;white-space:pre-wrap;word-break:break-word;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+#notebook .nb-card-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+#notebook .nb-mini{flex:1;border:0;border-radius:10px;padding:9px 8px;font-size:13px;font-weight:900;cursor:pointer;background:#e8f2fb;color:#173453}
+#notebook .nb-mini.pdf{background:#ecfdf3;color:#166534;border:1px solid #bbf7d0}
+#notebook .nb-mini.delete{background:#fff0f0;color:#a11;border:1px solid #ffd1d1}
+#notebook .nb-empty{text-align:center;color:#64748b;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:15px;padding:22px 12px;font-size:14px;line-height:1.5}
+#notebook .nb-status{min-height:18px;text-align:center;font-size:13px;font-weight:800;margin-top:8px;color:#166534}
+@media(max-width:430px){
+  #notebook{padding-left:12px!important;padding-right:12px!important}
+  #notebook .nb-editor{padding:11px;border-radius:17px}
+  #notebook .nb-note{min-height:230px;font-size:16px}
+  #notebook .nb-title{font-size:18px}
+  #notebook .nb-actions{gap:8px}
+  #notebook .nb-btn{font-size:14px;min-height:46px}
+  #notebook .nb-range{grid-template-columns:1fr}
+}
+</style>
+
 </head>
 <body class="">
 <div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
@@ -1857,7 +2050,13 @@ body.tool-open .vc-dev-footer{display:none}
   <div class="equal-three-row">
     <div class="equal-three-field"><label>Start Offset (m)</label><input id="eqStart" type="number" step="any" value="0" oninput="multiCalc()"></div>
     <div class="equal-three-field"><label>Spacing (m)</label><input id="eqSpacing" type="number" step="any" value="2" oninput="multiCalc()"></div>
-    <div class="equal-three-field equal-add-field"><label>Add Offset</label><button id="eqAddRowBtn" type="button" onclick="equalAddRow()">+ ADD ROW</button></div>
+    <div class="equal-three-field equal-add-field">
+      <label>Rows</label>
+      <div class="equal-row-actions">
+        <button id="eqAddRowBtn" type="button" onclick="equalAddRow()">+ ADD ROW</button>
+        <button id="eqRemoveRowBtn" type="button" onclick="equalRemoveRow()">− REMOVE</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2307,8 +2506,8 @@ Temperature: °C, °F, Kelvin.
 }
 html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .app{height:100%;display:flex;flex-direction:column}
-.top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;position:relative;z-index:1;max-height:420px;overflow:hidden;transition:max-height .22s ease,padding .22s ease,border-width .22s ease}
-.top.viewer-scrolled{max-height:0;padding-top:0;padding-bottom:0;border-bottom-width:0}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;position:relative;z-index:20;overflow:hidden}
+.top.viewer-scrolled{display:none}
 .title{font-size:18px;font-weight:800}
 .sub{font-size:12px;color:var(--muted);margin-top:2px}
 .controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:8px}
@@ -2418,14 +2617,33 @@ const originalPages=$(&#x27;originalPages&#x27;),msg=$(&#x27;msg&#x27;),loading=
 const fileBadge=$(&#x27;fileBadge&#x27;),pageBadge=$(&#x27;pageBadge&#x27;),rowBadge=$(&#x27;rowBadge&#x27;),freezeBadge=$(&#x27;freezeBadge&#x27;);
 const topPanel=$(&#x27;topPanel&#x27;);
 let topPanelCollapsed=false;
+let lastViewerScrollTop=0;
+let viewerScrollTick=false;
+function setTopPanelCollapsed(collapsed){
+ collapsed=!!collapsed;
+ if(collapsed===topPanelCollapsed)return;
+ topPanelCollapsed=collapsed;
+ if(topPanel)topPanel.classList.toggle(&#x27;viewer-scrolled&#x27;,collapsed);
+}
+// Simple automatic hide/show: scroll down = hide, scroll up = show.
+// No delay and no travel threshold, so it reacts immediately on mobile.
 viewer.addEventListener(&#x27;scroll&#x27;,()=&gt;{
- const hide=viewer.scrollTop&gt;24;
- if(hide===topPanelCollapsed)return;
- topPanelCollapsed=hide;
- if(topPanel)topPanel.classList.toggle(&#x27;viewer-scrolled&#x27;,hide);
- setTimeout(()=&gt;{if(currentRows.length)applyFreeze()},240);
+ if(viewerScrollTick)return;
+ viewerScrollTick=true;
+ requestAnimationFrame(()=&gt;{
+   viewerScrollTick=false;
+   const y=Math.max(0,viewer.scrollTop||0);
+   const delta=y-lastViewerScrollTop;
+   if(y&lt;=2){
+     setTopPanelCollapsed(false);
+   }else if(delta&gt;2){
+     setTopPanelCollapsed(true);
+   }else if(delta&lt;-2){
+     setTopPanelCollapsed(false);
+   }
+   lastViewerScrollTop=y;
+ });
 },{passive:true});
-
 
 let pdfDoc=null,currentHeaders=[],currentRows=[],currentGroups=[],pageSearchIndex=[];
 let mode=&#x27;auto&#x27;,headerFrozen=true,frozenCols=new Set([0]),frozenRows=new Set();
@@ -2924,6 +3142,9 @@ async function renderOriginal(){
 }
 
 async function openPdf(file){
+ try{viewer.scrollTo({top:0,left:0,behavior:'auto'})}catch(_){viewer.scrollTop=0;viewer.scrollLeft=0}
+ lastViewerScrollTop=0;
+ setTopPanelCollapsed(false);
  setLoading(true);setMsg(&#x27;Loading…&#x27;);
  try{
    if(!(await ensurePdfJs()))throw new Error(&#x27;PDF library load failed.&#x27;);
@@ -4078,56 +4299,100 @@ body.day .sound-toggle{
 
 <div class="navTitle">TOOLS BY WORK</div>
 
+
+<section id="notebook" class="card hidden">
+  <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Notebook</strong></div>
+  <h2>Notebook</h2>
+  <div class="nb-wrap">
+    <div class="nb-editor">
+      <input id="nbTitle" class="nb-title" type="text" maxlength="120" placeholder="काम / Note title" autocomplete="off">
+      <div class="nb-date-row">
+        <label for="nbWorkDate">Work Date / काम की तारीख</label>
+        <input id="nbWorkDate" class="nb-date" type="date">
+      </div>
+      <textarea id="nbText" class="nb-note" maxlength="30000" placeholder="इस दिन कौन-कौन सा काम कराया, यहाँ लिखें..."></textarea>
+      <div class="nb-meta"><span id="nbEditState">New note</span><span id="nbChars">0 characters</span></div>
+      <div class="nb-actions">
+        <button type="button" class="nb-btn secondary" onclick="nbNewNote()">+ NEW NOTE</button>
+        <button type="button" class="nb-btn" onclick="nbSaveNote()">SAVE NOTE</button>
+        <button type="button" class="nb-btn nb-pdf-btn" onclick="nbDownloadCurrentPDF()">DOWNLOAD PDF</button>
+      </div>
+      <div id="nbStatus" class="nb-status"></div>
+    </div>
+
+    <div class="nb-statement">
+      <div class="nb-statement-title">Date-wise Work Statement PDF</div>
+      <div class="nb-range">
+        <div><label for="nbFromDate">FROM DATE</label><input id="nbFromDate" type="date"></div>
+        <div><label for="nbToDate">TO DATE</label><input id="nbToDate" type="date"></div>
+      </div>
+      <button type="button" class="nb-statement-btn" onclick="nbDownloadStatementPDF()">DOWNLOAD DATE-WISE PDF</button>
+      <div class="nb-statement-note">Bank statement style: S.No. • Date • Work / Title • Details</div>
+    </div>
+
+    <div class="nb-search-box">
+      <input id="nbSearch" class="nb-search" type="search" placeholder="Search saved notes" oninput="nbRenderNotes()" autocomplete="off">
+    </div>
+    <div class="nb-list-head"><strong>Saved Notes</strong><span id="nbCount" class="nb-count">0 notes</span></div>
+    <div id="nbList" class="nb-list"></div>
+  </div>
+</section>
+
+
 <div class="toolGroup">
   <div class="toolGroupTitle"><span class="groupIcon">📐</span><span class="groupWords"><b>Survey &amp; Level Work</b><small>Survey Calculation Tools for Field Work</small></span></div>
   <nav class="nav">
-    <button onclick="show('two')"><span class="toolIcon">📍</span><span class="toolLabel">Offset RL Calculator</span></button>
-    <button onclick="show('multiple')"><span class="toolIcon">📊</span><span class="toolLabel">Multiple Offset RL</span></button>
-    <button onclick="show('single')"><span class="toolIcon">📏</span><span class="toolLabel">RL Calculator</span></button>
-    <button onclick="show('pegLevel')"><span class="toolIcon">🛣️</span><span class="toolLabel">Subgrade / GSB Peg Level</span></button>
-    <button onclick="show('toeCalc')"><span class="toolIcon">📐</span><span class="toolLabel">Toe Calculator</span></button>
-    <button onclick="show('slab')"><span class="toolIcon">🏗️</span><span class="toolLabel">Slab RL Calculator</span></button>
+    <button onclick="show('two')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="43" width="50" height="8" rx="4" fill="#8d6e63"/><path d="M10 43l14-15 8 8 10-14 12 21z" fill="#69a84f"/><path d="M32 8c-7 0-12 5-12 12 0 9 12 20 12 20s12-11 12-20c0-7-5-12-12-12z" fill="#e53935"/><circle cx="32" cy="20" r="5" fill="#fff"/></svg></span><span class="toolLabel">Offset RL Calculator</span></button>
+    <button onclick="show('multiple')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="10" width="48" height="43" rx="6" fill="#eef6ff" stroke="#173453" stroke-width="3"/><path d="M16 45V32M27 45V24M38 45V17M49 45V29" stroke="#1976d2" stroke-width="6" stroke-linecap="round"/><path d="M13 48h39" stroke="#173453" stroke-width="3"/></svg></span><span class="toolLabel">Multiple Offset RL</span></button>
+    <button onclick="show('single')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><g transform="rotate(-18 32 32)"><rect x="8" y="24" width="48" height="17" rx="4" fill="#f6c344" stroke="#8d6e00" stroke-width="2"/><path d="M16 24v7M24 24v5M32 24v7M40 24v5M48 24v7" stroke="#4e3b00" stroke-width="2"/></g></svg></span><span class="toolLabel">RL Calculator</span></button>
+    <button onclick="show('pegLevel')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 55L24 15h16l20 40z" fill="#51555d"/><path d="M29 19h6l2 8h-10zM25 32h14l3 11H22z" fill="#fff"/><path d="M8 55h48" stroke="#91c95d" stroke-width="5"/><rect x="9" y="8" width="5" height="36" rx="2" fill="#f5ae21"/></svg></span><span class="toolLabel">Subgrade / GSB Peg Level</span></button>
+    <button onclick="show('toeCalc')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 52h44L10 13z" fill="#e9f4ff" stroke="#173453" stroke-width="4" stroke-linejoin="round"/><path d="M10 41h11v11" fill="none" stroke="#ef6c00" stroke-width="4"/><path d="M18 45l25-22" stroke="#1976d2" stroke-width="3" stroke-dasharray="4 3"/></svg></span><span class="toolLabel">Toe Calculator</span></button>
+    <button onclick="show('slab')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="17" width="48" height="11" rx="3" fill="#9ea7ad"/><rect x="13" y="31" width="38" height="20" fill="#c7cdd1"/><path d="M18 31v20M31 31v20M44 31v20" stroke="#7a858d" stroke-width="3"/><path d="M8 14h48" stroke="#f39c12" stroke-width="4"/></svg></span><span class="toolLabel">Slab RL Calculator</span></button>
   </nav>
 </div>
 
 <div class="toolGroup">
   <div class="toolGroupTitle"><span class="groupIcon">🏗️</span><span class="groupWords"><b>Quantity &amp; Construction Work</b><small>Quantity Calculation Tools for Construction</small></span></div>
   <nav class="nav">
-    <button onclick="show('earthwork')"><span class="toolIcon">🚚</span><span class="toolLabel">Soil Cut / Fill Quantity</span></button>
-    <button onclick="show('gsbQty')"><span class="toolIcon">🪨</span><span class="toolLabel">GSB Quantity</span></button>
-    <button onclick="show('material')"><span class="toolIcon">🚧</span><span class="toolLabel">Concrete Quantity</span></button>
+    <button onclick="show('earthwork')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 40h33l8 8H17z" fill="#e7a90d"/><rect x="12" y="27" width="27" height="14" rx="2" fill="#ffc928"/><path d="M13 27l8-10 18 10z" fill="#8d6e63"/><circle cx="20" cy="50" r="6" fill="#263238"/><circle cx="46" cy="50" r="6" fill="#263238"/><circle cx="20" cy="50" r="2" fill="#cfd8dc"/><circle cx="46" cy="50" r="2" fill="#cfd8dc"/></svg></span><span class="toolLabel">Soil Cut / Fill Quantity</span></button>
+    <button onclick="show('gsbQty')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="49" rx="25" ry="7" fill="#cab9a8"/><circle cx="18" cy="39" r="8" fill="#85888b"/><circle cx="31" cy="34" r="10" fill="#abadb0"/><circle cx="46" cy="40" r="8" fill="#707376"/><circle cx="29" cy="46" r="7" fill="#66696c"/><circle cx="41" cy="48" r="6" fill="#989b9e"/></svg></span><span class="toolLabel">GSB Quantity</span></button>
+    <button onclick="show('material')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 49h38l-6-27H19z" fill="#b0bec5" stroke="#546e7a" stroke-width="2"/><path d="M19 22h26" stroke="#78909c" stroke-width="5"/><path d="M23 16h18l4 6H19z" fill="#f57c00"/><circle cx="17" cy="52" r="5" fill="#37474f"/><circle cx="47" cy="52" r="5" fill="#37474f"/></svg></span><span class="toolLabel">Concrete Quantity</span></button>
     
-    <button onclick="show('price')"><span class="toolIcon">🧮</span><span class="toolLabel">Price Calculator</span></button>
+    <button onclick="show('price')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="52" rx="8" fill="#173453"/><rect x="16" y="12" width="32" height="11" rx="3" fill="#eaf5ff"/><text x="32" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#0d2d56">₹</text><g fill="#fff"><rect x="17" y="29" width="7" height="7" rx="2"/><rect x="28" y="29" width="7" height="7" rx="2"/><rect x="39" y="29" width="7" height="7" rx="2"/><rect x="17" y="40" width="7" height="7" rx="2"/><rect x="28" y="40" width="7" height="7" rx="2"/></g><rect x="39" y="40" width="7" height="15" rx="2" fill="#f59e0b"/><rect x="17" y="51" width="18" height="4" rx="2" fill="#fff"/></svg></span><span class="toolLabel">Price Calculator</span></button>
   </nav>
 </div>
 
 <div class="toolGroup">
   <div class="toolGroupTitle"><span class="groupIcon">📄</span><span class="groupWords"><b>PDF, Photo &amp; Document Work</b><small>Image, PDF &amp; Document Tools</small></span></div>
   <nav class="nav">
-    <button onclick="show('photoTool')"><span class="toolIcon">🖼️</span><span class="toolLabel">Photo &amp; Signature Tool</span></button>
-    <button onclick="show('pdfConverter')"><span class="toolIcon">🖼️</span><span class="toolLabel">Image ↔ PDF Converter</span></button>
-    <button onclick="show('pdfFreezeViewer')"><span class="toolIcon">📌</span><span class="toolLabel">RL PDF Viewer</span></button>
-    <button onclick="show('pdfEditor')"><span class="toolIcon">PDF</span><span class="toolLabel">PDF Editor</span></button>
-    <button onclick="show('pdfPasswordRemover')"><span class="toolIcon">🔓</span><span class="toolLabel">PDF Password Remover</span></button>
-    <button onclick="show('docScanner')" class=""><span class="toolIcon">📠</span><span class="toolLabel">Document Scanner</span></button>
-    <button onclick="show('documents')"><span class="toolIcon">🏛️</span><span class="toolLabel">Government Document Download</span></button>
+    <button onclick="show('photoTool')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="12" width="50" height="39" rx="6" fill="#edf6ff" stroke="#173453" stroke-width="3"/><circle cx="24" cy="27" r="7" fill="#ffc107"/><path d="M12 46l13-13 8 8 7-7 12 12z" fill="#55a95a"/><path d="M38 55c8-5 14-5 19-1" fill="none" stroke="#263238" stroke-width="3" stroke-linecap="round"/></svg></span><span class="toolLabel">Photo &amp; Signature Tool</span></button>
+    <button onclick="show('pdfConverter')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="13" width="24" height="32" rx="4" fill="#e8f4ff" stroke="#1976d2" stroke-width="2"/><circle cx="16" cy="23" r="4" fill="#fbc02d"/><path d="M10 39l7-8 5 5 6-7v10z" fill="#66bb6a"/><path d="M29 31h9" stroke="#173453" stroke-width="4"/><path d="M35 26l5 5-5 5" fill="none" stroke="#173453" stroke-width="4"/><rect x="39" y="17" width="18" height="31" rx="3" fill="#d32f2f"/><text x="48" y="36" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">PDF</text></svg></span><span class="toolLabel">Image ↔ PDF Converter</span></button>
+    <button onclick="show('pdfFreezeViewer')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 7h29l9 9v39H14z" fill="#fff" stroke="#b71c1c" stroke-width="3"/><path d="M43 7v10h9" fill="#ffcdd2"/><text x="31" y="37" text-anchor="middle" font-size="11" font-weight="900" fill="#c62828">RL</text><path d="M46 31c-7 0-12 5-12 12 0 7 12 14 12 14s12-7 12-14c0-7-5-12-12-12z" fill="#1565c0"/><circle cx="46" cy="43" r="4" fill="#fff"/></svg></span><span class="toolLabel">RL PDF Viewer</span></button>
+    <button onclick="show('pdfEditor')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 7h31l9 9v39H12z" fill="#fff" stroke="#c62828" stroke-width="3"/><path d="M43 7v10h9" fill="#ffcdd2"/><text x="29" y="34" text-anchor="middle" font-size="10" font-weight="900" fill="#c62828">PDF</text><path d="M34 47l15-15 6 6-15 15-8 2z" fill="#f6b73c" stroke="#5d4037" stroke-width="2"/></svg></span><span class="toolLabel">PDF Editor</span></button>
+    <button onclick="show('pdfPasswordRemover')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M11 8h29l9 9v37H11z" fill="#fff" stroke="#c62828" stroke-width="3"/><text x="28" y="35" text-anchor="middle" font-size="9" font-weight="900" fill="#c62828">PDF</text><path d="M37 41v-6a8 8 0 0 1 16 0" fill="none" stroke="#173453" stroke-width="5" stroke-linecap="round"/><rect x="34" y="40" width="23" height="17" rx="4" fill="#f59e0b"/><circle cx="46" cy="48" r="2.5" fill="#173453"/></svg></span><span class="toolLabel">PDF Password Remover</span></button>
+    <button onclick="show('docScanner')" class=""><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 18V9h9M42 9h9v9M13 46v9h9M42 55h9v-9" fill="none" stroke="#1976d2" stroke-width="4" stroke-linecap="round"/><rect x="20" y="16" width="25" height="32" rx="3" fill="#fff" stroke="#6d7b88" stroke-width="2"/><path d="M24 25h17M24 31h17M24 37h12" stroke="#90a4ae" stroke-width="3" stroke-linecap="round"/><path d="M9 41h46" stroke="#e53935" stroke-width="2"/></svg></span><span class="toolLabel">Document Scanner</span></button>
+    <button onclick="show('documents')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M7 23L32 8l25 15z" fill="#f6c344" stroke="#8d6e00" stroke-width="2"/><rect x="8" y="21" width="48" height="5" fill="#173453"/><path d="M15 26v22M26 26v22M38 26v22M49 26v22" stroke="#315d87" stroke-width="6"/><rect x="10" y="48" width="44" height="7" rx="2" fill="#173453"/></svg></span><span class="toolLabel">Government Document Download</span></button>
   </nav>
 </div>
 
 
-<div class="toolGroup">
+<div class="toolGroup" id="careerJobToolsGroup">
   <div class="toolGroupTitle"><span class="groupIcon">💼</span><span class="groupWords"><b>Career &amp; Job Tools</b><small>Professional CV &amp; Career Tools</small></span></div>
   <nav class="nav">
-    <button onclick="show('cvMaker')"><span class="toolIcon">📄</span><span class="toolLabel">Special CV Maker</span></button>
+    <button onclick="show('cvMaker')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="12" y="6" width="40" height="52" rx="5" fill="#fff" stroke="#173453" stroke-width="3"/><circle cx="24" cy="23" r="7" fill="#90caf9"/><path d="M15 37c2-7 16-7 18 0" fill="#64b5f6"/><path d="M37 18h10M37 25h10M37 32h10M18 44h29M18 50h22" stroke="#607d8b" stroke-width="3" stroke-linecap="round"/></svg></span><span class="toolLabel">Special CV Maker</span></button>
   </nav>
 </div>
 
-<div class="toolGroup">
+<div class="toolGroup" id="generalUtilityGroup">
   <div class="toolGroupTitle"><span class="groupIcon">🧰</span><span class="groupWords"><b>General Utility</b><small>Everyday Useful Tools</small></span></div>
   <nav class="nav">
-    <button onclick="show('basicCalc')"><span class="toolIcon">🧮</span><span class="toolLabel">Calculator</span></button>
-    <button onclick="show('units')"><span class="toolIcon">📐</span><span class="toolLabel">Unit Converter</span></button>
-    <button onclick="show('translate')"><span class="toolIcon">Aa</span><span class="toolLabel">Translate Text</span></button>
+    <button onclick="show('basicCalc')">
+      <span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="52" rx="8" fill="#173453"/><rect x="16" y="12" width="32" height="11" rx="3" fill="#dff1ff"/><g fill="#fff"><rect x="17" y="29" width="7" height="7" rx="2"/><rect x="28" y="29" width="7" height="7" rx="2"/><rect x="39" y="29" width="7" height="7" rx="2"/><rect x="17" y="40" width="7" height="7" rx="2"/><rect x="28" y="40" width="7" height="7" rx="2"/></g><rect x="39" y="40" width="7" height="15" rx="2" fill="#f59e0b"/><rect x="17" y="51" width="18" height="4" rx="2" fill="#fff"/></svg></span>
+      <span class="toolLabel">Calculator</span>
+    </button>
+    <button onclick="show('units')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><g transform="rotate(-15 32 32)"><rect x="8" y="24" width="48" height="16" rx="3" fill="#f6c344" stroke="#8d6e00" stroke-width="2"/><path d="M15 24v8M22 24v5M29 24v8M36 24v5M43 24v8M50 24v5" stroke="#4e3b00" stroke-width="2"/></g><circle cx="18" cy="49" r="6" fill="#1976d2"/><text x="18" y="52" text-anchor="middle" font-size="7" font-weight="900" fill="#fff">m</text></svg></span><span class="toolLabel">Unit Converter</span></button>
+    <button onclick="show('translate')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="10" width="25" height="25" rx="6" fill="#1976d2"/><text x="19.5" y="28" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">A</text><rect x="32" y="29" width="25" height="25" rx="6" fill="#43a047"/><text x="44.5" y="47" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">अ</text><path d="M26 41c6 0 10-4 10-10M38 22c-6 0-10 4-10 10" fill="none" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/></svg></span><span class="toolLabel">Translate Text</span></button>
+    <button onclick="show('notebook')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="12" y="7" width="40" height="50" rx="5" fill="#fff8cc" stroke="#173453" stroke-width="3"/><path d="M20 7v50" stroke="#e05a47" stroke-width="2"/><path d="M26 20h18M26 28h18M26 36h18M26 44h14" stroke="#5b7ea4" stroke-width="2.5" stroke-linecap="round"/><path d="M17 12h-7M17 22h-7M17 32h-7M17 42h-7M17 52h-7" stroke="#173453" stroke-width="3" stroke-linecap="round"/></svg></span><span class="toolLabel">Notebook</span></button>
   </nav>
 </div>
 <div id="vcDevModal" class="vc-dev-modal hidden" aria-hidden="false">
@@ -7378,6 +7643,10 @@ function equalAddRow(){
  eqRowCount=Math.max(1,eqRowCount)+1;
  multiCalc();
 }
+function equalRemoveRow(){
+ eqRowCount=Math.max(1,eqRowCount-1);
+ multiCalc();
+}
 
 function multiCalc(){
  var pclEl=document.getElementById('mrl'),camEl=document.getElementById('mc'),out=document.getElementById('multiAnswers');
@@ -7385,6 +7654,8 @@ function multiCalc(){
  let pcl=Number(pclEl.value);
  let camber=Number(camEl.value);
  let offsets=getOffsets();
+ var removeBtn=document.getElementById('eqRemoveRowBtn');
+ if(removeBtn)removeBtn.disabled=eqRowCount<=1;
  let ok=Number.isFinite(pcl)&&Number.isFinite(camber)&&offsets.length>0;
  if(!ok){out.innerHTML='<div class="multi-empty">Valid value भरें</div>';}
  else{
@@ -8207,7 +8478,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 </div>
 <script>
 (function(){
-  var VC_APP_VERSION='1.1.59';
+  var VC_APP_VERSION='1.1.66';
   var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
@@ -9695,6 +9966,417 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 
   // Decorate any already-rendered list
   setTimeout(pcDecorateSelectedPreview,50);
+})();
+</script>
+
+
+
+<script id="vcKeyboardScrollFixScript">
+(function(){
+  if(window.__vcKeyboardScrollFixInstalled)return;
+  window.__vcKeyboardScrollFixInstalled=true;
+
+  var root=document.documentElement;
+  var vv=window.visualViewport;
+
+  function isKeyboardField(el){
+    if(!el || el.disabled || el.readOnly)return false;
+    if(el.tagName==='TEXTAREA')return true;
+    if(el.isContentEditable)return true;
+    if(el.tagName!=='INPUT')return false;
+    var t=(el.type||'text').toLowerCase();
+    return ['text','number','tel','email','url','password','search',
+            'date','time','datetime-local','month','week'].indexOf(t)!==-1;
+  }
+
+  function setVisibleViewport(){
+    var h=vv ? vv.height : window.innerHeight;
+    var top=vv ? vv.offsetTop : 0;
+    if(!isFinite(h) || h<250)h=window.innerHeight;
+    if(!isFinite(top) || top<0)top=0;
+    root.style.setProperty('--vc-visible-height',Math.round(h)+'px');
+    root.style.setProperty('--vc-viewport-top',Math.round(top)+'px');
+  }
+
+  function reveal(el,delay){
+    setTimeout(function(){
+      if(!el || document.activeElement!==el)return;
+      setVisibleViewport();
+      try{
+        el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});
+      }catch(e){
+        try{el.scrollIntoView(false)}catch(_){}
+      }
+
+      /* A second tiny correction helps number keyboards whose suggestion bar
+         appears a moment after the keyboard itself. */
+      setTimeout(function(){
+        if(document.activeElement!==el)return;
+        var r=el.getBoundingClientRect();
+        var visibleH=vv ? vv.height : window.innerHeight;
+        var safeTop=74, safeBottom=Math.max(120,visibleH-105);
+        if(r.bottom>safeBottom){
+          var scroller=el.closest('section.card');
+          var dy=r.bottom-safeBottom+55;
+          if(scroller && scroller.scrollHeight>scroller.clientHeight){
+            scroller.scrollBy({top:dy,behavior:'smooth'});
+          }else{
+            window.scrollBy({top:dy,behavior:'smooth'});
+          }
+        }else if(r.top<safeTop){
+          var scroller2=el.closest('section.card');
+          var dy2=r.top-safeTop-25;
+          if(scroller2 && scroller2.scrollHeight>scroller2.clientHeight){
+            scroller2.scrollBy({top:dy2,behavior:'smooth'});
+          }else{
+            window.scrollBy({top:dy2,behavior:'smooth'});
+          }
+        }
+      },140);
+    },delay||0);
+  }
+
+  document.addEventListener('focusin',function(e){
+    if(!isKeyboardField(e.target))return;
+    document.body.classList.add('vc-keyboard-open');
+    setVisibleViewport();
+    reveal(e.target,80);
+    reveal(e.target,300);
+  },true);
+
+  document.addEventListener('focusout',function(){
+    setTimeout(function(){
+      if(!isKeyboardField(document.activeElement)){
+        document.body.classList.remove('vc-keyboard-open');
+        root.style.setProperty('--vc-visible-height','100dvh');
+        root.style.setProperty('--vc-viewport-top','0px');
+      }
+    },180);
+  },true);
+
+  function onViewportChange(){
+    setVisibleViewport();
+    var el=document.activeElement;
+    if(document.body.classList.contains('vc-keyboard-open') && isKeyboardField(el)){
+      reveal(el,30);
+    }
+  }
+
+  if(vv){
+    vv.addEventListener('resize',onViewportChange);
+    vv.addEventListener('scroll',onViewportChange);
+  }
+  window.addEventListener('resize',onViewportChange);
+  window.addEventListener('orientationchange',function(){
+    setTimeout(onViewportChange,250);
+  });
+
+  setVisibleViewport();
+})();
+</script>
+
+
+<script id="vcNotebookScript">
+(function(){
+  var KEY='vc_notebook_notes_v1';
+  var currentId=null;
+
+  function el(id){return document.getElementById(id)}
+  function todayISO(){
+    var d=new Date(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+    return d.getFullYear()+'-'+m+'-'+day;
+  }
+  function load(){
+    try{
+      var a=JSON.parse(localStorage.getItem(KEY)||'[]');
+      return Array.isArray(a)?a:[];
+    }catch(e){return []}
+  }
+  function store(a){
+    try{localStorage.setItem(KEY,JSON.stringify(a));return true}catch(e){return false}
+  }
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]})
+  }
+  function fmt(ts){
+    try{return new Date(ts).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}catch(e){return ''}
+  }
+  function fmtDate(v){
+    if(!v)return '';
+    var p=String(v).split('-');
+    if(p.length===3)return p[2]+'-'+p[1]+'-'+p[0];
+    return String(v);
+  }
+  function status(msg,bad){
+    var x=el('nbStatus');if(!x)return;x.textContent=msg||'';x.style.color=bad?'#b91c1c':'#166534';
+    if(msg)setTimeout(function(){if(x.textContent===msg)x.textContent=''},2200)
+  }
+  function updateMeta(){
+    var t=el('nbText'),c=el('nbChars'),st=el('nbEditState');
+    if(c)c.textContent=((t&&t.value)||'').length+' characters';
+    if(st)st.textContent=currentId?'Editing saved note':'New note';
+  }
+  function getCurrentData(){
+    var title=((el('nbTitle')&&el('nbTitle').value)||'').trim();
+    var text=((el('nbText')&&el('nbText').value)||'').trim();
+    var workDate=((el('nbWorkDate')&&el('nbWorkDate').value)||'').trim();
+    if(!title)title='Untitled Note';
+    return {title:title,text:text,workDate:workDate};
+  }
+  function safeName(s){
+    return String(s||'Notebook').replace(/[\\/:*?\"<>|]+/g,'_').replace(/\s+/g,'_').slice(0,60)||'Notebook';
+  }
+  function wrapCanvasText(ctx,text,maxWidth){
+    var out=[],paras=String(text||'').replace(/\r/g,'').split('\n');
+    paras.forEach(function(par){
+      if(par===''){out.push('');return}
+      var words=par.split(/\s+/),line='';
+      words.forEach(function(word){
+        var test=line?line+' '+word:word;
+        if(ctx.measureText(test).width<=maxWidth){line=test;return}
+        if(line)out.push(line);
+        if(ctx.measureText(word).width<=maxWidth){line=word;return}
+        var part='';
+        Array.from(word).forEach(function(ch){
+          var t=part+ch;
+          if(ctx.measureText(t).width>maxWidth&&part){out.push(part);part=ch}else part=t;
+        });
+        line=part;
+      });
+      if(line)out.push(line);
+    });
+    return out;
+  }
+  function bytesFromDataUrl(url){
+    var b=atob(url.split(',')[1]),u=new Uint8Array(b.length);
+    for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);
+    return u;
+  }
+  function strBytes(s){return new TextEncoder().encode(s)}
+  function concatBytes(parts){
+    var len=parts.reduce(function(a,b){return a+b.length},0),out=new Uint8Array(len),o=0;
+    parts.forEach(function(b){out.set(b,o);o+=b.length});return out;
+  }
+  function buildPdfFromJpegs(pages){
+    var objs=[],pageNums=[],imgNums=[],contentNums=[];
+    function add(data){objs.push(data);return objs.length}
+    var catalog=add(null),pagesObj=add(null);
+    pages.forEach(function(pg,idx){
+      var imgNum=add({binary:pg.jpg,dict:'<< /Type /XObject /Subtype /Image /Width '+pg.w+' /Height '+pg.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+pg.jpg.length+' >>'});
+      var content='q\n595.28 0 0 841.89 0 0 cm\n/Im'+idx+' Do\nQ';
+      var contentNum=add({binary:strBytes(content),dict:'<< /Length '+strBytes(content).length+' >>'});
+      var pageNum=add(strBytes('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im'+idx+' '+imgNum+' 0 R >> >> /Contents '+contentNum+' 0 R >>'));
+      pageNums.push(pageNum);imgNums.push(imgNum);contentNums.push(contentNum);
+    });
+    objs[catalog-1]=strBytes('<< /Type /Catalog /Pages '+pagesObj+' 0 R >>');
+    objs[pagesObj-1]=strBytes('<< /Type /Pages /Kids ['+pageNums.map(function(n){return n+' 0 R'}).join(' ')+'] /Count '+pageNums.length+' >>');
+    var parts=[strBytes('%PDF-1.4\n%âãÏÓ\n')],offsets=[0],pos=parts[0].length;
+    objs.forEach(function(obj,i){
+      offsets.push(pos);var head=strBytes((i+1)+' 0 obj\n');parts.push(head);pos+=head.length;
+      if(obj&&obj.binary){
+        var d=strBytes(obj.dict+'\nstream\n'),e=strBytes('\nendstream\nendobj\n');parts.push(d,obj.binary,e);pos+=d.length+obj.binary.length+e.length;
+      }else{
+        var body=obj||strBytes('');var tail=strBytes('\nendobj\n');parts.push(body,tail);pos+=body.length+tail.length;
+      }
+    });
+    var xrefPos=pos,x='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n';
+    for(var j=1;j<=objs.length;j++)x+=String(offsets[j]).padStart(10,'0')+' 00000 n \n';
+    x+='trailer\n<< /Size '+(objs.length+1)+' /Root 1 0 R >>\nstartxref\n'+xrefPos+'\n%%EOF';
+    parts.push(strBytes(x));return concatBytes(parts);
+  }
+  function createNotebookPdf(note){
+    var W=1240,H=1754,margin=88,top=90,bottom=85,lineH=38,bodyFont=27;
+    var probe=document.createElement('canvas').getContext('2d');
+    probe.font=bodyFont+'px Arial, sans-serif';
+    var lines=wrapCanvasText(probe,note.text||'No details',W-margin*2);
+    if(!lines.length)lines=['No details'];
+    var per=Math.max(1,Math.floor((H-top-bottom-250)/lineH)),pages=[],pageCount=Math.ceil(lines.length/per)||1;
+    for(var pi=0;pi<pageCount;pi++){
+      var c=document.createElement('canvas');c.width=W;c.height=H;var ctx=c.getContext('2d');
+      ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='#173453';ctx.font='bold 44px Arial, sans-serif';ctx.fillText('Notebook Work Report',margin,top);
+      ctx.strokeStyle='#173453';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(margin,top+25);ctx.lineTo(W-margin,top+25);ctx.stroke();
+      ctx.font='bold 31px Arial, sans-serif';ctx.fillStyle='#173453';
+      var ttl=note.title||'Untitled Note';
+      var titleLines=wrapCanvasText(ctx,ttl,W-margin*2);
+      var y=top+85;titleLines.slice(0,2).forEach(function(ln){ctx.fillText(ln,margin,y);y+=42});
+      ctx.font='bold 26px Arial, sans-serif';ctx.fillStyle='#475569';ctx.fillText('Work Date: '+(fmtDate(note.workDate)||'-'),margin,y+9);y+=60;
+      ctx.font=bodyFont+'px Arial, sans-serif';ctx.fillStyle='#172033';
+      var chunk=lines.slice(pi*per,(pi+1)*per);
+      chunk.forEach(function(ln){ctx.fillText(ln,margin,y);y+=lineH});
+      ctx.font='22px Arial, sans-serif';ctx.fillStyle='#64748b';ctx.fillText('Page '+(pi+1)+' / '+pageCount,margin,H-44);
+      ctx.textAlign='right';ctx.fillText('Virendra Calculator - Notebook',W-margin,H-44);ctx.textAlign='left';
+      pages.push({jpg:bytesFromDataUrl(c.toDataURL('image/jpeg',0.92)),w:W,h:H});
+    }
+    var pdf=buildPdfFromJpegs(pages),blob=new Blob([pdf],{type:'application/pdf'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=safeName((note.workDate?note.workDate+'_':'')+note.title)+'.pdf';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url)},2500);
+  }
+
+  function statementDefaultDates(){
+    var d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+    var from=y+'-'+m+'-01', to=y+'-'+m+'-'+day;
+    if(el('nbFromDate')&&!el('nbFromDate').value)el('nbFromDate').value=from;
+    if(el('nbToDate')&&!el('nbToDate').value)el('nbToDate').value=to;
+  }
+  function drawStatementCell(ctx,text,x,y,w,font,lineH,maxLines){
+    ctx.font=font;
+    var lines=wrapCanvasText(ctx,String(text==null?'':text),w-18);
+    if(maxLines&&lines.length>maxLines){lines=lines.slice(0,maxLines);var last=lines.length-1;if(last>=0)lines[last]=lines[last].replace(/.{0,3}$/,'')+'...'}
+    lines.forEach(function(ln,i){ctx.fillText(ln,x+9,y+lineH*(i+1))});
+    return Math.max(1,lines.length);
+  }
+  function createNotebookStatementPdf(notes,fromDate,toDate){
+    var W=1240,H=1754,margin=58,top=70,bottom=72;
+    var cols=[58,130,235,300,401], x=[margin,margin+58,margin+188,margin+423,margin+723];
+    var usableW=W-margin*2; cols[4]=usableW-(cols[0]+cols[1]+cols[2]+cols[3]);
+    var pages=[], pageNo=0, i=0;
+    notes=notes.slice().sort(function(a,b){return String(a.workDate||'').localeCompare(String(b.workDate||''))||(a.created||0)-(b.created||0)});
+    function newPage(){
+      pageNo++;
+      var c=document.createElement('canvas');c.width=W;c.height=H;var ctx=c.getContext('2d');
+      ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='#173453';ctx.font='bold 42px Arial, sans-serif';ctx.fillText('Notebook Work Statement',margin,top);
+      ctx.font='24px Arial, sans-serif';ctx.fillStyle='#475569';
+      ctx.fillText('Period: '+fmtDate(fromDate)+'  to  '+fmtDate(toDate),margin,top+47);
+      ctx.textAlign='right';ctx.fillText('Total Entries: '+notes.length,W-margin,top+47);ctx.textAlign='left';
+      var y=top+82;
+      ctx.fillStyle='#173453';ctx.fillRect(margin,y,usableW,52);
+      ctx.font='bold 21px Arial, sans-serif';ctx.fillStyle='#fff';ctx.textBaseline='middle';
+      var heads=['S.No.','Date','Work / Title','Details'];
+      var starts=[margin,margin+cols[0],margin+cols[0]+cols[1],margin+cols[0]+cols[1]+cols[2]];
+      var widths=[cols[0],cols[1],cols[2],cols[3]+cols[4]];
+      heads.forEach(function(h,k){ctx.textAlign=k===0?'center':'left';ctx.fillText(h,starts[k]+(k===0?widths[k]/2:10),y+26)});ctx.textAlign='left';ctx.textBaseline='alphabetic';
+      return {c:c,ctx:ctx,y:y+52};
+    }
+    var pg=newPage();
+    for(i=0;i<notes.length;i++){
+      var n=notes[i],ctx=pg.ctx;
+      ctx.font='21px Arial, sans-serif';
+      var titleLines=wrapCanvasText(ctx,n.title||'Untitled Note',cols[2]-18).length||1;
+      var detailLines=wrapCanvasText(ctx,n.text||'-',cols[3]+cols[4]-18).length||1;
+      var lines=Math.max(1,Math.min(8,Math.max(titleLines,detailLines)));
+      var rowH=Math.max(54,18+lines*29);
+      if(pg.y+rowH>H-bottom){
+        ctx.font='18px Arial, sans-serif';ctx.fillStyle='#64748b';ctx.fillText('Page '+pageNo,margin,H-32);ctx.textAlign='right';ctx.fillText('Virendra Calculator - Notebook',W-margin,H-32);ctx.textAlign='left';
+        pages.push({jpg:bytesFromDataUrl(pg.c.toDataURL('image/jpeg',0.92)),w:W,h:H});
+        pg=newPage();ctx=pg.ctx;
+      }
+      var y=pg.y;
+      ctx.fillStyle=(i%2===0)?'#f8fbff':'#ffffff';ctx.fillRect(margin,y,usableW,rowH);
+      ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1.5;ctx.strokeRect(margin,y,usableW,rowH);
+      var c1=margin+cols[0],c2=c1+cols[1],c3=c2+cols[2];
+      [c1,c2,c3].forEach(function(xx){ctx.beginPath();ctx.moveTo(xx,y);ctx.lineTo(xx,y+rowH);ctx.stroke()});
+      ctx.fillStyle='#172033';ctx.font='20px Arial, sans-serif';ctx.textBaseline='top';
+      ctx.textAlign='center';ctx.fillText(String(i+1),margin+cols[0]/2,y+16);
+      ctx.textAlign='left';ctx.fillText(fmtDate(n.workDate)||'-',c1+9,y+16);
+      drawStatementCell(ctx,n.title||'Untitled Note',c2,y,cols[2],'bold 20px Arial, sans-serif',29,8);
+      drawStatementCell(ctx,n.text||'-',c3,y,cols[3]+cols[4],'20px Arial, sans-serif',29,8);
+      ctx.textBaseline='alphabetic';pg.y+=rowH;
+    }
+    var ctx=pg.ctx;ctx.font='18px Arial, sans-serif';ctx.fillStyle='#64748b';ctx.fillText('Page '+pageNo,margin,H-32);ctx.textAlign='right';ctx.fillText('Virendra Calculator - Notebook',W-margin,H-32);ctx.textAlign='left';
+    pages.push({jpg:bytesFromDataUrl(pg.c.toDataURL('image/jpeg',0.92)),w:W,h:H});
+    var pdf=buildPdfFromJpegs(pages),blob=new Blob([pdf],{type:'application/pdf'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='Work_Statement_'+fromDate+'_to_'+toDate+'.pdf';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url)},2500);
+  }
+
+  window.nbDownloadStatementPDF=function(){
+    var from=((el('nbFromDate')&&el('nbFromDate').value)||'').trim(),to=((el('nbToDate')&&el('nbToDate').value)||'').trim();
+    if(!from||!to){status('From Date और To Date चुनें.',true);return}
+    if(from>to){status('From Date, To Date से बाद की नहीं हो सकती.',true);return}
+    var notes=load().filter(function(n){var d=String(n.workDate||'');return d&&d>=from&&d<=to});
+    if(!notes.length){status('इस date range में कोई saved work नहीं है.',true);return}
+    try{createNotebookStatementPdf(notes,from,to);status('Date-wise statement PDF downloaded ✓',false)}catch(e){console.error(e);status('Statement PDF नहीं बन पाई.',true);alert('Date-wise PDF नहीं बन पाई')}
+  };
+
+  window.nbRenderNotes=function(){
+    var list=el('nbList');if(!list)return;
+    var q=((el('nbSearch')&&el('nbSearch').value)||'').trim().toLowerCase();
+    var notes=load().slice().sort(function(a,b){
+      var da=String(a.workDate||''),db=String(b.workDate||'');
+      return db.localeCompare(da)||(b.updated||0)-(a.updated||0);
+    });
+    var filtered=notes.filter(function(n){
+      var hay=[n.title,n.text,n.workDate,fmtDate(n.workDate)].join(' ').toLowerCase();
+      return !q||hay.indexOf(q)>=0;
+    });
+    var count=el('nbCount');if(count)count.textContent=filtered.length+(filtered.length===1?' note':' notes');
+    if(!filtered.length){
+      list.innerHTML='<div class="nb-empty">'+(q?'No matching note found.':'अभी कोई note save नहीं है.<br>ऊपर Date और काम लिखकर <b>SAVE NOTE</b> दबाएँ.')+'</div>';
+      return;
+    }
+    list.innerHTML=filtered.map(function(n){
+      var title=(n.title||'Untitled Note').trim()||'Untitled Note',txt=(n.text||'').trim();
+      var dt=n.workDate?('Work: '+fmtDate(n.workDate)):('Saved: '+fmt(n.updated||n.created));
+      return '<div class="nb-card">'+
+        '<div class="nb-card-top"><div class="nb-card-title">'+esc(title)+'</div><div class="nb-card-date">'+esc(dt)+'</div></div>'+ 
+        '<div class="nb-preview">'+esc(txt||'No text')+'</div>'+ 
+        '<div class="nb-card-actions"><button type="button" class="nb-mini" onclick="nbEditNote(\''+esc(n.id)+'\')">EDIT</button><button type="button" class="nb-mini pdf" onclick="nbDownloadNotePDF(\''+esc(n.id)+'\')">PDF</button><button type="button" class="nb-mini delete" onclick="nbDeleteNote(\''+esc(n.id)+'\')">DELETE</button></div>'+ 
+      '</div>';
+    }).join('');
+  };
+
+  window.nbNewNote=function(){
+    currentId=null;
+    if(el('nbTitle'))el('nbTitle').value='';
+    if(el('nbWorkDate'))el('nbWorkDate').value=todayISO();
+    if(el('nbText'))el('nbText').value='';
+    updateMeta();status('New note ready ✓',false);
+    try{el('nbTitle').focus()}catch(e){}
+  };
+
+  window.nbSaveNote=function(){
+    var data=getCurrentData();
+    if(!data.text && (!el('nbTitle')||!el('nbTitle').value.trim())){status('पहले काम / Note लिखें.',true);return}
+    var notes=load(),now=Date.now(),found=false;
+    if(currentId){
+      notes=notes.map(function(n){
+        if(n.id===currentId){found=true;return Object.assign({},n,{title:data.title,text:data.text,workDate:data.workDate,updated:now})}
+        return n;
+      });
+    }
+    if(!found){
+      currentId='nb_'+now+'_'+Math.random().toString(36).slice(2,7);
+      notes.push({id:currentId,title:data.title,text:data.text,workDate:data.workDate,created:now,updated:now});
+    }
+    if(!store(notes)){status('Note save नहीं हो पाया.',true);return}
+    if(el('nbTitle'))el('nbTitle').value=data.title;
+    updateMeta();nbRenderNotes();status('Note saved ✓',false);
+  };
+
+  window.nbEditNote=function(id){
+    var n=load().find(function(x){return x.id===id});if(!n)return;
+    currentId=id;
+    if(el('nbTitle'))el('nbTitle').value=n.title||'';
+    if(el('nbWorkDate'))el('nbWorkDate').value=n.workDate||todayISO();
+    if(el('nbText'))el('nbText').value=n.text||'';
+    updateMeta();status('Note opened for editing ✓',false);
+    try{document.getElementById('notebook').scrollTo({top:0,behavior:'smooth'})}catch(e){try{window.scrollTo(0,0)}catch(_){} }
+  };
+
+  window.nbDeleteNote=function(id){
+    var notes=load(),n=notes.find(function(x){return x.id===id});if(!n)return;
+    if(!confirm('Delete this note?'))return;
+    notes=notes.filter(function(x){return x.id!==id});
+    if(!store(notes)){status('Delete नहीं हो पाया.',true);return}
+    if(currentId===id)nbNewNote();
+    nbRenderNotes();status('Note deleted',false);
+  };
+
+  window.nbDownloadCurrentPDF=function(){
+    var data=getCurrentData();
+    if(!data.text && (!el('nbTitle')||!el('nbTitle').value.trim())){status('PDF के लिए पहले कुछ लिखें.',true);return}
+    try{createNotebookPdf(data);status('PDF downloaded ✓',false)}catch(e){console.error(e);status('PDF नहीं बन पाई.',true);alert('Notebook PDF नहीं बन पाई')}
+  };
+  window.nbDownloadNotePDF=function(id){
+    var n=load().find(function(x){return x.id===id});if(!n)return;
+    try{createNotebookPdf(n);status('PDF downloaded ✓',false)}catch(e){console.error(e);status('PDF नहीं बन पाई.',true);alert('Notebook PDF नहीं बन पाई')}
+  };
+
+  document.addEventListener('input',function(e){if(e.target&&e.target.id==='nbText')updateMeta()});
+  document.addEventListener('DOMContentLoaded',function(){if(el('nbWorkDate')&&!el('nbWorkDate').value)el('nbWorkDate').value=todayISO();statementDefaultDates();updateMeta();nbRenderNotes()});
+  window.addEventListener('load',function(){if(el('nbWorkDate')&&!el('nbWorkDate').value)el('nbWorkDate').value=todayISO();statementDefaultDates();updateMeta();nbRenderNotes()});
 })();
 </script>
 

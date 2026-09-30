@@ -1,4 +1,4 @@
 {
-  "version": "1.1.59",
-  "notes": "Fixed Image→PDF download inside the Android APK. Generated PDFs now use the existing AndroidBridge.saveBase64 native saver to write directly to the phone Downloads folder, with a SAVE PDF button and browser fallback."
+  "version": "1.1.72",
+  "notes": "RL PDF Viewer auto-hide restored to simple responsive behavior: scroll down hides controls, scroll up shows them immediately, with no delay or movement threshold."
 }
