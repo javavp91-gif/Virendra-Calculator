@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://javavp91-gif.github.io/Virendra-Calculator/sitemap.xml
