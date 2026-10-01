@@ -8780,88 +8780,123 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 <script>
 (function(){
   if(!window.AndroidBridge)return;
-  var VC_APP_VERSION='1.1.75';
-  var VC_VERSION_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/version.json';
+
+  // FINAL migration version.
+  // आगे HTML/tool updates के लिए इसे बदलने की जरूरत नहीं है.
+  var VC_APP_VERSION='1.1.77';
+
+  var VC_FILE_API='https://api.github.com/repos/javavp91-gif/Virendra-Calculator/contents/index.html?ref=main';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
+
+  // Keep these V3 cache keys so older installed APKs can boot the newest cached HTML.
   var VC_CACHE_HTML='virendraRemoteLatestHtmlV3';
   var VC_CACHE_VERSION='virendraRemoteLatestVersionV3';
-  var VC_SESSION_GUARD='virendraUpdateBootGuardV3';
-  var VC_LATER_SESSION='virendraUpdateLaterVersionV3';
-  var pendingUpdate=null;
+
+  // New automatic content-based updater.
+  var VC_AUTO_SHA='virendraAutoIndexShaV1';
+  var VC_CHECK_GUARD='virendraAutoIndexCheckedSessionV1';
 
   function byId(id){return document.getElementById(id)}
-  function toast(msg){var e=byId('vcUpdateToast');if(!e)return;e.textContent=msg;e.classList.add('show')}
-  function unt(){var e=byId('vcUpdateToast');if(e)e.classList.remove('show')}
-  function parts(v){return String(v||'0').split('.').map(function(x){return parseInt(x,10)||0})}
-  function newer(a,b){var A=parts(a),B=parts(b),n=Math.max(A.length,B.length);for(var i=0;i<n;i++){var x=A[i]||0,y=B[i]||0;if(x>y)return true;if(x<y)return false}return false}
-  function replaceDocument(html){try{sessionStorage.setItem(VC_SESSION_GUARD,'1')}catch(e){}document.open();document.write(html);document.close()}
-  function setProgress(msg){var e=byId('vcUpdateProgress');if(e)e.textContent=msg||''}
-  function setButtons(disabled){var a=byId('vcUpdateNowBtn'),b=byId('vcUpdateLaterBtn');if(a)a.disabled=!!disabled;if(b)b.disabled=!!disabled}
-  function hideModal(){var m=byId('vcUpdateModal');if(m)m.classList.add('hidden');setProgress('');setButtons(false)}
-  function showModal(info){
-    pendingUpdate=info;
-    var m=byId('vcUpdateModal'),v=byId('vcUpdateVersionText'),n=byId('vcUpdateNotes');
-    if(v)v.textContent='Current '+VC_APP_VERSION+'  →  New '+String(info.version||'');
-    if(n)n.textContent=String(info.notes||'Virendra Calculator का नया version उपलब्ध है.');
-    if(m)m.classList.remove('hidden');
+  function toast(msg){
+    var e=byId('vcUpdateToast');
+    if(!e)return;
+    e.textContent=msg;
+    e.classList.add('show');
+    setTimeout(function(){e.classList.remove('show')},2200);
   }
-  function bootCached(){
-    try{
-      if(sessionStorage.getItem(VC_SESSION_GUARD)==='1')return false;
-      var cv=localStorage.getItem(VC_CACHE_VERSION)||'',ch=localStorage.getItem(VC_CACHE_HTML)||'';
-      if(ch && newer(cv,VC_APP_VERSION)){
-        var q1="VC_APP_VERSION='"+cv+"'";
-        var q2='VC_APP_VERSION=\"'+cv+'\"';
-        if(ch.indexOf(q1)>=0 || ch.indexOf(q2)>=0){replaceDocument(ch);return true}
-        localStorage.removeItem(VC_CACHE_HTML);localStorage.removeItem(VC_CACHE_VERSION);
-      }
-    }catch(e){}
-    return false;
+
+  function validHtml(html){
+    return !!(html && html.length>10000 && html.indexOf('<html')>=0 && html.indexOf("VC_APP_VERSION='1.1.77'")>=0);
   }
-  async function downloadAndApply(info){
-    if(!info)return;
-    setButtons(true);setProgress('Update download हो रहा है…');
-    try{
-      var hr=await fetch(VC_HTML_URL+'?v='+encodeURIComponent(info.version||'')+'&t='+Date.now(),{cache:'no-store'});
-      if(!hr.ok)throw new Error('HTML '+hr.status);
-      var html=await hr.text();
-      if(!html || html.length<10000 || html.indexOf('<html')<0)throw new Error('Invalid HTML');
-      try{localStorage.setItem(VC_CACHE_HTML,html);localStorage.setItem(VC_CACHE_VERSION,String(info.version||''))}catch(e){}
-      setProgress('Update complete ✓ App restart हो रही है…');
-      setTimeout(function(){replaceDocument(html)},650);
-    }catch(e){
-      console.warn('Virendra update download failed',e);setProgress('Update download नहीं हुआ. Internet check करें.');setButtons(false);
+
+  function replaceDocument(html){
+    try{sessionStorage.setItem(VC_CHECK_GUARD,'1')}catch(e){}
+    document.open();
+    document.write(html);
+    document.close();
+  }
+
+  async function getRemoteSha(){
+    var r=await fetch(VC_FILE_API+'&t='+Date.now(),{
+      cache:'no-store',
+      headers:{'Accept':'application/vnd.github+json'}
+    });
+    if(!r.ok)throw new Error('GitHub API '+r.status);
+    var j=await r.json();
+    if(!j || !j.sha)throw new Error('SHA missing');
+    return String(j.sha);
+  }
+
+  async function getRemoteHtml(){
+    var r=await fetch(VC_HTML_URL+'?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTML '+r.status);
+    var html=await r.text();
+    if(!validHtml(html))throw new Error('Invalid HTML');
+    return html;
+  }
+
+  async function checkAutoUpdate(manual){
+    if(!navigator.onLine){
+      if(manual)toast('Internet connection नहीं है');
+      return;
     }
-  }
-  async function checkRemote(manual){
-    if(!navigator.onLine){if(manual)toast('Internet connection नहीं है');setTimeout(unt,1800);return}
+
     try{
       if(manual)toast('Update check हो रहा है…');
-      var vr=await fetch(VC_VERSION_URL+'?t='+Date.now(),{cache:'no-store'});
-      if(!vr.ok)throw new Error('version '+vr.status);
-      var info=await vr.json();var remote=String(info.version||'0.0.0');
-      var current=VC_APP_VERSION;try{var cv=localStorage.getItem(VC_CACHE_VERSION)||'';if(newer(cv,current))current=cv}catch(e){}
-      if(!newer(remote,current)){if(manual){toast('आपके पास latest version '+current+' है ✓');setTimeout(unt,1800)}return}
-      unt();
-      try{if(!manual && sessionStorage.getItem(VC_LATER_SESSION)===remote)return}catch(e){}
-      showModal(info);
-    }catch(e){console.warn('Virendra auto update check failed',e);if(manual){toast('Update check नहीं हो पाया');setTimeout(unt,1800)}else unt()}
+
+      var remoteSha=await getRemoteSha();
+      var savedSha='';
+      try{savedSha=localStorage.getItem(VC_AUTO_SHA)||''}catch(e){}
+
+      // First run after the one-time migration: establish the baseline.
+      if(!savedSha){
+        try{localStorage.setItem(VC_AUTO_SHA,remoteSha)}catch(e){}
+        if(manual)toast('आपके पास latest update है ✓');
+        return;
+      }
+
+      if(savedSha===remoteSha){
+        if(manual)toast('आपके पास latest update है ✓');
+        return;
+      }
+
+      // index.html changed on GitHub — no version.json bump needed.
+      var html=await getRemoteHtml();
+
+      try{
+        localStorage.setItem(VC_AUTO_SHA,remoteSha);
+        localStorage.setItem(VC_CACHE_HTML,html);
+        // Keep this fixed at the migration version so old APK boot code loads cached HTML.
+        localStorage.setItem(VC_CACHE_VERSION,VC_APP_VERSION);
+      }catch(e){}
+
+      toast('नया update मिल गया ✓ App refresh हो रही है…');
+      setTimeout(function(){replaceDocument(html)},500);
+
+    }catch(e){
+      console.warn('Virendra automatic content update check failed',e);
+      if(manual)toast('Update check नहीं हो पाया');
+    }
   }
-  function later(){if(pendingUpdate){try{sessionStorage.setItem(VC_LATER_SESSION,String(pendingUpdate.version||''))}catch(e){}}hideModal()}
 
-  try{
-    localStorage.removeItem('virendraRemoteLatestHtmlV2');
-    localStorage.removeItem('virendraRemoteLatestVersionV2');
-    sessionStorage.removeItem('virendraUpdateBootGuardV2');
-    sessionStorage.removeItem('virendraUpdateLaterVersionV2');
-  }catch(e){}
-
-  if(bootCached())return;
   window.VirendraAppVersion=VC_APP_VERSION;
-  window.vcCheckForUpdate=function(){return checkRemote(true)};
-  window.vcApplyPendingUpdate=function(){return downloadAndApply(pendingUpdate)};
-  var now=byId('vcUpdateNowBtn'),laterBtn=byId('vcUpdateLaterBtn');if(now)now.addEventListener('click',function(){downloadAndApply(pendingUpdate)});if(laterBtn)laterBtn.addEventListener('click',later);
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){checkRemote(false)},1000)});else setTimeout(function(){checkRemote(false)},1000);
+  window.vcCheckForUpdate=function(){return checkAutoUpdate(true)};
+
+  function start(){
+    try{
+      if(sessionStorage.getItem(VC_CHECK_GUARD)==='1'){
+        sessionStorage.removeItem(VC_CHECK_GUARD);
+        return;
+      }
+    }catch(e){}
+    setTimeout(function(){checkAutoUpdate(false)},1200);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',start);
+  }else{
+    start();
+  }
 })();
 </script>
 

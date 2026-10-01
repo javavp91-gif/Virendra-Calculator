@@ -1,4 +1,4 @@
 {
-  "version": "1.1.76",
-  "notes": "Brick Quantity Calculator added under Quantity & Construction Work with wall size, inch thickness, brick dimensions, mortar mix, wastage, total bricks, cement and sand quantities. Mortar joint 10 mm and dry mortar factor 1.33 are fixed."
+  "version": "1.1.77",
+  "notes": "One-time migration to automatic content updates. Future index.html changes are detected automatically, so version.json does not need to be increased for normal tool/design updates."
 }
