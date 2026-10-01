@@ -799,7 +799,94 @@ jobs:
                   }
               }
 
-              private String getInstalledVersion() {
+                        private void checkForApkUpdate() {
+                  HttpURLConnection connection = null;
+
+                  try {
+                      connection = (HttpURLConnection) new URL(
+                              "https://api.github.com/repos/javavp91-gif/Virendra-Calculator/releases/latest"
+                      ).openConnection();
+
+                      connection.setConnectTimeout(7000);
+                      connection.setReadTimeout(7000);
+                      connection.setUseCaches(false);
+                      connection.setRequestProperty(
+                              "Accept",
+                              "application/vnd.github+json"
+                      );
+
+                      if (connection.getResponseCode() != 200) return;
+
+                      String jsonText =
+                              readText(connection.getInputStream());
+
+                      JSONObject json =
+                              new JSONObject(jsonText);
+
+                      String latestVersion =
+                              json.optString("tag_name", "")
+                                      .replaceFirst("^v", "");
+
+                      String currentVersion =
+                              getInstalledVersion();
+
+                      if (latestVersion.isEmpty() ||
+                              compareVersions(
+                                      latestVersion,
+                                      currentVersion
+                              ) <= 0) {
+                          return;
+                      }
+
+                      final String version = latestVersion;
+
+                      final String apkUrl =
+                              "https://github.com/javavp91-gif/Virendra-Calculator/releases/download/v"
+                                      + version
+                                      + "/Virendra-Calculator-v"
+                                      + version
+                                      + "-release.apk";
+
+                      runOnUiThread(() -> {
+
+                          if (isFinishing() || isDestroyed()) return;
+
+                          new android.app.AlertDialog.Builder(
+                                  MainActivity.this
+                          )
+                                  .setTitle("New Version Available")
+                                  .setMessage(
+                                          "Virendra Calculator "
+                                                  + version
+                                                  + " उपलब्ध है।"
+                                  )
+                                  .setPositiveButton(
+                                          "Update",
+                                          (dialog, which) -> {
+                                              Intent intent =
+                                                      new Intent(
+                                                              Intent.ACTION_VIEW,
+                                                              Uri.parse(apkUrl)
+                                                      );
+                                              startActivity(intent);
+                                          }
+                                  )
+                                  .setNegativeButton(
+                                          "Later",
+                                          null
+                                  )
+                                  .show();
+                      });
+
+                  } catch (Exception ignored) {
+
+                  } finally {
+
+                      if (connection != null) {
+                          connection.disconnect();
+                      }
+                  }
+              }    private String getInstalledVersion() {
 
                   try {
                       return getPackageManager()
