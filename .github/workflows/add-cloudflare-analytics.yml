@@ -1,0 +1,58 @@
+name: Add Cloudflare Analytics to Website
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  add-analytics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Add Cloudflare Web Analytics to all HTML pages
+        shell: python
+        run: |
+          from pathlib import Path
+
+          TOKEN = "b71cd92b597d42e5bb31c65cd0c23f2c"
+          HOST = "javavp91-gif.github.io"
+
+          normal = f'''\n<!-- Cloudflare Web Analytics -->\n<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token":"{TOKEN}"}}'></script>\n<!-- End Cloudflare Web Analytics -->\n'''
+
+          conditional = f'''\n<!-- Cloudflare Web Analytics - website only -->\n<script>\nif (location.hostname === "{HOST}") {{\n  const s = document.createElement("script");\n  s.type = "module";\n  s.src = "https://static.cloudflareinsights.com/beacon.min.js";\n  s.setAttribute("data-cf-beacon", '{{"token":"{TOKEN}"}}');\n  document.body.appendChild(s);\n}}\n</script>\n<!-- End Cloudflare Web Analytics -->\n'''
+
+          changed = []
+          for p in Path('.').rglob('*.html'):
+              # Do not touch generated/vendor folders if ever present.
+              if any(part in {'.git', 'node_modules', 'build', 'dist'} for part in p.parts):
+                  continue
+              text = p.read_text(encoding='utf-8', errors='ignore')
+              if TOKEN in text:
+                  continue
+              snippet = conditional if p.name == 'index.html' else normal
+              if '</body>' in text:
+                  text = text.replace('</body>', snippet + '\n</body>', 1)
+              else:
+                  text += snippet
+              p.write_text(text, encoding='utf-8')
+              changed.append(str(p))
+
+          print(f"Updated {len(changed)} HTML files")
+          for f in changed:
+              print(f)
+
+      - name: Commit website analytics changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html'
+          git commit -m "Add Cloudflare Web Analytics to website pages"
+          git push
