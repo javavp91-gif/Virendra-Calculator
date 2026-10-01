@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Virendra Calculator - APK Download Stats</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f5f7fb;color:#111827}
+    .wrap{max-width:720px;margin:auto;padding:24px 16px}
+    h1{font-size:28px;margin:0 0 6px}.sub{color:#6b7280;margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+    .card{background:white;border-radius:16px;padding:20px;box-shadow:0 6px 22px rgba(0,0,0,.07)}
+    .label{font-size:14px;color:#6b7280}.num{font-size:32px;font-weight:800;margin-top:6px}
+    .small{font-size:16px;font-weight:700;margin-top:18px;word-break:break-word}
+    .btn{display:inline-block;margin-top:20px;padding:12px 16px;border-radius:12px;background:#111827;color:white;text-decoration:none;font-weight:700}
+    .status{margin-top:14px;color:#6b7280;font-size:14px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Virendra Calculator</h1>
+  <div class="sub">APK Download Statistics</div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="label">Latest Version</div>
+      <div id="version" class="num">—</div>
+    </div>
+    <div class="card">
+      <div class="label">Latest APK Downloads</div>
+      <div id="latest" class="num">—</div>
+    </div>
+    <div class="card">
+      <div class="label">Total APK Downloads</div>
+      <div id="total" class="num">—</div>
+    </div>
+  </div>
+
+  <div id="asset" class="small"></div>
+  <a class="btn" href="download-app.html">Download App Page</a>
+  <div id="status" class="status">Loading latest data…</div>
+</div>
+
+<script>
+async function loadStats(){
+  const status = document.getElementById('status');
+  try{
+    const r = await fetch(
+      'https://api.github.com/repos/javavp91-gif/Virendra-Calculator/releases?per_page=100',
+      {cache:'no-store'}
+    );
+    if(!r.ok) throw new Error('GitHub API error');
+
+    const releases = await r.json();
+    const published = releases.filter(x => !x.draft && !x.prerelease);
+
+    let total = 0;
+    let latestApk = null;
+    let latestRelease = null;
+
+    for(const rel of published){
+      for(const a of (rel.assets || [])){
+        if(a.name.toLowerCase().endsWith('.apk')){
+          total += a.download_count || 0;
+          if(!latestApk){
+            latestApk = a;
+            latestRelease = rel;
+          }
+        }
+      }
+    }
+
+    document.getElementById('version').textContent =
+      latestRelease ? latestRelease.tag_name.replace(/^v/,'') : '—';
+
+    document.getElementById('latest').textContent =
+      latestApk ? latestApk.download_count : '0';
+
+    document.getElementById('total').textContent = total;
+
+    document.getElementById('asset').textContent =
+      latestApk ? latestApk.name : 'No APK release found';
+
+    status.textContent =
+      'Updated from GitHub Releases • Refresh page for latest count';
+  }catch(e){
+    status.textContent =
+      'Could not load download count. Please refresh later.';
+  }
+}
+loadStats();
+</script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module"
+  src="https://static.cloudflareinsights.com/beacon.min.js"
+  data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
