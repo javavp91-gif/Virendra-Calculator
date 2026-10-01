@@ -8843,7 +8843,58 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       var k=String(a[i]);
       if(seen[k])return false;
       seen[k]=true;
+    }
+    return true;
+  }
+  function firstSection(){
+    return document.querySelector('#ewChainages .ew-section');
+  }
 
+  function setTabs(){
+    var hi=byId('ewTabHi'),rl=byId('ewTabRl'),box=byId('ewGlobalHiBox');
+    if(hi)hi.classList.toggle('active',EW_MODE==='hi');
+    if(rl)rl.classList.toggle('active',EW_MODE==='rl');
+    if(box)box.style.display=EW_MODE==='hi'?'grid':'none';
+  }
+
+  window.ewSwitchMode=function(mode){
+    if(mode!=='hi' && mode!=='rl')return;
+    if(mode===EW_MODE)return;
+    ewSaveDraft(false);
+    EW_MODE=mode;
+    setTabs();
+    hideResults();
+    loadSaved();
+  };
+
+  function hideResults(){
+    var e=byId('ewError'),r=byId('ewResults'),s=byId('ewSummary');
+    if(e)e.textContent='';
+    if(r)r.style.display='none';
+    if(s)s.style.display='none';
+  }
+
+  window.ewAddSection=function(data){
+    data=data||{};
+    var wrap=byId('ewChainages');if(!wrap)return;
+
+    var sec=document.createElement('div');
+    sec.className='ew-section';
+
+    var topFields =
+      '<div class="ew-top-fields single">'+
+        '<div class="ew-field"><label>Chainage</label><input class="ew-ch" type="text" inputmode="text"></div>'+
+      '</div>';
+
+    sec.innerHTML=
+      '<div class="ew-section-head">'+
+        '<div class="ew-section-no"></div>'+
+        '<button type="button" class="ew-del">×</button>'+
+      '</div>'+
+      '<div class="ew-grid">'+
+        topFields+
+        '<input class="ew-offs" type="hidden">'+
+        '<input class="ew-is" type="hidden">'+
         '<input class="ew-eg" type="hidden">'+
         '<input class="ew-dg" type="hidden">'+
         '<div class="ew-point-list ew-rl-table-wrap"></div>'+
