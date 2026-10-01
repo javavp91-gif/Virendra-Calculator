@@ -75,4 +75,9 @@ footer{padding:20px 0 34px;color:var(--muted);font-size:13px}
 function calc(){let d=+dia.value,l=+len.value,q=+qty.value;if([d,l,q].some(x=>Number.isNaN(x)||x<=0)){result.textContent='Enter valid positive values.';return}
 let u=d*d/162,kg=u*l*q;result.innerHTML='<b>Unit Weight:</b> '+u.toFixed(3)+' kg/m<br><b>Total Length:</b> '+(l*q).toFixed(2)+' m<br><b>Total Weight:</b> '+kg.toFixed(2)+' kg'}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

@@ -74,4 +74,9 @@ footer{padding:20px 0 34px;color:var(--muted);font-size:13px}
 function calc(){let c=+pc.value,s=+ps.value;if([c,s].some(Number.isNaN)||c===0){result.textContent='Enter valid values; cost price must be non-zero.';return}
 let d=s-c,p=d/c*100;result.innerHTML='<b>'+(d>=0?'Profit':'Loss')+':</b> ₹'+Math.abs(d).toFixed(2)+'<br><b>Percentage:</b> '+Math.abs(p).toFixed(2)+'%'}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

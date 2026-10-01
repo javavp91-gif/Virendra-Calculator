@@ -72,4 +72,9 @@ footer{padding:20px 0 34px;color:var(--muted);font-size:13px}
 function calc(){let a=avals.value.split(',').map(x=>parseFloat(x.trim())).filter(x=>!Number.isNaN(x));if(!a.length){result.textContent='Enter at least one valid number.';return}
 let s=a.reduce((x,y)=>x+y,0);result.innerHTML='<b>Count:</b> '+a.length+'<br><b>Sum:</b> '+s.toFixed(4)+'<br><b>Average:</b> '+(s/a.length).toFixed(4)}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

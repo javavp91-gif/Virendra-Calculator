@@ -86,4 +86,9 @@ if([v,f,a,b,c,cdx,sdx,adx].some(x=>Number.isNaN(x)||x<=0)){result.textContent='E
 let dry=v*f,t=a+b+c,cv=dry*a/t,sv=dry*b/t,av=dry*c/t,ck=cv*cdx,sk=sv*sdx,ak=av*adx;
 result.innerHTML='<b>Wet Concrete:</b> '+v.toFixed(3)+' m³<br><b>Dry Volume:</b> '+dry.toFixed(3)+' m³<br><b>Cement:</b> '+ck.toFixed(1)+' kg (~'+(ck/50).toFixed(2)+' bags)<br><b>Sand:</b> '+sk.toFixed(1)+' kg<br><b>Aggregate:</b> '+ak.toFixed(1)+' kg'}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

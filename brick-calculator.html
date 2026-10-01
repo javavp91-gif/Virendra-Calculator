@@ -84,4 +84,9 @@ if([L,H,T,l,w,h,cr,sr].some(x=>Number.isNaN(x)||x<=0)){result.textContent='Enter
 let j=.01,wall=L*H*T,mod=(l+j)*(w+j)*(h+j),n=wall/mod,brickVol=l*w*h*n,wet=Math.max(0,wall-brickVol),dry=wet*1.33,total=cr+sr,cementV=dry*cr/total,sandV=dry*sr/total;
 result.innerHTML='<b>Bricks:</b> '+Math.ceil(n)+' nos.<br><b>Wet Mortar:</b> '+wet.toFixed(3)+' m³<br><b>Cement:</b> '+(cementV*1440).toFixed(1)+' kg (~'+(cementV*1440/50).toFixed(2)+' bags)<br><b>Sand:</b> '+(sandV*1600).toFixed(1)+' kg'}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

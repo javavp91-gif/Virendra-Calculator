@@ -77,4 +77,9 @@ function calc(){let p=+ep.value,R=+er.value,n=+en.value;if([p,R,n].some(x=>Numbe
 let r=R/1200,emi=r===0?p/n:p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1),tot=emi*n;
 result.innerHTML='<b>Monthly EMI:</b> ₹'+emi.toFixed(2)+'<br><b>Total Interest:</b> ₹'+(tot-p).toFixed(2)+'<br><b>Total Payment:</b> ₹'+tot.toFixed(2)}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

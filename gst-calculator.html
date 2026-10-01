@@ -74,4 +74,9 @@ footer{padding:20px 0 34px;color:var(--muted);font-size:13px}
 function calc(){let a=+ga.value,r=+gr.value;if([a,r].some(Number.isNaN)){result.textContent='Enter valid values.';return}
 let g=a*r/100;result.innerHTML='<b>GST:</b> ₹'+g.toFixed(2)+'<br><b>Total:</b> ₹'+(a+g).toFixed(2)}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

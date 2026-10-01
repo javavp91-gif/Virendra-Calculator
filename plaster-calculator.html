@@ -78,4 +78,9 @@ footer{padding:20px 0 34px;color:var(--muted);font-size:13px}
 function calc(){let L=+pl.value,H=+ph.value,T=+pt.value/1000,a=+pcr.value,b=+psr.value;if([L,H,T,a,b].some(x=>Number.isNaN(x)||x<=0)){result.textContent='Enter valid positive values.';return}
 let wet=L*H*T,dry=wet*1.33,t=a+b,cv=dry*a/t,sv=dry*b/t;result.innerHTML='<b>Plaster Area:</b> '+(L*H).toFixed(2)+' m²<br><b>Wet Mortar:</b> '+wet.toFixed(3)+' m³<br><b>Cement:</b> '+(cv*1440).toFixed(1)+' kg (~'+(cv*1440/50).toFixed(2)+' bags)<br><b>Sand:</b> '+(sv*1600).toFixed(1)+' kg'}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

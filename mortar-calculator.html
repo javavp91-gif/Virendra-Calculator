@@ -76,4 +76,9 @@ footer{padding:20px 0 34px;color:var(--muted);font-size:13px}
 function calc(){let v=+mv.value,a=+mcr.value,b=+msr.value;if([v,a,b].some(x=>Number.isNaN(x)||x<=0)){result.textContent='Enter valid positive values.';return}
 let d=v*1.33,t=a+b,cv=d*a/t,sv=d*b/t;result.innerHTML='<b>Dry Mortar:</b> '+d.toFixed(3)+' m³<br><b>Cement:</b> '+(cv*1440).toFixed(1)+' kg (~'+(cv*1440/50).toFixed(2)+' bags)<br><b>Sand:</b> '+(sv*1600).toFixed(1)+' kg'}
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>

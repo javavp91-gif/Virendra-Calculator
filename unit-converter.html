@@ -78,4 +78,9 @@ function units(){let o=Object.keys(U[ucat.value]);ufrom.innerHTML=o.map(x=>'<opt
 function calc(){let v=+uval.value;if(Number.isNaN(v)){result.textContent='Enter a valid value.';return}let z=v*U[ucat.value][ufrom.value]/U[ucat.value][uto.value];result.innerHTML='<b>'+v+' '+ufrom.value+' = '+z.toFixed(6)+' '+uto.value+'</b>'}
 units();
 </script>
+
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 </body></html>
