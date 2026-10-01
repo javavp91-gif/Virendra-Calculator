@@ -523,6 +523,7 @@ jobs:
 
                   loadBestAvailableHtml();
                   new Thread(this::checkForRemoteHtmlUpdate).start();
+                  new Thread(this::checkForApkUpdate).start();
               }
 
               private Intent createCameraIntent() throws Exception {
