@@ -4539,26 +4539,6 @@ body.day .sound-toggle{
   <div class="vc3dHeroRoad">🛣️</div>
 </div>
 
-<section id="seoToolsSection" style="margin:28px 12px;padding:20px;background:#fff;border-radius:18px;">
-  <h2 style="font-size:22px;margin:0 0 12px;">Tools Available in Virendra Calculator</h2>
-
-  <p style="line-height:1.8;margin:0;color:#334155;">
-    Offset RL Calculator, Multiple Offset RL, RL Calculator, Subgrade GSB Peg Level,
-    Toe Calculator, Slab RL Calculator, Soil Cut Fill Quantity, GSB Quantity,
-    Concrete Calculator, Brick Quantity Calculator, Machinery Hour Register,
-    Price Calculator, Photo & Signature Tool, Image PDF Converter, RL PDF Viewer,
-    PDF Editor, PDF Password Remover, Document Scanner, Government Document Download,
-    Special CV Maker, Calculator, Unit Converter, Translate Text and Notebook.
-  </p>
-</section>
-
-<script>
-if (window.AndroidBridge) {
-  var seoBox = document.getElementById('seoToolsSection');
-  if (seoBox) seoBox.remove();
-}
-</script>
-
 <div class="navTitle">TOOLS BY WORK</div>
 
 
@@ -4659,13 +4639,63 @@ if (window.AndroidBridge) {
     <button onclick="show('notebook')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="12" y="7" width="40" height="50" rx="5" fill="#fff8cc" stroke="#173453" stroke-width="3"/><path d="M20 7v50" stroke="#e05a47" stroke-width="2"/><path d="M26 20h18M26 28h18M26 36h18M26 44h14" stroke="#5b7ea4" stroke-width="2.5" stroke-linecap="round"/><path d="M17 12h-7M17 22h-7M17 32h-7M17 42h-7M17 52h-7" stroke="#173453" stroke-width="3" stroke-linecap="round"/></svg></span><span class="toolLabel">Notebook</span></button>
   </nav>
 </div>
-  <div style="text-align:center;margin:24px 0 10px;">
+  <div id="appDownloadBox" style="text-align:center;margin:24px 0 10px;">
   <a href="https://javavp91-gif.github.io/Virendra-Calculator/download-app.html"
      style="display:block;background:#0b74d1;color:white;text-decoration:none;
      padding:15px;border-radius:16px;font-weight:800;font-size:17px;">
     📥 Download Virendra Calculator App
   </a>
   </div>
+  <script>
+  if (window.AndroidBridge) {
+    var appDownloadBox = document.getElementById('appDownloadBox');
+    if (appDownloadBox) appDownloadBox.style.display = 'none';
+  }
+  </script>
+
+<div id="appShareBox" style="display:none;text-align:center;margin:18px 0 10px;">
+  <button type="button" onclick="vcShareApp()"
+    style="width:100%;border:0;background:#173453;color:#fff;padding:15px 18px;
+    border-radius:16px;font-weight:800;font-size:17px;cursor:pointer;">
+    📤 Share App
+  </button>
+</div>
+
+<script>
+(function(){
+  var box = document.getElementById('appShareBox');
+  if (window.AndroidBridge && box) box.style.display = 'block';
+
+  window.vcShareApp = async function(){
+    var shareUrl = 'https://javavp91-gif.github.io/Virendra-Calculator/download-app.html';
+    var shareText = 'Virendra Calculator App डाउनलोड करें: ' + shareUrl;
+
+    try{
+      if (navigator.share){
+        await navigator.share({
+          title: 'Virendra Calculator',
+          text: 'Virendra Calculator App डाउनलोड करें',
+          url: shareUrl
+        });
+        return;
+      }
+    }catch(e){
+      if (e && e.name === 'AbortError') return;
+    }
+
+    try{
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        await navigator.clipboard.writeText(shareText);
+        alert('Download link copy हो गया। अब WhatsApp/Telegram में paste करके share करें.');
+        return;
+      }
+    }catch(e){}
+
+    prompt('Download link copy करें:', shareUrl);
+  };
+})();
+</script>
+
 <div id="vcDevModal" class="vc-dev-modal hidden" aria-hidden="false">
   <div class="vc-dev-box">
     <div id="vcDevLockedView" class="hidden">
@@ -10748,4 +10778,5 @@ function init(){if(ccEl('ccUnit')){ccUpdateUnit();ccCalc()}if(bqEl('bqWallL')){b
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+
 </body></html>
