@@ -1,0 +1,31 @@
+name: Restore Homepage
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore-homepage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore index.html from before analytics change
+        run: |
+          git checkout 150ce874c55159b9c9443b3fad38019bf5af733e -- index.html
+
+      - name: Commit restored homepage
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git commit -m "Restore homepage after analytics injection"
+          git push
