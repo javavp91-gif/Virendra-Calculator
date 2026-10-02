@@ -10814,4 +10814,35 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<!-- Virendra Website + App analytics counter -->
+<script>
+(function(){
+  try{
+    var isApp=!!window.AndroidBridge;
+    var kind=isApp?'app':'web';
+    var d=new Date();
+    var day=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var base='https://countapi.mileshilliard.com/api/v1/hit/';
+    function hit(key){
+      try{ fetch(base+encodeURIComponent(key),{mode:'no-cors',cache:'no-store'}).catch(function(){}); }catch(e){}
+    }
+
+    // Approx. unique device/browser/install: counted only once while localStorage remains.
+    var firstKey='virendraAnalyticsFirstV2_'+kind;
+    if(!localStorage.getItem(firstKey)){
+      localStorage.setItem(firstKey,'1');
+      hit('virendra-calculator-'+kind+'-total');
+    }
+
+    // Daily active device/browser: counted once per device per day.
+    var dailyKey='virendraAnalyticsDailyV2_'+kind;
+    if(localStorage.getItem(dailyKey)!==day){
+      localStorage.setItem(dailyKey,day);
+      hit('virendra-calculator-'+kind+'-'+day);
+    }
+  }catch(e){}
+})();
+</script>
+<!-- End Virendra Website + App analytics counter -->
 </body></html>
