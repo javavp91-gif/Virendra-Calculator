@@ -1,0 +1,79 @@
+name: Auto Content Version
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'index.html'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: virendra-content-version
+  cancel-in-progress: false
+
+jobs:
+  bump-content-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Sync latest main
+        run: git pull --rebase origin main
+
+      - name: Increase content version
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('version.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+
+          raw = str(data.get('version', '1.0.0'))
+          parts = raw.split('.')
+          while len(parts) < 3:
+              parts.append('0')
+
+          nums = []
+          for p in parts[:3]:
+              digits = ''.join(c for c in p if c.isdigit())
+              nums.append(int(digits or 0))
+
+          major, minor, patch = nums
+          patch += 1
+
+          data['version'] = f'{major}.{minor}.{patch}'
+          data['notes'] = (
+              'Automatic content update: index.html changed, so the app '
+              'will fetch the latest website content on next launch.'
+          )
+
+          path.write_text(
+              json.dumps(data, indent=2, ensure_ascii=False) + '\n',
+              encoding='utf-8'
+          )
+          print('New content version:', data['version'])
+          PY
+
+      - name: Commit content version
+        shell: bash
+        run: |
+          if git diff --quiet -- version.json; then
+            echo 'No version change needed.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          git add version.json
+          git commit -m 'Auto bump app content version'
+          git push origin main
