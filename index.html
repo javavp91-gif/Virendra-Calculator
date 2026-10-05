@@ -5281,8 +5281,14 @@ function vcRouteFromLocation(){
     return;
   }
 
-  // Normal fresh app/page launch: always open the Tool menu, not the last tool.
-  vcLastOpenedToolId='';
+  // Back from an opened tool: keep that tool remembered so its box
+  // is brought back into view and highlighted in the Tool menu.
+  if(vcLastOpenedToolId){
+    openToolMenu(true);
+    return;
+  }
+
+  // Normal fresh app/page launch: open the Tool menu.
   openToolMenu(true);
 }
 
