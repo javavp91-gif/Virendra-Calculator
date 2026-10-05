@@ -1,4 +1,4 @@
 {
-  "version": "1.1.78",
-  "notes": "Auto content update setup: app will fetch the latest website content when index.html changes."
+  "version": "1.1.79",
+  "notes": "Automatic content update: index.html changed, so the app will fetch the latest website content on next launch."
 }
