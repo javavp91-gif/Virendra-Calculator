@@ -957,8 +957,7 @@ body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader{
   background:#fff!important;
   color:#173453!important;
   border-bottom:1px solid #dbe3ee!important;
-  box-shadow:0 2px 8px rgba(23,52,83,.08)!important;
-}
+  box-shadow:0 2px 8px rgba(23,52,83,.08)!important;;pointer-events:auto!important;}
 
 body.tool-open main.wrap > section.card:not(#basicCalc) > .vcToolFullHeader strong{
   min-width:0;
@@ -5107,69 +5106,6 @@ body.day .sound-toggle{
 var vcRouteLock=false;
 
 var vcLastOpenedToolId='';
-var VC_RESUME_STATE_KEY='vc_resume_state_v3';
-var VC_RESUME_ARM_KEY='vc_resume_armed_v3';
-var vcResumeSaveTimer=0;
-var vcResumeScrollPending=null;
-
-function vcGetActiveToolId(){
-  if(!document.body.classList.contains('tool-open'))return '';
-  if(vcLastOpenedToolId && document.getElementById(vcLastOpenedToolId))return vcLastOpenedToolId;
-  var visible=document.querySelector('main.wrap > section.card:not(.hidden)');
-  return visible&&visible.id?visible.id:'';
-}
-
-function vcSaveResumeStateNow(arm){
-  try{
-    var toolId=vcGetActiveToolId();
-    var state={
-      tool:toolId||'',
-      scrollY:Math.max(0,Math.round(window.scrollY||window.pageYOffset||0)),
-      time:Date.now()
-    };
-    localStorage.setItem(VC_RESUME_STATE_KEY,JSON.stringify(state));
-    if(arm)sessionStorage.setItem(VC_RESUME_ARM_KEY,'1');
-  }catch(e){}
-}
-
-function vcScheduleResumeSave(){
-  clearTimeout(vcResumeSaveTimer);
-  vcResumeSaveTimer=setTimeout(function(){vcSaveResumeStateNow(false)},120);
-}
-
-function vcReadResumeState(){
-  try{
-    // Only restore when this same page session was sent to background/split-screen.
-    if(sessionStorage.getItem(VC_RESUME_ARM_KEY)!=='1')return null;
-    sessionStorage.removeItem(VC_RESUME_ARM_KEY);
-
-    var raw=localStorage.getItem(VC_RESUME_STATE_KEY);
-    if(!raw)return null;
-    var s=JSON.parse(raw);
-    if(!s||!s.tool||!document.getElementById(s.tool))return null;
-    if(!s.time || Date.now()-Number(s.time)>30*60*1000)return null;
-    s.scrollY=Math.max(0,Number(s.scrollY)||0);
-    return s;
-  }catch(e){return null}
-}
-
-function vcRestorePendingScroll(){
-  if(vcResumeScrollPending===null)return;
-  var y=vcResumeScrollPending;
-  vcResumeScrollPending=null;
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      try{window.scrollTo({top:y,behavior:'auto'})}
-      catch(e){window.scrollTo(0,y)}
-    });
-  });
-}
-
-window.addEventListener('scroll',vcScheduleResumeSave,{passive:true});
-window.addEventListener('pagehide',function(){vcSaveResumeStateNow(true)});
-document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='hidden')vcSaveResumeStateNow(true);
-});
 
 function vcFindToolButton(id){
   if(!id)return null;
@@ -5181,9 +5117,12 @@ function vcFindToolButton(id){
   return null;
 }
 
-function vcScrollToLastToolBox(){
+function vcShowLastToolBox(){
   var btn=vcFindToolButton(vcLastOpenedToolId);
-  if(!btn)return;
+  if(!btn){
+    try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+    return;
+  }
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
       try{btn.scrollIntoView({behavior:'auto',block:'center',inline:'nearest'})}
@@ -5191,6 +5130,8 @@ function vcScrollToLastToolBox(){
         var r=btn.getBoundingClientRect();
         window.scrollTo(0,Math.max(0,(window.pageYOffset||0)+r.top-(window.innerHeight-r.height)/2));
       }
+      btn.classList.remove('vc-return-focus');
+      void btn.offsetWidth;
       btn.classList.add('vc-return-focus');
       setTimeout(function(){btn.classList.remove('vc-return-focus')},2100);
     });
@@ -5210,25 +5151,16 @@ function renderTool(id){
     var code=btn.getAttribute('onclick')||'';
     btn.classList.toggle('active',code.indexOf("'"+id+"'")!==-1);
   });
-
-  if(vcResumeScrollPending!==null){
-    vcRestorePendingScroll();
-  }else{
-    try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
-  }
-  vcScheduleResumeSave();
+  try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
 }
 
 function show(id,fromHistory){
   if(id==='home'){openToolMenu(!!fromHistory);return}
   if(!document.getElementById(id)){openToolMenu(!!fromHistory);return}
-  vcLastOpenedToolId=id;
-  vcResumeScrollPending=null;
   renderTool(id);
   if(!fromHistory){
     try{history.pushState({vcTool:id},'', '#tool='+encodeURIComponent(id))}catch(e){}
   }
-  vcScheduleResumeSave();
 }
 
 function openToolMenu(fromHistory){
@@ -5241,11 +5173,10 @@ function openToolMenu(fromHistory){
     try{history.pushState({vcMenu:true},'',location.pathname+location.search+'#menu')}catch(e){}
   }
   if(vcLastOpenedToolId){
-    vcScrollToLastToolBox();
+    vcShowLastToolBox();
   }else{
     try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
   }
-  vcScheduleResumeSave();
 }
 
 function navBack(){
@@ -5262,33 +5193,8 @@ function vcRouteFromLocation(){
   if(m){
     var id='';
     try{id=decodeURIComponent(m[1])}catch(e){id=m[1]}
-    if(document.getElementById(id)){
-      vcLastOpenedToolId=id;
-      renderTool(id);
-      return;
-    }
+    if(document.getElementById(id)){renderTool(id);return}
   }
-
-  // Restore only when the current page session had just gone to background/split-screen.
-  var resume=vcReadResumeState();
-  if(resume){
-    vcLastOpenedToolId=resume.tool;
-    vcResumeScrollPending=resume.scrollY;
-    try{
-      history.replaceState({vcTool:resume.tool},'', '#tool='+encodeURIComponent(resume.tool));
-    }catch(e){}
-    renderTool(resume.tool);
-    return;
-  }
-
-  // Back from an opened tool: keep that tool remembered so its box
-  // is brought back into view and highlighted in the Tool menu.
-  if(vcLastOpenedToolId){
-    openToolMenu(true);
-    return;
-  }
-
-  // Normal fresh app/page launch: open the Tool menu.
   openToolMenu(true);
 }
 
@@ -12992,9 +12898,4 @@ window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.
 
 
 
-<script>
-try{
-  localStorage.removeItem('vc_resume_state_v2');
-}catch(e){}
-</script>
 </body></html>
