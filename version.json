@@ -1,4 +1,4 @@
 {
-  "version": "1.1.77",
-  "notes": "One-time migration to automatic content updates. Future index.html changes are detected automatically, so version.json does not need to be increased for normal tool/design updates."
+  "version": "1.1.78",
+  "notes": "Auto content update setup: app will fetch the latest website content when index.html changes."
 }
