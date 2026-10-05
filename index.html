@@ -4,7 +4,7 @@
 <meta name="description" content="Free online calculators for construction, civil engineering, road work, RL, concrete, brick, mortar, soil quantity, unit conversion and daily calculations.">
 <meta name="google-site-verification" content="x6wfoXLjrnWnorOg4jXPe0fhLEmoY8xc3IbvAD1KNH4" />
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=overlays-content">
 <meta name="theme-color" content="#173453">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Virendra Calculator">
@@ -388,6 +388,10 @@ body.tool-open #translate{
 #slab .slab-toggle{display:flex;gap:9px;align-items:center;background:#f8fafc;border:1px solid #dbe3ec;padding:10px;border-radius:11px;margin:10px 0}
 #slab .slab-toggle input{width:20px;height:20px;padding:0;flex:0 0 auto}
 #slab .slab-toggle label{margin:0;font-size:13px}
+#slab .slab-toggle{display:inline-flex!important;width:auto!important;padding:7px 9px!important;margin:8px 8px 8px 0!important;background:#f8fafc!important}
+#slab .slab-toggle input{width:17px!important;height:17px!important;min-width:17px!important}
+#slab .slab-toggle label{font-size:12px!important;font-weight:900!important;color:#173453!important}
+
 #slab .slab-entryHead,#slab .slab-targetRow{display:grid;grid-template-columns:1.05fr .75fr 1.8fr 38px;gap:6px;align-items:center}
 #slab .slab-entryHead{font-size:11px;font-weight:700;margin-bottom:6px;color:#475569}
 #slab .slab-targetRow{margin-bottom:6px}
@@ -503,6 +507,9 @@ main.wrap > section.card button{font-size:16px}
 #pegLevel .peg-hiwrap{min-width:90px}#pegLevel .peg-hi-label{min-height:16px;margin-top:4px;font-size:11px;font-weight:800;line-height:1.2;text-align:center;color:#173453}#pegLevel .peg-hi-label.new{color:#94a3b8;font-weight:700}
 #pegLevel .peg-del{border:0;border-radius:8px;background:#fee2e2;color:#b91c1c;font-weight:900;width:34px;height:34px;cursor:pointer}
 #pegLevel .peg-help{font-size:12px;color:#64748b;line-height:1.55;margin-top:10px;background:#f8fafc;border-radius:12px;padding:10px}
+#pegLevel .peg-same-opt{display:inline-flex;align-items:center;gap:6px;margin:8px 0 2px;font-size:12px;font-weight:900;color:#173453;cursor:pointer;user-select:none}
+#pegLevel .peg-same-opt input{width:17px!important;height:17px!important;min-width:17px;margin:0;padding:0;accent-color:#173453;box-shadow:none!important}
+
 #pegLevel .peg-summary{margin-top:12px;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:13px;padding:11px;font-size:13px;line-height:1.55;color:#166534}
 #pegLevel .peg-example{margin:0 0 13px;background:linear-gradient(135deg,#fff8e7,#f3f8ff);border:1px solid #f2ddb0;border-radius:15px;padding:12px 13px;color:#475569;font-size:12px;line-height:1.55}#pegLevel .peg-example b{color:#173453}#pegLevel .peg-example .peg-ex-title{font-size:14px;font-weight:900;color:#7b6027;margin-bottom:5px}#pegLevel .peg-chwrap .peg-ch{font-size:17px;font-weight:700;letter-spacing:.2px}
 @media(max-width:430px){#pegLevel .peg-grid3{grid-template-columns:1fr 1fr}#pegLevel .peg-grid2{grid-template-columns:1fr 1fr}#pegLevel h2{font-size:25px}}
@@ -1998,11 +2005,84 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 #pdfDesignRlFinder .pdrl-multi.show{display:block}
 #pdfDesignRlFinder .pdrl-single.hide{display:none}
 #pdfDesignRlFinder .pdrl-help{font-size:11px;color:#6b7e91;line-height:1.45;margin:1px 0 8px}
-#pdfDesignRlFinder .pdrl-mHead,#pdfDesignRlFinder .pdrl-mRow{display:grid;grid-template-columns:1fr 1.35fr 40px;gap:7px;align-items:center}
+#pdfDesignRlFinder .pdrl-mHead,#pdfDesignRlFinder .pdrl-mRow{display:grid;grid-template-columns:1fr 1.35fr 40px;gap:7px;align-items:center;position:relative}
 #pdfDesignRlFinder .pdrl-mHead{font-size:10px;font-weight:900;color:#6d8194;padding:0 3px 6px}
 #pdfDesignRlFinder .pdrl-mRow{margin-bottom:7px}
 #pdfDesignRlFinder .pdrl-mini{width:100%;height:44px;border:1.3px solid #cfdce8;border-radius:10px;background:#fff;color:#173453;padding:0 9px;font-size:14px;outline:none}
 #pdfDesignRlFinder .pdrl-remove{width:40px;height:40px;border:0;border-radius:10px;background:#fdecec;color:#a12626;font-size:19px;font-weight:900;cursor:pointer}
+#pdfDesignRlFinder .pdrl-chainField{position:relative}
+#pdfDesignRlFinder .pdrl-chainSuggestRow{
+  position:absolute;
+  left:0;
+  right:0;
+  top:100%;
+  z-index:60;
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:7px;
+  margin-top:4px;
+  background:#fff;
+  border:1px solid #cfe0ef;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(23,52,83,.16);
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+#pdfDesignRlFinder .pdrl-chainSuggestRow::-webkit-scrollbar{display:none}
+
+#pdfDesignRlFinder .pdrl-mRow > .pdrl-chainSuggestRow{
+  left:0;
+  right:auto;
+  top:44px;
+  width:min(320px,calc(100vw - 70px));
+  max-width:calc(100% - 48px);
+}
+#pdfDesignRlFinder .pdrl-chainSuggest{
+  flex:0 0 auto;
+  border:1.5px solid #9dbfdf;
+  background:#eef6ff;
+  color:#173453;
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+}
+
+
+#pdfDesignRlFinder .pdrl-sameOffsetOpt{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  width:auto;
+  margin:0 0 8px 2px;
+  font-size:12px;
+  font-weight:900;
+  color:#173453;
+  cursor:pointer;
+  user-select:none;
+}
+#pdfDesignRlFinder .pdrl-sameOffsetOpt input{
+  width:17px!important;
+  height:17px!important;
+  min-width:17px;
+  margin:0;
+  padding:0;
+  accent-color:#173453;
+  box-shadow:none!important;
+}
+#pdfDesignRlFinder .pdrl-mini,
+#pdfDesignRlFinder .pdrl-input{
+  transform:none!important;
+  transition:border-color .12s ease,box-shadow .12s ease!important;
+}
+#pdfDesignRlFinder .pdrl-mini:focus,
+#pdfDesignRlFinder .pdrl-input:focus{
+  transform:none!important;
+}
+
 #pdfDesignRlFinder .pdrl-adds{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 #pdfDesignRlFinder .pdrl-add{height:42px;border:0;border-radius:10px;background:#e8eef5;color:#173453;font-weight:900;cursor:pointer}
 #pdfDesignRlFinder .pdrl-tableWrap{display:none;margin-top:11px}
@@ -2773,6 +2853,7 @@ Temperature: °C, °F, Kelvin.
     <div><label>Depth (mm)</label><input id="pegDepth" type="number" step="any" value="150"></div>
   </div>
   <div class="peg-help" style="margin-top:10px"><b>Offsets:</b> हर row में manual डालें। एक या multiple offset ऐसे डाल सकते हैं: <b>2</b> या <b>2, 4, 6</b>.</div>
+  <label class="peg-same-opt"><input id="pegSameOffset" type="checkbox"> <span>Same Offset</span></label>
   <div class="peg-actions" style="grid-template-columns:1fr">
     <button class="peg-btn gray" onclick="pegClearValues()">CLEAR VALUES</button>
   </div>
@@ -2830,18 +2911,18 @@ Temperature: °C, °F, Kelvin.
 
 <div class="slab-toggle">
   <input id="slabSameCamberToggle" type="checkbox" onchange="slabToggleSameCamber()">
-  <label for="slabSameCamberToggle">Same Camber for all Find Chainage</label>
+  <label for="slabSameCamberToggle">Same Camber</label>
 </div>
-<div id="slabSameCamberBox" style="display:none;margin-bottom:9px">
+<div id="slabSameCamberBox" style="display:none!important">
   <label>Same Camber (%)</label>
   <input id="slabSameCamber" type="number" step="any" value="">
 </div>
 
 <div class="slab-toggle">
   <input id="slabSameOffsetsToggle" type="checkbox" onchange="slabToggleSameOffsets()">
-  <label for="slabSameOffsetsToggle">Same Offset for All Chainage for all Find Chainage</label>
+  <label for="slabSameOffsetsToggle">Same Offset</label>
 </div>
-<div id="slabSameOffsetsBox" style="display:none;margin-bottom:9px">
+<div id="slabSameOffsetsBox" style="display:none!important">
   <label>Same Offset for All Chainage (m)</label>
   <input id="slabSameOffsets" value="">
 </div>
@@ -2956,9 +3037,10 @@ Temperature: °C, °F, Kelvin.
 
     <div id="pdrlSingle" class="pdrl-single">
       <div class="pdrl-grid2">
-        <div><label class="pdrl-label">Chainage</label><input id="pdrlChainage" class="pdrl-input" list="pdrlChainageList" placeholder="44+000 / 44000" inputmode="text"><datalist id="pdrlChainageList"></datalist></div>
+        <div class="pdrl-chainField"><label class="pdrl-label">Chainage</label><input id="pdrlChainage" class="pdrl-input" placeholder="44+000 / 44000" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"><datalist id="pdrlChainageList"></datalist></div>
         <div><label class="pdrl-label">Offset (m)</label><input id="pdrlOffset" class="pdrl-input" type="text" placeholder="2 or 2, 4, 6" inputmode="decimal"></div>
       </div>
+      <div id="pdrlSingleChainSuggestions" class="pdrl-chainSuggestRow" style="display:none"></div>
       
       <button type="button" class="pdrl-btn" onclick="pdrlFindOne()">CALCULATE</button>
 
@@ -2980,6 +3062,7 @@ Temperature: °C, °F, Kelvin.
 
     <div id="pdrlMulti" class="pdrl-multi">
       <div class="pdrl-help">हर row में Chainage और उसके कई Offsets डालें। Offsets को comma से अलग करें: <b>2, 4, 5.35, 8</b></div>
+      <label class="pdrl-sameOffsetOpt"><input id="pdrlSameOffset" type="checkbox"> <span>Same Offset</span></label>
       <div class="pdrl-mHead"><span>Chainage</span><span>Offsets (m)</span><span></span></div>
       <div id="pdrlMultiRows"></div>
       <div class="pdrl-adds"><button type="button" class="pdrl-add" onclick="pdrlAddRow()">+ ADD CHAINAGE</button><button type="button" class="pdrl-add" onclick="pdrlAddRows(5)">+ 5 ROWS</button></div>
@@ -5024,6 +5107,69 @@ body.day .sound-toggle{
 var vcRouteLock=false;
 
 var vcLastOpenedToolId='';
+var VC_RESUME_STATE_KEY='vc_resume_state_v3';
+var VC_RESUME_ARM_KEY='vc_resume_armed_v3';
+var vcResumeSaveTimer=0;
+var vcResumeScrollPending=null;
+
+function vcGetActiveToolId(){
+  if(!document.body.classList.contains('tool-open'))return '';
+  if(vcLastOpenedToolId && document.getElementById(vcLastOpenedToolId))return vcLastOpenedToolId;
+  var visible=document.querySelector('main.wrap > section.card:not(.hidden)');
+  return visible&&visible.id?visible.id:'';
+}
+
+function vcSaveResumeStateNow(arm){
+  try{
+    var toolId=vcGetActiveToolId();
+    var state={
+      tool:toolId||'',
+      scrollY:Math.max(0,Math.round(window.scrollY||window.pageYOffset||0)),
+      time:Date.now()
+    };
+    localStorage.setItem(VC_RESUME_STATE_KEY,JSON.stringify(state));
+    if(arm)sessionStorage.setItem(VC_RESUME_ARM_KEY,'1');
+  }catch(e){}
+}
+
+function vcScheduleResumeSave(){
+  clearTimeout(vcResumeSaveTimer);
+  vcResumeSaveTimer=setTimeout(function(){vcSaveResumeStateNow(false)},120);
+}
+
+function vcReadResumeState(){
+  try{
+    // Only restore when this same page session was sent to background/split-screen.
+    if(sessionStorage.getItem(VC_RESUME_ARM_KEY)!=='1')return null;
+    sessionStorage.removeItem(VC_RESUME_ARM_KEY);
+
+    var raw=localStorage.getItem(VC_RESUME_STATE_KEY);
+    if(!raw)return null;
+    var s=JSON.parse(raw);
+    if(!s||!s.tool||!document.getElementById(s.tool))return null;
+    if(!s.time || Date.now()-Number(s.time)>30*60*1000)return null;
+    s.scrollY=Math.max(0,Number(s.scrollY)||0);
+    return s;
+  }catch(e){return null}
+}
+
+function vcRestorePendingScroll(){
+  if(vcResumeScrollPending===null)return;
+  var y=vcResumeScrollPending;
+  vcResumeScrollPending=null;
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      try{window.scrollTo({top:y,behavior:'auto'})}
+      catch(e){window.scrollTo(0,y)}
+    });
+  });
+}
+
+window.addEventListener('scroll',vcScheduleResumeSave,{passive:true});
+window.addEventListener('pagehide',function(){vcSaveResumeStateNow(true)});
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='hidden')vcSaveResumeStateNow(true);
+});
 
 function vcFindToolButton(id){
   if(!id)return null;
@@ -5064,17 +5210,25 @@ function renderTool(id){
     var code=btn.getAttribute('onclick')||'';
     btn.classList.toggle('active',code.indexOf("'"+id+"'")!==-1);
   });
-  try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+
+  if(vcResumeScrollPending!==null){
+    vcRestorePendingScroll();
+  }else{
+    try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+  }
+  vcScheduleResumeSave();
 }
 
 function show(id,fromHistory){
   if(id==='home'){openToolMenu(!!fromHistory);return}
   if(!document.getElementById(id)){openToolMenu(!!fromHistory);return}
   vcLastOpenedToolId=id;
+  vcResumeScrollPending=null;
   renderTool(id);
   if(!fromHistory){
     try{history.pushState({vcTool:id},'', '#tool='+encodeURIComponent(id))}catch(e){}
   }
+  vcScheduleResumeSave();
 }
 
 function openToolMenu(fromHistory){
@@ -5091,6 +5245,7 @@ function openToolMenu(fromHistory){
   }else{
     try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
   }
+  vcScheduleResumeSave();
 }
 
 function navBack(){
@@ -5107,8 +5262,27 @@ function vcRouteFromLocation(){
   if(m){
     var id='';
     try{id=decodeURIComponent(m[1])}catch(e){id=m[1]}
-    if(document.getElementById(id)){renderTool(id);return}
+    if(document.getElementById(id)){
+      vcLastOpenedToolId=id;
+      renderTool(id);
+      return;
+    }
   }
+
+  // Restore only when the current page session had just gone to background/split-screen.
+  var resume=vcReadResumeState();
+  if(resume){
+    vcLastOpenedToolId=resume.tool;
+    vcResumeScrollPending=resume.scrollY;
+    try{
+      history.replaceState({vcTool:resume.tool},'', '#tool='+encodeURIComponent(resume.tool));
+    }catch(e){}
+    renderTool(resume.tool);
+    return;
+  }
+
+  // Normal fresh app/page launch: always open the Tool menu, not the last tool.
+  vcLastOpenedToolId='';
   openToolMenu(true);
 }
 
@@ -7554,33 +7728,58 @@ function slabAddFiveDesignRows(){for(var i=0;i<5;i++)slabAddDesignRow()}
 function slabAddTargetRow(ch='',cam='',offs=''){
   var wrap=document.createElement('div');
   wrap.className='slab-targetRow';
+  var box=document.getElementById('slabTargetRows');
+  var firstCam=box&&box.querySelector('.slab-tcam');
+  var firstOff=box&&box.querySelector('.slab-toffs');
+  var sameCam=document.getElementById('slabSameCamberToggle');
+  var sameOff=document.getElementById('slabSameOffsetsToggle');
+  var finalCam=(cam!==undefined&&cam!==null&&String(cam)!=='')?cam:((sameCam&&sameCam.checked&&firstCam)?firstCam.value:'');
+  var finalOff=(offs!==undefined&&offs!==null&&String(offs)!=='')?offs:((sameOff&&sameOff.checked&&firstOff)?firstOff.value:'');
   wrap.innerHTML='<input class="slab-tch" value="'+slabEscHtml(ch)+'">'+
-    '<input class="slab-tcam" type="number" step="any" value="'+slabEscHtml(cam)+'">'+
-    '<input class="slab-toffs" value="'+slabEscHtml(offs)+'">'+
+    '<input class="slab-tcam" type="number" step="any" value="'+slabEscHtml(finalCam)+'">'+
+    '<input class="slab-toffs" value="'+slabEscHtml(finalOff)+'">'+
     '<button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button>';
-  document.getElementById('slabTargetRows').appendChild(wrap);
-  slabApplyCamberModeToRows();
-  slabApplyOffsetModeToRows();
+  box.appendChild(wrap);
 }
 function slabAddFiveRows(){for(var i=0;i<5;i++)slabAddTargetRow()}
-function slabApplyCamberModeToRows(){
-  var same=document.getElementById('slabSameCamberToggle').checked;
-  document.querySelectorAll('.slab-tcam').forEach(function(el){el.disabled=same;el.style.opacity=same?'.45':'1'});
+function slabApplySameCamber(){
+  var same=document.getElementById('slabSameCamberToggle');
+  if(!same||!same.checked)return;
+  var vals=document.querySelectorAll('#slabTargetRows .slab-tcam');
+  if(!vals.length)return;
+  var v=vals[0].value;
+  var hidden=document.getElementById('slabSameCamber');if(hidden)hidden.value=v;
+  for(var i=1;i<vals.length;i++)vals[i].value=v;
 }
 function slabToggleSameCamber(){
-  var same=document.getElementById('slabSameCamberToggle').checked;
-  document.getElementById('slabSameCamberBox').style.display=same?'block':'none';
-  slabApplyCamberModeToRows();
+  var box=document.getElementById('slabSameCamberBox');if(box)box.style.display='none';
+  if(document.getElementById('slabSameCamberToggle').checked)slabApplySameCamber();
 }
-function slabApplyOffsetModeToRows(){
-  var same=document.getElementById('slabSameOffsetsToggle').checked;
-  document.querySelectorAll('.slab-toffs').forEach(function(el){el.disabled=same;el.style.opacity=same?'.45':'1'});
+function slabApplySameOffsets(){
+  var same=document.getElementById('slabSameOffsetsToggle');
+  if(!same||!same.checked)return;
+  var vals=document.querySelectorAll('#slabTargetRows .slab-toffs');
+  if(!vals.length)return;
+  var v=vals[0].value;
+  var hidden=document.getElementById('slabSameOffsets');if(hidden)hidden.value=v;
+  for(var i=1;i<vals.length;i++)vals[i].value=v;
 }
 function slabToggleSameOffsets(){
-  var same=document.getElementById('slabSameOffsetsToggle').checked;
-  document.getElementById('slabSameOffsetsBox').style.display=same?'block':'none';
-  slabApplyOffsetModeToRows();
+  var box=document.getElementById('slabSameOffsetsBox');if(box)box.style.display='none';
+  if(document.getElementById('slabSameOffsetsToggle').checked)slabApplySameOffsets();
 }
+(function setupSlabSameValues(){
+  var box=document.getElementById('slabTargetRows');
+  if(!box)return;
+  box.addEventListener('input',function(ev){
+    var cams=box.querySelectorAll('.slab-tcam');
+    var offs=box.querySelectorAll('.slab-toffs');
+    var sameCam=document.getElementById('slabSameCamberToggle');
+    var sameOff=document.getElementById('slabSameOffsetsToggle');
+    if(sameCam&&sameCam.checked&&cams.length&&ev.target===cams[0])slabApplySameCamber();
+    if(sameOff&&sameOff.checked&&offs.length&&ev.target===offs[0])slabApplySameOffsets();
+  });
+})();
 function slabParseDesign(){
   var out=[],rows=document.querySelectorAll('.slab-designRow');
   for(var i=0;i<rows.length;i++){
@@ -7639,22 +7838,26 @@ function slabRefreshStaffReadings(){
 }
 function slabGetTargetData(){
   var sameCamber=document.getElementById('slabSameCamberToggle').checked;
-  var commonCamber=parseFloat(document.getElementById('slabSameCamber').value);
-  if(sameCamber&&!isFinite(commonCamber))return {error:'Same Camber सही भरें'};
   var sameOffsets=document.getElementById('slabSameOffsetsToggle').checked;
-  var commonOffsets=sameOffsets?slabParseOffsets(document.getElementById('slabSameOffsets').value):[];
-  if(sameOffsets&&!commonOffsets.length)return {error:'Same Offset for All Chainage सही भरें'};
-  var out=[],rows=document.querySelectorAll('.slab-targetRow');
+  var allRows=document.querySelectorAll('.slab-targetRow');
+  var firstCamber=NaN,firstOffsets=[];
+  if(allRows.length){
+    firstCamber=parseFloat(allRows[0].querySelector('.slab-tcam').value);
+    firstOffsets=slabParseOffsets(allRows[0].querySelector('.slab-toffs').value);
+  }
+  if(sameCamber&&!isFinite(firstCamber))return {error:'पहली row में Camber सही भरें'};
+  if(sameOffsets&&!firstOffsets.length)return {error:'पहली row में Offset सही भरें'};
+  var out=[],rows=allRows;
   for(var i=0;i<rows.length;i++){
     var chText=rows[i].querySelector('.slab-tch').value.trim();
     var camText=rows[i].querySelector('.slab-tcam').value.trim();
     var offText=rows[i].querySelector('.slab-toffs').value.trim();
-    if(!chText&&(sameCamber||!camText)&&(sameOffsets||!offText))continue;
+    if(!chText&&!camText&&!offText)continue;
     if(!chText)return {error:'Find row '+(i+1)+' में Chainage डालें'};
     var c=slabChainage(chText);if(!isFinite(c))return {error:'Find row '+(i+1)+' का Chainage सही करें'};
-    var cam=sameCamber?commonCamber:parseFloat(camText);
-    if(!sameCamber&&!isFinite(cam))return {error:'Find row '+(i+1)+' का Camber सही करें'};
-    var offs=sameOffsets?commonOffsets.slice():slabParseOffsets(offText);
+    var cam=sameCamber?firstCamber:parseFloat(camText);
+    if(!isFinite(cam))return {error:'Find row '+(i+1)+' का Camber सही करें'};
+    var offs=sameOffsets?firstOffsets.slice():slabParseOffsets(offText);
     if(!offs.length)return {error:'Find row '+(i+1)+' के Offsets सही करें'};
     out.push({ch:c,display:chText,camber:cam,offsets:offs});
   }
@@ -8660,9 +8863,13 @@ function pegKeypadDone(){
 }
 function pegMakeRow(chainage){
   pegRowSeq++;var tr=document.createElement('tr');tr.dataset.pegId=pegRowSeq;
+  var pegBody=document.getElementById('pegRows');
+  var sameOff=document.getElementById('pegSameOffset');
+  var firstOff=pegBody&&pegBody.querySelector('.peg-off');
+  var inheritedOff=(sameOff&&sameOff.checked&&firstOff)?firstOff.value:'';
   tr.innerHTML='<td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="none" autocomplete="off" value="'+(chainage||'')+'" placeholder="37+200" onfocus="pegShowKeypad(this)" onclick="pegShowKeypad(this)"></div></td>'+ 
     '<td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td>'+ 
-    '<td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6"></td>'+ 
+    '<td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6" value="'+String(inheritedOff).replace(/"/g,'&quot;')+'"></td>'+ 
     '<td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td>'+ 
     '<td class="peg-out peg-rl">—</td><td class="peg-out peg-staff">—</td>'+ 
     '<td class="peg-chainage-end">'+(chainage||'—')+'</td>'+
@@ -8685,6 +8892,25 @@ function pegBuild50FromFirst(){
 }
 function pegChainagesFromFirst(){if(pegChainageSyncBusy)return;var rows=Array.from(document.querySelectorAll('#pegRows tr'));if(!rows.length)return;var start=pegParseChainage(rows[0].querySelector('.peg-ch').value);if(isFinite(start))pegBuild50FromFirst()}
 function pegGenerate50(){pegBuild50FromFirst()}
+function pegApplySameOffset(){
+  var same=document.getElementById('pegSameOffset');
+  if(!same||!same.checked)return;
+  var offs=document.querySelectorAll('#pegRows .peg-off');
+  if(!offs.length)return;
+  var v=offs[0].value;
+  for(var i=1;i<offs.length;i++)offs[i].value=v;
+  pegRecalc();
+}
+(function setupPegSameOffset(){
+  var same=document.getElementById('pegSameOffset');
+  var body=document.getElementById('pegRows');
+  if(same)same.addEventListener('change',function(){if(this.checked)pegApplySameOffset()});
+  if(body)body.addEventListener('input',function(ev){
+    if(!same||!same.checked)return;
+    var offs=body.querySelectorAll('.peg-off');
+    if(offs.length&&ev.target===offs[0])pegApplySameOffset();
+  });
+})();
 function pegAddRow(){
   pegMakeRow('');pegRecalc();
 }
@@ -8718,6 +8944,7 @@ function pegClearValues(){
   if(!body)return;
   body.innerHTML='';
   pegRowSeq=0;
+  var same=document.getElementById('pegSameOffset');if(same)same.checked=false;
   for(var i=0;i<3;i++)pegMakeRow('');
   pegRecalc();
 }
@@ -12260,9 +12487,125 @@ function target(ch,off){
 function mode(m){var single=m!=='multi';E('pdrlSingleTab').classList.toggle('active',single);E('pdrlMultiTab').classList.toggle('active',!single);E('pdrlSingle').classList.toggle('hide',!single);E('pdrlMulti').classList.toggle('show',!single);if(!single&&!E('pdrlMultiRows').children.length)addRows(3)}
 function addRow(ch,offs){
  var r=document.createElement('div');r.className='pdrl-mRow';
- r.innerHTML='<input class="pdrl-mini pdrl-mCh" list="pdrlChainageList" placeholder="44+000 / 44000" value="'+esc(ch||'')+'"><input class="pdrl-mini pdrl-mOff" placeholder="2, 4, 5.35, 8" value="'+esc(offs||'')+'"><button type="button" class="pdrl-remove" onclick="this.parentElement.remove()">×</button>';
- E('pdrlMultiRows').appendChild(r)
+ var rowsBox=E('pdrlMultiRows');
+ var same=E('pdrlSameOffset');
+ var firstOff=rowsBox&&rowsBox.querySelector('.pdrl-mOff');
+ var inherited=(same&&same.checked&&firstOff)?firstOff.value:'';
+ var finalOff=(offs!==undefined&&offs!==null&&String(offs)!=='')?offs:inherited;
+ r.innerHTML='<input class="pdrl-mini pdrl-mCh" placeholder="44+000 / 44000" autocomplete="off" autocorrect="off" spellcheck="false" value="'+esc(ch||'')+'"><input class="pdrl-mini pdrl-mOff" placeholder="2, 4, 5.35, 8" value="'+esc(finalOff||'')+'"><button type="button" class="pdrl-remove" onclick="this.parentElement.remove()">×</button><div class="pdrl-chainSuggestRow" style="display:none"></div>';
+ rowsBox.appendChild(r);
+ var inp=r.querySelector('.pdrl-mCh'),box=r.querySelector('.pdrl-chainSuggestRow');
+ pdrlBindChainSuggestions(inp,box,false)
 }
+
+function pdrlChainageMatches(q){
+ var arr=(S&&S.chainages&&S.chainages.length?S.chainages:[]);
+ q=String(q||'').trim().replace(/\s+/g,'');
+ if(!arr.length)return[];
+ if(!q)return arr.slice(0,6);
+ var q2=q.replace(/\+/g,'');
+ var exact=[],start=[],contains=[];
+ arr.forEach(function(ch){
+   var s=String(ch),s2=s.replace(/\+/g,'');
+   if(s===q||s2===q2)exact.push(s);
+   else if(s.indexOf(q)===0||s2.indexOf(q2)===0)start.push(s);
+   else if(s.indexOf(q)>=0||s2.indexOf(q2)>=0)contains.push(s);
+ });
+ return exact.concat(start,contains).slice(0,6)
+}
+
+function pdrlShowChainSuggestions(inp,box,isSingle){
+ if(!inp||!box)return;
+ var list=pdrlChainageMatches(inp.value);
+ box.innerHTML='';
+ if(!list.length){box.style.display='none';return}
+ list.forEach(function(ch){
+   var b=document.createElement('button');
+   b.type='button';
+   b.className='pdrl-chainSuggest';
+   b.textContent=ch;
+   b.addEventListener('mousedown',function(e){e.preventDefault()});
+   b.addEventListener('click',function(){
+     inp.value=ch;
+     box.style.display='none';
+     inp.dispatchEvent(new Event('input',{bubbles:true}));
+     inp.dispatchEvent(new Event('change',{bubbles:true}));
+     if(isSingle)autoFindOne()
+   });
+   box.appendChild(b)
+ });
+ box.style.display='flex'
+}
+
+function pdrlBindChainSuggestions(inp,box,isSingle){
+ if(!inp||!box)return;
+ inp.removeAttribute('list');
+ inp.setAttribute('autocomplete','off');
+ inp.setAttribute('autocorrect','off');
+ inp.setAttribute('spellcheck','false');
+ inp.addEventListener('focus',function(){pdrlShowChainSuggestions(inp,box,isSingle)});
+ inp.addEventListener('input',function(){pdrlShowChainSuggestions(inp,box,isSingle)});
+ inp.addEventListener('blur',function(){
+   setTimeout(function(){box.style.display='none'},180)
+ })
+}
+
+
+function pdrlApplySameOffset(){
+ var same=E('pdrlSameOffset');
+ if(!same||!same.checked)return;
+ var box=E('pdrlMultiRows');
+ if(!box)return;
+ var offs=box.querySelectorAll('.pdrl-mOff');
+ if(!offs.length)return;
+ var v=offs[0].value;
+ for(var i=1;i<offs.length;i++){
+   if(offs[i].value!==v){
+     offs[i].value=v;
+     offs[i].dispatchEvent(new Event('input',{bubbles:true}))
+   }
+ }
+}
+
+(function setupPdrlSameOffset(){
+ var same=E('pdrlSameOffset'),box=E('pdrlMultiRows');
+ if(same){
+   same.addEventListener('change',function(){
+     if(this.checked)pdrlApplySameOffset()
+   })
+ }
+ if(box){
+   box.addEventListener('input',function(ev){
+     if(!same||!same.checked)return;
+     var offs=box.querySelectorAll('.pdrl-mOff');
+     if(offs.length&&ev.target===offs[0])pdrlApplySameOffset()
+   })
+ }
+})();
+
+/* Keep Multiple-mode boxes visually fixed when Android keyboard opens. */
+(function setupPdrlStableEntry(){
+ var wrap=E('pdrlMulti');
+ if(!wrap)return;
+ var savedY=0,restoreTimer=0;
+ function remember(ev){
+   if(!ev.target||!ev.target.matches('.pdrl-mCh,.pdrl-mOff'))return;
+   savedY=Math.max(0,window.scrollY||window.pageYOffset||0)
+ }
+ function restore(ev){
+   if(!ev.target||!ev.target.matches('.pdrl-mCh,.pdrl-mOff'))return;
+   var y=savedY;
+   [40,140,300].forEach(function(ms){
+     setTimeout(function(){
+       try{window.scrollTo({top:y,behavior:'auto'})}catch(e){window.scrollTo(0,y)}
+     },ms)
+   })
+ }
+ wrap.addEventListener('pointerdown',remember,true);
+ wrap.addEventListener('touchstart',remember,{capture:true,passive:true});
+ wrap.addEventListener('focusin',restore,true)
+})();
+
 function addRows(n){for(var i=0;i<n;i++)addRow()}
 function offsets(s){var a=String(s||'').split(/[,;\s]+/).filter(Boolean),out=[];a.forEach(function(v){var n=Number(v);if(Number.isFinite(n)&&n>=0&&out.indexOf(n)<0)out.push(n)});return out}
 
@@ -12611,6 +12954,7 @@ function clearAll(){
  var pb=E('pdrlPegBox');if(pb)pb.style.display='none';
  var sb=E('pdrlStaffBox');if(sb)sb.style.display='none';
  E('pdrlManyResult').classList.remove('show');E('pdrlManyResult').innerHTML='';E('pdrlMultiRows').innerHTML='';
+ var sameOff=E('pdrlSameOffset');if(sameOff)sameOff.checked=false;
  E('pdrlInfo').classList.remove('show');E('pdrlChainageList').innerHTML='';
  S={rows:{},side:'AUTO',format:'',chainages:[],file:'',smart:{type:'',columns:[],rows:{},chainages:[],canInterpolate:false}};
  E('pdrlSmartField').innerHTML='<option value="">PDF upload करें</option>';E('pdrlSmartChainage').value='';E('pdrlSmartOffset').value='';
@@ -12622,6 +12966,8 @@ function clearAll(){
 // Single mode is automatic: no FIND button required.
 (function setupPdrlAutoCalculation(){
  var ch=E('pdrlChainage'),off=E('pdrlOffset'),hi=E('pdrlHI'),depth=E('pdrlDepth');
+ var chSug=E('pdrlSingleChainSuggestions');
+ if(ch&&chSug)pdrlBindChainSuggestions(ch,chSug,true);
  if(ch){
    ch.addEventListener('change',autoFindOne);
    ch.addEventListener('blur',autoFindOne);
@@ -12638,4 +12984,11 @@ window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.
 
 
 
+
+
+<script>
+try{
+  localStorage.removeItem('vc_resume_state_v2');
+}catch(e){}
+</script>
 </body></html>
