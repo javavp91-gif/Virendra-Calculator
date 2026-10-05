@@ -1194,19 +1194,8 @@ body:not(.tool-open) .toolGroup:nth-of-type(5) .toolGroupTitle{
   background:linear-gradient(120deg,#0284c7,#14b8a6);
 }
 body:not(.tool-open) .toolGroupTitle:after{
-  content:'›';
-  margin-left:auto;
-  width:34px;height:34px;
-  flex:0 0 34px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:50%;
-  color:#fff;
-  font-size:31px;
-  font-weight:900;
-  line-height:1;
-  background:rgba(255,255,255,.17);
-  border:2px solid rgba(255,255,255,.84);
-  box-shadow:inset 0 1px 0 #fff,0 4px 8px rgba(0,0,0,.12);
+  content:none!important;
+  display:none!important;
 }
 body:not(.tool-open) .toolGroupTitle .groupIcon{
   width:42px;height:42px;
@@ -1430,6 +1419,57 @@ body:not(.tool-open) .toolGroup .nav button:only-child{
     width:30px!important;height:30px!important;
     font-size:27px!important;
   }
+}
+
+
+/* Back navigation: blink the same tool without zooming */
+@keyframes vcReturnToolBlink{
+  0%,100%{
+    background:#eaf4ff;
+    border-color:#1976d2;
+    box-shadow:0 8px 24px rgba(25,118,210,.28);
+  }
+  50%{
+    background:#ffffff;
+    border-color:#8ec5ff;
+    box-shadow:0 2px 8px rgba(25,118,210,.08);
+  }
+}
+.nav button.vc-return-focus{
+  position:relative!important;
+  z-index:5!important;
+  border:3px solid #1976d2!important;
+  border-top:7px solid #1976d2!important;
+  background:#eaf4ff!important;
+  box-shadow:0 8px 24px rgba(25,118,210,.28)!important;
+  animation:vcReturnToolBlink .46s ease-in-out 4!important;
+}
+.nav button.vc-return-focus::after{
+  content:"← यही Tool था";
+  position:absolute;
+  left:50%;
+  top:-14px;
+  transform:translate(-50%,-100%);
+  white-space:nowrap;
+  background:#1976d2;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  line-height:1;
+  padding:7px 10px;
+  border-radius:999px;
+  box-shadow:0 4px 12px rgba(0,0,0,.22);
+  pointer-events:none;
+}
+.nav button.vc-return-focus::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:-14px;
+  transform:translateX(-50%);
+  border:7px solid transparent;
+  border-top-color:#1976d2;
+  pointer-events:none;
 }
 
 </style>
@@ -1920,6 +1960,117 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 }
 </style>
 
+
+<style id="pdrlFinderStyle">
+#pdfDesignRlFinder{--p:#173453;--line:#d7e1eb;--soft:#f5f9fd;--ok:#167449;--warn:#9a6700;--bad:#a12626;padding-bottom:18px}
+#pdfDesignRlFinder h2{margin:4px 0 5px;text-align:center;font-size:24px;color:#173453}
+#pdfDesignRlFinder .pdrl-sub{font-size:12px;line-height:1.5;color:#637890;text-align:center;margin:0 auto 13px;max-width:620px}
+#pdfDesignRlFinder .pdrl-panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px;margin-bottom:12px}
+#pdfDesignRlFinder .pdrl-file{display:flex;align-items:center;justify-content:center;min-height:54px;border:1.5px dashed #7892aa;border-radius:13px;background:#f4f9ff;color:#173453;font-weight:900;cursor:pointer;text-align:center;padding:10px}
+#pdfDesignRlFinder .pdrl-file input{display:none}
+#pdfDesignRlFinder .pdrl-status{font-size:12px;line-height:1.45;margin-top:9px;border-radius:10px;padding:9px 10px;background:#f5f7fa;color:#50677d}
+#pdfDesignRlFinder .pdrl-status.ok{background:#edf9f2;color:#17613a}
+#pdfDesignRlFinder .pdrl-status.bad{background:#fff1f1;color:#9d2828}
+#pdfDesignRlFinder .pdrl-info{display:none;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+#pdfDesignRlFinder .pdrl-info.show{display:grid}
+#pdfDesignRlFinder .pdrl-infoBox{border:1px solid #dfe8f0;border-radius:11px;background:#fbfdff;padding:8px}
+#pdfDesignRlFinder .pdrl-infoBox small{display:block;font-size:10px;color:#71869a;font-weight:800;margin-bottom:2px}
+#pdfDesignRlFinder .pdrl-infoBox b{display:block;font-size:13px;color:#173453;overflow-wrap:anywhere}
+#pdfDesignRlFinder .pdrl-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px}
+#pdfDesignRlFinder .pdrl-tab{height:44px;border:1px solid #cad8e4;border-radius:11px;background:#eef4fa;color:#173453;font-weight:900;font-size:14px;cursor:pointer}
+#pdfDesignRlFinder .pdrl-tab.active{background:#173453;color:#fff;border-color:#173453}
+#pdfDesignRlFinder .pdrl-optHeading{font-size:15px;font-weight:900;color:#173453;margin-bottom:10px;text-align:center}
+#pdfDesignRlFinder .pdrl-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#pdfDesignRlFinder label.pdrl-label{display:block;font-size:12px;font-weight:900;color:#35536e;margin-bottom:5px}
+#pdfDesignRlFinder .pdrl-input{width:100%;height:48px;border:1.4px solid #cfdce8;border-radius:11px;background:#fff;color:#173453;padding:0 11px;font-size:17px;outline:none}
+#pdfDesignRlFinder .pdrl-input:focus,#pdfDesignRlFinder .pdrl-mini:focus{border-color:#173453;box-shadow:0 0 0 3px #17345312}
+#pdfDesignRlFinder .pdrl-btn{width:100%;height:50px;border:0;border-radius:12px;background:#173453;color:#fff;font-size:15px;font-weight:900;margin-top:10px;cursor:pointer}
+#pdfDesignRlFinder .pdrl-secondary{background:#e8eef5;color:#173453}
+#pdfDesignRlFinder .pdrl-result{display:none;border:1px solid #cddfec;border-radius:16px;background:linear-gradient(180deg,#f7fbff,#eef7ff);padding:13px;margin-top:11px}
+#pdfDesignRlFinder .pdrl-result.show{display:block}
+#pdfDesignRlFinder .pdrl-big{text-align:center;font-size:35px;font-weight:950;color:#0e365d;line-height:1.15}
+#pdfDesignRlFinder .pdrl-big small{display:block;font-size:11px;color:#60758a;margin-bottom:5px}
+#pdfDesignRlFinder .pdrl-pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:9px}
+#pdfDesignRlFinder .pdrl-pill{font-size:11px;font-weight:900;padding:5px 8px;border-radius:999px;background:#fff;border:1px solid #cbdbe8;color:#35536e}
+#pdfDesignRlFinder .pdrl-details{margin-top:10px;background:#fff;border:1px solid #dae5ee;border-radius:12px;padding:9px;font-size:12px;line-height:1.55;color:#425b70}
+#pdfDesignRlFinder .pdrl-formula{margin-top:7px;padding:8px;border-radius:9px;background:#f4f7fa;font-family:monospace;font-size:12px;color:#273f55;overflow-wrap:anywhere}
+#pdfDesignRlFinder .pdrl-multi{display:none}
+#pdfDesignRlFinder .pdrl-multi.show{display:block}
+#pdfDesignRlFinder .pdrl-single.hide{display:none}
+#pdfDesignRlFinder .pdrl-help{font-size:11px;color:#6b7e91;line-height:1.45;margin:1px 0 8px}
+#pdfDesignRlFinder .pdrl-mHead,#pdfDesignRlFinder .pdrl-mRow{display:grid;grid-template-columns:1fr 1.35fr 40px;gap:7px;align-items:center}
+#pdfDesignRlFinder .pdrl-mHead{font-size:10px;font-weight:900;color:#6d8194;padding:0 3px 6px}
+#pdfDesignRlFinder .pdrl-mRow{margin-bottom:7px}
+#pdfDesignRlFinder .pdrl-mini{width:100%;height:44px;border:1.3px solid #cfdce8;border-radius:10px;background:#fff;color:#173453;padding:0 9px;font-size:14px;outline:none}
+#pdfDesignRlFinder .pdrl-remove{width:40px;height:40px;border:0;border-radius:10px;background:#fdecec;color:#a12626;font-size:19px;font-weight:900;cursor:pointer}
+#pdfDesignRlFinder .pdrl-adds{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+#pdfDesignRlFinder .pdrl-add{height:42px;border:0;border-radius:10px;background:#e8eef5;color:#173453;font-weight:900;cursor:pointer}
+#pdfDesignRlFinder .pdrl-tableWrap{display:none;margin-top:11px}
+#pdfDesignRlFinder .pdrl-tableWrap.show{display:block}
+#pdfDesignRlFinder .pdrl-chain{border:1px solid #ceddea;border-radius:14px;background:#fff;overflow:hidden;margin-bottom:10px}
+#pdfDesignRlFinder .pdrl-chainTitle{display:flex;justify-content:space-between;gap:8px;background:#edf5fc;color:#173453;padding:9px 11px;font-weight:950}
+#pdfDesignRlFinder .pdrl-chainTitle small{font-size:10px;color:#657b8f;font-weight:800;align-self:center}
+#pdfDesignRlFinder .pdrl-table{width:100%;border-collapse:collapse}
+#pdfDesignRlFinder .pdrl-table th,#pdfDesignRlFinder .pdrl-table td{padding:8px 7px;border-top:1px solid #edf1f5;text-align:center;font-size:12px}
+#pdfDesignRlFinder .pdrl-table th{background:#fafcff;color:#4d6479;font-size:10px}
+#pdfDesignRlFinder .pdrl-table td:first-child{text-align:left;font-weight:800;color:#173453}
+#pdfDesignRlFinder .exact{color:#167449;font-weight:900}
+#pdfDesignRlFinder .calc{color:#9a6700;font-weight:900}
+#pdfDesignRlFinder .pdrl-note{font-size:10px;color:#71869a;line-height:1.45;margin-top:8px}
+#pdfDesignRlFinder .pdrl-example{margin:0 0 12px;border:1px solid #f0d8a7;border-radius:16px;background:linear-gradient(135deg,#fffaf0,#f4f8ff);padding:12px 13px;color:#31475c}
+#pdfDesignRlFinder .pdrl-exampleTitle{font-size:15px;font-weight:950;color:#7b5a18;margin-bottom:7px}
+#pdfDesignRlFinder .pdrl-exampleLine{font-size:12px;line-height:1.55;margin:2px 0}
+#pdfDesignRlFinder .pdrl-exampleLine b{color:#173453}
+#pdfDesignRlFinder .pdrl-exampleTag{display:inline-block;margin-top:7px;padding:5px 8px;border-radius:999px;background:#fff;border:1px solid #d7e1eb;color:#4d6479;font-size:10px;font-weight:900}
+#pdfDesignRlFinder .pdrl-download{width:100%;height:50px;border:0;border-radius:12px;background:#11836f;color:#fff;font-size:15px;font-weight:950;margin-top:10px;cursor:pointer;box-shadow:0 4px 12px rgba(17,131,111,.18)}
+#pdfDesignRlFinder .pdrl-download:active{transform:translateY(1px)}
+
+@media(max-width:430px){
+ #pdfDesignRlFinder .pdrl-grid2{grid-template-columns:1fr 1fr}
+ #pdfDesignRlFinder .pdrl-mHead,#pdfDesignRlFinder .pdrl-mRow{grid-template-columns:.92fr 1.45fr 40px}
+ #pdfDesignRlFinder .pdrl-mini{font-size:13px;padding:0 7px}
+}
+
+#pdfDesignRlFinder #pdrlSmartPanel{display:none}
+#pdfDesignRlFinder #pdrlSmartPanel.show{display:block}
+#pdfDesignRlFinder .pdrl-smartToggle{display:none;width:100%;height:44px;border:1px solid #bfd4e5;border-radius:11px;background:#eef6fc;color:#173453;font-weight:900;margin-top:9px;cursor:pointer}
+#pdfDesignRlFinder .pdrl-smartToggle.show{display:block}
+#pdfDesignRlFinder .pdrl-hiBox{margin-top:9px}
+#pdfDesignRlFinder .pdrl-hiHint{font-size:10px;color:#71869a;margin-top:4px;line-height:1.4}
+#pdfDesignRlFinder .pdrl-depthBox{margin-top:9px;padding:10px 12px;border-radius:11px;background:#fff7e8;border:1px solid #eed7a8;color:#765516;font-weight:900;text-align:center}
+#pdfDesignRlFinder .pdrl-depthBox small{display:block;font-size:10px;color:#806b42;margin-bottom:3px}
+#pdfDesignRlFinder .pdrl-depthBig{font-size:24px;color:#173453}
+#pdfDesignRlFinder .pdrl-staffBox{margin-top:9px;padding:10px 12px;border-radius:11px;background:#eef8f2;border:1px solid #cfe6d7;color:#17613a;font-weight:900;text-align:center}
+#pdfDesignRlFinder .pdrl-staffBox small{display:block;font-size:10px;color:#5f7d6b;margin-bottom:3px}
+#pdfDesignRlFinder .pdrl-staffBig{font-size:24px}
+#pdfDesignRlFinder .pdrl-mHeadHI{display:grid;grid-template-columns:1fr 1.35fr .85fr 42px;gap:7px;font-size:11px;font-weight:900;color:#60758a;margin:5px 0 6px;padding:0 2px}
+#pdfDesignRlFinder .pdrl-mRowHI{display:grid;grid-template-columns:1fr 1.35fr .85fr 42px;gap:7px;margin-bottom:7px;align-items:center}
+@media(max-width:430px){
+ #pdfDesignRlFinder .pdrl-mHeadHI,#pdfDesignRlFinder .pdrl-mRowHI{grid-template-columns:.9fr 1.25fr .8fr 42px}
+}
+
+#pdfDesignRlFinder .pdrl-smartHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+#pdfDesignRlFinder .pdrl-smartTitle{font-size:16px;font-weight:950;color:#173453}
+#pdfDesignRlFinder .pdrl-smartBadge{font-size:10px;font-weight:900;padding:5px 8px;border-radius:999px;background:#e9f7f2;color:#14745d;border:1px solid #bfe4d8}
+#pdfDesignRlFinder .pdrl-smartHelp{font-size:11px;line-height:1.5;color:#61778c;margin-bottom:10px}
+#pdfDesignRlFinder .pdrl-smartGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#pdfDesignRlFinder .pdrl-smartOffsetWrap{display:none;margin-top:9px}
+#pdfDesignRlFinder .pdrl-smartOffsetWrap.show{display:block}
+
+#pdfDesignRlFinder .pdrl-select{width:100%;height:48px;border:1.4px solid #cfdce8;border-radius:11px;background:#fff;color:#173453;padding:0 10px;font-size:14px;font-weight:800;outline:none}
+#pdfDesignRlFinder .pdrl-smartResult{display:none;margin-top:11px}
+#pdfDesignRlFinder .pdrl-smartResult.show{display:block}
+#pdfDesignRlFinder .pdrl-smartCard{border:1px solid #cfe0ec;border-radius:14px;background:linear-gradient(180deg,#f7fbff,#eef7ff);padding:12px;margin-bottom:8px}
+#pdfDesignRlFinder .pdrl-smartCard .value{font-size:31px;line-height:1.15;color:#0f3b66;font-weight:950;margin-top:3px}
+#pdfDesignRlFinder .pdrl-smartCard .label{font-size:11px;color:#61778c;font-weight:900}
+#pdfDesignRlFinder .pdrl-smartCard .meta{font-size:11px;color:#587086;margin-top:7px}
+#pdfDesignRlFinder .pdrl-smartTable{width:100%;border-collapse:collapse;background:#fff;border:1px solid #dbe5ee;border-radius:12px;overflow:hidden}
+#pdfDesignRlFinder .pdrl-smartTable th,#pdfDesignRlFinder .pdrl-smartTable td{border-bottom:1px solid #edf1f5;padding:8px 7px;text-align:left;font-size:12px}
+#pdfDesignRlFinder .pdrl-smartTable th{background:#173453;color:#fff;font-size:10px}
+#pdfDesignRlFinder .pdrl-smartTable td:last-child{font-weight:900;color:#173453}
+#pdfDesignRlFinder .pdrl-smartHint{margin-top:8px;font-size:10px;line-height:1.45;color:#71869a}
+@media(max-width:430px){#pdfDesignRlFinder .pdrl-smartGrid{grid-template-columns:1fr}}
+</style>
 </head>
 <body class="">
 <div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
@@ -2262,7 +2413,7 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 </div>
 <div class="row"><label>Camber</label><div class="unitrow"><input id="sc" type="number" step="any" value="-2.5" oninput="singleCalc()"><select class="unit"><option>%</option></select></div></div>
 <div class="result"><div class="rtitle" id="singleResultTitle">5 m Offset RL</div><div class="answer" id="sres">11.875 m</div></div>
-<button class="pdfBtn" onclick="downloadCalculatorPDF('single')">DOWNLOAD PDF</button>
+
 <button class="clear" onclick="clearSingle()">Clear</button>
 </section>
 
@@ -2295,7 +2446,7 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
     <div class="equal-three-field equal-add-field">
       <label>Rows</label>
       <div class="equal-row-actions">
-        <button id="eqAddRowBtn" type="button" onclick="equalAddRow()">+ ADD ROW</button>
+        <button id="eqAddRowBtn" type="button" onclick="equalAddRow()">+ ADD OFFSET</button>
         <button id="eqRemoveRowBtn" type="button" onclick="equalRemoveRow()">− REMOVE</button>
       </div>
     </div>
@@ -2635,10 +2786,10 @@ Temperature: °C, °F, Kelvin.
     </table>
   </div>
   <div class="peg-actions">
-    <button class="peg-btn green" onclick="pegAddRow()">+ ADD ROW</button>
+    <button class="peg-btn green" onclick="pegAddRow()">+ ADD CHAINAGE</button>
     <button class="peg-btn" onclick="pegDownloadPDF()">DOWNLOAD PDF</button>
   </div>
-  <div class="peg-help"><b>Formula:</b> Peg RL = PCL RL + (Offset × Camber ÷ 100) − Depth(m)<br>Staff Reading = HI − Peg RL<br><b>Chainage और PCL RL अलग-अलग column हैं।</b><br><b>Chainage:</b> हर row में Chainage manual डालें। Chainage box पर tap करते ही number keypad खुलेगा, जिसमें <b>+</b> key भी रहेगी। जैसे <b>37+200</b>।<br><b>Depth:</b> ऊपर set किया गया Depth सभी rows में same रहेगा।<br><b>HI:</b> केवल जहाँ HI बदलती है वहीं नई HI डालें; बाकी rows में पिछली HI अपने-आप use होगी।</div>
+  <div class="peg-help"><b>Formula:</b> Peg RL = PCL RL + (Offset × Camber ÷ 100) + Depth(m)<br>Staff Reading = HI − Peg RL<br><b>Chainage और PCL RL अलग-अलग column हैं।</b><br><b>Chainage:</b> हर row में Chainage manual डालें। Chainage box पर tap करते ही number keypad खुलेगा, जिसमें <b>+</b> key भी रहेगी। जैसे <b>37+200</b>।<br><b>Depth:</b> Subgrade/GSB Design RL से peg जितना ऊपर रखना हो, वह mm में भरें। वही Depth सभी rows में लागू होगा।<br><b>HI:</b> केवल जहाँ HI बदलती है वहीं नई HI डालें; बाकी rows में पिछली HI अपने-आप use होगी।</div>
   <div id="pegSummary" class="peg-summary">Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.</div>
 </div>
 <div id="pegChainageKeypad" class="peg-keypad hidden">
@@ -2673,7 +2824,7 @@ Temperature: °C, °F, Kelvin.
 </div>
 <div id="slabDesignRows"><div class="slab-designRow"><input class="slab-dch" value=""><input class="slab-drl" type="number" step="any" value=""><input class="slab-doffset" type="number" step="any" value=""><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-designRow"><input class="slab-dch" value=""><input class="slab-drl" type="number" step="any" value=""><input class="slab-doffset" type="number" step="any" value=""><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-designRow"><input class="slab-dch" value=""><input class="slab-drl" type="number" step="any" value=""><input class="slab-doffset" type="number" step="any" value=""><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-designRow"><input class="slab-dch" value=""><input class="slab-drl" type="number" step="any" value=""><input class="slab-doffset" type="number" step="any" value=""><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-designRow"><input class="slab-dch" value=""><input class="slab-drl" type="number" step="any" value=""><input class="slab-doffset" type="number" step="any" value=""><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div></div>
 <div class="slab-rowBtns">
-  <button class="slab-btn slab-gray" onclick="slabAddDesignRow()">+ ROW</button>
+  <button class="slab-btn slab-gray" onclick="slabAddDesignRow()">+ ADD CHAINAGE</button>
   <button class="slab-btn slab-gray" onclick="slabAddFiveDesignRows()">+ 5 ROWS</button>
 </div>
 
@@ -2700,7 +2851,7 @@ Temperature: °C, °F, Kelvin.
 </div>
 <div id="slabTargetRows"><div class="slab-targetRow"><input class="slab-tch" value=""><input class="slab-tcam" type="number" step="any" value="" style="opacity: 1;"><input class="slab-toffs" value="" style="opacity: 1;"><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-targetRow"><input class="slab-tch" value=""><input class="slab-tcam" type="number" step="any" value="" style="opacity: 1;"><input class="slab-toffs" value="" style="opacity: 1;"><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-targetRow"><input class="slab-tch" value=""><input class="slab-tcam" type="number" step="any" value="" style="opacity: 1;"><input class="slab-toffs" value="" style="opacity: 1;"><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-targetRow"><input class="slab-tch" value=""><input class="slab-tcam" type="number" step="any" value="" style="opacity: 1;"><input class="slab-toffs" value="" style="opacity: 1;"><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div><div class="slab-targetRow"><input class="slab-tch" value=""><input class="slab-tcam" type="number" step="any" value="" style="opacity: 1;"><input class="slab-toffs" value="" style="opacity: 1;"><button class="slab-btn slab-red slab-del" onclick="this.parentElement.remove()">×</button></div></div>
 <div class="slab-rowBtns">
-  <button class="slab-btn slab-gray" onclick="slabAddTargetRow()">+ ROW</button>
+  <button class="slab-btn slab-gray" onclick="slabAddTargetRow()">+ ADD CHAINAGE</button>
   <button class="slab-btn slab-gray" onclick="slabAddFiveRows()">+ 5 ROWS</button>
 </div>
 <button class="slab-btn slab-primary" style="width:100%;margin-top:9px" onclick="slabCalcAndRemember()">GET RESULT MULTI CHAINAGE</button>
@@ -2731,6 +2882,117 @@ Temperature: °C, °F, Kelvin.
 
 
 
+
+<section id="pdfDesignRlFinder" class="card hidden">
+  <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>PDF Design RL Finder</strong></div>
+  <h2>PDF Design RL Finder</h2>
+  <div class="pdrl-sub">PDF से Chainage, Offset और Camber/Crossfall पढ़कर किसी भी Offset का <b>Design RL</b> निकालें। Exact Offset न हो तो calculation और बीच का Chainage हो तो interpolation होगा।</div>
+  <div class="pdrl-example">
+    <div class="pdrl-exampleTitle">Example</div>
+    <div class="pdrl-exampleLine">PDF में Chainage <b>37+800</b> और <b>37+810</b> दिया है।</div>
+    <div class="pdrl-exampleLine">अगर आपको <b>37+805</b> पर Offset <b>5.35 m</b> का RL चाहिए, तो Tool PDF का <b>Design RL + Camber/Crossfall</b> पढ़कर calculation करेगा।</div>
+    <div class="pdrl-exampleLine"><b>Multiple:</b> 37+805 → 2, 4, 5.35, 8 &nbsp; | &nbsp; 37+815 → 2.25, 6, 10.50</div>
+    <div class="pdrl-exampleTag">Exact value + Camber calculation + Chainage interpolation</div>
+    <div class="pdrl-exampleLine" style="margin-top:7px"><b>Chainage format:</b> 37+800 या 37800 — दोनों एक ही माने जाएंगे। 5+200 या 5200 भी एक ही है।</div>
+  </div>
+
+
+  <div class="pdrl-panel">
+    <label class="pdrl-file">📄 UPLOAD PDF<input id="pdrlFile" type="file" accept="application/pdf,.pdf" onchange="pdrlLoadPdf(this)"></label>
+    <div id="pdrlStatus" class="pdrl-status">पहले PDF upload करें।</div>
+    <div id="pdrlInfo" class="pdrl-info">
+      <div class="pdrl-infoBox"><small>FORMAT</small><b id="pdrlFormat">—</b></div>
+      <div class="pdrl-infoBox"><small>SIDE</small><b id="pdrlSide">—</b></div>
+      <div class="pdrl-infoBox"><small>CHAINAGE RANGE</small><b id="pdrlRange">—</b></div>
+      <div class="pdrl-infoBox"><small>PDF CHAINAGES</small><b id="pdrlRows">—</b></div>
+    </div>
+  </div>
+
+  <div class="pdrl-panel pdrl-hiBox">
+    <div class="pdrl-optHeading">यदि Peg RL / Staff Reading निकालना हो तो</div>
+    <div class="pdrl-grid2">
+      <div>
+        <label class="pdrl-label" for="pdrlHI">HI (m)</label>
+        <input id="pdrlHI" class="pdrl-input" type="number" step="any" placeholder="जैसे 20.500">
+      </div>
+      <div>
+        <label class="pdrl-label" for="pdrlDepth">Depth (mm)</label>
+        <input id="pdrlDepth" class="pdrl-input" type="number" step="any" placeholder="जैसे 150">
+      </div>
+    </div>
+    <div class="pdrl-hiHint"><b>केवल HI भरने पर Staff Reading = HI − Design RL</b> दिखेगा। <b>केवल Depth भरने पर Peg RL = Design RL + Depth</b> दिखेगा। <b>HI + Depth दोनों भरने पर Staff Reading = HI − Peg RL</b> दिखेगा।</div>
+  </div>
+
+  <button type="button" id="pdrlSmartToggle" class="pdrl-smartToggle" onclick="pdrlToggleSmart()">🔎 SMART PDF FINDER</button>
+
+  <div class="pdrl-panel" id="pdrlSmartPanel">
+    <div class="pdrl-smartHead"><div class="pdrl-smartTitle">🔎 Smart PDF Finder</div><span class="pdrl-smartBadge">AUTO TABLE READ</span></div>
+    <div class="pdrl-smartHelp">अगर PDF Design RL format में नहीं है, तब भी Chainage के सामने <b>FRL, HFL, Invert Level, Shoulder RL</b> या PDF में मिले दूसरे field को चुनकर value खोजें। Multiple Chainage comma से डाल सकते हैं।</div>
+    <div class="pdrl-smartGrid">
+      <div>
+        <label class="pdrl-label">Find</label>
+        <select id="pdrlSmartField" class="pdrl-select"><option value="">PDF upload करें</option></select>
+      </div>
+      <div>
+        <label id="pdrlSmartKeyLabel" class="pdrl-label">Chainage / Row Key</label>
+        <input id="pdrlSmartChainage" class="pdrl-input" placeholder="28+010 / 28010 / Row Key" inputmode="text">
+      </div>
+    </div>
+    <div id="pdrlSmartOffsetWrap" class="pdrl-smartOffsetWrap">
+      <label class="pdrl-label">Offset (m)</label>
+      <input id="pdrlSmartOffset" class="pdrl-input" type="number" step="any" placeholder="जैसे 8">
+      <div class="pdrl-smartHint" style="margin-top:4px">Level Sheet जैसे PDF में Chainage के साथ Offset भी चुनें।</div>
+    </div>
+    <button type="button" class="pdrl-btn" onclick="pdrlSmartFind()">FIND VALUE</button>
+    <div id="pdrlSmartResult" class="pdrl-smartResult"></div>
+    <div class="pdrl-smartHint">Example: HFL PDF में <b>FINAL HFL</b> चुनें। Level Sheet में <b>PCC TOP LEVEL</b> या <b>WALL TO LEVEL</b> चुनकर Chainage + Offset डालें।</div>
+  </div>
+
+  <div class="pdrl-panel">
+    <div class="pdrl-tabs">
+      <button id="pdrlSingleTab" type="button" class="pdrl-tab active" onclick="pdrlMode('single')">Single</button>
+      <button id="pdrlMultiTab" type="button" class="pdrl-tab" onclick="pdrlMode('multi')">Multiple</button>
+    </div>
+
+    <div id="pdrlSingle" class="pdrl-single">
+      <div class="pdrl-grid2">
+        <div><label class="pdrl-label">Chainage</label><input id="pdrlChainage" class="pdrl-input" list="pdrlChainageList" placeholder="44+000 / 44000" inputmode="text"><datalist id="pdrlChainageList"></datalist></div>
+        <div><label class="pdrl-label">Offset (m)</label><input id="pdrlOffset" class="pdrl-input" type="text" placeholder="2 or 2, 4, 6" inputmode="decimal"></div>
+      </div>
+      
+      <button type="button" class="pdrl-btn" onclick="pdrlFindOne()">CALCULATE</button>
+
+      <div id="pdrlOneResult" class="pdrl-result">
+        <div class="pdrl-big"><small>DESIGN RL</small><span id="pdrlAnswer">—</span> <span style="font-size:16px">m</span></div>
+        <div class="pdrl-pills"><span id="pdrlSrc" class="pdrl-pill">—</span><span id="pdrlSidePill" class="pdrl-pill">—</span><span id="pdrlCamberPill" class="pdrl-pill">—</span></div>
+        <div id="pdrlDetails" class="pdrl-details"></div>
+        <div id="pdrlSingleMultiResult" class="pdrl-tableWrap" style="display:none;margin-top:10px"></div>
+        <div id="pdrlPegBox" class="pdrl-depthBox" style="display:none">
+          <small>PEG RL = DESIGN RL + DEPTH</small>
+          <div class="pdrl-depthBig"><span id="pdrlPegAnswer">—</span> m</div>
+        </div>
+        <div id="pdrlStaffBox" class="pdrl-staffBox" style="display:none">
+          <small>STAFF READING = HI − PEG RL</small>
+          <div class="pdrl-staffBig"><span id="pdrlStaffAnswer">—</span> m</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pdrlMulti" class="pdrl-multi">
+      <div class="pdrl-help">हर row में Chainage और उसके कई Offsets डालें। Offsets को comma से अलग करें: <b>2, 4, 5.35, 8</b></div>
+      <div class="pdrl-mHead"><span>Chainage</span><span>Offsets (m)</span><span></span></div>
+      <div id="pdrlMultiRows"></div>
+      <div class="pdrl-adds"><button type="button" class="pdrl-add" onclick="pdrlAddRow()">+ ADD CHAINAGE</button><button type="button" class="pdrl-add" onclick="pdrlAddRows(5)">+ 5 ROWS</button></div>
+      <button type="button" class="pdrl-btn" onclick="pdrlFindMany()">CALCULATE ALL DESIGN RL</button>
+      <div id="pdrlManyResult" class="pdrl-tableWrap"></div>
+    </div>
+
+    <button type="button" class="pdrl-download" onclick="pdrlDownloadPDF()">DOWNLOAD PDF</button>
+    <button type="button" class="pdrl-btn pdrl-secondary" onclick="pdrlClear()">CLEAR</button>
+    <div class="pdrl-note"><b>Auto Calculation:</b> Chainage और Offset भरते ही Design RL अपने-आप निकलेगा। केवल HI भरने पर Staff Reading = HI − Design RL। Depth भरने पर Peg RL = Design RL + Depth(m)। HI + Depth दोनों होने पर Staff Reading = HI − Peg RL। Result 3 decimal में दिखेगा।</div>
+  </div>
+</section>
+
 <section id="pdfFreezeViewer" class="card hidden" style="padding:14px 10px 18px">
 <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>RL PDF Viewer</strong></div>
 
@@ -2749,7 +3011,6 @@ Temperature: °C, °F, Kelvin.
 html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .app{height:100%;display:flex;flex-direction:column}
 .top{background:#fff;border-bottom:1px solid var(--line);padding:10px 12px;position:relative;z-index:20;overflow:hidden}
-.top.viewer-scrolled{display:none}
 .title{font-size:18px;font-weight:800}
 .sub{font-size:12px;color:var(--muted);margin-top:2px}
 .controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:8px}
@@ -2805,6 +3066,7 @@ tbody tr.hit td{box-shadow:inset 0 0 0 2px #f59e0b}
      &lt;input id=&quot;search&quot; placeholder=&quot;Chainage खोजें, जैसे 44+982&quot;&gt;
      &lt;button id=&quot;goBtn&quot;&gt;Go&lt;/button&gt;
      &lt;button id=&quot;resetBtn&quot;&gt;Reset&lt;/button&gt;
+     &lt;button id=&quot;clearPdfBtn&quot; class=&quot;warn&quot;&gt;CLEAR PDF&lt;/button&gt;
    &lt;/div&gt;
 
    &lt;div class=&quot;controls&quot;&gt;
@@ -2857,36 +3119,8 @@ const $=id=&gt;document.getElementById(id);
 const viewer=$(&#x27;viewer&#x27;),empty=$(&#x27;empty&#x27;),head=$(&#x27;head&#x27;),body=$(&#x27;body&#x27;),grid=$(&#x27;grid&#x27;);
 const originalPages=$(&#x27;originalPages&#x27;),msg=$(&#x27;msg&#x27;),loading=$(&#x27;loading&#x27;);
 const fileBadge=$(&#x27;fileBadge&#x27;),pageBadge=$(&#x27;pageBadge&#x27;),rowBadge=$(&#x27;rowBadge&#x27;),freezeBadge=$(&#x27;freezeBadge&#x27;);
+const clearPdfBtn=$(&#x27;clearPdfBtn&#x27;);
 const topPanel=$(&#x27;topPanel&#x27;);
-let topPanelCollapsed=false;
-let lastViewerScrollTop=0;
-let viewerScrollTick=false;
-function setTopPanelCollapsed(collapsed){
- collapsed=!!collapsed;
- if(collapsed===topPanelCollapsed)return;
- topPanelCollapsed=collapsed;
- if(topPanel)topPanel.classList.toggle(&#x27;viewer-scrolled&#x27;,collapsed);
-}
-// Simple automatic hide/show: scroll down = hide, scroll up = show.
-// No delay and no travel threshold, so it reacts immediately on mobile.
-viewer.addEventListener(&#x27;scroll&#x27;,()=&gt;{
- if(viewerScrollTick)return;
- viewerScrollTick=true;
- requestAnimationFrame(()=&gt;{
-   viewerScrollTick=false;
-   const y=Math.max(0,viewer.scrollTop||0);
-   const delta=y-lastViewerScrollTop;
-   if(y&lt;=2){
-     setTopPanelCollapsed(false);
-   }else if(delta&gt;2){
-     setTopPanelCollapsed(true);
-   }else if(delta&lt;-2){
-     setTopPanelCollapsed(false);
-   }
-   lastViewerScrollTop=y;
- });
-},{passive:true});
-
 let pdfDoc=null,currentHeaders=[],currentRows=[],currentGroups=[],pageSearchIndex=[];
 let mode=&#x27;auto&#x27;,headerFrozen=true,frozenCols=new Set([0]),frozenRows=new Set();
 let currentView=&#x27;table&#x27;,compact=false,selectedGroup=&#x27;&#x27;;
@@ -3384,9 +3618,8 @@ async function renderOriginal(){
 }
 
 async function openPdf(file){
- try{viewer.scrollTo({top:0,left:0,behavior:'auto'})}catch(_){viewer.scrollTop=0;viewer.scrollLeft=0}
- lastViewerScrollTop=0;
- setTopPanelCollapsed(false);
+ try{viewer.scrollTo({top:0,left:0,behavior:&#x27;auto&#x27;})}catch(_){viewer.scrollTop=0;viewer.scrollLeft=0}
+ if(topPanel)topPanel.classList.remove(&#x27;viewer-scrolled&#x27;);
  setLoading(true);setMsg(&#x27;Loading…&#x27;);
  try{
    if(!(await ensurePdfJs()))throw new Error(&#x27;PDF library load failed.&#x27;);
@@ -3482,6 +3715,48 @@ async function showOriginalPage(pageNo){
  const wrap=originalPages.querySelector(&#x27;[data-page=&quot;&#x27;+pageNo+&#x27;&quot;]&#x27;);
  if(wrap)setTimeout(()=&gt;wrap.scrollIntoView({behavior:&#x27;smooth&#x27;,block:&#x27;start&#x27;,inline:&#x27;nearest&#x27;}),40);
 }
+
+
+function clearPdfCompletely(){
+ try{
+   if(pdfDoc &amp;&amp; typeof pdfDoc.destroy===&#x27;function&#x27;)pdfDoc.destroy();
+ }catch(e){}
+ pdfDoc=null;
+ currentHeaders=[];
+ currentRows=[];
+ currentGroups=[];
+ if(typeof pageSearchIndex!==&#x27;undefined&#x27;)pageSearchIndex=[];
+ selectedGroup=&#x27;&#x27;;
+ currentView=&#x27;table&#x27;;
+
+ const pf=$(&#x27;pdfFile&#x27;);
+ if(pf)pf.value=&#x27;&#x27;;
+ const srch=$(&#x27;search&#x27;);
+ if(srch)srch.value=&#x27;&#x27;;
+
+ head.innerHTML=&#x27;&#x27;;
+ body.innerHTML=&#x27;&#x27;;
+ originalPages.innerHTML=&#x27;&#x27;;
+
+ grid.style.display=&#x27;&#x27;;
+ originalPages.style.display=&#x27;none&#x27;;
+ viewer.style.display=&#x27;none&#x27;;
+ empty.style.display=&#x27;flex&#x27;;
+
+ if(fileBadge)fileBadge.textContent=&#x27;No PDF&#x27;;
+ if(pageBadge)pageBadge.textContent=&#x27;Pages: 0&#x27;;
+ if(rowBadge)rowBadge.textContent=&#x27;Rows: 0&#x27;;
+ if(freezeBadge)freezeBadge.textContent=&#x27;Auto: First Column + Header&#x27;;
+
+ if(msg){
+   msg.classList.remove(&#x27;error&#x27;);
+   msg.textContent=&#x27;&#x27;;
+ }
+
+ if(topPanel)topPanel.classList.remove(&#x27;viewer-scrolled&#x27;);
+}
+
+if(clearPdfBtn)clearPdfBtn.addEventListener(&#x27;click&#x27;,clearPdfCompletely);
 
 $(&#x27;pdfFile&#x27;).addEventListener(&#x27;change&#x27;,e=&gt;{const f=e.target.files?.[0];if(f)openPdf(f)});
 $(&#x27;tableBtn&#x27;).onclick=()=&gt;currentRows.length?showTable():alert(&#x27;Table View unavailable.&#x27;);
@@ -3883,7 +4158,7 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
   </div>
 
   <div id="toeRows"><div class="toe-card" data-toe-id="1" data-chainage="37+200"><div class="toe-card-head"><span class="toe-chain-label">37+200</span> · <span class="toe-side-label">LHS</span></div><div class="toe-card-body"><div class="toe-row toe-manual-chain toe-hidden"><label>Chainage</label><input class="toe-chain-input" type="text" inputmode="text" placeholder="37+200"></div><div class="toe-diff-mode"><div class="toe-row"><label>DRL-ARL value (m)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div></div><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL (m)</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL (m)</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div><div class="toe-inline-result">DRL-ARL: <span class="toe-out-diff">1.554</span> m · Center to Toe: <span class="toe-out-center">26.331</span> m</div><button class="toe-remove" type="button">Remove Row</button></div></div></div>
-  <button id="toeAddRowBtn" class="toe-add" onclick="toeAddRow()">+ Add Row</button>
+  <button id="toeAddRowBtn" class="toe-add" onclick="toeAddRow()">+ ADD CHAINAGE</button>
 
   <div class="toe-result-title">Results · Metres</div>
   <div class="toe-count" id="toeCount">1 calculated · 0 incomplete · 0 blank</div>
@@ -4590,6 +4865,8 @@ body.day .sound-toggle{
     <button onclick="show('pegLevel')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 55L24 15h16l20 40z" fill="#51555d"/><path d="M29 19h6l2 8h-10zM25 32h14l3 11H22z" fill="#fff"/><path d="M8 55h48" stroke="#91c95d" stroke-width="5"/><rect x="9" y="8" width="5" height="36" rx="2" fill="#f5ae21"/></svg></span><span class="toolLabel">Subgrade / GSB Peg Level</span></button>
     <button onclick="show('toeCalc')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 52h44L10 13z" fill="#e9f4ff" stroke="#173453" stroke-width="4" stroke-linejoin="round"/><path d="M10 41h11v11" fill="none" stroke="#ef6c00" stroke-width="4"/><path d="M18 45l25-22" stroke="#1976d2" stroke-width="3" stroke-dasharray="4 3"/></svg></span><span class="toolLabel">Toe Calculator</span></button>
     <button onclick="show('slab')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="17" width="48" height="11" rx="3" fill="#9ea7ad"/><rect x="13" y="31" width="38" height="20" fill="#c7cdd1"/><path d="M18 31v20M31 31v20M44 31v20" stroke="#7a858d" stroke-width="3"/><path d="M8 14h48" stroke="#f39c12" stroke-width="4"/></svg></span><span class="toolLabel">Slab RL Calculator</span></button>
+    <button onclick="show('pdfDesignRlFinder')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 6h30l10 10v42H12z" fill="#fff" stroke="#173453" stroke-width="3"/><path d="M42 6v11h10" fill="#dcecff"/><path d="M19 27h26M19 35h17" stroke="#9db2c5" stroke-width="3" stroke-linecap="round"/><circle cx="43" cy="44" r="12" fill="#1976d2"/><text x="43" y="48" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">RL</text></svg></span><span class="toolLabel">PDF Design RL Finder</span></button>
+
   </nav>
 </div>
 
@@ -4746,7 +5023,36 @@ body.day .sound-toggle{
 
 var vcRouteLock=false;
 
+var vcLastOpenedToolId='';
+
+function vcFindToolButton(id){
+  if(!id)return null;
+  var buttons=Array.from(document.querySelectorAll('.nav button'));
+  for(var i=0;i<buttons.length;i++){
+    var code=buttons[i].getAttribute('onclick')||'';
+    if(code.indexOf("'"+id+"'")!==-1 || code.indexOf('"'+id+'"')!==-1)return buttons[i];
+  }
+  return null;
+}
+
+function vcScrollToLastToolBox(){
+  var btn=vcFindToolButton(vcLastOpenedToolId);
+  if(!btn)return;
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      try{btn.scrollIntoView({behavior:'auto',block:'center',inline:'nearest'})}
+      catch(e){
+        var r=btn.getBoundingClientRect();
+        window.scrollTo(0,Math.max(0,(window.pageYOffset||0)+r.top-(window.innerHeight-r.height)/2));
+      }
+      btn.classList.add('vc-return-focus');
+      setTimeout(function(){btn.classList.remove('vc-return-focus')},2100);
+    });
+  });
+}
+
 function renderTool(id){
+  vcLastOpenedToolId=id||vcLastOpenedToolId;
   document.body.classList.remove('home-mode');
   document.body.classList.add('tool-open');
   var pk=document.getElementById('pegChainageKeypad');if(pk)pk.classList.add('hidden');
@@ -4764,6 +5070,7 @@ function renderTool(id){
 function show(id,fromHistory){
   if(id==='home'){openToolMenu(!!fromHistory);return}
   if(!document.getElementById(id)){openToolMenu(!!fromHistory);return}
+  vcLastOpenedToolId=id;
   renderTool(id);
   if(!fromHistory){
     try{history.pushState({vcTool:id},'', '#tool='+encodeURIComponent(id))}catch(e){}
@@ -4779,7 +5086,11 @@ function openToolMenu(fromHistory){
   if(!fromHistory){
     try{history.pushState({vcMenu:true},'',location.pathname+location.search+'#menu')}catch(e){}
   }
-  try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+  if(vcLastOpenedToolId){
+    vcScrollToLastToolBox();
+  }else{
+    try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+  }
 }
 
 function navBack(){
@@ -8397,7 +8708,7 @@ function pegRecalc(){
       currentHI=Number(hiText);hiCount++;
       if(hiLabel){hiLabel.textContent=hiCount===1?'HI':'New HI';if(hiCount>1)hiLabel.classList.add('new')}
     }
-    var results=[];if(isFinite(pcl)&&offs.length&&isFinite(depth)&&isFinite(camber))offs.forEach(function(off){var pr=pcl+(off*camber/100)-(depth/1000),sr=isFinite(currentHI)?currentHI-pr:NaN;results.push({off:off,peg:pr,staff:sr});if(isFinite(sr))ok++});
+    var results=[];if(isFinite(pcl)&&offs.length&&isFinite(depth)&&isFinite(camber))offs.forEach(function(off){var pr=pcl+(off*camber/100)+(depth/1000),sr=isFinite(currentHI)?currentHI-pr:NaN;results.push({off:off,peg:pr,staff:sr});if(isFinite(sr))ok++});
     tr.querySelector('.peg-rl').innerHTML=pegFormatMultiResult(results,'peg');var staffResults=results.filter(function(x){return isFinite(x.staff)});tr.querySelector('.peg-staff').innerHTML=pegFormatMultiResult(staffResults,'staff');var chEnd=tr.querySelector('.peg-chainage-end');if(chEnd)chEnd.textContent=tr.querySelector('.peg-ch').value||'—';
   });
   document.getElementById('pegSummary').textContent=ok?ok+' result(s) calculated • Manual Offset • Depth '+(isFinite(depth)?depth:'—')+' mm same • HI जहाँ बदले वहीं डालें':'Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.';
@@ -8416,7 +8727,7 @@ function pegDownloadPDF(){
   var cam=document.getElementById('pegCamber').value,depth=document.getElementById('pegDepth').value;
   var doc=new jsPDF({unit:'mm',format:'a4'});doc.setFont('helvetica','bold');doc.setFontSize(16);doc.text('Subgrade / GSB Peg Level',14,16);doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text('Camber: '+cam+'%   Depth: '+depth+' mm   Multiple Offset',14,23);
   var y=32;doc.setFont('helvetica','bold');doc.text('Chainage',10,y);doc.text('PCL RL',43,y);doc.text('Offset',69,y);doc.text('HI',92,y);doc.text('Peg RL',116,y);doc.text('Staff',144,y);doc.text('Chainage',169,y);doc.setFont('helvetica','normal');y+=6;
-  var currentHI='';rows.forEach(function(tr){var ch=tr.querySelector('.peg-ch').value,pcl=tr.querySelector('.peg-pcl').value,offText=tr.querySelector('.peg-off').value,hi=tr.querySelector('.peg-hi').value;if(hi!=='')currentHI=hi;var offs=pegParseOffsets(offText);if(!offs.length)offs=[NaN];offs.forEach(function(off,idx){var pr='-',sr='-';if(isFinite(Number(pcl))&&isFinite(off)&&isFinite(Number(cam))&&isFinite(Number(depth))){var peg=Number(pcl)+(off*Number(cam)/100)-(Number(depth)/1000);pr=peg.toFixed(3);if(currentHI!==''&&isFinite(Number(currentHI)))sr=(Number(currentHI)-peg).toFixed(3)}if(y>282){doc.addPage();y=18}doc.text(idx===0?String(ch):'',10,y);doc.text(idx===0?String(pcl||'-'):'',43,y);doc.text(isFinite(off)?String(off):'-',69,y);doc.text(idx===0?String(currentHI||'-'):'',92,y);doc.text(String(pr),116,y);doc.text(String(sr),144,y);doc.text(idx===0?String(ch):'',169,y);y+=6})});
+  var currentHI='';rows.forEach(function(tr){var ch=tr.querySelector('.peg-ch').value,pcl=tr.querySelector('.peg-pcl').value,offText=tr.querySelector('.peg-off').value,hi=tr.querySelector('.peg-hi').value;if(hi!=='')currentHI=hi;var offs=pegParseOffsets(offText);if(!offs.length)offs=[NaN];offs.forEach(function(off,idx){var pr='-',sr='-';if(isFinite(Number(pcl))&&isFinite(off)&&isFinite(Number(cam))&&isFinite(Number(depth))){var peg=Number(pcl)+(off*Number(cam)/100)+(Number(depth)/1000);pr=peg.toFixed(3);if(currentHI!==''&&isFinite(Number(currentHI)))sr=(Number(currentHI)-peg).toFixed(3)}if(y>282){doc.addPage();y=18}doc.text(idx===0?String(ch):'',10,y);doc.text(idx===0?String(pcl||'-'):'',43,y);doc.text(isFinite(off)?String(off):'-',69,y);doc.text(idx===0?String(currentHI||'-'):'',92,y);doc.text(String(pr),116,y);doc.text(String(sr),144,y);doc.text(idx===0?String(ch):'',169,y);y+=6})});
   doc.save('Peg_Level_Report.pdf');
 }
 function pegInit(){
@@ -10845,4 +11156,1486 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <!-- End Virendra Website + App analytics counter -->
+
+<script id="pdrlFinderScript">
+(function(){
+'use strict';
+var S={rows:{},side:'AUTO',format:'',chainages:[],file:'',smart:{type:'',columns:[],rows:{},chainages:[],canInterpolate:false}};
+function E(id){return document.getElementById(id)}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function status(m,t){var e=E('pdrlStatus');if(!e)return;e.className='pdrl-status'+(t?' '+t:'');e.textContent=m}
+function norm(s){
+ s=String(s||'').trim().replace(/\s+/g,'').replace(/,/g,'');
+ var m=s.match(/^(\d{1,4})\+(\d{1,3}(?:\.\d+)?)$/);
+ if(m){
+   var a=m[2].split('.'),tail=a[0].padStart(3,'0')+(a.length>1?'.'+a[1]:'');
+   return String(Number(m[1]))+'+'+tail;
+ }
+ if(/^\d+(?:\.\d+)?$/.test(s)){
+   var n=Number(s);
+   if(!Number.isFinite(n)||n<0)return s;
+   var km=Math.floor(n/1000),rem=n-km*1000;
+   var remTxt=(Math.round(rem*1000)/1000).toFixed(3).replace(/\.?0+$/,'');
+   var rp=remTxt.split('.'),tail2=rp[0].padStart(3,'0')+(rp.length>1?'.'+rp[1]:'');
+   return km+'+'+tail2;
+ }
+ return s
+}
+function c2m(s){s=norm(s);var m=String(s||'').match(/^(\d{1,4})\+(\d{1,3}(?:\.\d+)?)$/);return m?Number(m[1])*1000+Number(m[2]):NaN}
+function f3(n){return Number(n).toFixed(3)}
+function n2(v){var n=Number(v);return Number.isFinite(n)?n:NaN}
+function camTxt(n){return Number.isFinite(n)?'Camber '+(n>0?'+':'')+n.toFixed(2)+'%':'Camber —'}
+
+function pageLines(tc){
+ var a=tc.items.map(function(it){var x=(it.transform&&it.transform[4])||0,y=(it.transform&&it.transform[5])||0;return{x:x,y:y,s:String(it.str||'').trim()}}).filter(function(o){return o.s});
+ a.sort(function(p,q){if(Math.abs(p.y-q.y)>2)return q.y-p.y;return p.x-q.x});
+ var lines=[];
+ a.forEach(function(o){var line=null;for(var i=lines.length-1;i>=0&&i>=lines.length-4;i--){if(Math.abs(lines[i].y-o.y)<=2.2){line=lines[i];break}}if(!line){line={y:o.y,items:[]};lines.push(line)}line.items.push(o)});
+ lines.sort(function(p,q){return q.y-p.y});
+ return lines.map(function(l){l.items.sort(function(p,q){return p.x-q.x});return l.items.map(function(o){return o.s}).join(' ').replace(/\s+/g,' ').trim()});
+}
+function flatPages(pages){return pages.reduce(function(a,p){return a.concat(p)},[])}
+
+function pdrlNormalizePdfText(s){
+ return String(s||'')
+   .replace(/(\d{1,4})\s*\+\s*(\d{1,3}(?:\.\d+)?)/g,'$1+$2')
+   .replace(/\s+/g,' ')
+   .trim()
+}
+function pdrlNormalizePages(pages){
+ return (pages||[]).map(function(pg){
+   return (pg||[]).map(pdrlNormalizePdfText).filter(Boolean)
+ })
+}
+function pdrlNormalizeFlows(flows){
+ return (flows||[]).map(pdrlNormalizePdfText)
+}
+
+
+function pageRowsDetailed(tc){
+ var a=tc.items.map(function(it){
+   var tr=it.transform||[],x=Number(tr[4]||0),y=Number(tr[5]||0);
+   return{x:x,y:y,s:String(it.str||'').trim()}
+ }).filter(function(o){return o.s});
+ a.sort(function(p,q){if(Math.abs(p.y-q.y)>2.2)return q.y-p.y;return p.x-q.x});
+ var rows=[];
+ a.forEach(function(o){
+   var row=null;
+   for(var i=rows.length-1;i>=0&&i>=rows.length-5;i--){
+     if(Math.abs(rows[i].y-o.y)<=2.4){row=rows[i];break}
+   }
+   if(!row){row={y:o.y,items:[]};rows.push(row)}
+   row.items.push(o)
+ });
+ rows.sort(function(p,q){return q.y-p.y});
+ rows.forEach(function(r){r.items.sort(function(a,b){return a.x-b.x})});
+ return rows
+}
+
+function smartUniversalIsNumber(s){
+ return /^[-+]?\d+(?:\.\d+)?%?$/.test(String(s||'').replace(/,/g,'').trim())
+}
+function smartUniversalIsChainage(s){
+ s=String(s||'').trim();
+ return /^(?:\d{1,4}\+\d{1,3}(?:\.\d+)?|\d{4,7})$/.test(s)
+}
+function smartUniversalLabel(s,i){
+ s=String(s||'').replace(/\s+/g,' ').trim();
+ if(!s)return 'COLUMN '+(i+1);
+ var words=s.split(' ').filter(function(w){
+   return /CHAIN|OFFSET|FRL|RL|HFL|LEVEL|INVERT|TOP|BOTTOM|SIDE|LHS|RHS|CAMBER|CROSSFALL|BS|IS|FS|HI|DIFF|LENGTH|REMARK|VALUE|PCL|CL|ME|PIPE|WALL|PCC|DESIGN|ACHIEVED|S\.?NO/i.test(w)
+ });
+ return (words.length?words.join(' '):s).slice(0,70)
+}
+
+
+function smartParseFlowGeneric(flows){
+ var flat=pdrlNormalizePdfText((flows||[]).join(' '));
+ if(!flat)return null;
+
+ var marks=[],re=/\b(\d{1,4}\+\d{1,3}(?:\.\d+)?)\b/g,m;
+ while((m=re.exec(flat))!==null)marks.push({raw:m[1],ch:norm(m[1]),i:m.index,end:re.lastIndex});
+ if(marks.length<2)return null;
+
+ var temp={},maxVals=0;
+ for(var i=0;i<marks.length;i++){
+   var seg=flat.slice(marks[i].end,i+1<marks.length?marks[i+1].i:flat.length);
+   // Use only values before long alphabetic heading text begins.
+   var cut=seg.search(/[A-Za-z]{4,}\s+[A-Za-z]{4,}/);
+   if(cut>=0)seg=seg.slice(0,cut);
+   var vals=(seg.match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+   if(vals.length<2)continue;
+   if(vals.length>30)vals=vals.slice(0,30);
+   temp[marks[i].ch]=vals;maxVals=Math.max(maxVals,vals.length)
+ }
+ var chs=Object.keys(temp).sort(function(a,b){return c2m(a)-c2m(b)});
+ if(chs.length<2||!maxVals)return null;
+
+ var cols=[];
+ for(var c=0;c<maxVals;c++)cols.push({key:'v'+c,label:'VALUE '+(c+1)});
+ var rows={};
+ chs.forEach(function(ch){
+   rows[ch]={};
+   temp[ch].forEach(function(v,idx){rows[ch]['v'+idx]=v})
+ });
+ return{type:'RAW TEXT CHAINAGE TABLE',columns:cols,rows:rows,chainages:chs,canInterpolate:false,keyMode:'chainage'}
+}
+
+function smartParseUniversal(dpages){
+ var pagesOut=[];
+ (dpages||[]).forEach(function(rows,pageIndex){
+   if(!rows||!rows.length)return;
+
+   var candidates=[];
+   rows.forEach(function(r,ri){
+     var nums=0,chs=0;
+     r.items.forEach(function(it){
+       if(smartUniversalIsNumber(it.s))nums++;
+       if(smartUniversalIsChainage(it.s))chs++;
+     });
+     if((nums>=2)||(chs>=1&&nums>=1))candidates.push({ri:ri,row:r})
+   });
+   if(candidates.length<2)return;
+
+   var clusters=[];
+   candidates.forEach(function(c){
+     c.row.items.forEach(function(it){
+       if(!(smartUniversalIsNumber(it.s)||smartUniversalIsChainage(it.s)||/^(LHS|RHS|LEFT|RIGHT)$/i.test(it.s)))return;
+       var best=-1,bd=1e9;
+       for(var i=0;i<clusters.length;i++){var d=Math.abs(clusters[i].x-it.x);if(d<bd){bd=d;best=i}}
+       if(best>=0&&bd<=16){
+         var cl=clusters[best];cl.x=(cl.x*cl.n+it.x)/(cl.n+1);cl.n++
+       }else clusters.push({x:it.x,n:1})
+     })
+   });
+   clusters=clusters.filter(function(c){return c.n>=2}).sort(function(a,b){return a.x-b.x});
+   if(clusters.length<2)return;
+
+   function cellsForRow(r){
+     var cells=clusters.map(function(){return[]});
+     r.items.forEach(function(it){
+       var best=-1,bd=1e9;
+       for(var i=0;i<clusters.length;i++){var d=Math.abs(clusters[i].x-it.x);if(d<bd){bd=d;best=i}}
+       var tol=30;
+       if(clusters.length>1){
+         var gaps=[];
+         for(var g=1;g<clusters.length;g++)gaps.push(clusters[g].x-clusters[g-1].x);
+         gaps.sort(function(a,b){return a-b});
+         tol=Math.max(18,Math.min(45,gaps[Math.floor(gaps.length/2)]*0.48))
+       }
+       if(best>=0&&bd<=tol)cells[best].push(it.s)
+     });
+     return cells.map(function(a){return a.join(' ').replace(/\s+/g,' ').trim()})
+   }
+
+   var firstData=candidates[0].ri;
+   var headerParts=clusters.map(function(){return[]});
+   var hs=Math.max(0,firstData-7);
+   for(var hr=hs;hr<firstData;hr++){
+     var hc=cellsForRow(rows[hr]);
+     hc.forEach(function(v,i){if(v&&headerParts[i].indexOf(v)<0)headerParts[i].push(v)})
+   }
+   var labels=headerParts.map(function(a,i){return smartUniversalLabel(a.join(' '),i)});
+
+   var data=[];
+   for(var dr=firstData;dr<rows.length;dr++){
+     var cc=cellsForRow(rows[dr]),filled=cc.filter(Boolean).length;
+     var ncount=cc.filter(function(v){return smartUniversalIsNumber(v)||smartUniversalIsChainage(v)}).length;
+     if(filled>=2&&ncount>=1)data.push(cc)
+   }
+   if(data.length<2)return;
+   pagesOut.push({page:pageIndex+1,labels:labels,data:data})
+ });
+
+ if(!pagesOut.length)return null;
+
+ var schema=pagesOut.slice().sort(function(a,b){return b.labels.length-a.labels.length})[0];
+ var labels=schema.labels.slice(),ncol=labels.length;
+ function findCol(rx){for(var i=0;i<labels.length;i++)if(rx.test(labels[i]))return i;return -1}
+ var chainCol=findCol(/CHAIN/i),offCol=findCol(/OFFSET/i),keyCol=chainCol>=0?chainCol:0,isChainage=chainCol>=0;
+
+ if(chainCol<0){
+   var chHits=0,total=0;
+   pagesOut.forEach(function(pg){pg.data.forEach(function(r){if(r[0]){total++;if(smartUniversalIsChainage(r[0]))chHits++}})});
+   if(total>=2&&chHits/total>=0.55){chainCol=0;keyCol=0;isChainage=true}
+ }
+
+ var columns=[];
+ for(var ci=0;ci<ncol;ci++){
+   if(ci===keyCol||ci===offCol)continue;
+   columns.push({key:'c'+ci,label:labels[ci]||('COLUMN '+(ci+1)),colIndex:ci})
+ }
+ if(!columns.length)return null;
+
+ var rowsObj={},keys=[],offsetRows={},lastKey='',lastSide='';
+ pagesOut.forEach(function(pg){
+   pg.data.forEach(function(r){
+     while(r.length<ncol)r.push('');
+     var rawKey=String(r[keyCol]||'').trim();
+
+     if(isChainage){
+       if(smartUniversalIsChainage(rawKey))lastKey=norm(rawKey);
+       if(!lastKey)return;
+       rawKey=lastKey
+     }else{
+       if(!rawKey)return;
+       rawKey=rawKey.replace(/\s+/g,' ').trim()
+     }
+
+     var sideIdx=findCol(/SIDE|LHS|RHS/i);
+     if(sideIdx>=0&&r[sideIdx])lastSide=r[sideIdx];
+
+     var obj={};
+     columns.forEach(function(c){
+       var v=String(r[c.colIndex]||'').trim();
+       if(v==='')return;
+       var clean=v.replace(/,/g,'').replace(/%$/,'');
+       obj[c.key]=/^[-+]?\d+(?:\.\d+)?$/.test(clean)?Number(clean):v
+     });
+     if(lastSide)obj.side=lastSide;
+
+     if(offCol>=0){
+       var ov=Number(String(r[offCol]||'').replace(/,/g,''));
+       if(Number.isFinite(ov)){
+         if(!offsetRows[rawKey])offsetRows[rawKey]={};
+         offsetRows[rawKey][String(ov)]=Object.assign({offset:ov},obj)
+       }
+     }else{
+       if(!rowsObj[rawKey])rowsObj[rawKey]={};
+       Object.keys(obj).forEach(function(k){if(rowsObj[rawKey][k]===undefined)rowsObj[rawKey][k]=obj[k]})
+     }
+     if(keys.indexOf(rawKey)<0)keys.push(rawKey)
+   })
+ });
+
+ if(keys.length<1)return null;
+ if(isChainage)keys.sort(function(a,b){return c2m(a)-c2m(b)});
+ columns.forEach(function(c,idx){if(/^COLUMN \d+$/i.test(c.label))c.label='VALUE '+(idx+1)});
+
+ return{
+   type:isChainage?'UNIVERSAL CHAINAGE TABLE':'UNIVERSAL DATA TABLE',
+   columns:columns,
+   rows:rowsObj,
+   chainages:keys,
+   canInterpolate:false,
+   needsOffset:offCol>=0,
+   offsetRows:offsetRows,
+   keyMode:isChainage?'chainage':'raw',
+   universal:true
+ }
+}
+
+
+function parseGridFlow(flows){
+ var flat=pdrlNormalizePdfText((flows||[]).join(' '));
+ if(!flat)return null;
+
+ var sm=flat.match(/OFFSETS\s+(LHS|RHS)/i);
+ if(!sm)return null;
+ var side=sm[1].toUpperCase();
+
+ // Only inspect header text before first chainage.
+ var firstCh=flat.search(/(?:\b\d{1,4}\+\d{3}(?:\.\d+)?\b|\b\d{4,7}\b)/);
+ var head=firstCh>=0?flat.slice(0,firstCh):flat.slice(0,2500);
+
+ // GRID header pattern: ... PCL 2 4 6 ... 24.02 OFFSETS LHS/RHS ...
+ var pm=head.match(/\bPCL\s+((?:(?:\d+(?:\.\d+)?)\s+){2,30})(?=OFFSETS)/i);
+ if(!pm)return null;
+
+ var offNums=(pm[1].match(/\d+(?:\.\d+)?/g)||[]).map(Number)
+   .filter(function(v,idx){return idx<30 && Number.isFinite(v) && v>=0 && v<100});
+ if(!offNums.length)return null;
+
+ var offsets=[0].concat(offNums);
+ var marks=[],reCh=/(?:\b(\d{1,4}\+\d{3}(?:\.\d+)?)\b|\b(\d{4,7})\b)/g,m;
+ while((m=reCh.exec(flat))!==null){var rawCh=m[1]||m[2];marks.push({ch:norm(rawCh),i:m.index,end:reCh.lastIndex});}
+ if(!marks.length)return null;
+
+ var rows={};
+ for(var i=0;i<marks.length;i++){
+   var seg=flat.slice(marks[i].end, i+1<marks.length?marks[i+1].i:flat.length);
+   var nums=(seg.match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+
+   // Crossfall LHS, Crossfall RHS, FRL@PCL, FRL@ME LHS, FRL@ME RHS,
+   // then Design RLs for PCL(0) and every offset from the header.
+   var need=5+offsets.length;
+   if(nums.length<need)continue;
+
+   nums=nums.slice(0,need);
+   var cam=side==='LHS'?nums[0]:nums[1];
+   var rls=nums.slice(5,5+offsets.length);
+   var pairs=[];
+
+   for(var j=0;j<offsets.length&&j<rls.length;j++){
+     if(Number.isFinite(rls[j]))pairs.push({offset:offsets[j],rl:rls[j]});
+   }
+
+   if(pairs.length>=2){
+     rows[marks[i].ch]={
+       chainage:marks[i].ch,
+       camber:cam,
+       pairs:pairs,
+       side:side
+     };
+   }
+ }
+ return Object.keys(rows).length?{format:'GRID',side:side,rows:rows}:null;
+}
+
+
+
+
+
+
+function parseSimpleRoadGrid(pages){
+ var lines=flatPages(pdrlNormalizePages(pages)),all=lines.join(' ');
+ if(!lines.length)return null;
+
+ var side='';
+ var sm=all.match(/OFFSETS?\s*(LHS|RHS)/i);
+ if(sm)side=sm[1].toUpperCase();
+ if(!side){
+   if(/RHS\s*CAMBER/i.test(all))side='RHS';
+   else if(/LHS\s*CAMBER/i.test(all))side='LHS';
+ }
+ if(!side)return null;
+
+ var headerCandidates=[];
+ lines.forEach(function(line){
+   if(/\d{1,4}\+\d{1,3}/.test(line))return;
+   var vals=(line.match(/(?:^|\s)(\d+(?:\.\d+)?)(?=\s|$)/g)||[])
+     .map(function(x){return Number(x.trim())})
+     .filter(function(v){return Number.isFinite(v)&&v>=0&&v<=100});
+   if(vals.length>=2&&vals.indexOf(0)>=0)headerCandidates.push(vals)
+ });
+ if(!headerCandidates.length)return null;
+ headerCandidates.sort(function(a,b){return b.length-a.length});
+
+ var offsets=[],cand=headerCandidates[0];
+ cand.forEach(function(v){if(offsets.indexOf(v)<0)offsets.push(v)});
+ if(offsets.length<2)return null;
+
+ var rows={};
+ lines.forEach(function(line){
+   var m=pdrlNormalizePdfText(line).match(/(\d{1,4}\+\d{1,3}(?:\.\d+)?)/);
+   if(!m)return;
+   var ch=norm(m[1]);
+   var body=pdrlNormalizePdfText(line).replace(m[1],' ');
+   var nums=(body.match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+   if(nums.length<offsets.length+2)return;
+
+   // Typical road-grid row:
+   // LHS camber, RHS camber, FRL@CL/PCL, FRL@ME LHS, FRL@ME RHS, then offset RLs.
+   var rls=nums.slice(nums.length-offsets.length);
+   var cam=side==='LHS'?nums[0]:nums[1],pairs=[];
+   for(var i=0;i<offsets.length&&i<rls.length;i++){
+     if(Number.isFinite(rls[i]))pairs.push({offset:offsets[i],rl:rls[i]})
+   }
+   if(pairs.length>=2)rows[ch]={chainage:ch,camber:cam,pairs:pairs,side:side}
+ });
+
+ return Object.keys(rows).length?{format:'TEXT OFFSET GRID',side:side,rows:rows}:null
+}
+
+function parseEngineeringGridXY(dpages){
+ for(var p=0;p<(dpages||[]).length;p++){
+   var rows=dpages[p]||[],allText=rows.map(function(r){return r.items.map(function(it){return it.s}).join(' ')}).join(' ');
+   var sm=allText.match(/OFFSETS\s*(LHS|RHS)/i);
+   if(!sm)continue;
+   var side=sm[1].toUpperCase();
+
+   var data=[];
+   rows.forEach(function(r){
+     var chItem=null;
+     for(var i=0;i<r.items.length;i++){
+       if(/^\d{1,4}\+\d{1,3}(?:\.\d+)?$/.test(String(r.items[i].s||'').trim())){chItem=r.items[i];break}
+     }
+     if(!chItem)return;
+
+     var nums=[];
+     r.items.forEach(function(it){
+       if(it===chItem)return;
+       var t=String(it.s||'').replace(/,/g,'').trim();
+       if(/^[-+]?\d+(?:\.\d+)?$/.test(t))nums.push(Number(t))
+     });
+
+     // A real road-level data row has several numeric columns.
+     if(nums.length>=6)data.push({ch:norm(chItem.s),nums:nums,row:r})
+   });
+   if(!data.length)continue;
+
+   // Find the offset-header row, e.g. "LHS RHS 0 2.0 3.0 6.0 8.0 10.0 12.0".
+   var offsetCandidates=[];
+   rows.forEach(function(r){
+     var hasChain=false,small=[];
+     r.items.forEach(function(it){
+       var t=String(it.s||'').replace(/,/g,'').trim();
+       if(/^\d{1,4}\+\d{1,3}(?:\.\d+)?$/.test(t))hasChain=true;
+       else if(/^\d+(?:\.\d+)?$/.test(t)){
+         var v=Number(t);
+         if(Number.isFinite(v)&&v>=0&&v<100)small.push(v)
+       }
+     });
+     if(!hasChain&&small.length>=2&&small.indexOf(0)>=0)offsetCandidates.push(small)
+   });
+   if(!offsetCandidates.length)continue;
+
+   // The best header normally has the most explicit offsets.
+   offsetCandidates.sort(function(a,b){return b.length-a.length});
+   var offsets=[],src=offsetCandidates[0];
+   src.forEach(function(v){if(offsets.indexOf(v)<0)offsets.push(v)});
+   if(offsets.length<2)continue;
+
+   var rowsOut={};
+   data.forEach(function(d){
+     if(d.nums.length<offsets.length+2)return;
+
+     // Offset RLs are the right-most N numeric values in the row.
+     var rls=d.nums.slice(d.nums.length-offsets.length);
+     var camL=d.nums[0],camR=d.nums[1],cam=side==='LHS'?camL:camR,pairs=[];
+     for(var j=0;j<offsets.length&&j<rls.length;j++){
+       if(Number.isFinite(rls[j]))pairs.push({offset:offsets[j],rl:rls[j]})
+     }
+     if(pairs.length>=2)rowsOut[d.ch]={chainage:d.ch,camber:cam,pairs:pairs,side:side}
+   });
+
+   if(Object.keys(rowsOut).length){
+     return{format:'XY OFFSET GRID',side:side,rows:rowsOut}
+   }
+ }
+ return null
+}
+
+function parseOffsetGridFlowLoose(flows){
+ var flat=(flows||[]).join(' ').replace(/\s+/g,' ').trim();
+ if(!flat)return null;
+
+ var sm=flat.match(/OFFSETS\s+(LHS|RHS)/i);
+ if(!sm)return null;
+ var side=sm[1].toUpperCase();
+
+ var tok=flat.split(/\s+/),first=-1;
+ for(var i=0;i<tok.length;i++){
+   if(/^\d{1,4}\+\d{1,3}(?:\.\d+)?$/.test(tok[i])){first=i;break}
+ }
+ if(first<0)return null;
+
+ // In many engineering PDFs the offset header is physically stored before
+ // the first data chainage: LHS RHS 0 2.0 3.0 6.0 ...
+ var offsets=[];
+ for(var j=Math.max(0,first-25);j<first;j++){
+   var t=tok[j];
+   if(/^\d+(?:\.\d+)?$/.test(t)){
+     var v=Number(t);
+     if(Number.isFinite(v)&&v>=0&&v<100)offsets.push(v);
+   }
+ }
+ // Keep the last contiguous small-number run that contains offset 0.
+ var best=[];
+ for(var a=0;a<offsets.length;a++){
+   if(offsets[a]!==0)continue;
+   var run=offsets.slice(a);
+   if(run.length>best.length)best=run;
+ }
+ offsets=best.length>=2?best:offsets;
+ var clean=[];
+ offsets.forEach(function(v){if(clean.indexOf(v)<0)clean.push(v)});
+ offsets=clean;
+ if(offsets.length<2)return null;
+
+ var marks=[],re=/\b(\d{1,4}\+\d{1,3}(?:\.\d+)?)\b/g,m;
+ while((m=re.exec(flat))!==null)marks.push({ch:norm(m[1]),i:m.index,end:re.lastIndex});
+ if(!marks.length)return null;
+
+ var rows={};
+ for(var k=0;k<marks.length;k++){
+   var seg=flat.slice(marks[k].end,k+1<marks.length?marks[k+1].i:flat.length);
+   // Stop if we hit obvious heading text before enough row numbers.
+   var nums=(seg.match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+   var need=5+offsets.length;
+   if(nums.length<need)continue;
+   nums=nums.slice(0,need);
+
+   var cam=side==='LHS'?nums[0]:nums[1];
+   var rls=nums.slice(5,5+offsets.length),pairs=[];
+   for(var q=0;q<offsets.length&&q<rls.length;q++){
+     if(Number.isFinite(rls[q]))pairs.push({offset:offsets[q],rl:rls[q]});
+   }
+   if(pairs.length>=2)rows[marks[k].ch]={chainage:marks[k].ch,camber:cam,pairs:pairs,side:side};
+ }
+ return Object.keys(rows).length?{format:'OFFSET GRID',side:side,rows:rows}:null
+}
+
+function parseOffsetGridFlexible(pages){
+ var lines=flatPages(pages),all=lines.join(' ');
+ var sm=all.match(/OFFSETS\s+(LHS|RHS)/i);
+ if(!sm)return null;
+ var side=sm[1].toUpperCase(),offsets=[];
+
+ // New drawing style: offset header may be "LHS RHS 0 2.0 3.0 6.0 ..."
+ // instead of "PCL 2 4 6 ...".
+ for(var i=0;i<Math.min(lines.length,35);i++){
+   var ln=String(lines[i]||'');
+   if(/^\s*(?:\d{1,4}\+\d{3}|\d{4,7})\b/.test(ln))continue;
+   var nums=(ln.match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number)
+      .filter(function(v){return Number.isFinite(v)&&v>=0&&v<100});
+   if(nums.length>=3 && nums.indexOf(0)>=0 && (/LHS/i.test(ln)||/RHS/i.test(ln))){
+     offsets=nums;break;
+   }
+ }
+ if(!offsets.length){
+   // Fallback: nearby numeric-only/small-number line.
+   var oi=-1;
+   for(var j=0;j<lines.length;j++)if(/OFFSETS\s+(LHS|RHS)/i.test(lines[j])){oi=j;break}
+   var a=Math.max(0,oi-5),b=Math.min(lines.length,oi+6);
+   for(var k=a;k<b;k++){
+     var ln2=String(lines[k]||'');
+     if(/^\s*(?:\d{1,4}\+\d{3}|\d{4,7})\b/.test(ln2))continue;
+     var n2s=(ln2.match(/\d+(?:\.\d+)?/g)||[]).map(Number)
+        .filter(function(v){return Number.isFinite(v)&&v>=0&&v<100});
+     if(n2s.length>=3 && n2s.indexOf(0)>=0){offsets=n2s;break}
+   }
+ }
+ if(offsets.length<2)return null;
+
+ // Keep order, remove duplicates.
+ var clean=[];
+ offsets.forEach(function(v){if(clean.indexOf(v)<0)clean.push(v)});
+ offsets=clean;
+
+ var rows={};
+ lines.forEach(function(line){
+   var cm=String(line||'').match(/^\s*((?:\d{1,4}\+\d{3}(?:\.\d+)?)|(?:\d{4,7}))\b/);
+   if(!cm)return;
+   var rawCh=cm[1],ch=norm(rawCh);
+   var nums=(String(line).replace(rawCh,' ').match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+   // LHS camber, RHS camber, FRL@CL/PCL, FRL@ME LHS, FRL@ME RHS, then offset RLs.
+   if(nums.length<5+offsets.length)return;
+   var cam=side==='LHS'?nums[0]:nums[1];
+   var rls=nums.slice(5,5+offsets.length),pairs=[];
+   for(var q=0;q<offsets.length&&q<rls.length;q++){
+     if(Number.isFinite(rls[q]))pairs.push({offset:offsets[q],rl:rls[q]});
+   }
+   if(pairs.length>=2)rows[ch]={chainage:ch,camber:cam,pairs:pairs,side:side};
+ });
+ return Object.keys(rows).length?{format:'OFFSET GRID',side:side,rows:rows}:null
+}
+
+function parseGrid(pages){
+ var lines=flatPages(pages),header='',side='';
+ for(var i=0;i<lines.length;i++){var u=lines[i].toUpperCase();if(u.indexOf('OFFSETS')>=0){header=lines.slice(Math.max(0,i-3),Math.min(lines.length,i+5)).join(' ');var sm=header.match(/OFFSETS\s+(LHS|RHS)/i);if(sm)side=sm[1].toUpperCase();break}}
+ if(!side){var all=lines.slice(0,15).join(' '),sm2=all.match(/OFFSETS\s+(LHS|RHS)/i);if(sm2)side=sm2[1].toUpperCase()}
+ if(!side)return null;
+
+ // Header offsets: everything after standalone PCL in the offset header, before next row chainage.
+ var headAll=lines.slice(0,20).join(' ');
+ var pm=headAll.match(/\bPCL\s+((?:\d+(?:\.\d+)?\s+){2,30})/i);
+ var offs=pm?(pm[1].match(/\d+(?:\.\d+)?/g)||[]).map(Number):[];
+ // Avoid accidentally taking row data as offsets.
+ offs=offs.filter(function(v,idx){return idx<20 && v>=0 && v<100});
+ if(!offs.length)return null;
+ offs=[0].concat(offs);
+
+ var rows={};
+ lines.forEach(function(line){
+   var cm=line.match(/^\s*(?:(\d{1,4}\+\d{3}(?:\.\d+)?)|(\d{4,7}))\b/);if(!cm)return;
+   var rawCh=cm[1]||cm[2],ch=norm(rawCh);
+   var nums=(line.replace(rawCh,' ').match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+   // Crossfall LHS,RHS, FRL@PCL, FRL@ME LHS,RHS, then PCL + offset RLs
+   var need=5+offs.length;if(nums.length<need)return;
+   // Keep the first expected values; these PDFs place row values left-to-right.
+   nums=nums.slice(0,need);
+   var cam=side==='LHS'?nums[0]:nums[1],rls=nums.slice(5,5+offs.length),pairs=[];
+   for(var j=0;j<offs.length&&j<rls.length;j++)if(Number.isFinite(rls[j]))pairs.push({offset:offs[j],rl:rls[j]});
+   if(pairs.length>=2)rows[ch]={chainage:ch,camber:cam,pairs:pairs,side:side};
+ });
+ return Object.keys(rows).length?{format:'GRID',side:side,rows:rows}:null;
+}
+
+function parseDeck(pages){
+ var lines=flatPages(pages),top=lines.slice(0,20).join(' ');
+ if(!/Design\s+FRL/i.test(top)&&!lines.some(function(x){return /Design\s+FRL/i.test(x)}))return null;
+ var side=/\bRHS\b/i.test(top)?'RHS':(/\bLHS\b/i.test(top)?'LHS':'AUTO');
+ var rows={},cur='';
+ lines.forEach(function(line){
+   var cm=line.match(/^\s*(?:(\d{1,4}\+\d{3}(?:\.\d+)?)|(\d{4,7}))\b/);
+   var rawCh=cm?(cm[1]||cm[2]):'';
+   if(rawCh)cur=norm(rawCh);
+   if(!cur)return;
+   var body=rawCh?line.replace(rawCh,' '):line;
+   var nums=(body.match(/-?\d+(?:\.\d+)?%?/g)||[]).map(function(x){return Number(x.replace('%',''))});
+   // Last six numeric columns = offset, FRL@ME, camber, Design RL, Achieved RL, Diff
+   if(nums.length<6)return;
+   var tail=nums.slice(-6),off=tail[0],cam=tail[2],design=tail[3];
+   if(!(Number.isFinite(off)&&Number.isFinite(cam)&&Number.isFinite(design)))return;
+   if(!rows[cur])rows[cur]={chainage:cur,camber:cam,pairs:[],side:side};
+   rows[cur].camber=cam;rows[cur].pairs.push({offset:off,rl:design});
+ });
+ Object.keys(rows).forEach(function(k){var seen={};rows[k].pairs=rows[k].pairs.filter(function(p){var q=p.offset.toFixed(6);if(seen[q])return false;seen[q]=1;return true}).sort(function(a,b){return a.offset-b.offset})});
+ return Object.keys(rows).some(function(k){return rows[k].pairs.length>=2})?{format:'DECK / SLAB DESIGN',side:side,rows:rows}:null;
+}
+
+
+function smartIsNum(v){return /^[-+]?\d+(?:\.\d+)?$/.test(String(v||''))}
+function smartRowChain(tokens){
+ if(!tokens||!tokens.length)return null;
+ if(/^(?:\d{1,4}\+\d{1,3}(?:\.\d+)?|\d{4,7})$/.test(tokens[0]))return{idx:0,ch:norm(tokens[0])};
+ if(tokens.length>1&&/^\d+$/.test(tokens[0])&&/^(?:\d{1,4}\+\d{1,3}(?:\.\d+)?|\d{4,7})$/.test(tokens[1]))return{idx:1,ch:norm(tokens[1])};
+ return null
+}
+function smartParseHFL(lines,all){
+ if(!/FINAL\s+HFL/i.test(all)||!/HFL\s+AS\s+PER/i.test(all)||!/FRL/i.test(all))return null;
+ var cols=[
+  {key:'frl',label:'FRL'},
+  {key:'frl23',label:'FRL FROM 23 M'},
+  {key:'hflBelow',label:'HFL BELOW FROM 1.5M ET'},
+  {key:'hflStructure',label:'HFL AS PER STRUCTURE DRAWING'},
+  {key:'finalHfl',label:'FINAL HFL (TO BE CONSIDER)'}
+ ],rows={};
+ lines.forEach(function(line){
+   var t=String(line||'').trim().split(/\s+/),rc=smartRowChain(t);if(!rc||rc.idx!==0)return;
+   var vals=t.slice(1).filter(smartIsNum).map(Number);if(vals.length<5)return;
+   rows[rc.ch]={frl:vals[0],frl23:vals[1],hflBelow:vals[2],hflStructure:vals[3],finalHfl:vals[4]}
+ });
+ var chs=Object.keys(rows).sort(function(a,b){return c2m(a)-c2m(b)});
+ return chs.length?{type:'HFL TABLE',columns:cols,rows:rows,chainages:chs,canInterpolate:true}:null
+}
+function smartParsePipe(lines,all){
+ if(!/MCW\s+FRL/i.test(all)||!/INVERT\s+LEVEL/i.test(all)||!/OUTFALL/i.test(all))return null;
+ var cols=[
+  {key:'mcwFrl',label:'MCW FRL'},
+  {key:'invertPipe',label:'INVERT LEVEL OF PIPE'},
+  {key:'outfallSide',label:'OUTFALL SIDE'},
+  {key:'extraLength',label:'EXTRA LENGTH'},
+  {key:'shoulderRl',label:'SHOULDER EDGE TOP RL'},
+  {key:'diffShoulderPipe',label:'DIFF SH TOP & PIPE BOTTOM'},
+  {key:'pipeLength',label:'PIPE LENGTH'},
+  {key:'innerInvert',label:'INNER INVERT'},
+  {key:'outerInvert',label:'OUTER INVERT'},
+  {key:'invertDiff',label:'INVERT DIFF'}
+ ],rows={};
+ lines.forEach(function(line){
+   var t=String(line||'').trim().split(/\s+/),rc=smartRowChain(t);if(!rc||rc.idx!==1)return;
+   var i=rc.idx+1;
+   if(t.length<i+7||!smartIsNum(t[i])||!smartIsNum(t[i+1]))return;
+   var row={mcwFrl:Number(t[i]),invertPipe:Number(t[i+1]),outfallSide:t[i+2]||''};
+   var j=i+3;
+   if(smartIsNum(t[j]))row.extraLength=Number(t[j++]);else return;
+   if(smartIsNum(t[j]))row.shoulderRl=Number(t[j++]);else return;
+   if(smartIsNum(t[j]))row.diffShoulderPipe=Number(t[j++]);else return;
+   if(smartIsNum(t[j]))row.pipeLength=Number(t[j++]);
+   var nums=[];
+   for(var k=j;k<t.length;k++)if(smartIsNum(t[k]))nums.push(Number(t[k]));
+   if(nums.length>=3){row.innerInvert=nums[nums.length-3];row.outerInvert=nums[nums.length-2];row.invertDiff=nums[nums.length-1]}
+   rows[rc.ch]=row
+ });
+ var chs=Object.keys(rows).sort(function(a,b){return c2m(a)-c2m(b)});
+ return chs.length?{type:'DRAIN / PIPE TABLE',columns:cols,rows:rows,chainages:chs,canInterpolate:false}:null
+}
+
+function smartParseLevelSheet(lines,all){
+ if(!/LEVEL\s+SHEET/i.test(all)||!/OFFSET/i.test(all)||!/PCC\s+Top\s+Level/i.test(all)||!/Wall\s+To\s+level/i.test(all))return null;
+
+ var cols=[
+   {key:'wallTop',label:'WALL TO LEVEL'},
+   {key:'pccTop',label:'PCC TOP LEVEL'}
+ ],offsetRows={},rows={},curCh='',curSide='';
+
+ function put(ch,side,off,rest){
+   var nums=(String(rest||'').match(/[-+]?\d+(?:\.\d+)?/g)||[]).map(Number);
+   if(nums.length<2||!Number.isFinite(off))return;
+   // In this level-sheet layout the last two populated level columns are
+   // Wall To level and PCC Top Level when BS/IS/FS/HI are blank.
+   var wall=nums[nums.length-2],pcc=nums[nums.length-1];
+   if(!Number.isFinite(wall)||!Number.isFinite(pcc))return;
+   if(!offsetRows[ch])offsetRows[ch]={};
+   offsetRows[ch][String(off)]={offset:off,side:side||'',wallTop:wall,pccTop:pcc};
+   if(!rows[ch])rows[ch]={wallTop:wall,pccTop:pcc,side:side||''};
+ }
+
+ lines.forEach(function(line){
+   line=String(line||'').trim();
+   if(!line)return;
+
+   var m=line.match(/^((?:\d{1,4}\+\d{1,3}(?:\.\d+)?)|(?:\d{4,7}))\s+(LHS|RHS)\s+(-?\d+(?:\.\d+)?)\s+(.+)$/i);
+   if(m){
+     curCh=norm(m[1]);curSide=m[2].toUpperCase();
+     put(curCh,curSide,Number(m[3]),m[4]);
+     return;
+   }
+
+   if(curCh){
+     var c=line.match(/^(-?\d+(?:\.\d+)?)\s+(.+)$/);
+     if(c)put(curCh,curSide,Number(c[1]),c[2]);
+   }
+ });
+
+ var chs=Object.keys(offsetRows).sort(function(a,b){return c2m(a)-c2m(b)});
+ return chs.length?{
+   type:'LEVEL SHEET',
+   columns:cols,
+   rows:rows,
+   chainages:chs,
+   canInterpolate:false,
+   needsOffset:true,
+   offsetRows:offsetRows
+ }:null
+}
+
+function smartParseGeneric(lines,all){
+ var temp={},maxVals=0;
+ lines.forEach(function(line){
+   var t=String(line||'').trim().split(/\s+/),rc=smartRowChain(t);if(!rc)return;
+   var vals=[];
+   for(var i=rc.idx+1;i<t.length;i++)if(smartIsNum(t[i]))vals.push(Number(t[i]));
+   if(!vals.length)return;
+   maxVals=Math.max(maxVals,vals.length);temp[rc.ch]=vals
+ });
+ var chs=Object.keys(temp).sort(function(a,b){return c2m(a)-c2m(b)});
+ if(chs.length<2||!maxVals)return null;
+ var cols=[];for(var i=0;i<maxVals;i++)cols.push({key:'v'+i,label:'VALUE '+(i+1)});
+ var rows={};chs.forEach(function(ch){rows[ch]={};temp[ch].forEach(function(v,i){rows[ch]['v'+i]=v})});
+ return{type:'GENERIC CHAINAGE TABLE',columns:cols,rows:rows,chainages:chs,canInterpolate:false}
+}
+function smartParse(pages,dpages,flows){
+ var lines=flatPages(pages),all=lines.join(' ');
+ return smartParseHFL(lines,all)||smartParsePipe(lines,all)||smartParseLevelSheet(lines,all)||smartParseGeneric(lines,all)||smartParseFlowGeneric(flows)||smartParseUniversal(dpages)
+}
+function smartPopulate(smart){
+ var sel=E('pdrlSmartField'),ow=E('pdrlSmartOffsetWrap');if(!sel)return;sel.innerHTML='';
+ if(ow)ow.classList.toggle('show',!!(smart&&smart.needsOffset));
+ if(!smart||!smart.columns||!smart.columns.length){sel.innerHTML='<option value="">कोई field नहीं मिला</option>';return}
+ var all=document.createElement('option');all.value='__ALL__';all.textContent='ALL VALUES';sel.appendChild(all);
+ smart.columns.forEach(function(c){var o=document.createElement('option');o.value=c.key;o.textContent=c.label;sel.appendChild(o)});
+ if(smart.columns.length)sel.value=smart.columns[0].key;
+ var kl=E('pdrlSmartKeyLabel'),ki=E('pdrlSmartChainage');
+ if(kl)kl.textContent=(smart&&smart.keyMode==='raw')?'Row Key / First Column':'Chainage / Row Key';
+ if(ki)ki.placeholder=(smart&&smart.keyMode==='raw')?'जैसे 1 / A-12 / Item Name':'28+010 / 28010 / Row Key'
+}
+function smartColumn(key){for(var i=0;i<S.smart.columns.length;i++)if(S.smart.columns[i].key===key)return S.smart.columns[i];return null}
+function smartGet(ch,key,off){
+ ch=(S.smart&&S.smart.keyMode==='raw')?String(ch||'').trim():norm(ch);
+
+ if(S.smart.needsOffset){
+   var om=S.smart.offsetRows&&S.smart.offsetRows[ch];
+   if(!om)return{error:'Exact Chainage PDF में नहीं मिला'};
+   off=Number(off);
+   if(!Number.isFinite(off))return{error:'Offset डालें'};
+   var exact=om[String(off)];
+   if(exact&&Object.prototype.hasOwnProperty.call(exact,key))return{value:exact[key],mode:'PDF Exact',chainage:ch,offset:off};
+
+   var os=Object.keys(om).map(Number).filter(Number.isFinite).sort(function(a,b){return a-b}),lo=null,up=null;
+   for(var oi=0;oi<os.length;oi++){if(os[oi]<off)lo=os[oi];if(os[oi]>off){up=os[oi];break}}
+   if(lo===null||up===null)return{error:'Offset PDF range के बाहर'};
+   var av=om[String(lo)][key],bv=om[String(up)][key];
+   if(!(Number.isFinite(av)&&Number.isFinite(bv)))return{error:'इस field का Offset interpolation नहीं हो सकता'};
+   var f=(off-lo)/(up-lo),v=av+f*(bv-av);
+   return{value:v,mode:'Offset Interpolation',chainage:ch,offset:off,formula:lo+' ('+f3(av)+') → '+up+' ('+f3(bv)+')'};
+ }
+
+ var r=S.smart.rows[ch];
+ if(r&&Object.prototype.hasOwnProperty.call(r,key))return{value:r[key],mode:'PDF Exact',chainage:ch};
+ if(!S.smart.canInterpolate)return{error:'Exact Chainage PDF में नहीं मिला'};
+ var m=c2m(ch),lo=null,up=null;if(!Number.isFinite(m))return{error:'Chainage format गलत'};
+ for(var i=0;i<S.smart.chainages.length;i++){var x=c2m(S.smart.chainages[i]);if(x<m)lo=S.smart.chainages[i];if(x>m){up=S.smart.chainages[i];break}}
+ if(!lo||!up)return{error:'Chainage PDF range के बाहर'};
+ var a=S.smart.rows[lo][key],b=S.smart.rows[up][key];if(!(Number.isFinite(a)&&Number.isFinite(b)))return{error:'इस field का interpolation नहीं हो सकता'};
+ var m1=c2m(lo),m2=c2m(up),f=(m-m1)/(m2-m1),v=a+f*(b-a);
+ return{value:v,mode:'Chainage Interpolation',chainage:ch,formula:lo+' ('+f3(a)+') → '+up+' ('+f3(b)+')'}
+}
+function toggleSmart(forceOpen){
+ var p=E('pdrlSmartPanel'),b=E('pdrlSmartToggle');
+ if(!p||!b)return;
+ var open=(forceOpen===true)?true:(forceOpen===false?false:!p.classList.contains('show'));
+ p.classList.toggle('show',open);
+ b.textContent=open?'✕ CLOSE SMART PDF FINDER':'🔎 SMART PDF FINDER';
+}
+
+function smartFind(){
+ if(!S.smart||!S.smart.chainages.length){status('PDF में Smart table data नहीं मिला।','bad');return}
+ var key=E('pdrlSmartField').value,raw=String(E('pdrlSmartChainage').value||'').trim(),
+     off=n2(E('pdrlSmartOffset').value),hi=n2(E('pdrlHI').value),hasHI=Number.isFinite(hi);
+ if(!key){status('Find field चुनें।','bad');return}
+ if(!raw){status('Chainage डालें।','bad');return}
+ if(S.smart.needsOffset&&!Number.isFinite(off)){status('इस PDF के लिए Offset भी डालें।','bad');return}
+
+ var list=raw.split(/[,;\n]+/).map(function(x){return (S.smart&&S.smart.keyMode==='raw')?String(x).trim():norm(x)}).filter(Boolean),box=E('pdrlSmartResult'),out='';
+
+ if(key==='__ALL__'){
+   list.forEach(function(ch){
+     var row=null;
+     if(S.smart.needsOffset){
+       var om=S.smart.offsetRows&&S.smart.offsetRows[ch];
+       row=om&&om[String(off)];
+       if(!row){out+='<div class="pdrl-smartCard"><div class="label">'+esc(ch)+' • Offset '+esc(off)+'</div><div class="meta">Exact Chainage/Offset PDF में नहीं मिला। Field चुनकर FIND करें तो Offset interpolation भी हो सकता है।</div></div>';return}
+     }else row=S.smart.rows[ch];
+
+     if(!row){out+='<div class="pdrl-smartCard"><div class="label">'+esc(ch)+'</div><div class="meta">Exact Chainage PDF में नहीं मिला। ALL VALUES के लिए exact Chainage दें।</div></div>';return}
+     out+='<div class="pdrl-smartCard"><div class="label">CHAINAGE '+esc(ch)+(S.smart.needsOffset?' • OFFSET '+esc(off):'')+'</div><table class="pdrl-smartTable"><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>';
+     S.smart.columns.forEach(function(c){var v=row[c.key];if(v===undefined)return;out+='<tr><td>'+esc(c.label)+'</td><td>'+esc(typeof v==='number'?f3(v):v)+'</td></tr>'});
+     out+='</tbody></table></div>'
+   })
+ }else{
+   var col=smartColumn(key),rows=[];
+   list.forEach(function(ch){var r=smartGet(ch,key,off);rows.push({ch:ch,r:r})});
+   if(rows.length===1){
+     var z=rows[0];
+     if(z.r.error)out='<div class="pdrl-smartCard"><div class="label">'+esc(col?col.label:key)+'</div><div class="meta">'+esc(z.r.error)+'</div></div>';
+     else{
+       var staff=(typeof z.r.value==='number'&&hasHI)?hi-z.r.value:NaN;
+       out='<div class="pdrl-smartCard"><div class="label">'+esc(col?col.label:key)+' • '+esc(z.ch)+(S.smart.needsOffset?' • Offset '+esc(off)+' m':'')+'</div><div class="value">'+esc(typeof z.r.value==='number'?f3(z.r.value):z.r.value)+'</div>'+
+       (Number.isFinite(staff)?'<div class="pdrl-staffBox"><small>STAFF READING = HI − VALUE</small><div class="pdrl-staffBig">'+f3(staff)+' m</div></div>':'')+
+       '<div class="meta">'+esc(z.r.mode)+(z.r.formula?' • '+esc(z.r.formula):'')+'</div></div>'
+     }
+   }else{
+     out='<table class="pdrl-smartTable"><thead><tr><th>Chainage</th>'+(S.smart.needsOffset?'<th>Offset</th>':'')+'<th>'+esc(col?col.label:key)+'</th>'+(hasHI?'<th>Staff Reading</th>':'')+'<th>Source</th></tr></thead><tbody>';
+     rows.forEach(function(z){
+       var sr=(!z.r.error&&typeof z.r.value==='number'&&hasHI)?f3(hi-z.r.value):'';
+       out+='<tr><td>'+esc(z.ch)+'</td>'+(S.smart.needsOffset?'<td>'+esc(off)+'</td>':'')+'<td>'+(z.r.error?'—':esc(typeof z.r.value==='number'?f3(z.r.value):z.r.value))+'</td>'+(hasHI?'<td>'+sr+'</td>':'')+'<td>'+esc(z.r.error||z.r.mode)+'</td></tr>'
+     });
+     out+='</tbody></table>'
+   }
+ }
+ box.innerHTML=out;box.classList.add('show');status('Smart result ready ✓','ok')
+}
+
+
+var pdrlOcrLibPromise=null;
+
+function pdrlLoadOcrLib(){
+ if(window.Tesseract)return Promise.resolve(window.Tesseract);
+ if(typeof pdeLoadTesseract==='function')return pdeLoadTesseract();
+ if(pdrlOcrLibPromise)return pdrlOcrLibPromise;
+ pdrlOcrLibPromise=new Promise(function(resolve,reject){
+   var sc=document.createElement('script');
+   sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+   sc.async=true;
+   sc.onload=function(){window.Tesseract?resolve(window.Tesseract):reject(new Error('OCR library load failed'))};
+   sc.onerror=function(){reject(new Error('OCR library load failed. Internet check करें.'))};
+   document.head.appendChild(sc)
+ });
+ return pdrlOcrLibPromise
+}
+
+function pdrlOcrWords(data){
+ if(typeof pdeCollectOcrWords==='function')return pdeCollectOcrWords(data);
+ if(data&&Array.isArray(data.words)&&data.words.length)return data.words;
+ var out=[];
+ (data&&data.blocks||[]).forEach(function(b){
+   (b.paragraphs||[]).forEach(function(p){
+     (p.lines||[]).forEach(function(l){
+       (l.words||[]).forEach(function(w){out.push(w)})
+     })
+   })
+ });
+ return out
+}
+
+function pdrlMedian(a){
+ if(!a||!a.length)return 12;
+ var b=a.slice().sort(function(x,y){return x-y}),m=Math.floor(b.length/2);
+ return b.length%2?b[m]:(b[m-1]+b[m])/2
+}
+
+function pdrlOcrRows(words){
+ var arr=(words||[]).map(function(w){
+   var b=w.bbox||{},x0=Number(b.x0)||0,y0=Number(b.y0)||0,x1=Number(b.x1)||x0,y1=Number(b.y1)||y0;
+   return{
+     s:String(w.text||'').trim(),
+     x:x0,
+     cy:(y0+y1)/2,
+     h:Math.max(4,y1-y0),
+     conf:Number(w.confidence)
+   }
+ }).filter(function(o){
+   return o.s && (!Number.isFinite(o.conf)||o.conf>=18)
+ });
+
+ if(!arr.length)return[];
+
+ var tol=Math.max(5,Math.min(18,pdrlMedian(arr.map(function(o){return o.h}))*0.62));
+ arr.sort(function(a,b){return a.cy-b.cy||a.x-b.x});
+
+ var rows=[];
+ arr.forEach(function(o){
+   var best=null,bd=1e9;
+   for(var i=Math.max(0,rows.length-6);i<rows.length;i++){
+     var d=Math.abs(rows[i].cy-o.cy);
+     if(d<bd&&d<=tol){bd=d;best=rows[i]}
+   }
+   if(!best){
+     best={cy:o.cy,n:0,items:[]};
+     rows.push(best)
+   }
+   best.cy=(best.cy*best.n+o.cy)/(best.n+1);
+   best.n++;
+   // Negative y makes the row direction compatible with the PDF-text row parser.
+   best.items.push({x:o.x,y:-o.cy,s:o.s})
+ });
+ rows.sort(function(a,b){return a.cy-b.cy});
+ rows.forEach(function(r){r.items.sort(function(a,b){return a.x-b.x})});
+ return rows
+}
+
+function pdrlOcrRowText(rows){
+ return (rows||[]).map(function(r){
+   return r.items.map(function(it){return it.s}).join(' ').replace(/\s+/g,' ').trim()
+ }).filter(Boolean)
+}
+
+async function pdrlRunOcr(doc){
+ var T=await pdrlLoadOcrLib(),pages=[],flows=[],dpages=[],wordCount=0;
+
+ for(var p=1;p<=doc.numPages;p++){
+   status('Normal reading नहीं हुआ — OCR page '+p+'/'+doc.numPages+' पढ़ रहा है…','');
+
+   var pg=await doc.getPage(p),vp1=pg.getViewport({scale:1});
+   var maxPixels=3600000;
+   var scale=Math.sqrt(maxPixels/Math.max(1,vp1.width*vp1.height));
+   scale=Math.max(1.35,Math.min(2.15,scale));
+
+   var vp=pg.getViewport({scale:scale}),canvas=document.createElement('canvas');
+   canvas.width=Math.max(1,Math.ceil(vp.width));
+   canvas.height=Math.max(1,Math.ceil(vp.height));
+   var ctx=canvas.getContext('2d',{willReadFrequently:true});
+   await pg.render({canvasContext:ctx,viewport:vp,background:'white'}).promise;
+
+   var res=await T.recognize(canvas,'eng',{
+     logger:function(m){
+       if(!m||!m.status)return;
+       var pct=Number.isFinite(m.progress)?Math.round(m.progress*100):0;
+       status('OCR page '+p+'/'+doc.numPages+' • '+m.status+(pct?' '+pct+'%':''),'')
+     }
+   });
+
+   var words=pdrlOcrWords(res&&res.data);
+   wordCount+=words.length;
+   var rows=pdrlOcrRows(words),lines=pdrlOcrRowText(rows);
+
+   lines=lines.map(pdrlNormalizePdfText);
+   dpages.push(rows);
+   pages.push(lines);
+   flows.push(pdrlNormalizePdfText(lines.join(' ')));
+
+   canvas.width=1;canvas.height=1;
+   try{pg.cleanup()}catch(_e){}
+ }
+
+ if(!wordCount)throw new Error('OCR को PDF में कोई readable word/number नहीं मिला।');
+ return{pages:pages,flows:flows,dpages:dpages,wordCount:wordCount}
+}
+
+function pdrlParsePdfData(pages,dpages,flows){
+ var smart=smartParse(pages,dpages,flows)||{type:'',columns:[],rows:{},chainages:[],canInterpolate:false,keyMode:'chainage'};
+ var x=parseSimpleRoadGrid(pages)||parseEngineeringGridXY(dpages)||parseDeck(pages)||parseGrid(pages)||parseGridFlow(flows)||parseOffsetGridFlowLoose(flows)||parseOffsetGridFlexible(pages),chs=[];
+ if(x)chs=Object.keys(x.rows).filter(function(k){return x.rows[k].pairs.length>=2}).sort(function(a,b){return c2m(a)-c2m(b)});
+ var union=(chs.length?chs:smart.chainages).slice();
+ return{smart:smart,x:x,chs:chs,union:union}
+}
+
+
+async function loadPdf(inp){
+ var file=inp&&inp.files&&inp.files[0];if(!file)return;
+ status('PDF पढ़ा जा रहा है…');
+ E('pdrlInfo').classList.remove('show');E('pdrlOneResult').classList.remove('show');E('pdrlManyResult').classList.remove('show');E('pdrlSmartResult').classList.remove('show');
+ toggleSmart(false);var stb0=E('pdrlSmartToggle');if(stb0)stb0.classList.remove('show');
+
+ try{
+   if(!window.pdfjsLib)throw new Error('PDF library load नहीं हुई। Internet चालू करके App दोबारा खोलें।');
+   try{if(pdfjsLib.GlobalWorkerOptions&&!pdfjsLib.GlobalWorkerOptions.workerSrc)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(_e){}
+
+   var bytes=new Uint8Array(await file.arrayBuffer());
+   var doc=await pdfjsLib.getDocument({data:bytes}).promise,pages=[],flows=[],dpages=[];
+
+   for(var p=1;p<=doc.numPages;p++){
+     var pg=await doc.getPage(p),tc=await pg.getTextContent();
+     pages.push(pageLines(tc));
+     dpages.push(pageRowsDetailed(tc));
+     flows.push(tc.items.map(function(it){return String(it.str||'').trim()}).filter(Boolean).join(' '));
+   }
+
+   pages=pdrlNormalizePages(pages);
+   flows=pdrlNormalizeFlows(flows);
+
+   var parsed=pdrlParsePdfData(pages,dpages,flows),usedOcr=false;
+
+   // Automatic OCR fallback:
+   // If normal PDF text parsing cannot produce usable rows, render every page
+   // and read the visible table with Tesseract, then parse again.
+   if(!parsed.union.length){
+     var ocr=await pdrlRunOcr(doc);
+     pages=ocr.pages;flows=ocr.flows;dpages=ocr.dpages;usedOcr=true;
+     parsed=pdrlParsePdfData(pages,dpages,flows)
+   }
+
+   var smart=parsed.smart,x=parsed.x,chs=parsed.chs,union=parsed.union;
+   smartPopulate(smart);
+
+   if(!union.length)throw new Error('PDF/OCR text मिला, लेकिन table columns map नहीं हो पाए।');
+
+   S={rows:x?x.rows:{},side:x?x.side:'AUTO',format:x?x.format:(smart.type||'SMART TABLE'),chainages:chs,file:file.name,smart:smart};
+
+   var dl=E('pdrlChainageList');dl.innerHTML='';
+   union.forEach(function(ch){var o=document.createElement('option');o.value=ch;dl.appendChild(o)});
+
+   E('pdrlFormat').textContent=(usedOcr?'OCR • ':'')+(x?x.format:smart.type);
+   E('pdrlSide').textContent=x?x.side:'—';
+   E('pdrlRange').textContent=union[0]+' → '+union[union.length-1];
+   E('pdrlRows').textContent=union.length+((smart&&smart.keyMode==='raw'&&!x)?' rows':' chainage');
+   E('pdrlInfo').classList.add('show');
+
+   if(chs.length)E('pdrlChainage').value=chs[0];
+
+   // Show the PDF's first real offset as a light placeholder suggestion.
+   // Prefer positive offsets (e.g. 2, 4, 6...) instead of PCL/0 when available.
+   var firstPdfOffset=null;
+   if(x&&chs.length&&x.rows&&x.rows[chs[0]]&&x.rows[chs[0]].pairs){
+     var xo=x.rows[chs[0]].pairs.map(function(p){return Number(p.offset)}).filter(Number.isFinite).sort(function(a,b){return a-b});
+     var xop=xo.filter(function(v){return v>0});
+     if(xop.length)firstPdfOffset=xop[0];
+     else if(xo.length)firstPdfOffset=xo[0];
+   }
+   if(firstPdfOffset===null&&smart&&smart.chainages&&smart.chainages.length&&smart.offsetRows&&smart.offsetRows[smart.chainages[0]]){
+     var so=Object.keys(smart.offsetRows[smart.chainages[0]]).map(Number).filter(Number.isFinite).sort(function(a,b){return a-b});
+     var sop=so.filter(function(v){return v>0});
+     if(sop.length)firstPdfOffset=sop[0];
+     else if(so.length)firstPdfOffset=so[0];
+   }
+   var offBox=E('pdrlOffset');
+   if(offBox){
+     offBox.value=(firstPdfOffset!==null?String(firstPdfOffset):'');
+     offBox.placeholder=(firstPdfOffset!==null?String(firstPdfOffset):'5.35');
+   }
+
+   if(smart.chainages.length){
+     E('pdrlSmartChainage').value=smart.chainages[0];
+     if(smart.needsOffset&&smart.offsetRows&&smart.offsetRows[smart.chainages[0]]){
+       var os=Object.keys(smart.offsetRows[smart.chainages[0]]).map(Number).filter(Number.isFinite).sort(function(a,b){return a-b});
+       if(os.length)E('pdrlSmartOffset').value=os[0];
+     }
+   }
+
+   var stb=E('pdrlSmartToggle');
+   if(stb)stb.classList.toggle('show',!!smart.chainages.length);
+
+   if(x){
+     toggleSmart(false);
+     status(file.name+' ✓ '+(usedOcr?'OCR से ':'')+'Design RL ready','ok');
+     // First Chainage + first Offset are auto-filled, so show the first answer immediately.
+     if(chs.length && firstPdfOffset!==null){
+       setTimeout(function(){ try{findOne()}catch(_e){} },0);
+     }
+   }else{
+     toggleSmart(true);
+     status(file.name+' ✓ '+(usedOcr?'OCR से ':'')+'Data table पढ़ लिया — Smart Finder खोला गया','ok');
+   }
+ }catch(err){
+   S={rows:{},side:'AUTO',format:'',chainages:[],file:'',smart:{type:'',columns:[],rows:{},chainages:[],canInterpolate:false,keyMode:'chainage'}};
+   smartPopulate(S.smart);
+   status((err&&err.message)||'PDF पढ़ने में समस्या हुई।','bad')
+ }
+}
+
+function calcRow(row,off){
+ for(var i=0;i<row.pairs.length;i++)if(Math.abs(row.pairs[i].offset-off)<1e-7)return{rl:row.pairs[i].rl,exact:true,camber:row.camber,formula:'PDF में '+off+' m Offset का Design RL सीधे दिया है।'};
+ if(!Number.isFinite(row.camber))return{error:'Camber नहीं मिला'};
+ var slope=row.camber/100,ref=null;
+ for(var j=0;j<row.pairs.length;j++)if(Math.abs(row.pairs[j].offset)<1e-7){ref=row.pairs[j];break}
+ if(!ref)ref=row.pairs.reduce(function(a,b){return Math.abs(b.offset-off)<Math.abs(a.offset-off)?b:a});
+ // Safety: verify sign/direction against nearby table values when possible.
+ if(row.pairs.length>=2){var a=row.pairs[0],b=row.pairs[row.pairs.length-1],obs=(b.rl-a.rl)/(b.offset-a.offset);if(Math.abs(obs)>0.0005&&Math.abs(slope)>0.0005&&Math.sign(obs)!==Math.sign(slope))return{error:'PDF Camber sign और RL trend match नहीं कर रहे'}}
+ var rl=ref.rl+(off-ref.offset)*slope;
+ return{rl:rl,exact:false,camber:row.camber,formula:'RL = '+f3(ref.rl)+' + ('+off+' − '+ref.offset+') × '+row.camber.toFixed(2)+'% = '+f3(rl)};
+}
+function bracket(m){var lo=null,up=null;for(var i=0;i<S.chainages.length;i++){var x=c2m(S.chainages[i]);if(x<m)lo=S.chainages[i];if(x>m){up=S.chainages[i];break}}return lo&&up?{lo:lo,up:up}:null}
+function target(ch,off){
+ ch=norm(ch);var row=S.rows[ch];
+ if(row){var r=calcRow(row,off);if(r.error)return{error:r.error};return{chainage:ch,offset:off,rl:r.rl,mode:r.exact?'PDF Exact':'Calculated',camber:r.camber,side:row.side,formula:r.formula}}
+ var m=c2m(ch);if(!Number.isFinite(m))return{error:'Chainage format गलत'};var br=bracket(m);if(!br)return{error:'PDF range के बाहर'};
+ var a=calcRow(S.rows[br.lo],off),b=calcRow(S.rows[br.up],off);if(a.error||b.error)return{error:a.error||b.error};
+ var m1=c2m(br.lo),m2=c2m(br.up),f=(m-m1)/(m2-m1),rl=a.rl+f*(b.rl-a.rl),c1=S.rows[br.lo].camber,c2=S.rows[br.up].camber,cam=Number.isFinite(c1)&&Number.isFinite(c2)?c1+f*(c2-c1):NaN;
+ return{chainage:ch,offset:off,rl:rl,mode:'Chainage + Offset Calc',camber:cam,side:S.side,formula:'Chainage interpolation: '+br.lo+' ('+f3(a.rl)+') → '+br.up+' ('+f3(b.rl)+') = '+f3(rl)};
+}
+
+function mode(m){var single=m!=='multi';E('pdrlSingleTab').classList.toggle('active',single);E('pdrlMultiTab').classList.toggle('active',!single);E('pdrlSingle').classList.toggle('hide',!single);E('pdrlMulti').classList.toggle('show',!single);if(!single&&!E('pdrlMultiRows').children.length)addRows(3)}
+function addRow(ch,offs){
+ var r=document.createElement('div');r.className='pdrl-mRow';
+ r.innerHTML='<input class="pdrl-mini pdrl-mCh" list="pdrlChainageList" placeholder="44+000 / 44000" value="'+esc(ch||'')+'"><input class="pdrl-mini pdrl-mOff" placeholder="2, 4, 5.35, 8" value="'+esc(offs||'')+'"><button type="button" class="pdrl-remove" onclick="this.parentElement.remove()">×</button>';
+ E('pdrlMultiRows').appendChild(r)
+}
+function addRows(n){for(var i=0;i<n;i++)addRow()}
+function offsets(s){var a=String(s||'').split(/[,;\s]+/).filter(Boolean),out=[];a.forEach(function(v){var n=Number(v);if(Number.isFinite(n)&&n>=0&&out.indexOf(n)<0)out.push(n)});return out}
+
+
+var pdrlAutoTimer=null;
+function hideOneResult(){
+ var box=E('pdrlOneResult');if(box)box.classList.remove('show');
+ var pb=E('pdrlPegBox');if(pb)pb.style.display='none';
+ var sb=E('pdrlStaffBox');if(sb)sb.style.display='none';
+ var mb=E('pdrlSingleMultiResult');if(mb){mb.style.display='none';mb.innerHTML='';}
+}
+function autoFindOne(){
+ clearTimeout(pdrlAutoTimer);
+ pdrlAutoTimer=setTimeout(function(){
+   if(!S.chainages.length){hideOneResult();return}
+   var chRaw=E('pdrlChainage').value.trim(),
+       offRaw=E('pdrlOffset').value.trim();
+   if(!chRaw||offRaw===''){hideOneResult();return}
+   var os=offsets(offRaw);
+   if(!os.length){hideOneResult();return}
+   findOne();
+ },120);
+}
+
+function findOne(){
+ if(!S.chainages.length){status('पहले PDF upload करें।','bad');return}
+ var ch=norm(E('pdrlChainage').value),
+     offText=E('pdrlOffset').value.trim(),
+     os=offsets(offText);
+ E('pdrlChainage').value=ch;
+ if(!ch){status('सही Chainage डालें।','bad');return}
+ if(!os.length){status('सही Offset डालें।','bad');return}
+
+ var depthRaw=E('pdrlDepth').value.trim(),
+     hiRaw=E('pdrlHI').value.trim(),
+     depth=depthRaw===''?NaN:n2(depthRaw),
+     hi=hiRaw===''?NaN:n2(hiRaw),
+     hasDepth=depthRaw!==''&&Number.isFinite(depth),
+     hasHI=hiRaw!==''&&Number.isFinite(hi);
+
+ var results=[],errs=[];
+ os.forEach(function(off){
+   var r=target(ch,off);
+   if(r.error){errs.push({off:off,error:r.error});return}
+   var pegRl=r.rl+(hasDepth?depth/1000:0);
+   var staff=hasHI ? hi-(hasDepth?pegRl:r.rl) : NaN;
+   results.push({off:off,r:r,pegRl:pegRl,staff:staff});
+ });
+
+ if(!results.length){
+   hideOneResult();
+   status(errs.length?errs[0].error:'Result नहीं मिला।','bad');
+   return;
+ }
+
+ E('pdrlOneResult').classList.add('show');
+ var multiBox=E('pdrlSingleMultiResult');
+
+ if(results.length===1){
+   var x=results[0],r=x.r;
+   E('pdrlAnswer').textContent=f3(r.rl);
+   E('pdrlSrc').textContent=r.mode;
+   E('pdrlSidePill').textContent='Side '+(r.side||S.side);
+   E('pdrlCamberPill').textContent=camTxt(r.camber);
+
+   var detail='<b>Chainage:</b> '+esc(ch)+' &nbsp; <b>Offset:</b> '+esc(x.off)+' m'+
+     '<div class="pdrl-formula">'+esc(r.formula)+'</div>';
+   if(hasDepth){
+     detail+='<div class="pdrl-formula">Peg RL = '+f3(r.rl)+' + '+f3(depth/1000)+' = '+f3(x.pegRl)+' m</div>';
+   }
+   E('pdrlDetails').innerHTML=detail;
+   if(multiBox){multiBox.style.display='none';multiBox.innerHTML='';}
+
+   var pb=E('pdrlPegBox');
+   if(hasDepth){
+     E('pdrlPegAnswer').textContent=f3(x.pegRl);
+     pb.style.display='block';
+   }else{
+     E('pdrlPegAnswer').textContent='—';
+     pb.style.display='none';
+   }
+
+   var sb=E('pdrlStaffBox');
+   if(hasHI){
+     E('pdrlStaffAnswer').textContent=f3(x.staff);
+     var stSmall=sb.querySelector('small');
+     if(stSmall)stSmall.textContent=hasDepth?'STAFF READING = HI − PEG RL':'STAFF READING = HI − DESIGN RL';
+     sb.style.display='block';
+   }else{
+     E('pdrlStaffAnswer').textContent='—';
+     sb.style.display='none';
+   }
+ }else{
+   // Multiple offsets under one Chainage.
+   E('pdrlAnswer').textContent=results.length+' OFFSETS';
+   E('pdrlSrc').textContent='Auto';
+   E('pdrlSidePill').textContent='Chainage '+ch;
+   E('pdrlCamberPill').textContent='Multiple Offset';
+   E('pdrlDetails').innerHTML='<b>Chainage:</b> '+esc(ch)+' &nbsp; <b>Offsets:</b> '+esc(os.join(', '))+' m';
+
+   var th='<tr><th>Offset (m)</th><th>Design RL (m)</th>'+
+      (hasDepth?'<th>Peg RL (m)</th>':'')+
+      (hasHI?'<th>Staff Reading (m)</th>':'')+
+      '<th>Source</th></tr>';
+   var tb='';
+   results.forEach(function(x){
+     tb+='<tr><td>'+esc(x.off)+'</td><td><b>'+f3(x.r.rl)+'</b></td>'+
+       (hasDepth?'<td><b>'+f3(x.pegRl)+'</b></td>':'')+
+       (hasHI?'<td><b>'+f3(x.staff)+'</b></td>':'')+
+       '<td>'+esc(x.r.mode)+'</td></tr>';
+   });
+   errs.forEach(function(er){
+     tb+='<tr><td>'+esc(er.off)+'</td><td colspan="'+(2+(hasDepth?1:0)+(hasHI?1:0))+'" style="color:#a12626;font-weight:900">'+esc(er.error)+'</td></tr>';
+   });
+   if(multiBox){
+     multiBox.innerHTML='<table class="pdrl-table"><thead>'+th+'</thead><tbody>'+tb+'</tbody></table>';
+     multiBox.style.display='block';
+   }
+
+   // Individual big Peg/Staff boxes are only for one offset.
+   var pb=E('pdrlPegBox'); if(pb)pb.style.display='none';
+   var sb=E('pdrlStaffBox'); if(sb)sb.style.display='none';
+ }
+
+ status(results.length+' Design RL ready ✓','ok')
+}
+function findMany(){
+ if(!S.chainages.length){status('पहले PDF upload करें।','bad');return}
+ var rs=[].slice.call(E('pdrlMultiRows').querySelectorAll('.pdrl-mRow')),
+     jobs=[],bad=0,
+     hiRaw=E('pdrlHI').value.trim(),depthRaw=E('pdrlDepth').value.trim(),
+     hi=hiRaw===''?NaN:n2(hiRaw),depth=depthRaw===''?NaN:n2(depthRaw),
+     hasHI=hiRaw!==''&&Number.isFinite(hi),
+     hasDepth=depthRaw!==''&&Number.isFinite(depth),
+     showStaff=hasHI;
+
+ rs.forEach(function(r){
+   var ch=norm(r.querySelector('.pdrl-mCh').value),os=offsets(r.querySelector('.pdrl-mOff').value);
+   if(!ch&&!os.length)return;
+   if(!ch||!os.length){bad++;return}
+   jobs.push({ch:ch,offs:os})
+ });
+ if(!jobs.length){status('कम से कम एक Chainage और Offset डालें।','bad');return}
+ if(bad){status('कुछ rows अधूरे हैं।','bad');return}
+
+ var html='',total=0,errs=0;
+ jobs.forEach(function(j){
+   var tr=[],meta='';
+   j.offs.forEach(function(off){
+     var r=target(j.ch,off);total++;
+     if(r.error){
+       errs++;
+       tr.push('<tr><td>'+esc(off)+'</td><td>—</td>'+(hasDepth?'<td>—</td>':'')+(showStaff?'<td>—</td>':'')+'<td style="color:#a12626;font-weight:900">'+esc(r.error)+'</td></tr>')
+     }else{
+       if(!meta)meta=camTxt(r.camber);
+       var pegRl=r.rl+(hasDepth?depth/1000:0);
+       var sr=showStaff?f3(hi-(hasDepth?pegRl:r.rl)):'';
+       tr.push('<tr><td>'+esc(off)+'</td><td><b>'+f3(r.rl)+'</b></td>'+
+         (hasDepth?'<td><b>'+f3(pegRl)+'</b></td>':'')+
+         (showStaff?'<td><b>'+sr+'</b></td>':'')+
+         '<td class="'+(r.mode==='PDF Exact'?'exact':'calc')+'">'+esc(r.mode)+'</td></tr>')
+     }
+   });
+
+   html+='<div class="pdrl-chain"><div class="pdrl-chainTitle"><span>'+esc(j.ch)+'</span><small>'+
+     esc(S.side)+' • '+esc(meta)+(hasDepth?' • Depth '+depth+' mm':'')+(showStaff?' • HI '+f3(hi):'')+
+     '</small></div><table class="pdrl-table"><thead><tr><th>Offset (m)</th><th>Design RL (m)</th>'+
+     (hasDepth?'<th>Peg RL (m)</th>':'')+
+     (showStaff?'<th>Staff Reading (m)</th>':'')+
+     '<th>Source</th></tr></thead><tbody>'+tr.join('')+'</tbody></table></div>'
+ });
+ E('pdrlManyResult').innerHTML=html;
+ E('pdrlManyResult').classList.add('show');
+ status(total+' Design RL ready'+(hasDepth?' • Depth applied':'')+(errs?' • '+errs+' error':''),'ok')
+}
+function reportRows(){
+ var out=[],
+     isMulti=E('pdrlMultiTab').classList.contains('active'),
+     hiRaw=E('pdrlHI').value.trim(),depthRaw=E('pdrlDepth').value.trim(),
+     hi=hiRaw===''?NaN:n2(hiRaw),depth=depthRaw===''?NaN:n2(depthRaw),
+     hasHI=hiRaw!==''&&Number.isFinite(hi),
+     hasDepth=depthRaw!==''&&Number.isFinite(depth),
+     showStaff=hasHI;
+
+ if(!S.chainages.length)return {error:'Upload PDF first.'};
+
+ function makeItem(ch,off,r){
+   var pegRl=r.rl+(hasDepth?depth/1000:0);
+   return {chainage:ch,offset:off,rl:r.rl,depth:depth,pegRl:pegRl,hi:hi,
+     staff:showStaff?hi-(hasDepth?pegRl:r.rl):NaN,mode:r.mode,camber:r.camber,side:r.side||S.side};
+ }
+
+ if(!isMulti){
+   var ch=norm(E('pdrlChainage').value),os=offsets(E('pdrlOffset').value);
+   if(!ch||!os.length)return {error:'Enter valid Chainage and Offset.'};
+   os.forEach(function(off){
+     var r=target(ch,off);
+     if(r.error)out.push({chainage:ch,offset:off,error:r.error});
+     else out.push(makeItem(ch,off,r));
+   });
+ }else{
+   var rs=[].slice.call(E('pdrlMultiRows').querySelectorAll('.pdrl-mRow')),bad=0;
+   rs.forEach(function(row){
+     var ch=norm(row.querySelector('.pdrl-mCh').value),os=offsets(row.querySelector('.pdrl-mOff').value);
+     if(!ch&&!os.length)return;
+     if(!ch||!os.length){bad++;return}
+     os.forEach(function(off){
+       var r=target(ch,off);
+       if(r.error)out.push({chainage:ch,offset:off,error:r.error});
+       else out.push(makeItem(ch,off,r));
+     });
+   });
+   if(bad)return {error:'Complete all Multiple rows.'};
+   if(!out.length)return {error:'Enter at least one Chainage and Offset.'};
+ }
+ return {rows:out,multi:isMulti,hasHI:hasHI,hi:hi,hasDepth:hasDepth,depth:depth,showStaff:showStaff};
+}
+function downloadPdf(){
+ try{
+   var rr=reportRows();
+   if(rr.error){status(rr.error,'bad');return}
+   if(!window.jspdf||!window.jspdf.jsPDF){status('PDF library load नहीं हुई।','bad');return}
+
+   var jsPDF=window.jspdf.jsPDF,doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+   var W=210,H=297,margin=10,y=15,hasHI=rr.hasHI,hasDepth=rr.hasDepth,showStaff=rr.showStaff;
+
+   function line(txt,size,bold){
+     doc.setFont('helvetica',bold?'bold':'normal');
+     doc.setFontSize(size||10);
+     doc.text(String(txt),margin,y);
+     y+=(size||10)*0.43+2;
+   }
+   function need(h){if(y+h>H-14){doc.addPage();y=15}}
+   function tableHeader(){
+     need(12);
+     doc.setFillColor(23,52,83);doc.rect(margin,y,W-margin*2,8,'F');
+     doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.3);
+
+     if(hasDepth){
+       doc.text('Chainage',margin+2,y+5.3);
+       doc.text('Offset',margin+31,y+5.3);
+       doc.text('Design RL',margin+51,y+5.3);
+       doc.text('Depth',margin+80,y+5.3);
+       doc.text('Peg RL',margin+102,y+5.3);
+       if(showStaff){
+         doc.text('HI',margin+127,y+5.3);
+         doc.text('Staff',margin+144,y+5.3);
+         doc.text('Source',margin+166,y+5.3);
+       }else{
+         doc.text('Camber',margin+132,y+5.3);
+         doc.text('Source',margin+162,y+5.3);
+       }
+     }else if(showStaff){
+       doc.text('Chainage',margin+2,y+5.3);doc.text('Offset',margin+35,y+5.3);doc.text('Design RL',margin+61,y+5.3);
+       doc.text('HI',margin+91,y+5.3);doc.text('Staff Rdg.',margin+111,y+5.3);doc.text('Source',margin+145,y+5.3);
+     }else{
+       doc.text('Chainage',margin+2,y+5.3);doc.text('Offset (m)',margin+42,y+5.3);doc.text('Design RL (m)',margin+78,y+5.3);
+       doc.text('Camber',margin+123,y+5.3);doc.text('Source',margin+153,y+5.3);
+     }
+     doc.setTextColor(20,35,50);y+=8;
+   }
+
+   doc.setTextColor(23,52,83);line('PDF Design RL Finder',17,true);
+   doc.setTextColor(55,75,95);line('Design RL Calculation Report',11,true);
+   y+=1;doc.setDrawColor(215,225,235);doc.line(margin,y,W-margin,y);y+=6;
+   doc.setTextColor(45,65,85);
+   line('Source PDF: '+(S.file||'-'),9,false);
+   line('Format: '+(S.format||'-')+'   |   Side: '+(S.side||'-'),9,false);
+   line('Chainage Range: '+(S.chainages[0]||'-')+' to '+(S.chainages[S.chainages.length-1]||'-'),9,false);
+   line('Mode: '+(rr.multi?'Multiple Chainage / Multiple Offset':'Single'),9,false);
+   if(hasDepth)line('Depth: '+rr.depth+' mm   |   Peg RL = Design RL + Depth(m)',9,false);
+   if(showStaff)line('HI: '+f3(rr.hi)+' m   |   Staff Reading = HI - '+(hasDepth?'Peg RL':'Design RL'),9,false);
+   y+=4;tableHeader();
+
+   rr.rows.forEach(function(r,idx){
+     need(8);
+     if(idx%2===1){doc.setFillColor(247,250,253);doc.rect(margin,y,W-margin*2,7,'F')}
+     doc.setTextColor(30,50,70);doc.setFont('helvetica','normal');doc.setFontSize(7.6);
+     doc.text(String(r.chainage||'-'),margin+2,y+4.8);
+
+     if(hasDepth){
+       doc.text(String(r.offset),margin+31,y+4.8);
+       if(r.error){
+         doc.setTextColor(160,35,35);
+         doc.text('-',margin+51,y+4.8);doc.text('-',margin+80,y+4.8);doc.text('-',margin+102,y+4.8);
+         if(hasHI){doc.text('-',margin+127,y+4.8);doc.text('-',margin+144,y+4.8);doc.text('Error',margin+166,y+4.8)}
+         else{doc.text('-',margin+132,y+4.8);doc.text('Error',margin+162,y+4.8)}
+       }else{
+         doc.setTextColor(18,58,92);doc.setFont('helvetica','bold');doc.text(f3(r.rl),margin+51,y+4.8);
+         doc.setFont('helvetica','normal');doc.setTextColor(30,50,70);
+         doc.text(String(rr.depth),margin+80,y+4.8);
+         doc.setFont('helvetica','bold');doc.setTextColor(18,58,92);doc.text(f3(r.pegRl),margin+102,y+4.8);
+         doc.setFont('helvetica','normal');doc.setTextColor(30,50,70);
+         if(showStaff){
+           doc.text(f3(r.hi),margin+127,y+4.8);doc.text(f3(r.staff),margin+144,y+4.8);
+           var src=(r.mode==='PDF Exact')?'Exact':(r.mode==='Calculated'?'Camber Calc':'Ch.+Off Calc');doc.text(src,margin+166,y+4.8);
+         }else{
+           doc.text(Number.isFinite(r.camber)?((r.camber>0?'+':'')+Number(r.camber).toFixed(2)+'%'):'-',margin+132,y+4.8);
+           var src0=(r.mode==='PDF Exact')?'Exact':(r.mode==='Calculated'?'Camber Calc':'Ch.+Off Calc');doc.text(src0,margin+162,y+4.8);
+         }
+       }
+     }else if(showStaff){
+       doc.text(String(r.offset),margin+35,y+4.8);
+       if(r.error){
+         doc.setTextColor(160,35,35);doc.text('-',margin+61,y+4.8);doc.text('-',margin+91,y+4.8);doc.text('-',margin+111,y+4.8);doc.text('Error',margin+145,y+4.8);
+       }else{
+         doc.setTextColor(18,58,92);doc.setFont('helvetica','bold');doc.text(f3(r.rl),margin+61,y+4.8);
+         doc.setFont('helvetica','normal');doc.setTextColor(30,50,70);doc.text(f3(r.hi),margin+91,y+4.8);doc.text(f3(r.staff),margin+111,y+4.8);
+         var src1=(r.mode==='PDF Exact')?'Exact':(r.mode==='Calculated'?'Camber Calc':'Ch. + Offset Calc');doc.text(src1,margin+145,y+4.8);
+       }
+     }else{
+       doc.text(String(r.offset),margin+42,y+4.8);
+       if(r.error){
+         doc.setTextColor(160,35,35);doc.text('-',margin+78,y+4.8);doc.text('-',margin+123,y+4.8);doc.text('Error',margin+153,y+4.8);
+       }else{
+         doc.setTextColor(18,58,92);doc.setFont('helvetica','bold');doc.text(f3(r.rl),margin+78,y+4.8);
+         doc.setFont('helvetica','normal');doc.setTextColor(30,50,70);doc.text(Number.isFinite(r.camber)?((r.camber>0?'+':'')+Number(r.camber).toFixed(2)+'%'):'-',margin+123,y+4.8);
+         var src2=(r.mode==='PDF Exact')?'Exact':(r.mode==='Calculated'?'Camber Calc':'Ch. + Offset Calc');doc.text(src2,margin+153,y+4.8);
+       }
+     }
+     doc.setDrawColor(228,234,240);doc.line(margin,y+7,W-margin,y+7);y+=7;
+   });
+
+   y+=7;need((hasDepth||showStaff)?28:20);
+   doc.setFillColor(245,249,252);doc.roundedRect(margin,y,W-margin*2,(hasDepth||showStaff)?27:19,2,2,'F');
+   doc.setTextColor(75,95,115);doc.setFont('helvetica','normal');doc.setFontSize(8);
+   doc.text('Calculation logic:',margin+3,y+5);
+   doc.text('1. Exact Chainage + Offset: Design RL directly from PDF table.',margin+3,y+9);
+   doc.text('2. Missing Offset: calculated from PDF Camber/Crossfall.',margin+3,y+13);
+   doc.text('3. Missing intermediate Chainage: interpolated between nearest PDF chainages.',margin+3,y+17);
+   if(hasDepth)doc.text('4. Peg RL = Design RL + Depth(m).',margin+3,y+21);
+   if(showStaff){
+     if(hasDepth)doc.text('5. Staff Reading = HI - Peg RL.',margin+3,y+25);
+     else doc.text('4. Staff Reading = HI - Design RL.',margin+3,y+21);
+   }
+
+   var name='Design_RL_Report';
+   if(rr.rows.length===1)name+='_'+String(rr.rows[0].chainage).replace('+','-')+'_O'+String(rr.rows[0].offset).replace('.','_');
+   doc.save(name+'.pdf');status('Design RL report PDF downloaded ✓','ok');
+ }catch(e){status('PDF बनाने में समस्या हुई।','bad')}
+}
+
+function clearAll(){
+ E('pdrlFile').value='';E('pdrlChainage').value='';E('pdrlOffset').value='';E('pdrlOffset').placeholder='5.35';E('pdrlHI').value='';E('pdrlDepth').value='';
+ E('pdrlOneResult').classList.remove('show');
+ var pb=E('pdrlPegBox');if(pb)pb.style.display='none';
+ var sb=E('pdrlStaffBox');if(sb)sb.style.display='none';
+ E('pdrlManyResult').classList.remove('show');E('pdrlManyResult').innerHTML='';E('pdrlMultiRows').innerHTML='';
+ E('pdrlInfo').classList.remove('show');E('pdrlChainageList').innerHTML='';
+ S={rows:{},side:'AUTO',format:'',chainages:[],file:'',smart:{type:'',columns:[],rows:{},chainages:[],canInterpolate:false}};
+ E('pdrlSmartField').innerHTML='<option value="">PDF upload करें</option>';E('pdrlSmartChainage').value='';E('pdrlSmartOffset').value='';
+ E('pdrlSmartResult').innerHTML='';E('pdrlSmartResult').classList.remove('show');
+ toggleSmart(false);var stb=E('pdrlSmartToggle');if(stb)stb.classList.remove('show');mode('single');status('पहले PDF upload करें।')
+}
+
+
+// Single mode is automatic: no FIND button required.
+(function setupPdrlAutoCalculation(){
+ var ch=E('pdrlChainage'),off=E('pdrlOffset'),hi=E('pdrlHI'),depth=E('pdrlDepth');
+ if(ch){
+   ch.addEventListener('change',autoFindOne);
+   ch.addEventListener('blur',autoFindOne);
+ }
+ if(off)off.addEventListener('input',autoFindOne);
+ if(hi)hi.addEventListener('input',autoFindOne);
+ if(depth)depth.addEventListener('input',autoFindOne);
+})();
+
+window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.pdrlAddRows=addRows;window.pdrlFindOne=findOne;window.pdrlFindMany=findMany;window.pdrlClear=clearAll;window.pdrlDownloadPDF=downloadPdf;window.pdrlSmartFind=smartFind;window.pdrlToggleSmart=toggleSmart;
+})();
+</script>
+
+
+
+
 </body></html>
