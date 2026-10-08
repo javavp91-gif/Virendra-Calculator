@@ -1501,6 +1501,7 @@ body:not(.tool-open) .toolGroup .nav button:only-child{
 
 <!-- Image/PDF Converter libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -9100,23 +9101,105 @@ function cvLoad(){
   cvRender()
 }
 function cvClear(){if(!confirm('पूरा CV data clear करें?'))return;try{localStorage.removeItem('virendraSpecialCV')}catch(e){};location.reload()}
-function cvPrintPDF(){
+async function cvWaitForImages(root){
+  var imgs=Array.from((root||document).querySelectorAll('img'));
+  await Promise.all(imgs.map(function(img){
+    if(img.complete&&img.naturalWidth>0)return Promise.resolve();
+    return new Promise(function(resolve){
+      var done=function(){resolve()};
+      img.addEventListener('load',done,{once:true});
+      img.addEventListener('error',done,{once:true});
+      setTimeout(done,2500);
+    });
+  }));
+}
+
+async function cvPrintPDF(){
+  var btn=document.querySelector('#cvMaker .cv-btn[onclick*="cvPrintPDF"]');
+  var oldText=btn?btn.textContent:'';
   try{
     cvRender();
     var sheet=document.getElementById('cvSheet');
     if(!sheet){alert('CV preview तैयार नहीं हुआ।');return;}
+    if(!window.jspdf||!window.jspdf.jsPDF){alert('PDF library load नहीं हुई। Internet ON करके एक बार App खोलें।');return;}
+    if(typeof window.html2canvas!=='function'){
+      alert('CV PDF library load नहीं हुई। Internet ON करके एक बार App खोलें, फिर दोबारा Download दबाएँ।');
+      return;
+    }
+
+    if(btn){btn.disabled=true;btn.textContent='PDF बन रही है…';}
+
+    var oldTransform=sheet.style.transform;
+    var oldMargin=sheet.style.marginBottom;
+    var oldBoxShadow=sheet.style.boxShadow;
     sheet.style.transform='none';
     sheet.style.marginBottom='0';
-    setTimeout(function(){
-      try{
-        window.print();
-      }catch(err){
-        alert('PDF/Print नहीं खुल पाया। Chrome में HTML खोलकर फिर DOWNLOAD / PRINT PDF दबाएँ।');
-      }
-      setTimeout(cvScalePreview,500);
-    },150);
+    sheet.style.boxShadow='none';
+
+    await cvWaitForImages(sheet);
+    await new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r)})});
+
+    var captureHeight=Math.max(1123,sheet.scrollHeight||1123);
+    var canvas=await html2canvas(sheet,{
+      scale:2,
+      useCORS:true,
+      allowTaint:true,
+      backgroundColor:'#ffffff',
+      logging:false,
+      width:794,
+      height:captureHeight,
+      windowWidth:794,
+      scrollX:0,
+      scrollY:0
+    });
+
+    var jsPDF=window.jspdf.jsPDF;
+    var doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
+    var scale=canvas.width/794;
+    var pagePx=Math.round(1123*scale);
+    var totalPages=Math.max(1,Math.ceil(canvas.height/pagePx));
+
+    for(var page=0;page<totalPages;page++){
+      if(page>0)doc.addPage('a4','portrait');
+      var slice=document.createElement('canvas');
+      slice.width=canvas.width;
+      slice.height=pagePx;
+      var ctx=slice.getContext('2d');
+      ctx.fillStyle='#ffffff';
+      ctx.fillRect(0,0,slice.width,slice.height);
+      var sy=page*pagePx;
+      var sh=Math.min(pagePx,canvas.height-sy);
+      if(sh>0)ctx.drawImage(canvas,0,sy,canvas.width,sh,0,0,canvas.width,sh);
+      var img=slice.toDataURL('image/jpeg',0.94);
+      doc.addImage(img,'JPEG',0,0,210,297,undefined,'FAST');
+    }
+
+    var safeName=(document.getElementById('cvName')||{}).value||'Virendra_CV';
+    safeName=String(safeName).trim().replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'')||'Virendra_CV';
+    var fileName=safeName+'_CV.pdf';
+
+    var saved=false;
+    try{
+      var bytes=new Uint8Array(doc.output('arraybuffer'));
+      if(typeof pcNativeSavePdf==='function')saved=pcNativeSavePdf(bytes,fileName);
+    }catch(e){saved=false;}
+
+    if(!saved){
+      doc.save(fileName);
+    }else{
+      alert('CV PDF Downloads में save हो गई ✓');
+    }
+
+    sheet.style.transform=oldTransform;
+    sheet.style.marginBottom=oldMargin;
+    sheet.style.boxShadow=oldBoxShadow;
+    setTimeout(cvScalePreview,100);
   }catch(err){
-    alert('CV तैयार करने में समस्या आई। एक बार page दोबारा खोलें।');
+    console.error('CV PDF error',err);
+    alert('CV PDF download नहीं हो पाई। एक बार Internet ON करके App फिर खोलें और दोबारा कोशिश करें।');
+    try{cvScalePreview()}catch(e){}
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent=oldText||'DOWNLOAD PDF';}
   }
 }
 window.addEventListener('resize',cvScalePreview);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',cvLoad);else setTimeout(cvLoad,0);
