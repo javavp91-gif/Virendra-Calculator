@@ -5273,10 +5273,18 @@ function renderTool(id){
 function show(id,fromHistory){
   if(id==='home'){openToolMenu(!!fromHistory);return}
   if(!document.getElementById(id)){openToolMenu(!!fromHistory);return}
-  renderTool(id);
+
   if(!fromHistory){
-    try{history.pushState({vcTool:id},'', '#tool='+encodeURIComponent(id))}catch(e){}
+    try{
+      // First tool open सहित हर बार menu को stable base बनाएं.
+      if(location.hash!=='#menu' || !(history.state&&history.state.vcMenu)){
+        history.replaceState({vcMenu:true},'',location.pathname+location.search+'#menu');
+      }
+      history.pushState({vcTool:id},'',location.pathname+location.search+'#tool='+encodeURIComponent(id));
+    }catch(e){}
   }
+
+  renderTool(id);
 }
 
 function openToolMenu(fromHistory){
@@ -5296,11 +5304,14 @@ function openToolMenu(fromHistory){
 }
 
 function navBack(){
-  if(history.length>1){
-    history.back();
-  }else{
-    openToolMenu(true);
+  // App/WebView first launch पर history.back() भरोसेमंद नहीं रहता.
+  // इसलिए Tool Back हमेशा सीधे Tools menu पर लौटेगा.
+  try{
+    history.replaceState({vcMenu:true},'',location.pathname+location.search+'#menu');
+  }catch(e){
+    try{location.hash='menu'}catch(_e){}
   }
+  openToolMenu(true);
 }
 
 var vcHistoryReady=false;
