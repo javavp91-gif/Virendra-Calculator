@@ -673,6 +673,26 @@ body.home-mode #home{display:block!important}
 #cvMaker .cv-remove{position:absolute;right:7px;top:7px;border:0;border-radius:8px;width:29px;height:29px;background:#fee2e2;color:#b91c1c;font-weight:900}
 #cvMaker .cv-add{border:0;border-radius:10px;padding:10px 12px;background:#e2e8f0;color:#173453;font-weight:900}
 #cvMaker .cv-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+#cvMaker .cv-library{border:1px solid #cfe0ef;border-radius:15px;background:#f8fbfe;padding:12px;margin:10px 0 14px}
+#cvMaker .cv-library-head{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:9px}
+#cvMaker .cv-library-title{font-size:16px;font-weight:900;color:#173453}
+#cvMaker .cv-new-btn{border:0;border-radius:10px;background:#173453;color:#fff;padding:9px 12px;font-size:12px;font-weight:900;cursor:pointer;white-space:nowrap}
+#cvMaker .cv-autosave-status{font-size:11px;color:#64748b;margin:-2px 0 8px;min-height:16px}
+#cvMaker .cv-saved-list{display:grid;gap:8px}
+#cvMaker .cv-saved-empty{border:1px dashed #bfd0e0;border-radius:11px;padding:11px;text-align:center;color:#64748b;font-size:12px;background:#fff}
+#cvMaker .cv-saved-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid #d7e2ec;border-radius:12px;background:#fff;padding:10px}
+#cvMaker .cv-saved-card.current{border:2px solid #1976d2;background:#eef6ff}
+#cvMaker .cv-saved-name{font-size:14px;font-weight:900;color:#173453;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cvMaker .cv-saved-meta{font-size:11px;color:#64748b;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cvMaker .cv-saved-actions{display:flex;gap:5px}
+#cvMaker .cv-saved-actions button{border:0;border-radius:8px;padding:8px 9px;font-size:11px;font-weight:900;cursor:pointer}
+#cvMaker .cv-saved-edit{background:#173453;color:#fff}
+#cvMaker .cv-saved-delete{background:#fee2e2;color:#b91c1c}
+@media(max-width:430px){
+  #cvMaker .cv-saved-card{grid-template-columns:1fr}
+  #cvMaker .cv-saved-actions{justify-content:flex-end}
+}
+
 #cvMaker .cv-btn{border:0;border-radius:12px;padding:12px 8px;font-weight:900;font-size:13px;background:#173453;color:#fff}
 #cvMaker .cv-btn.green{background:#15803d}#cvMaker .cv-btn.gray{background:#e2e8f0;color:#173453}#cvMaker .cv-btn.red{background:#dc2626}
 #cvMaker .cv-photo-wrap{display:flex;gap:10px;align-items:center}
@@ -4910,6 +4930,14 @@ body.day .sound-toggle{
 
 <h2>Special CV Maker</h2>
 <p class="cv-sub">Professional CV बनाइए। Data भरते ही नीचे live preview तैयार होगा। अब इसमें कई नए modern और professional templates भी हैं।</p>
+<div class="cv-library">
+  <div class="cv-library-head">
+    <div class="cv-library-title">📁 MY SAVED CVs</div>
+    <button type="button" class="cv-new-btn" onclick="cvNewCV()">+ NEW CV</button>
+  </div>
+  <div id="cvAutoSaveStatus" class="cv-autosave-status">Data भरते ही Auto Save होगा.</div>
+  <div id="cvSavedList" class="cv-saved-list"></div>
+</div>
 <div class="cv-panel">
 <h3>CV Style</h3>
 <div class="cv-grid">
@@ -4962,10 +4990,10 @@ body.day .sound-toggle{
 </div>
 </div>
 <div class="cv-actions">
-<button class="cv-btn green" onclick="cvSave(true)">SAVE &amp; EDIT</button>
+<button class="cv-btn green" onclick="cvSave(true)">SAVE NOW</button>
 <button class="cv-btn" onclick="cvPrintPDF()">DOWNLOAD PDF (HD)</button>
 <button class="cv-btn gray" onclick="cvAddExp();cvAddEdu()">+ EXP &amp; EDUCATION</button>
-<button class="cv-btn red" onclick="cvClear()">CLEAR</button>
+<button class="cv-btn gray" onclick="cvNewCV()">+ NEW CV</button>
 </div>
 <div class="cv-preview-wrap">
 <div class="cv-sheet" id="cvSheet"><div class="cv-gen cv-classic"><h1 class="cc-name">YOUR NAME</h1><div class="cc-role">Job Title</div><div class="cc-line"></div><div class="cc-section"><div class="cc-title">CV Preview</div><div class="cvg-p">Fill the fields above. Example suggestions are shown inside each box.</div></div></div></div>
@@ -5275,9 +5303,23 @@ function navBack(){
   }
 }
 
+var vcHistoryReady=false;
+
 function vcRouteFromLocation(){
   var h=location.hash||'';
   var m=h.match(/^#tool=([^&]+)/);
+
+  // First app launch: make Tools menu the base history entry.
+  if(!vcHistoryReady){
+    vcHistoryReady=true;
+    if(!m){
+      try{
+        history.replaceState({vcMenu:true},'',location.pathname+location.search+'#menu');
+        h='#menu';
+      }catch(e){}
+    }
+  }
+
   if(m){
     var id='';
     try{id=decodeURIComponent(m[1])}catch(e){id=m[1]}
@@ -8980,6 +9022,27 @@ function cvEduHTML(d){d=d||{};return '<div class="cv-rowcard cv-edu">'+
  '<button class="cv-remove" onclick="this.parentElement.remove();cvRender();cvSave()">×</button><div class="cv-rowgrid">'+
  '<div><label>Qualification</label><input class="cd-course" value="'+cvEsc(d.course)+'" placeholder="Example:- Degree / Course"></div><div><label>School / Board / Institute</label><input class="cd-school" value="'+cvEsc(d.school)+'" placeholder="Example:- Bihar School Examination Board"></div>'+
  '<div><label>Year</label><input class="cd-year" value="'+cvEsc(d.year)+'" placeholder="Example:- 2019"></div><div><label>Result / Percentage</label><input class="cd-result" value="'+cvEsc(d.result)+'" placeholder="Example:- 72% or First Division"></div></div></div>'}
+function cvLoadImage(input,type){
+  var file=input&&input.files&&input.files[0];if(!file)return;
+  if(!/^image\//i.test(file.type||'')){alert('Photo image file चुनें');return}
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      try{
+        var maxW=600,maxH=750,ratio=Math.min(1,maxW/img.width,maxH/img.height);
+        var c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.width*ratio));c.height=Math.max(1,Math.round(img.height*ratio));
+        var ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);
+        cvPhotoData=c.toDataURL('image/jpeg',0.84);
+      }catch(e){cvPhotoData=String(ev.target.result||'')}
+      var th=document.getElementById('cvPhotoThumb');if(th)th.src=cvPhotoData||cvDefaultPhotoThumb;
+      cvRender();cvScheduleAutoSave();
+    };
+    img.onerror=function(){alert('Photo load नहीं हुई')};
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 function cvToggleTemplates(){
   var p=document.getElementById('cvTemplatePanel'),b=document.getElementById('cvTemplateToggle');
   if(!p||!b)return;
@@ -9024,14 +9087,61 @@ function cvDobValid(v){
   var dt=new Date(yy,mm-1,dd);
   return dt.getFullYear()===yy&&dt.getMonth()===mm-1&&dt.getDate()===dd;
 }
+var CV_LIBRARY_KEY='virendraSavedCVsV1';
+var CV_CURRENT_KEY='virendraCurrentCvIdV1';
+var cvCurrentId='';
+var cvAutoSaveTimer=0;
+var cvLoadingSaved=false;
+var cvDefaultPhotoThumb='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2288%22 viewBox=%220 0 72 88%22%3E%3Crect width=%2272%22 height=%2288%22 rx=%229%22 fill=%22%23f8fafc%22/%3E%3Ccircle cx=%2236%22 cy=%2230%22 r=%2212%22 fill=%22%23cbd5e1%22/%3E%3Cpath d=%22M15 76c2-17 12-25 21-25s19 8 21 25%22 fill=%22%23cbd5e1%22/%3E%3C/svg%3E';
+
+function cvLibraryLoad(){
+  try{
+    var a=JSON.parse(localStorage.getItem(CV_LIBRARY_KEY)||'[]');
+    return Array.isArray(a)?a:[];
+  }catch(e){return []}
+}
+function cvLibraryStore(a){localStorage.setItem(CV_LIBRARY_KEY,JSON.stringify(a||[]));}
+function cvMeaningful(d){
+  if(!d)return false;
+  if([d.name,d.role,d.phone,d.email,d.address,d.dob,d.summary,d.skills,d.languages,d.photo].some(function(v){return String(v||'').trim()}))return true;
+  if((d.exp||[]).some(function(x){return [x.company,x.role,x.from,x.to,x.desc].some(function(v){return String(v||'').trim()})}))return true;
+  if((d.edu||[]).some(function(x){return [x.course,x.school,x.year,x.result].some(function(v){return String(v||'').trim()})}))return true;
+  return false;
+}
+function cvStatus(msg,bad){
+  var e=document.getElementById('cvAutoSaveStatus');if(!e)return;
+  e.textContent=msg||'';e.style.color=bad?'#b91c1c':'#64748b';
+}
+function cvMakeId(){return 'cv_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);}
+function cvScheduleAutoSave(){
+  if(cvLoadingSaved)return;
+  clearTimeout(cvAutoSaveTimer);cvStatus('Auto Saving…');
+  cvAutoSaveTimer=setTimeout(function(){cvSave(false)},350);
+}
 function cvSave(showMessage){
+  if(cvLoadingSaved)return false;
   try{
     var d=cvData();
+    if(!cvMeaningful(d)){
+      cvStatus('Data भरते ही Auto Save होगा.');
+      if(showMessage)alert('पहले CV में कुछ data भरें।');
+      return false;
+    }
+    if(!cvCurrentId)cvCurrentId=cvMakeId();
+    var a=cvLibraryLoad(),now=Date.now(),idx=a.findIndex(function(x){return x.id===cvCurrentId});
+    var rec={id:cvCurrentId,name:String(d.name||'').trim()||'Untitled CV',role:String(d.role||d.type||'').trim(),phone:String(d.phone||'').trim(),updatedAt:now,data:d};
+    if(idx>=0)a[idx]=rec;else a.unshift(rec);
+    a.sort(function(x,y){return (y.updatedAt||0)-(x.updatedAt||0)});
+    cvLibraryStore(a);
+    localStorage.setItem(CV_CURRENT_KEY,cvCurrentId);
     localStorage.setItem('virendraSpecialCV',JSON.stringify(d));
-    if(showMessage)alert('CV data saved ✓');
+    cvStatus('✓ Auto Saved — '+rec.name);
+    cvRenderSavedList();
+    if(showMessage)alert('CV saved ✓');
     return true;
   }catch(e){
     console.error('CV save failed',e);
+    cvStatus('Auto Save नहीं हो पाया. Storage भर सकता है.',true);
     if(showMessage)alert('CV data save नहीं हो पाया');
     return false;
   }
@@ -9041,13 +9151,13 @@ function cvBind(){
     e.oninput=function(){
       if(e.id==='cvDob')cvDobTyping(e);
       cvRender();
-      cvSave();
+      cvScheduleAutoSave();
       if(e.id==='cvTemplate')cvUpdateTemplateLabel();
     };
     e.onchange=function(){
       if(e.id==='cvDob')e.value=cvFormatDate(e.value);
       cvRender();
-      cvSave();
+      cvScheduleAutoSave();
       if(e.id==='cvTemplate'){
         cvUpdateTemplateLabel();
         cvCloseTemplates();
@@ -9057,7 +9167,7 @@ function cvBind(){
       e.onblur=function(){
         e.value=cvFormatDate(e.value);
         if(e.value&&!cvDobValid(e.value))alert('Date DD/MM/YYYY में सही भरें।');
-        cvRender();cvSave();
+        cvRender();cvScheduleAutoSave();
       };
     }
   });
@@ -9164,37 +9274,101 @@ function cvBuildTemplate(d){
 }
 function cvRender(){var d=cvData(),sheet=document.getElementById('cvSheet');if(!sheet)return;sheet.innerHTML=cvBuildTemplate(d);cvScalePreview();}
 function cvScalePreview(){var w=document.querySelector('#cvMaker .cv-preview-wrap'),s=document.getElementById('cvSheet');if(!w||!s)return;var avail=w.clientWidth-12,scale=Math.min(1,avail/794);s.style.transform='scale('+scale+')';s.style.marginBottom=((1123*scale)-1123)+'px'}
-function cvLoad(){
-  var PRIVACY_RESET_KEY='virendraCvPrivacyResetV129';
-  try{
-    if(localStorage.getItem(PRIVACY_RESET_KEY)!=='1'){
-      localStorage.removeItem('virendraSpecialCV');
-      localStorage.setItem(PRIVACY_RESET_KEY,'1');
-    }
-  }catch(e){}
-  var d=null;
-  try{d=JSON.parse(localStorage.getItem('virendraSpecialCV')||'null')}catch(e){}
-  var set=function(id,v){var e=document.getElementById(id);if(e&&v!==undefined&&v!==null)e.value=v};
-  if(d){
-    ['template','type','name','role','phone','email','address','dob','summary','skills','languages'].forEach(function(k){
-      var map={template:'cvTemplate',type:'cvType',name:'cvName',role:'cvRole',phone:'cvPhone',email:'cvEmail',address:'cvAddress',dob:'cvDob',summary:'cvSummary',skills:'cvSkills',languages:'cvLanguages'};
-      set(map[k],k==='dob'?cvFormatDate(d[k]):d[k])
-    });
-    cvPhotoData=d.photo||'';
-    if(cvPhotoData){
-      var thumb=document.getElementById('cvPhotoThumb');
-      if(thumb)thumb.src=cvPhotoData;
-    }
-    (d.exp||[]).forEach(cvAddExp);
-    (d.edu||[]).forEach(cvAddEdu)
-  }
-  if(!document.querySelector('#cvExpRows .cv-exp'))cvAddExp();
-  if(!document.querySelector('#cvEduRows .cv-edu'))cvAddEdu();
-  cvBind();
-  cvUpdateTemplateLabel();
-  cvRender()
+function cvSetField(id,v){
+  var e=document.getElementById(id);if(e)e.value=(v===undefined||v===null)?'':v;
 }
-function cvClear(){if(!confirm('पूरा CV data clear करें?'))return;try{localStorage.removeItem('virendraSpecialCV')}catch(e){};location.reload()}
+function cvApplyData(d){
+  d=d||{};cvLoadingSaved=true;
+  try{
+    var map={template:'cvTemplate',type:'cvType',name:'cvName',role:'cvRole',phone:'cvPhone',email:'cvEmail',address:'cvAddress',dob:'cvDob',summary:'cvSummary',skills:'cvSkills',languages:'cvLanguages'};
+    Object.keys(map).forEach(function(k){cvSetField(map[k],k==='dob'?cvFormatDate(d[k]||''):(d[k]||''));});
+    if(!d.template)cvSetField('cvTemplate','ats');
+    if(!d.type)cvSetField('cvType','Professional');
+    cvPhotoData=d.photo||'';
+    var thumb=document.getElementById('cvPhotoThumb');if(thumb)thumb.src=cvPhotoData||cvDefaultPhotoThumb;
+    var photoInput=document.getElementById('cvPhoto');if(photoInput)photoInput.value='';
+    var ew=document.getElementById('cvExpRows'),dw=document.getElementById('cvEduRows');
+    if(ew)ew.innerHTML='';if(dw)dw.innerHTML='';
+    (d.exp||[]).forEach(cvAddExp);(d.edu||[]).forEach(cvAddEdu);
+    if(!document.querySelector('#cvExpRows .cv-exp'))cvAddExp();
+    if(!document.querySelector('#cvEduRows .cv-edu'))cvAddEdu();
+  }finally{cvLoadingSaved=false}
+  cvBind();cvUpdateTemplateLabel();cvRender();
+}
+function cvRenderSavedList(){
+  var box=document.getElementById('cvSavedList');if(!box)return;
+  var a=cvLibraryLoad();
+  if(!a.length){
+    box.innerHTML='<div class="cv-saved-empty">अभी कोई Saved CV नहीं है। Data भरते ही पहला CV Auto Save हो जाएगा।</div>';
+    return;
+  }
+  box.innerHTML=a.map(function(r){
+    var d=r.data||{},meta=[r.role||d.role||'',r.phone||d.phone||''].filter(Boolean).join(' • ');
+    var when=r.updatedAt?new Date(r.updatedAt).toLocaleString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+    return '<div class="cv-saved-card '+(r.id===cvCurrentId?'current':'')+'">'+
+      '<div><div class="cv-saved-name">'+cvEsc(r.name||'Untitled CV')+'</div>'+
+      '<div class="cv-saved-meta">'+cvEsc(meta)+(meta&&when?' • ':'')+cvEsc(when)+'</div></div>'+
+      '<div class="cv-saved-actions">'+
+      '<button type="button" class="cv-saved-edit" data-id="'+cvEsc(r.id)+'" onclick="cvEditSaved(this.dataset.id)">EDIT</button>'+
+      '<button type="button" class="cv-saved-delete" data-id="'+cvEsc(r.id)+'" onclick="cvDeleteSaved(this.dataset.id)">DELETE</button>'+
+      '</div></div>';
+  }).join('');
+}
+function cvEditSaved(id){
+  var r=cvLibraryLoad().find(function(x){return x.id===id});if(!r)return;
+  if(cvMeaningful(cvData()))cvSave(false);
+  cvCurrentId=id;
+  try{localStorage.setItem(CV_CURRENT_KEY,id)}catch(e){}
+  cvApplyData(r.data||{});
+  cvStatus('Editing — '+(r.name||'Untitled CV')+' • Auto Save ON');
+  cvRenderSavedList();
+  try{document.getElementById('cvMaker').scrollIntoView({behavior:'smooth',block:'start'})}catch(e){}
+}
+function cvDeleteSaved(id){
+  var a=cvLibraryLoad(),r=a.find(function(x){return x.id===id});if(!r)return;
+  if(!confirm('“'+(r.name||'Untitled CV')+'” delete करें?'))return;
+  a=a.filter(function(x){return x.id!==id});
+  try{cvLibraryStore(a)}catch(e){alert('Delete नहीं हो पाया');return}
+  if(cvCurrentId===id){
+    cvCurrentId='';
+    try{localStorage.removeItem(CV_CURRENT_KEY);localStorage.removeItem('virendraSpecialCV')}catch(e){}
+    cvApplyData({});
+    cvStatus('New CV — Data भरते ही Auto Save होगा.');
+  }
+  cvRenderSavedList();
+}
+function cvNewCV(){
+  if(cvMeaningful(cvData()))cvSave(false);
+  cvCurrentId='';
+  try{localStorage.removeItem(CV_CURRENT_KEY)}catch(e){}
+  cvApplyData({});
+  cvStatus('New CV — Data भरते ही Auto Save होगा.');
+  cvRenderSavedList();
+  try{document.getElementById('cvMaker').scrollIntoView({behavior:'smooth',block:'start'})}catch(e){}
+}
+function cvMigrateLegacy(){
+  var a=cvLibraryLoad();if(a.length)return a;
+  var legacy=null;try{legacy=JSON.parse(localStorage.getItem('virendraSpecialCV')||'null')}catch(e){}
+  if(legacy&&cvMeaningful(legacy)){
+    var id=cvMakeId(),r={id:id,name:String(legacy.name||'').trim()||'Saved CV',role:legacy.role||legacy.type||'',phone:legacy.phone||'',updatedAt:Date.now(),data:legacy};
+    a=[r];try{cvLibraryStore(a);localStorage.setItem(CV_CURRENT_KEY,id)}catch(e){}
+  }
+  return a;
+}
+function cvLoad(){
+  var a=cvMigrateLegacy(),id='';
+  try{id=localStorage.getItem(CV_CURRENT_KEY)||''}catch(e){}
+  var r=(id&&a.find(function(x){return x.id===id}))||a[0]||null;
+  if(r){
+    cvCurrentId=r.id;cvApplyData(r.data||{});
+    cvStatus('Editing — '+(r.name||'Untitled CV')+' • Auto Save ON');
+  }else{
+    cvCurrentId='';cvApplyData({});
+    cvStatus('New CV — Data भरते ही Auto Save होगा.');
+  }
+  cvRenderSavedList();
+}
+function cvClear(){cvNewCV();}
 async function cvWaitForImages(root){
   var imgs=Array.from((root||document).querySelectorAll('img'));
   await Promise.all(imgs.map(function(img){
