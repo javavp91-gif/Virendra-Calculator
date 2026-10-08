@@ -764,8 +764,8 @@ body.home-mode #home{display:block!important}
 #cvMaker .cv-classic .cc-edu-table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 #cvMaker .cv-classic .cc-edu-table th,#cvMaker .cv-classic .cc-edu-table td{border:1.2px solid #555;padding:8px 8px;vertical-align:top;line-height:1.3;word-break:break-word}
 #cvMaker .cv-classic .cc-edu-table th{text-align:left;font-weight:900;background:#eeeeee;color:#111;font-size:13px}
-#cvMaker .cv-classic .cc-edu-table th:nth-child(1),#cvMaker .cv-classic .cc-edu-table td:nth-child(1){width:34%}
-#cvMaker .cv-classic .cc-edu-table th:nth-child(2),#cvMaker .cv-classic .cc-edu-table td:nth-child(2){width:36%}
+#cvMaker .cv-classic .cc-edu-table th:nth-child(1),#cvMaker .cv-classic .cc-edu-table td:nth-child(1){width:24%}
+#cvMaker .cv-classic .cc-edu-table th:nth-child(2),#cvMaker .cv-classic .cc-edu-table td:nth-child(2){width:46%;white-space:nowrap;font-size:12px;word-break:normal}
 #cvMaker .cv-classic .cc-edu-table th:nth-child(3),#cvMaker .cv-classic .cc-edu-table td:nth-child(3){width:18%}
 #cvMaker .cv-classic .cc-edu-table th:nth-child(4),#cvMaker .cv-classic .cc-edu-table td:nth-child(4){width:12%;text-align:center}
 #cvMaker .cv-classic .cc-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -1505,6 +1505,74 @@ body:not(.tool-open) .toolGroup .nav button:only-child{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script id="vcUniversalDownloadBridge">
+/* Universal file saver:
+   - Virendra Calculator APK/WebView -> AndroidBridge.saveBase64 -> Downloads
+   - Normal browser -> Blob/ObjectURL download
+*/
+function vcDownloadBytesToBase64(bytes){
+  var u8=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);
+  var parts=[],chunk=32768;
+  for(var i=0;i<u8.length;i+=chunk){
+    var sub=u8.subarray(i,Math.min(i+chunk,u8.length)),s='';
+    for(var j=0;j<sub.length;j++)s+=String.fromCharCode(sub[j]);
+    parts.push(s);
+  }
+  return btoa(parts.join(''));
+}
+function vcBrowserSaveBlob(blob,fileName){
+  try{
+    var url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=fileName||'download';
+    a.style.display='none';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){try{URL.revokeObjectURL(url)}catch(e){}},2500);
+    return true;
+  }catch(e){
+    console.error('Browser save failed',e);
+    return false;
+  }
+}
+function vcSafeSaveBytes(bytes,fileName,mime){
+  try{
+    var u8=bytes instanceof Uint8Array?bytes:new Uint8Array(bytes);
+    mime=mime||'application/octet-stream';
+    if(window.AndroidBridge&&typeof window.AndroidBridge.saveBase64==='function'){
+      window.AndroidBridge.saveBase64(fileName,mime,vcDownloadBytesToBase64(u8));
+      return true;
+    }
+    return vcBrowserSaveBlob(new Blob([u8],{type:mime}),fileName);
+  }catch(e){
+    console.error('File save failed',e);
+    return false;
+  }
+}
+async function vcSafeSaveBlob(blob,fileName,mime){
+  try{
+    mime=mime||blob.type||'application/octet-stream';
+    if(window.AndroidBridge&&typeof window.AndroidBridge.saveBase64==='function'){
+      var ab=await blob.arrayBuffer();
+      return vcSafeSaveBytes(new Uint8Array(ab),fileName,mime);
+    }
+    return vcBrowserSaveBlob(blob,fileName);
+  }catch(e){
+    console.error('Blob save failed',e);
+    return false;
+  }
+}
+function vcSafeSaveJsPdf(doc,fileName){
+  try{
+    return vcSafeSaveBytes(new Uint8Array(doc.output('arraybuffer')),fileName,'application/pdf');
+  }catch(e){
+    console.error('PDF save failed',e);
+    return false;
+  }
+}
+async function vcSafeSaveText(text,fileName,mime){
+  return vcSafeSaveBlob(new Blob([String(text||'')],{type:mime||'text/plain;charset=utf-8'}),fileName,mime||'text/plain;charset=utf-8');
+}
+</script>
+
 
 
 <style id="vcDevHtmlStyle">
@@ -4879,7 +4947,7 @@ body.day .sound-toggle{
 <div class="cv-field"><label>Mobile</label><input id="cvPhone" inputmode="tel" placeholder="Example:- Mobile number"/></div>
 <div class="cv-field"><label>Email</label><input id="cvEmail" inputmode="email" placeholder="Example:- Email"/></div>
 <div class="cv-field"><label>City / Address</label><input id="cvAddress" placeholder="Example:- City, State"/></div>
-<div class="cv-field"><label>Date of Birth</label><input id="cvDob" type="date"/></div>
+<div class="cv-field"><label>Date of Birth</label><input id="cvDob" type="text" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="DD/MM/YYYY"/></div>
 <div class="cv-field full"><label>Career Objective / Profile Summary</label><textarea id="cvSummary" placeholder="Example:- Write a short professional summary"></textarea></div>
 <div class="cv-field full"><label>Photo (optional)</label><div class="cv-photo-wrap"><img alt="Photo preview" class="cv-photo-thumb" id="cvPhotoThumb" src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2288%22 viewBox=%220 0 72 88%22%3E%3Crect width=%2272%22 height=%2288%22 rx=%229%22 fill=%22%23f8fafc%22/%3E%3Ccircle cx=%2236%22 cy=%2230%22 r=%2212%22 fill=%22%23cbd5e1%22/%3E%3Cpath d=%22M15 76c2-17 12-25 21-25s19 8 21 25%22 fill=%22%23cbd5e1%22/%3E%3C/svg%3E"/><input accept="image/*" id="cvPhoto" onchange="cvLoadImage(this,'photo')" type="file"/></div></div>
 </div>
@@ -4895,7 +4963,7 @@ body.day .sound-toggle{
 </div>
 <div class="cv-actions">
 <button class="cv-btn green" onclick="cvSave(true)">SAVE &amp; EDIT</button>
-<button class="cv-btn" onclick="cvPrintPDF()">DOWNLOAD / PRINT PDF</button>
+<button class="cv-btn" onclick="cvPrintPDF()">DOWNLOAD PDF (HD)</button>
 <button class="cv-btn gray" onclick="cvAddExp();cvAddEdu()">+ EXP &amp; EDUCATION</button>
 <button class="cv-btn red" onclick="cvClear()">CLEAR</button>
 </div>
@@ -5876,9 +5944,10 @@ async function pdeSave(){
         if(wm){var sz=26,w=pg.getWidth(),h=pg.getHeight();pg.drawText(wm,{x:Math.max(18,w*.18),y:h*.48,size:sz,font:wmFont,color:rgb(.45,.45,.45),opacity:.22,rotate:degrees(35)})}
       }
     }
-    var bytes=await out.save({useObjectStreams:true,addDefaultPage:false}),blob=new Blob([bytes],{type:'application/pdf'}),u=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=u;a.download=direct?'Edited_Original_PDF.pdf':'Edited_Vector_PDF.pdf';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1500);
-    st.textContent=direct?'Edited original PDF ready ✓ No page-image conversion':'Edited vector PDF ready ✓ No page-image conversion';
+    var bytes=await out.save({useObjectStreams:true,addDefaultPage:false});
+    var outName=direct?'Edited_Original_PDF.pdf':'Edited_Vector_PDF.pdf';
+    if(!vcSafeSaveBytes(bytes,outName,'application/pdf'))throw new Error('PDF save failed');
+    st.textContent=direct?'Edited original PDF Downloads में save ✓ No page-image conversion':'Edited vector PDF Downloads में save ✓ No page-image conversion';
   }catch(e){console.error(e);st.textContent='Error: '+(e.message||e);alert('Edited PDF नहीं बन पाई')}
   finally{btn.disabled=false;btn.textContent='CREATE & DOWNLOAD EDITED PDF'}
 }
@@ -6277,9 +6346,7 @@ async function dsDownloadImages(opts){
     if(items.length===1){
       st.textContent='PNG image तैयार हो रही है…';
       var c1=await dsProcess(items[0],false),b1=await dsBlobFromCanvas(c1,1,'image/png');
-      var u1=URL.createObjectURL(b1),a1=document.createElement('a');
-      a1.href=u1;a1.download='Scanned_Document.png';document.body.appendChild(a1);a1.click();a1.remove();
-      setTimeout(function(){URL.revokeObjectURL(u1)},2000);
+      if(!await vcSafeSaveBlob(b1,'Scanned_Document.png','image/png'))throw new Error('PNG save failed');
       st.textContent=(opts.appendStatus?opts.appendStatus+' ':'')+'PNG ready ✓';
       return;
     }
@@ -6288,8 +6355,7 @@ async function dsDownloadImages(opts){
       for(var j=0;j<items.length;j++){
         st.textContent='PNG '+(j+1)+' / '+items.length+' तैयार हो रही है…';
         var cj=await dsProcess(items[j],false),bj=await dsBlobFromCanvas(cj,1,'image/png');
-        var uj=URL.createObjectURL(bj),aj=document.createElement('a');aj.href=uj;aj.download='Scanned_Page_'+String(j+1).padStart(2,'0')+'.png';document.body.appendChild(aj);aj.click();aj.remove();
-        setTimeout((function(x){return function(){URL.revokeObjectURL(x)}})(uj),2500);
+        if(!await vcSafeSaveBlob(bj,'Scanned_Page_'+String(j+1).padStart(2,'0')+'.png','image/png'))throw new Error('PNG save failed');
         await new Promise(function(r){setTimeout(r,220)});
       }
       st.textContent=(opts.appendStatus?opts.appendStatus+' ':'')+'PNG images ready ✓ '+items.length+' file(s)';
@@ -6302,9 +6368,8 @@ async function dsDownloadImages(opts){
       zip.file('Scanned_Page_'+String(n+1).padStart(2,'0')+'.png',blob);
       await new Promise(function(r){setTimeout(r,0)});
     }
-    var out=await zip.generateAsync({type:'blob'}),url=URL.createObjectURL(out),a=document.createElement('a');
-    a.href=url;a.download='Scanned_Documents_PNG.zip';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(function(){URL.revokeObjectURL(url)},2000);
+    var out=await zip.generateAsync({type:'blob'});
+    if(!await vcSafeSaveBlob(out,'Scanned_Documents_PNG.zip','application/zip'))throw new Error('ZIP save failed');
     st.textContent=(opts.appendStatus?opts.appendStatus+' ':'')+'PNG images ready ✓ '+items.length+' file(s)';
   }catch(e){console.error(e);st.textContent='Error: '+(e.message||e);if(!opts.silent)alert('PNG images download नहीं हो पाईं')}
   finally{if(btn){btn.disabled=false;btn.textContent=restore||'DOWNLOAD IMAGE'}}
@@ -6319,7 +6384,7 @@ async function dsCreatePdf(withImages){
       else{var ori=iw>=ih?'landscape':'portrait';if(!doc)doc=new jsPDF({unit:'mm',format:'a4',orientation:ori});else doc.addPage('a4',ori);var pw2=doc.internal.pageSize.getWidth(),ph2=doc.internal.pageSize.getHeight(),m=6,ratio=Math.min((pw2-m*2)/iw,(ph2-m*2)/ih),dw=iw*ratio,dh=ih*ratio;doc.addImage(data,'JPEG',(pw2-dw)/2,(ph2-dh)/2,dw,dh,undefined,'MEDIUM')}
       await new Promise(function(r){setTimeout(r,0)});
     }
-    doc.save('Scanned_Documents.pdf');
+    if(!vcSafeSaveJsPdf(doc,'Scanned_Documents.pdf'))throw new Error('PDF save failed');
     if(withImages){
       st.textContent='PDF ready ✓ अब image(s) तैयार हो रही हैं…';
       await dsDownloadImages({silent:true,appendStatus:'PDF +'});
@@ -6689,13 +6754,9 @@ function pcBytesToBase64(bytes){
 function pcNativeSavePdf(bytes,fileName){
   try{
     if(window.AndroidBridge&&typeof window.AndroidBridge.saveBase64==='function'){
-      var b64=pcBytesToBase64(bytes);
-      window.AndroidBridge.saveBase64(fileName,'application/pdf',b64);
-      return true;
+      return vcSafeSaveBytes(bytes,fileName,'application/pdf');
     }
-  }catch(e){
-    console.warn('Native PDF save failed',e);
-  }
+  }catch(e){console.warn('Native PDF save failed',e)}
   return false;
 }
 
@@ -6832,9 +6893,9 @@ function pcClearPdfImages(resetFile){
     var m=document.getElementById('pcPageMode');if(m)m.value='all';pcTogglePageRange();
   }
 }
-function pcDownloadOne(index){
+async function pcDownloadOne(index){
   var item=pcImageOutputs[index];if(!item)return;
-  var a=document.createElement('a');a.href=item.url;a.download=item.name;document.body.appendChild(a);a.click();a.remove();
+  if(!await vcSafeSaveBlob(item.blob,item.name,item.blob.type||'image/png'))alert('Image download नहीं हो पाई');
 }
 async function pcPdfToImages(){
   var file=(document.getElementById('pcPdfFile').files||[])[0],status=document.getElementById('pcPdfStatus'),btn=document.getElementById('pcConvertPdfBtn');
@@ -6883,8 +6944,8 @@ async function pcDownloadAllZip(){
   try{
     var zip=new JSZip();pcImageOutputs.forEach(function(x){zip.file(x.name,x.blob)});
     var blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}},function(m){status.textContent='ZIP '+Math.round(m.percent)+'%'});
-    var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='PDF_to_Images.zip';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1500);
-    status.textContent='ZIP ready ✓';
+    if(!await vcSafeSaveBlob(blob,'PDF_to_Images.zip','application/zip'))throw new Error('ZIP save failed');
+    status.textContent='ZIP Downloads में save ✓';
   }catch(e){alert('ZIP नहीं बन पाई: '+(e.message||e))}
   finally{btn.disabled=false;btn.textContent='DOWNLOAD ALL AS ZIP'}
 }
@@ -7625,11 +7686,10 @@ async function psCreateCombined(){
   }catch(e){psAIStatus('both',e.message||'Background remove failed');alert(e.message||'Combined image could not be created')}
   finally{var btn=document.querySelector('#psBothPanel .ps-create');if(btn){btn.disabled=false;btn.textContent='CREATE PHOTO + SIGNATURE'}}
 }
-function psDownload(kind){
+async function psDownload(kind){
   var o=psOutputs[kind];if(!o){alert('पहले image create करें');return}
-  var a=document.createElement('a');a.href=o.url;
-  a.download=kind==='photo'?'Photo_'+Math.round(o.target)+'KB.jpg':kind==='sign'?'Signature_'+Math.round(o.target)+'KB.jpg':'Photo_with_Signature_'+Math.round(o.target)+'KB.jpg';
-  document.body.appendChild(a);a.click();a.remove();
+  var name=kind==='photo'?'Photo_'+Math.round(o.target)+'KB.jpg':kind==='sign'?'Signature_'+Math.round(o.target)+'KB.jpg':'Photo_with_Signature_'+Math.round(o.target)+'KB.jpg';
+  if(!await vcSafeSaveBlob(o.blob,name,'image/jpeg'))alert('Image download नहीं हो पाई');
 }
 
 function slabChainage(v){
@@ -7887,12 +7947,12 @@ function slabOpenHistory(id){
   slabApplySerialized(item.data||{});localStorage.setItem('slabRLCalculatorV1',JSON.stringify(slabSerialize()));slabCalcMulti();
   var s=document.getElementById('slabSaved');s.textContent='History loaded ✓';setTimeout(function(){s.textContent=''},2000);
 }
-function slabHistoryPDF(id){
+async function slabHistoryPDF(id){
   var item=slabGetHistory().find(function(x){return x.id===id});if(!item)return;
   var blocks=item.results||[];
   if(!blocks.length){slabApplySerialized(item.data||{});blocks=slabCalcMulti()||[]}
   if(!blocks.length)return;
-  var blob=slabMakePDF(blocks),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Slab_RL_History.pdf';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},700);
+  if(!await vcSafeSaveBlob(slabMakePDF(blocks),'Slab_RL_History.pdf','application/pdf'))alert('PDF download नहीं हो पाई');
 }
 function slabDeleteHistory(id){
   var history=slabGetHistory().filter(function(x){return x.id!==id});slabSetHistory(history);slabRenderHistory();
@@ -8030,10 +8090,10 @@ function slabMakePDF(blocks){
   objects[2]='<< /Type /Pages /Kids ['+kids.join(' ')+'] /Count '+pageCount+' >>';objects[fontRegularObj]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';objects[fontBoldObj]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
   var maxObj=fontBoldObj,pdf='%PDF-1.4\n%AAAA\n',offs=[0];for(var i=1;i<=maxObj;i++){offs[i]=pdf.length;pdf+=i+' 0 obj\n'+objects[i]+'\nendobj\n'}var xref=pdf.length;pdf+='xref\n0 '+(maxObj+1)+'\n0000000000 65535 f \n';for(var j=1;j<=maxObj;j++)pdf+=String(offs[j]).padStart(10,'0')+' 00000 n \n';pdf+='trailer\n<< /Size '+(maxObj+1)+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF';return new Blob([pdf],{type:'application/pdf'});
 }
-function slabDownloadPDF(){
+async function slabDownloadPDF(){
   var blocks=slabCalcMulti()||[];
   if(!blocks.length){document.getElementById('slabMultiError').textContent='PDF के लिए पहले valid calculation करें';return}
-  var blob=slabMakePDF(blocks),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Slab_RL_Report.pdf';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},700);
+  if(!await vcSafeSaveBlob(slabMakePDF(blocks),'Slab_RL_Report.pdf','application/pdf'))document.getElementById('slabMultiError').textContent='PDF download नहीं हो पाई';
 }
 
 
@@ -8122,7 +8182,7 @@ function toeDownloadPDF(){
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('Side: '+document.getElementById('toeSide').value+'   Center to edge: '+ce+' m   Slope: '+slope+' : 1',14,y);y+=9;
   var xs=[14,49,78,111,151],heads=['Chainage','Side','DRL-ARL','Edge to Toe','Center to Toe'];doc.setFont('helvetica','bold');heads.forEach(function(h,i){doc.text(h,xs[i],y)});y+=5;doc.setFont('helvetica','normal');
   data.forEach(function(d){if(y>282){doc.addPage();y=18;doc.setFont('helvetica','bold');heads.forEach(function(h,i){doc.text(h,xs[i],y)});y+=5;doc.setFont('helvetica','normal')}doc.text(String(d.chain||'-'),xs[0],y);doc.text(d.side,xs[1],y);doc.text(d.diff.toFixed(3),xs[2],y);doc.text(d.edge.toFixed(3),xs[3],y);doc.text(d.center.toFixed(3),xs[4],y);y+=6});
-  var safe=(name||'Toe_Calculation').replace(/[^a-zA-Z0-9_-]+/g,'_');doc.save(safe+'.pdf');
+  var safe=(name||'Toe_Calculation').replace(/[^a-zA-Z0-9_-]+/g,'_');if(!vcSafeSaveJsPdf(doc,safe+'.pdf'))alert('PDF download नहीं हो पाई');
 }
 function toeInit(){
   if(!document.getElementById('toeCalc'))return;var loaded=toeLoadState();if(!loaded)toeMakeRow({diff:'1.554'});toeSetMode(toeMode);toeSetupChange();toeSlopeChange();toeSyncChainages();toeRecalc();
@@ -8145,10 +8205,8 @@ function calcPdfSafe(v){
     .replace(/[–—]/g,'-')
     .replace(/[^\x20-\x7E°%]/g,' ');
 }
-function calcPdfDownloadBlob(blob,name){
-  var a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();
-  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},700);
+async function calcPdfDownloadBlob(blob,name){
+  if(!await vcSafeSaveBlob(blob,name,'application/pdf'))alert('PDF download नहीं हो पाई');
 }
 function calcBuildReportPDF(title,sections){
   var PAGE_W=595.28,PAGE_H=841.89,M=34,CONTENT_W=PAGE_W-M*2,TOP=PAGE_H-38,BOTTOM=42;
@@ -8887,7 +8945,7 @@ function pegDownloadPDF(){
   var doc=new jsPDF({unit:'mm',format:'a4'});doc.setFont('helvetica','bold');doc.setFontSize(16);doc.text('Subgrade / GSB Peg Level',14,16);doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text('Camber: '+cam+'%   Depth: '+depth+' mm   Multiple Offset',14,23);
   var y=32;doc.setFont('helvetica','bold');doc.text('Chainage',10,y);doc.text('PCL RL',43,y);doc.text('Offset',69,y);doc.text('HI',92,y);doc.text('Peg RL',116,y);doc.text('Staff',144,y);doc.text('Chainage',169,y);doc.setFont('helvetica','normal');y+=6;
   var currentHI='';rows.forEach(function(tr){var ch=tr.querySelector('.peg-ch').value,pcl=tr.querySelector('.peg-pcl').value,offText=tr.querySelector('.peg-off').value,hi=tr.querySelector('.peg-hi').value;if(hi!=='')currentHI=hi;var offs=pegParseOffsets(offText);if(!offs.length)offs=[NaN];offs.forEach(function(off,idx){var pr='-',sr='-';if(isFinite(Number(pcl))&&isFinite(off)&&isFinite(Number(cam))&&isFinite(Number(depth))){var peg=Number(pcl)+(off*Number(cam)/100)+(Number(depth)/1000);pr=peg.toFixed(3);if(currentHI!==''&&isFinite(Number(currentHI)))sr=(Number(currentHI)-peg).toFixed(3)}if(y>282){doc.addPage();y=18}doc.text(idx===0?String(ch):'',10,y);doc.text(idx===0?String(pcl||'-'):'',43,y);doc.text(isFinite(off)?String(off):'-',69,y);doc.text(idx===0?String(currentHI||'-'):'',92,y);doc.text(String(pr),116,y);doc.text(String(sr),144,y);doc.text(idx===0?String(ch):'',169,y);y+=6})});
-  doc.save('Peg_Level_Report.pdf');
+  if(!vcSafeSaveJsPdf(doc,'Peg_Level_Report.pdf'))alert('PDF download नहीं हो पाई');
 }
 function pegInit(){
   var c=document.getElementById('pegCamber'),d=document.getElementById('pegDepth'),body=document.getElementById('pegRows');
@@ -8939,14 +8997,55 @@ function cvUpdateTemplateLabel(){
   if(!s||!l)return;
   l.textContent=s.options[s.selectedIndex]?s.options[s.selectedIndex].text:'Templates';
 }
+function cvFormatDate(v){
+  v=String(v||'').trim();
+  if(!v)return '';
+  var m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m)return m[3]+'/'+m[2]+'/'+m[1];
+  m=v.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  if(m)return String(m[1]).padStart(2,'0')+'/'+String(m[2]).padStart(2,'0')+'/'+m[3];
+  var d=v.replace(/\D/g,'');
+  if(d.length===8)return d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4,8);
+  return v;
+}
+function cvDobTyping(el){
+  if(!el)return;
+  var d=String(el.value||'').replace(/\D/g,'').slice(0,8),o='';
+  if(d.length<=2)o=d;
+  else if(d.length<=4)o=d.slice(0,2)+'/'+d.slice(2);
+  else o=d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4);
+  el.value=o;
+}
+function cvDobValid(v){
+  var m=String(v||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(!m)return !String(v||'').trim();
+  var dd=Number(m[1]),mm=Number(m[2]),yy=Number(m[3]);
+  if(mm<1||mm>12||dd<1||dd>31||yy<1900||yy>2100)return false;
+  var dt=new Date(yy,mm-1,dd);
+  return dt.getFullYear()===yy&&dt.getMonth()===mm-1&&dt.getDate()===dd;
+}
+function cvSave(showMessage){
+  try{
+    var d=cvData();
+    localStorage.setItem('virendraSpecialCV',JSON.stringify(d));
+    if(showMessage)alert('CV data saved ✓');
+    return true;
+  }catch(e){
+    console.error('CV save failed',e);
+    if(showMessage)alert('CV data save नहीं हो पाया');
+    return false;
+  }
+}
 function cvBind(){
   document.querySelectorAll('#cvMaker input:not([type=file]),#cvMaker textarea,#cvMaker select').forEach(function(e){
     e.oninput=function(){
+      if(e.id==='cvDob')cvDobTyping(e);
       cvRender();
       cvSave();
       if(e.id==='cvTemplate')cvUpdateTemplateLabel();
     };
     e.onchange=function(){
+      if(e.id==='cvDob')e.value=cvFormatDate(e.value);
       cvRender();
       cvSave();
       if(e.id==='cvTemplate'){
@@ -8954,24 +9053,19 @@ function cvBind(){
         cvCloseTemplates();
       }
     };
+    if(e.id==='cvDob'){
+      e.onblur=function(){
+        e.value=cvFormatDate(e.value);
+        if(e.value&&!cvDobValid(e.value))alert('Date DD/MM/YYYY में सही भरें।');
+        cvRender();cvSave();
+      };
+    }
   });
 }
 function cvAddExp(d){var w=document.getElementById('cvExpRows');if(w){w.insertAdjacentHTML('beforeend',cvExpHTML(d));cvBind();cvRender();}}
 function cvAddEdu(d){var w=document.getElementById('cvEduRows');if(w){w.insertAdjacentHTML('beforeend',cvEduHTML(d));cvBind();cvRender();}}
 function cvReadRows(sel,cls){return Array.from(document.querySelectorAll(sel)).map(function(r){if(cls==='exp')return {company:r.querySelector('.ce-company').value,role:r.querySelector('.ce-role').value,from:r.querySelector('.ce-from').value,to:r.querySelector('.ce-to').value,desc:r.querySelector('.ce-desc').value};return {course:r.querySelector('.cd-course').value,school:r.querySelector('.cd-school').value,year:r.querySelector('.cd-year').value,result:r.querySelector('.cd-result').value}})}
-function cvData(){var g=function(id){var e=document.getElementById(id);return e?e.value:''};return {template:g('cvTemplate'),type:g('cvType'),name:g('cvName'),role:g('cvRole'),phone:g('cvPhone'),email:g('cvEmail'),address:g('cvAddress'),dob:g('cvDob'),summary:g('cvSummary'),skills:g('cvSkills'),languages:g('cvLanguages'),photo:cvPhotoData,exp:cvReadRows('#cvExpRows .cv-exp','exp'),edu:cvReadRows('#cvEduRows .cv-edu','edu')}}
-function cvSave(showMsg){try{localStorage.setItem('virendraSpecialCV',JSON.stringify(cvData()));if(showMsg)alert('CV data saved.')}catch(e){if(showMsg)alert('Save नहीं हो पाया.')}}
-function cvLoadImage(inp,type){var f=inp.files&&inp.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){cvPhotoData=rd.result;var ph=document.getElementById('cvPhotoThumb');if(ph)ph.src=cvPhotoData;cvSave();cvRender()};rd.readAsDataURL(f)}
-function cvSection(id,show){var e=document.getElementById(id);if(e)e.style.display=show?'':'none'}
-function cvIcon(type){
-  var paths={
-    phone:'<path d="M4.6 2.8c.4-.4 1-.4 1.4-.1l1.8 1.4c.4.3.5.9.2 1.3L6.9 7c1 2 2.6 3.6 4.6 4.6l1.6-1.1c.4-.3 1-.2 1.3.2l1.4 1.8c.3.4.3 1-.1 1.4l-1 1c-.8.8-2 .9-3 .5-5-2-8.9-5.9-10.9-10.9-.4-1-.3-2.2.5-3l1-1z"/>',
-    email:'<rect x="2.5" y="4" width="15" height="12" rx="2"/><path d="M3.5 5l6.5 5 6.5-5"/>',
-    location:'<path d="M10 18s5-4.6 5-10a5 5 0 1 0-10 0c0 5.4 5 10 5 10z"/><circle cx="10" cy="8" r="1.8"/>',
-    dob:'<rect x="3" y="4.5" width="14" height="12.5" rx="2"/><path d="M6 2.5v4M14 2.5v4M3 8h14"/>'
-  };
-  return '<span class="cvg-ico"><svg viewBox="0 0 20 20" aria-hidden="true">'+(paths[type]||'')+'</svg></span>';
-}
+function cvData(){var g=function(id){var e=document.getElementById(id);return e?e.value:''};return {template:g('cvTemplate'),type:g('cvType'),name:g('cvName'),role:g('cvRole'),phone:g('cvPhone'),email:g('cvEmail'),address:g('cvAddress'),dob:cvFormatDate(g('cvDob')),summary:g('cvSummary'),skills:g('cvSkills'),languages:g('cvLanguages'),photo:cvPhotoData,exp:cvReadRows('#cvExpRows .cv-exp','exp'),edu:cvReadRows('#cvEduRows .cv-edu','edu')}}
 function cvContactRows(d,inline){
   var a=[];
   if(d.phone)a.push('<div class="cvg-contact-row">'+cvIcon('phone')+'<span>'+cvEsc(d.phone)+'</span></div>');
@@ -9084,7 +9178,7 @@ function cvLoad(){
   if(d){
     ['template','type','name','role','phone','email','address','dob','summary','skills','languages'].forEach(function(k){
       var map={template:'cvTemplate',type:'cvType',name:'cvName',role:'cvRole',phone:'cvPhone',email:'cvEmail',address:'cvAddress',dob:'cvDob',summary:'cvSummary',skills:'cvSkills',languages:'cvLanguages'};
-      set(map[k],d[k])
+      set(map[k],k==='dob'?cvFormatDate(d[k]):d[k])
     });
     cvPhotoData=d.photo||'';
     if(cvPhotoData){
@@ -9114,90 +9208,145 @@ async function cvWaitForImages(root){
   }));
 }
 
+function cvPdfPalette(template){
+  var map={
+    professional:{bg:'#111827',accent:'#173453',light:false},
+    midnight:{bg:'#0f172a',accent:'#0f172a',light:false},
+    modern:{bg:'#0f766e',accent:'#0f766e',light:false},
+    softteal:{bg:'#0f766e',accent:'#0f766e',light:false},
+    coral:{bg:'#f97360',accent:'#e85d4a',light:false},
+    royalblue:{bg:'#2563eb',accent:'#2563eb',light:false},
+    lightblue:{bg:'#eaf4ff',accent:'#2563eb',light:true},
+    slate:{bg:'#475569',accent:'#475569',light:false},
+    emerald:{bg:'#059669',accent:'#059669',light:false},
+    executive:{bg:'#6b7280',accent:'#4b5563',light:false},
+    simple:{bg:'#ffffff',accent:'#173453',light:true},
+    ats:{bg:'#ffffff',accent:'#111827',light:true}
+  };
+  return map[template]||map.professional;
+}
+function cvPdfRgb(hex){
+  hex=String(hex||'#000000').replace('#','');
+  if(hex.length===3)hex=hex.split('').map(function(c){return c+c}).join('');
+  return [parseInt(hex.slice(0,2),16)||0,parseInt(hex.slice(2,4),16)||0,parseInt(hex.slice(4,6),16)||0];
+}
+function cvPdfSafe(s){
+  return String(s||'').replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/[\u2013\u2014]/g,'-').replace(/\u2022/g,'•');
+}
+function cvPdfFileName(){
+  var e=document.getElementById('cvName'),n=e?e.value:'Virendra_CV';
+  return (String(n||'Virendra_CV').trim().replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'')||'Virendra_CV')+'_CV.pdf';
+}
 async function cvPrintPDF(){
   var btn=document.querySelector('#cvMaker .cv-btn[onclick*="cvPrintPDF"]');
   var oldText=btn?btn.textContent:'';
   try{
-    cvRender();
-    var sheet=document.getElementById('cvSheet');
-    if(!sheet){alert('CV preview तैयार नहीं हुआ।');return;}
+    var d=cvData();
+    if(d.dob&&!cvDobValid(d.dob)){alert('Date of Birth DD/MM/YYYY में सही भरें।');return;}
     if(!window.jspdf||!window.jspdf.jsPDF){alert('PDF library load नहीं हुई। Internet ON करके एक बार App खोलें।');return;}
-    if(typeof window.html2canvas!=='function'){
-      alert('CV PDF library load नहीं हुई। Internet ON करके एक बार App खोलें, फिर दोबारा Download दबाएँ।');
-      return;
-    }
-
     if(btn){btn.disabled=true;btn.textContent='PDF बन रही है…';}
-
-    var oldTransform=sheet.style.transform;
-    var oldMargin=sheet.style.marginBottom;
-    var oldBoxShadow=sheet.style.boxShadow;
-    sheet.style.transform='none';
-    sheet.style.marginBottom='0';
-    sheet.style.boxShadow='none';
-
-    await cvWaitForImages(sheet);
-    await new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(r)})});
-
-    var captureHeight=Math.max(1123,sheet.scrollHeight||1123);
-    var canvas=await html2canvas(sheet,{
-      scale:2,
-      useCORS:true,
-      allowTaint:true,
-      backgroundColor:'#ffffff',
-      logging:false,
-      width:794,
-      height:captureHeight,
-      windowWidth:794,
-      scrollX:0,
-      scrollY:0
-    });
 
     var jsPDF=window.jspdf.jsPDF;
     var doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-    var scale=canvas.width/794;
-    var pagePx=Math.round(1123*scale);
-    var totalPages=Math.max(1,Math.ceil(canvas.height/pagePx));
+    doc.setProperties({title:(d.name||'CV')+' - CV',subject:'Curriculum Vitae',creator:'Virendra Calculator'});
+    var pal=cvPdfPalette(d.template),accent=cvPdfRgb(pal.accent),bg=cvPdfRgb(pal.bg);
+    var pageW=210,pageH=297,margin=14,contentW=pageW-margin*2,y=14;
 
-    for(var page=0;page<totalPages;page++){
-      if(page>0)doc.addPage('a4','portrait');
-      var slice=document.createElement('canvas');
-      slice.width=canvas.width;
-      slice.height=pagePx;
-      var ctx=slice.getContext('2d');
-      ctx.fillStyle='#ffffff';
-      ctx.fillRect(0,0,slice.width,slice.height);
-      var sy=page*pagePx;
-      var sh=Math.min(pagePx,canvas.height-sy);
-      if(sh>0)ctx.drawImage(canvas,0,sy,canvas.width,sh,0,0,canvas.width,sh);
-      var img=slice.toDataURL('image/jpeg',0.94);
-      doc.addImage(img,'JPEG',0,0,210,297,undefined,'FAST');
+    function setText(rgb){doc.setTextColor(rgb[0],rgb[1],rgb[2]);}
+    function addPage(){doc.addPage('a4','portrait');y=14;setText([31,41,55]);}
+    function ensure(h){if(y+h>pageH-14)addPage();}
+    function txt(s,x,yy,size,style,maxW,align,color){
+      s=cvPdfSafe(s);if(!s)return yy;
+      doc.setFont('helvetica',style||'normal');doc.setFontSize(size||10);setText(color||[31,41,55]);
+      var lines=maxW?doc.splitTextToSize(s,maxW):[s];
+      doc.text(lines,x,yy,{align:align||'left',baseline:'top'});
+      return yy+(lines.length*(size||10)*0.3528*1.25);
+    }
+    function sectionTitle(t){
+      ensure(11);y+=2;doc.setDrawColor(accent[0],accent[1],accent[2]);doc.setLineWidth(.6);doc.line(margin,y+7,pageW-margin,y+7);
+      txt(String(t).toUpperCase(),margin,y,10,'bold',null,'left',accent);y+=11;
+    }
+    function bodyText(s,size){
+      if(!String(s||'').trim())return;
+      var lines=doc.splitTextToSize(cvPdfSafe(s),contentW);var h=lines.length*(size||9)*0.3528*1.35;ensure(h+2);
+      doc.setFont('helvetica','normal');doc.setFontSize(size||9);setText([55,65,81]);doc.text(lines,margin,y,{baseline:'top'});y+=h+2;
+    }
+    function bulletLines(s){
+      var arr=cvSplitBullets(s);if(!arr.length&&String(s||'').trim())arr=[String(s).trim()];
+      arr.forEach(function(b){
+        var lines=doc.splitTextToSize(cvPdfSafe(b),contentW-7);var h=lines.length*3.8;ensure(h+1);
+        doc.setFillColor(accent[0],accent[1],accent[2]);doc.circle(margin+1.5,y+1.7,.65,'F');
+        doc.setFont('helvetica','normal');doc.setFontSize(8.8);setText([55,65,81]);doc.text(lines,margin+5,y,{baseline:'top'});y+=h+1;
+      });
     }
 
-    var safeName=(document.getElementById('cvName')||{}).value||'Virendra_CV';
-    safeName=String(safeName).trim().replace(/[^a-zA-Z0-9_-]+/g,'_').replace(/^_+|_+$/g,'')||'Virendra_CV';
-    var fileName=safeName+'_CV.pdf';
+    // Vector header: text/shapes remain sharp at any zoom.
+    var headerH=43;
+    if(pal.light){doc.setFillColor(255,255,255);doc.rect(0,0,pageW,headerH,'F');doc.setDrawColor(accent[0],accent[1],accent[2]);doc.setLineWidth(1);doc.line(margin,headerH-1,pageW-margin,headerH-1);}
+    else{doc.setFillColor(bg[0],bg[1],bg[2]);doc.rect(0,0,pageW,headerH,'F');}
+    var headColor=pal.light?[23,52,83]:[255,255,255];
+    var nameX=margin,headMax=142;
+    if(d.photo){
+      try{doc.addImage(d.photo,pageW-margin-24,6,22,28,undefined,'FAST');headMax=140;}catch(e){}
+    }
+    txt(d.name||'YOUR NAME',nameX,9,20,'bold',headMax,'left',headColor);
+    txt(d.role||d.type||'Job Title',nameX,19.5,10,'bold',headMax,'left',headColor);
+    var contacts=[];
+    if(d.phone)contacts.push(d.phone);if(d.email)contacts.push(d.email);if(d.address)contacts.push(d.address);if(d.dob)contacts.push('DOB: '+d.dob);
+    txt(contacts.join('  |  '),nameX,28,8,'normal',headMax,'left',headColor);
+    y=50;
 
-    var saved=false;
-    try{
-      var bytes=new Uint8Array(doc.output('arraybuffer'));
-      if(typeof pcNativeSavePdf==='function')saved=pcNativeSavePdf(bytes,fileName);
-    }catch(e){saved=false;}
+    if(String(d.summary||'').trim()){sectionTitle('Profile / Objective');bodyText(d.summary,9.2);}
 
-    if(!saved){
-      doc.save(fileName);
-    }else{
-      alert('CV PDF Downloads में save हो गई ✓');
+    var exps=(d.exp||[]).filter(function(x){return x.company||x.role||x.desc||x.from||x.to});
+    if(exps.length){
+      sectionTitle('Experience');
+      exps.forEach(function(x){
+        ensure(15);doc.setFont('helvetica','bold');doc.setFontSize(9.5);setText([31,41,55]);
+        var left=cvPdfSafe(x.role||x.company||'Experience'),right=cvPdfSafe([x.from,x.to].filter(Boolean).join(' - '));
+        doc.text(left,margin,y,{baseline:'top'});if(right)doc.text(right,pageW-margin,y,{align:'right',baseline:'top'});y+=4.3;
+        if(x.company){txt(x.company,margin,y,8.5,'bold',contentW,'left',[71,85,105]);y+=.5;}
+        bulletLines(x.desc);y+=1.5;
+      });
     }
 
-    sheet.style.transform=oldTransform;
-    sheet.style.marginBottom=oldMargin;
-    sheet.style.boxShadow=oldBoxShadow;
-    setTimeout(cvScalePreview,100);
+    var edus=(d.edu||[]).filter(function(x){return x.course||x.school||x.year||x.result});
+    if(edus.length){
+      sectionTitle('Education');
+      var cols=[43,86,29,24],x0=margin,rowH=8;
+      ensure(rowH*(edus.length+1)+2);
+      doc.setFillColor(238,244,248);doc.rect(x0,y,contentW,rowH,'F');
+      var heads=['Course / Degree','School / University','Grade / Score','Year'],cx=x0;
+      doc.setFont('helvetica','bold');doc.setFontSize(7.7);setText([31,41,55]);
+      for(var hi=0;hi<heads.length;hi++){doc.text(heads[hi],cx+1.5,y+2.2,{baseline:'top'});cx+=cols[hi];}
+      y+=rowH;
+      edus.forEach(function(x){
+        ensure(rowH);doc.setDrawColor(220,226,232);doc.setLineWidth(.2);doc.line(x0,y+rowH, pageW-margin,y+rowH);
+        var vals=[x.course||'',x.school||'',x.result||'',x.year||''],xx=x0;
+        doc.setFont('helvetica','normal');doc.setFontSize(7.4);setText([55,65,81]);
+        for(var vi=0;vi<vals.length;vi++){
+          doc.setFontSize(vi===1?7.0:7.4);
+          var one=doc.splitTextToSize(cvPdfSafe(vals[vi]),cols[vi]-3)[0]||'';
+          doc.text(one,xx+1.5,y+2.2,{baseline:'top'});xx+=cols[vi];
+        }
+        y+=rowH;
+      });
+      y+=2;
+    }
+
+    var skills=String(d.skills||'').split(/[,\n]/).map(function(s){return s.trim()}).filter(Boolean);
+    if(skills.length){sectionTitle('Skills');bodyText(skills.join('  •  '),9);}
+    if(String(d.languages||'').trim()){sectionTitle('Languages');bodyText(d.languages,9);}
+
+    // Small footer, also vector.
+    doc.setFont('helvetica','normal');doc.setFontSize(6.8);setText([120,130,145]);
+    doc.text('Created with Virendra Calculator',pageW-margin,pageH-8,{align:'right'});
+
+    var fileName=cvPdfFileName();
+    if(!vcSafeSaveJsPdf(doc,fileName))throw new Error('CV PDF save failed');
   }catch(err){
-    console.error('CV PDF error',err);
-    alert('CV PDF download नहीं हो पाई। एक बार Internet ON करके App फिर खोलें और दोबारा कोशिश करें।');
-    try{cvScalePreview()}catch(e){}
+    console.error('CV vector PDF error',err);
+    alert('CV PDF download नहीं हो पाई।');
   }finally{
     if(btn){btn.disabled=false;btn.textContent=oldText||'DOWNLOAD PDF';}
   }
@@ -9274,10 +9423,9 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       vcDevAutoBackup();
       var html='';try{html=localStorage.getItem(AUTO_HTML_KEY)||''}catch(e){}
       if(!html)html=vcDevCurrentHtml();
-      var blob=new Blob([html],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
       var d=new Date(),pad=function(n){return String(n).padStart(2,'0')};
-      a.href=url;a.download='Virendra_Calculator_Updated_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.html';document.body.appendChild(a);a.click();a.remove();
-      setTimeout(function(){URL.revokeObjectURL(url)},2000);status('Updated HTML download हो गई ✓',false,true);
+      var fn='Virendra_Calculator_Updated_'+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+'.html';
+      vcSafeSaveText(html,fn,'text/html;charset=utf-8');status('Updated HTML download शुरू ✓',false,true);
     }catch(e){console.error(e);status('HTML download नहीं हो पाई.',true,true)}
   };
   // हर बार app खुलने पर current version की HTML backup refresh करें.
@@ -10123,7 +10271,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     y+=6;
     doc.text('Chainages: '+rows.length,margin,y);
 
-    doc.save('Soil_Cut_Fill_Quantity.pdf');
+    if(!vcSafeSaveJsPdf(doc,'Soil_Cut_Fill_Quantity.pdf'))alert('PDF download नहीं हो पाई');
   };
 
   function serialize(){
@@ -10403,7 +10551,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   function el(id){return document.getElementById(id)}
   function formatBytes(n){if(n<1024)return n+' B';if(n<1048576)return(n/1024).toFixed(1)+' KB';return(n/1048576).toFixed(2)+' MB'}
   function setStatus(type,html){var s=el('pprStatus');if(!s)return;s.className='ppr-status '+type;s.innerHTML=html}
-  function clearDownload(){var d=el('pprDownloadBtn');if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(e){}objectUrl=null}if(d){d.classList.remove('show');d.removeAttribute('href')}}
+  function clearDownload(){var d=el('pprDownloadBtn');if(objectUrl){try{URL.revokeObjectURL(objectUrl)}catch(e){}objectUrl=null}if(d){d.classList.remove('show');d.removeAttribute('href');d.removeAttribute('download');d.onclick=null}}
   function setFile(f){
     clearDownload();var box=el('pprFilebox'),input=el('pprFile');
     if(!f){selectedFile=null;if(box)box.style.display='none';if(input)input.value='';return}
@@ -10438,8 +10586,9 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     try{
       await ensureEngine();var buf=await selectedFile.arrayBuffer(),pw=el('pprPassword').value||'',bytes=new Uint8Array(buf);
       var result=await send({type:'run',qpdfJsUrl:QPDF_JS,wasmUrl:QPDF_WASM,bytes:bytes,args:['--password='+pw,'--decrypt','input.pdf','output.pdf']},[bytes.buffer],90000);
-      var out=new Uint8Array(result.bytes),blob=new Blob([out],{type:'application/pdf'});objectUrl=URL.createObjectURL(blob);
-      var d=el('pprDownloadBtn'),base=selectedFile.name.replace(/\.pdf$/i,'');d.href=objectUrl;d.download=base+'_unlocked.pdf';d.classList.add('show');
+      var out=new Uint8Array(result.bytes);
+      var d=el('pprDownloadBtn'),base=selectedFile.name.replace(/\.pdf$/i,''),outName=base+'_unlocked.pdf';
+      d.href='#';d.classList.add('show');d.onclick=function(ev){if(ev)ev.preventDefault();if(!vcSafeSaveBytes(out,outName,'application/pdf'))alert('PDF download नहीं हो पाई');return false;};
       setStatus('ok','✅ Password हट गया। अब <b>DOWNLOAD UNLOCKED PDF</b> दबाएँ।');
     }catch(err){setStatus('err','❌ '+errorText(err))}finally{btn.disabled=false;btn.textContent='REMOVE PASSWORD'}
   }
@@ -11097,9 +11246,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       ctx.textAlign='right';ctx.fillText('Virendra Calculator - Notebook',W-margin,H-44);ctx.textAlign='left';
       pages.push({jpg:bytesFromDataUrl(c.toDataURL('image/jpeg',0.92)),w:W,h:H});
     }
-    var pdf=buildPdfFromJpegs(pages),blob=new Blob([pdf],{type:'application/pdf'}),url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download=safeName((note.workDate?note.workDate+'_':'')+note.title)+'.pdf';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(function(){URL.revokeObjectURL(url)},2500);
+    var pdf=buildPdfFromJpegs(pages),fn=safeName((note.workDate?note.workDate+'_':'')+note.title)+'.pdf';
+    if(!vcSafeSaveBytes(pdf,fn,'application/pdf'))throw new Error('Notebook PDF save failed');
   }
 
   function statementDefaultDates(){
@@ -11165,9 +11313,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     }
     var ctx=pg.ctx;ctx.font='18px Arial, sans-serif';ctx.fillStyle='#64748b';ctx.fillText('Page '+pageNo,margin,H-32);ctx.textAlign='right';ctx.fillText('Virendra Calculator - Notebook',W-margin,H-32);ctx.textAlign='left';
     pages.push({jpg:bytesFromDataUrl(pg.c.toDataURL('image/jpeg',0.92)),w:W,h:H});
-    var pdf=buildPdfFromJpegs(pages),blob=new Blob([pdf],{type:'application/pdf'}),url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download='Work_Statement_'+fromDate+'_to_'+toDate+'.pdf';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(function(){URL.revokeObjectURL(url)},2500);
+    var pdf=buildPdfFromJpegs(pages),fn='Work_Statement_'+fromDate+'_to_'+toDate+'.pdf';
+    if(!vcSafeSaveBytes(pdf,fn,'application/pdf'))throw new Error('Notebook statement PDF save failed');
   }
 
   window.nbDownloadStatementPDF=function(){
@@ -11356,8 +11503,39 @@ window.mhEditEntry=function(id){var e=mhLoad().find(function(x){return x.id===id
 window.mhDeleteEntry=function(id){if(!confirm('यह entry delete करें?'))return;mhStore(mhLoad().filter(function(x){return x.id!==id}));mhRenderList()};
 function mhFiltered(){var d=mhLoad().slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.updatedAt||0)-(a.updatedAt||0)}),q=(mhEl('mhSearch').value||'').trim().toLowerCase(),fd=mhEl('mhFilterDate').value;if(q)d=d.filter(function(e){return [e.date,e.machine,e.machineNo,e.operator,e.location,e.remarks].join(' ').toLowerCase().indexOf(q)>=0});if(fd)d=d.filter(function(e){return e.date===fd});return d}
 window.mhRenderList=function(){if(!mhEl('mhList'))return;var d=mhFiltered(),list=mhEl('mhList');if(!d.length)list.innerHTML='<div class="mh-empty">कोई entry नहीं मिली</div>';else list.innerHTML=d.map(function(e){return '<div class="mh-item"><div class="mh-itemTop"><div><div class="mh-itemTitle">'+mhEsc(e.machine)+(e.machineNo?' - '+mhEsc(e.machineNo):'')+'</div><div class="mh-itemMeta">'+mhEsc(e.date)+' • Operator: '+mhEsc(e.operator||'—')+'<br>'+mhEsc(e.location||'')+'</div></div><div class="mh-itemHours">'+mhNumVal(e.hours).toFixed(2)+' Hr</div></div><div class="mh-itemMeta">Opening: '+mhNumVal(e.opening).toFixed(2)+' • Closing: '+mhNumVal(e.closing).toFixed(2)+' • Diesel: '+mhNumVal(e.diesel).toFixed(2)+' L</div>'+(e.remarks?'<div class="mh-itemRemarks">'+mhEsc(e.remarks)+'</div>':'')+'<div class="mh-itemActions"><button class="mh-secondary" onclick="mhEditEntry(\''+e.id+'\')">EDIT</button><button class="mh-red" onclick="mhDeleteEntry(\''+e.id+'\')">DELETE</button><button class="mh-green" onclick="mhDownloadSingle(\''+e.id+'\')">PDF</button></div></div>'}).join('');var h=d.reduce(function(t,e){return t+mhNumVal(e.hours)},0),diesel=d.reduce(function(t,e){return t+mhNumVal(e.diesel)},0);mhEl('mhSumEntries').textContent=d.length;mhEl('mhSumHours').textContent=h.toFixed(2);mhEl('mhSumDiesel').textContent=diesel.toFixed(2)+' L';mhEl('mhSumAvg').textContent=(h>0?diesel/h:0).toFixed(2)};
-function mhReportHtml(rows,title,range){var totalH=rows.reduce(function(t,e){return t+mhNumVal(e.hours)},0),totalD=rows.reduce(function(t,e){return t+mhNumVal(e.diesel)},0),trs=rows.map(function(e,i){return '<tr><td>'+(i+1)+'</td><td>'+mhEsc(e.date)+'</td><td>'+mhEsc(e.machine)+'</td><td>'+mhEsc(e.machineNo||'')+'</td><td>'+mhNumVal(e.opening).toFixed(2)+'</td><td>'+mhNumVal(e.closing).toFixed(2)+'</td><td>'+mhNumVal(e.hours).toFixed(2)+'</td><td>'+mhNumVal(e.diesel).toFixed(2)+'</td><td>'+mhEsc(e.operator||'')+'</td><td>'+mhEsc(e.location||'')+'</td><td>'+mhEsc(e.remarks||'')+'</td></tr>'}).join('');return '<!doctype html><html><head><meta charset="utf-8"><title>'+mhEsc(title)+'</title><style>@page{size:A4 landscape;margin:9mm}body{font-family:Arial,sans-serif;color:#111;margin:0}h1{text-align:center;font-size:20px;margin:0}.sub{text-align:center;font-size:11px;margin:5px 0 10px}table{width:100%;border-collapse:collapse;font-size:9px}th,td{border:1px solid #444;padding:5px 4px;text-align:center;vertical-align:top}th{background:#e8eef5}.sum{margin-top:8px;font-size:11px;font-weight:bold}.print{position:fixed;right:10px;top:10px;padding:9px 14px}@media print{.print{display:none}}</style></head><body><button class="print" onclick="window.print()">PRINT / SAVE PDF</button><h1>'+mhEsc(title)+'</h1><div class="sub">'+mhEsc(range)+'</div><table><thead><tr><th>S.No.</th><th>Date</th><th>Machine</th><th>Machine No.</th><th>Opening</th><th>Closing</th><th>Total Hr</th><th>Diesel L</th><th>Operator</th><th>Location</th><th>Remarks</th></tr></thead><tbody>'+trs+'</tbody></table><div class="sum">Total Entries: '+rows.length+' &nbsp;&nbsp; Total Running Hours: '+totalH.toFixed(2)+' Hr &nbsp;&nbsp; Total Diesel: '+totalD.toFixed(2)+' L &nbsp;&nbsp; Avg Diesel: '+(totalH>0?totalD/totalH:0).toFixed(2)+' L/Hr</div><script>setTimeout(function(){window.print()},450)<\/script></body></html>'}
-function mhOpenReport(rows,title,range){var w=window.open('','_blank');if(!w){alert('PDF/Print window नहीं खुली. Popup allow करें.');return}w.document.open();w.document.write(mhReportHtml(rows,title,range));w.document.close()}
+function mhReportHtml(rows,title,range){return '';}
+function mhOpenReport(rows,title,range){
+  if(!rows||!rows.length){alert('PDF के लिए entry नहीं है');return}
+  var jsPDF=window.jspdf&&window.jspdf.jsPDF;if(!jsPDF){alert('PDF library load नहीं हुई');return}
+  try{
+    var doc=new jsPDF({unit:'mm',format:'a4',orientation:'landscape'});
+    var W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight(),M=7,y=10;
+    var cols=[10,22,24,22,19,19,18,18,27,28,40];
+    var heads=['S.No.','Date','Machine','Machine No.','Opening','Closing','Total Hr','Diesel L','Operator','Location','Remarks'];
+    var totalH=rows.reduce(function(t,e){return t+mhNumVal(e.hours)},0);
+    var totalD=rows.reduce(function(t,e){return t+mhNumVal(e.diesel)},0);
+    function safe(v){return String(v==null?'':v).replace(/[^\x20-\x7E]/g,' ')}
+    function fit(v,w){var a=doc.splitTextToSize(safe(v),Math.max(5,w-2));return (a&&a[0])||''}
+    function header(){
+      doc.setTextColor(23,52,83);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text(safe(title||'Machinery Hour Register'),M,y);
+      doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text(safe(range||''),M,y+5);y+=10;
+      var x=M;doc.setFillColor(232,238,245);doc.setTextColor(25,40,55);doc.setFont('helvetica','bold');doc.setFontSize(6.5);
+      for(var h=0;h<heads.length;h++){doc.rect(x,y,cols[h],8);doc.text(fit(heads[h],cols[h]),x+1,y+5);x+=cols[h]}y+=8;
+    }
+    header();
+    rows.forEach(function(e,i){
+      if(y+8>H-16){doc.addPage('a4','landscape');y=10;header()}
+      var vals=[i+1,e.date,e.machine,e.machineNo||'',mhNumVal(e.opening).toFixed(2),mhNumVal(e.closing).toFixed(2),mhNumVal(e.hours).toFixed(2),mhNumVal(e.diesel).toFixed(2),e.operator||'',e.location||'',e.remarks||''];
+      var x=M;doc.setFont('helvetica','normal');doc.setFontSize(6.4);doc.setTextColor(25,35,45);
+      for(var j=0;j<vals.length;j++){doc.rect(x,y,cols[j],7);doc.text(fit(vals[j],cols[j]),x+1,y+4.6);x+=cols[j]}y+=7;
+    });
+    if(y+18>H-10){doc.addPage('a4','landscape');y=12}
+    y+=5;doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(23,52,83);
+    doc.text('Total Entries: '+rows.length+'   Total Running Hours: '+totalH.toFixed(2)+' Hr   Total Diesel: '+totalD.toFixed(2)+' L   Avg Diesel: '+(totalH>0?totalD/totalH:0).toFixed(2)+' L/Hr',M,y);
+    var fn=(title||'Machinery_Hour_Register').replace(/[^a-zA-Z0-9_-]+/g,'_')+'.pdf';
+    if(!vcSafeSaveJsPdf(doc,fn))throw new Error('PDF save failed');
+  }catch(e){console.error(e);alert('Machinery PDF download नहीं हो पाई')}
+}
 window.mhDownloadSingle=function(id){var e=mhLoad().find(function(x){return x.id===id});if(e)mhOpenReport([e],'Machinery Hour Register','Date: '+e.date)};
 window.mhDownloadStatement=function(){var from=mhEl('mhFromDate').value,to=mhEl('mhToDate').value;if(!from||!to){alert('From Date और To Date दोनों select करें');return}if(to<from){alert('To Date, From Date से पहले नहीं हो सकती');return}var rows=mhLoad().filter(function(e){return e.date>=from&&e.date<=to}).sort(function(a,b){return (a.date||'').localeCompare(b.date||'')});if(!rows.length){alert('इस date range में कोई entry नहीं है');return}mhOpenReport(rows,'Machinery Hour Register','From '+from+' To '+to)};
 
@@ -12958,7 +13136,7 @@ function downloadPdf(){
 
    var name='Design_RL_Report';
    if(rr.rows.length===1)name+='_'+String(rr.rows[0].chainage).replace('+','-')+'_O'+String(rr.rows[0].offset).replace('.','_');
-   doc.save(name+'.pdf');status('Design RL report PDF downloaded ✓','ok');
+   if(!vcSafeSaveJsPdf(doc,name+'.pdf'))throw new Error('PDF save failed');status('Design RL report PDF Downloads में save ✓','ok');
  }catch(e){status('PDF बनाने में समस्या हुई।','bad')}
 }
 
