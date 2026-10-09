@@ -520,7 +520,7 @@ main.wrap > section.card button{font-size:16px}
 #pegLevel th{padding:11px 7px;text-align:center;white-space:nowrap}
 #pegLevel td{padding:7px;text-align:center;vertical-align:middle}
 #pegLevel td input{height:43px;font-size:15px;padding:0 7px;min-width:88px;text-align:center}
-#pegLevel .peg-chwrap{display:block;min-width:142px}#pegLevel .peg-chwrap .peg-ch{min-width:130px;width:100%}#pegLevel th:nth-child(2),#pegLevel td:nth-child(2){border-left:2px solid #dbe3ec}#pegLevel th:nth-child(1){min-width:145px}#pegLevel th:nth-child(2){min-width:110px}#pegLevel .peg-keypad{position:fixed;left:50%;transform:translateX(-50%);bottom:10px;width:min(94vw,420px);z-index:9999;background:#fff;border:1px solid #cbd5e1;border-radius:20px;box-shadow:0 14px 40px #0004;padding:12px}#pegLevel .peg-keypad.hidden{display:none}#pegLevel .peg-keypad-title{text-align:center;font-size:14px;font-weight:900;color:#173453;margin:0 0 9px}#pegLevel .peg-keygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}#pegLevel .peg-key{height:52px;border:0;border-radius:12px;background:#eef3f9;color:#173453;font-size:22px;font-weight:900;cursor:pointer}#pegLevel .peg-key.plus{background:#fff0c9;color:#7b6027}#pegLevel .peg-key.done{background:#173453;color:#fff;font-size:16px}#pegLevel .peg-key.clear{background:#fee2e2;color:#b91c1c;font-size:16px}
+#pegLevel .peg-chwrap{display:block;min-width:142px}#pegLevel .peg-chwrap .peg-ch{min-width:130px;width:100%}#pegLevel th:nth-child(2),#pegLevel td:nth-child(2){border-left:2px solid #dbe3ec}#pegLevel th:nth-child(1){min-width:145px}#pegLevel th:nth-child(2){min-width:110px}
 #pegLevel .peg-out{font-weight:800;color:#173453;white-space:nowrap;line-height:1.45;text-align:left}
 #pegLevel .peg-effective{font-size:10px;color:#64748b;margin-top:3px;white-space:nowrap}
 #pegLevel .peg-hiwrap{min-width:90px}#pegLevel .peg-hi-label{min-height:16px;margin-top:4px;font-size:11px;font-weight:800;line-height:1.2;text-align:center;color:#173453}#pegLevel .peg-hi-label.new{color:#94a3b8;font-weight:700}
@@ -2258,6 +2258,1216 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 #pdfDesignRlFinder .pdrl-smartHint{margin-top:8px;font-size:10px;line-height:1.45;color:#71869a}
 @media(max-width:430px){#pdfDesignRlFinder .pdrl-smartGrid{grid-template-columns:1fr}}
 </style>
+
+<style id="vcStylishMainToolIcons">
+/* ===== Stylish Main Tool Icons — visual only ===== */
+.nav .toolIcon{
+  position:relative;
+  width:48px!important;
+  height:48px!important;
+  flex:0 0 48px!important;
+  border-radius:15px!important;
+  overflow:hidden;
+  isolation:isolate;
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(228,244,252,.92))!important;
+  border:1.5px solid rgba(255,255,255,.96);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.98),
+    inset 0 -5px 10px rgba(31,91,130,.08),
+    0 4px 0 rgba(115,170,198,.24),
+    0 8px 14px rgba(23,52,83,.14)!important;
+  transform:translateY(0) scale(1);
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+
+.nav .toolIcon:before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  left:4px;
+  right:4px;
+  top:3px;
+  height:43%;
+  border-radius:12px 12px 50% 50%;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.12));
+  pointer-events:none;
+}
+
+.nav .toolIcon:after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  width:10px;
+  height:10px;
+  right:5px;
+  bottom:5px;
+  border-radius:50%;
+  background:rgba(255,255,255,.72);
+  box-shadow:0 0 0 2px rgba(255,255,255,.20);
+  pointer-events:none;
+}
+
+.nav .toolIcon > svg{
+  position:relative;
+  z-index:1;
+  width:39px!important;
+  height:39px!important;
+  filter:drop-shadow(0 1.5px 1px rgba(23,52,83,.18));
+}
+
+.nav .toolIcon:not(.vcRealToolIcon){
+  position:relative;
+  z-index:1;
+  font-size:25px!important;
+  text-shadow:0 1px 1px rgba(23,52,83,.18);
+}
+
+/* Soft category-like colour variation inside each row */
+.nav button:nth-child(6n+1) .toolIcon{
+  background:linear-gradient(145deg,#fff9fc,#ffe7f0)!important;
+  box-shadow:inset 0 2px 3px #fff,inset 0 -5px 10px rgba(173,64,105,.08),0 4px 0 rgba(226,170,190,.34),0 8px 14px rgba(126,64,91,.13)!important;
+}
+.nav button:nth-child(6n+2) .toolIcon{
+  background:linear-gradient(145deg,#fafff5,#e4f7d8)!important;
+  box-shadow:inset 0 2px 3px #fff,inset 0 -5px 10px rgba(76,130,61,.08),0 4px 0 rgba(174,211,157,.35),0 8px 14px rgba(72,122,59,.12)!important;
+}
+.nav button:nth-child(6n+3) .toolIcon{
+  background:linear-gradient(145deg,#fffaf4,#ffe7cf)!important;
+  box-shadow:inset 0 2px 3px #fff,inset 0 -5px 10px rgba(175,96,43,.08),0 4px 0 rgba(230,185,143,.36),0 8px 14px rgba(145,85,43,.12)!important;
+}
+.nav button:nth-child(6n+4) .toolIcon{
+  background:linear-gradient(145deg,#f7feff,#dff8fb)!important;
+  box-shadow:inset 0 2px 3px #fff,inset 0 -5px 10px rgba(53,128,146,.07),0 4px 0 rgba(157,213,224,.38),0 8px 14px rgba(49,117,135,.12)!important;
+}
+.nav button:nth-child(6n+5) .toolIcon{
+  background:linear-gradient(145deg,#fcf9ff,#ebddff)!important;
+  box-shadow:inset 0 2px 3px #fff,inset 0 -5px 10px rgba(106,76,153,.07),0 4px 0 rgba(198,177,232,.38),0 8px 14px rgba(91,66,133,.12)!important;
+}
+.nav button:nth-child(6n+6) .toolIcon{
+  background:linear-gradient(145deg,#fffdf4,#fff0bd)!important;
+  box-shadow:inset 0 2px 3px #fff,inset 0 -5px 10px rgba(166,124,31,.07),0 4px 0 rgba(231,207,137,.40),0 8px 14px rgba(151,113,30,.11)!important;
+}
+
+/* Small interaction only — button/function behaviour stays untouched */
+.nav button:hover .toolIcon{
+  transform:translateY(-2px) scale(1.055);
+  filter:saturate(1.06);
+}
+.nav button:active .toolIcon{
+  transform:translateY(2px) scale(.96);
+  box-shadow:inset 0 2px 6px rgba(23,52,83,.08),0 1px 0 rgba(115,170,198,.28),0 4px 8px rgba(23,52,83,.10)!important;
+}
+.nav button.active .toolIcon{
+  outline:2px solid rgba(25,118,210,.28);
+  outline-offset:2px;
+}
+.nav .toolLabel{
+  margin-top:1px;
+  letter-spacing:.05px;
+}
+
+@media(max-width:430px){
+  .nav .toolIcon{
+    width:44px!important;
+    height:44px!important;
+    flex-basis:44px!important;
+    border-radius:14px!important;
+  }
+  .nav .toolIcon > svg{width:36px!important;height:36px!important}
+  .nav .toolIcon:not(.vcRealToolIcon){font-size:23px!important}
+}
+</style>
+
+
+<style id="vcNewBadgeOnlyStyle">
+.toolGroup .nav button.vc-new-tool{overflow:visible!important}
+.vc-new-tool-badge{
+  position:absolute;
+  z-index:50;
+  right:-5px;
+  top:-8px;
+  min-width:35px;
+  height:20px;
+  padding:0 7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  color:#fff;
+  background:linear-gradient(180deg,#ff4d5f,#d70d2f);
+  border:2px solid rgba(255,255,255,.96);
+  box-shadow:0 3px 8px rgba(172,18,48,.28),inset 0 1px 0 rgba(255,255,255,.40);
+  font-size:9px;
+  line-height:1;
+  letter-spacing:.45px;
+  font-weight:950;
+  text-shadow:0 1px 1px rgba(90,0,15,.25);
+  pointer-events:none;
+}
+.vc-new-tool-badge:after{
+  content:"";
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#fff;
+  margin-left:4px;
+  box-shadow:0 0 7px rgba(255,255,255,.95);
+}
+@media(max-width:430px){
+  .vc-new-tool-badge{right:-3px;top:-7px;height:19px;min-width:32px;padding:0 6px;font-size:8.5px}
+}
+</style>
+
+<style id="vcDeletePdfPageStyle">
+#deletePdfPage{padding:18px 12px 24px}
+#deletePdfPage h2{margin:3px 0 6px;text-align:center;font-size:25px}
+#deletePdfPage .dpp-sub{text-align:center;color:#64748b;font-size:12px;line-height:1.5;margin:0 0 13px}
+#deletePdfPage .dpp-upload{border:2px dashed #b9c9d8;border-radius:16px;background:#f8fbfe;padding:16px 12px;text-align:center}
+#deletePdfPage .dpp-upload input{display:none}
+#deletePdfPage .dpp-pick{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 16px;border:0;border-radius:12px;background:#173453;color:#fff;font-weight:900;font-size:12px;cursor:pointer}
+#deletePdfPage .dpp-file{margin-top:8px;font-size:11px;color:#64748b;word-break:break-word}
+#deletePdfPage .dpp-toolbar{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
+#deletePdfPage .dpp-btn{border:0;border-radius:11px;padding:10px 7px;font-size:10.5px;font-weight:900;cursor:pointer}
+#deletePdfPage .dpp-btn.gray{background:#e2e8f0;color:#173453}
+#deletePdfPage .dpp-btn.red{background:#b91c1c;color:#fff}
+#deletePdfPage .dpp-btn.green{background:#15803d;color:#fff}
+#deletePdfPage .dpp-btn:disabled{opacity:.48;cursor:not-allowed}
+#deletePdfPage .dpp-info{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:9px 10px;border:1px solid #dce5ed;border-radius:11px;background:#fff;font-size:11px;color:#475569;margin:10px 0}
+#deletePdfPage .dpp-info b{color:#173453}
+#deletePdfPage .dpp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+#deletePdfPage .dpp-page{position:relative;border:2px solid #dbe4ec;border-radius:13px;background:#fff;padding:7px;box-shadow:0 3px 9px rgba(23,52,83,.08);cursor:pointer;user-select:none}
+#deletePdfPage .dpp-page.selected{border-color:#dc2626;background:#fff1f2;box-shadow:0 0 0 3px rgba(220,38,38,.09)}
+#deletePdfPage .dpp-page canvas{display:block;width:100%;height:auto;border-radius:8px;background:#f8fafc;border:1px solid #edf1f5}
+#deletePdfPage .dpp-page-no{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:6px;font-size:10.5px;font-weight:900;color:#173453}
+#deletePdfPage .dpp-check{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #cbd5e1;background:#fff;color:transparent;font-size:13px;font-weight:950}
+#deletePdfPage .dpp-page.selected .dpp-check{background:#dc2626;color:#fff;border-color:#dc2626}
+#deletePdfPage .dpp-delete-mark{position:absolute;right:6px;top:6px;z-index:3;min-width:39px;height:20px;padding:0 6px;border-radius:999px;display:none;align-items:center;justify-content:center;background:#dc2626;color:#fff;border:2px solid #fff;font-size:8.5px;font-weight:950;box-shadow:0 2px 7px rgba(0,0,0,.18)}
+#deletePdfPage .dpp-page.selected .dpp-delete-mark{display:flex}
+#deletePdfPage .dpp-status{min-height:18px;margin:8px 0;text-align:center;font-size:11px;line-height:1.45;color:#64748b}
+#deletePdfPage .dpp-progress{display:none;margin:8px 0}
+#deletePdfPage .dpp-progress.show{display:block}
+#deletePdfPage .dpp-track{height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden}
+#deletePdfPage .dpp-bar{height:100%;width:0;background:#1976d2;transition:width .15s}
+#deletePdfPage .dpp-ptext{text-align:center;font-size:10px;color:#64748b;margin-top:4px}
+#deletePdfPage .dpp-note{margin-top:10px;padding:9px;border:1px solid #dbe5ee;border-radius:11px;background:#f8fbfe;font-size:10.5px;color:#64748b;line-height:1.45}
+@media(max-width:520px){#deletePdfPage .dpp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+
+<style id="vcDeletePdfVisiblePreviewStyle">
+#deletePdfPage .dpp-grid{
+  grid-template-columns:1fr!important;
+  gap:14px!important;
+}
+#deletePdfPage .dpp-page{
+  padding:9px!important;
+}
+#deletePdfPage .dpp-page canvas{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:260px;
+  max-height:none;
+  object-fit:contain;
+  background:#fff!important;
+}
+#deletePdfPage .dpp-preview-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:7px;
+  align-items:center;
+  margin-top:7px;
+}
+#deletePdfPage .dpp-preview-open{
+  border:0;border-radius:8px;background:#173453;color:#fff;
+  padding:7px 9px;font-size:9.5px;font-weight:900;
+}
+#deletePdfPage .dpp-preview-help{
+  font-size:9.5px;color:#64748b;font-weight:700;
+}
+#dppFullPreview{
+  position:fixed;inset:0;z-index:100000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  background:rgba(5,15,25,.93);
+}
+#dppFullPreview.show{display:flex}
+#dppFullPreviewBox{
+  width:min(820px,97vw);
+  max-height:96vh;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  background:#fff;
+  border-radius:16px;
+  padding:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+#dppFullPreviewHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+#dppFullPreviewTitle{
+  font-size:13px;
+  font-weight:950;
+  color:#173453;
+}
+#dppFullPreviewClose{
+  border:0;border-radius:9px;background:#e2e8f0;color:#173453;
+  padding:8px 10px;font-size:10px;font-weight:900;
+}
+#dppFullPreviewScroll{
+  max-height:78vh;
+  overflow:auto;
+  border:1px solid #dbe5ee;
+  border-radius:10px;
+  background:#eef3f7;
+  padding:8px;
+}
+#dppFullPreviewCanvas{
+  display:block;
+  margin:auto;
+  max-width:100%;
+  height:auto;
+  background:#fff;
+  box-shadow:0 4px 14px rgba(0,0,0,.14);
+}
+#dppFullPreviewActions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+#dppFullPreviewActions button{
+  border:0;border-radius:10px;padding:10px 8px;
+  font-size:11px;font-weight:900;
+}
+#dppPreviewSelectBtn{background:#b91c1c;color:#fff}
+#dppPreviewBackBtn{background:#173453;color:#fff}
+@media(min-width:700px){
+  #deletePdfPage .dpp-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(min-width:1050px){
+  #deletePdfPage .dpp-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+</style>
+
+
+<style id="vcMultipleOffsetColumnStyle">
+#multiple .custom-offset-table{
+  border:1px solid #dbe4ec;
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+  margin-top:10px;
+}
+#multiple .custom-offset-head,
+#multiple .custom-offset-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 42px;
+  gap:0;
+  align-items:center;
+}
+#multiple .custom-offset-head{
+  background:#173453;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+#multiple .custom-offset-head > div{
+  padding:10px 9px;
+  border-right:1px solid rgba(255,255,255,.16);
+}
+#multiple .custom-offset-head > div:last-child{border-right:0}
+#multiple .custom-offset-row{
+  border-top:1px solid #edf1f5;
+}
+#multiple .custom-offset-row:first-child{border-top:0}
+#multiple .custom-offset-cell{
+  padding:7px;
+  min-width:0;
+  border-right:1px solid #edf1f5;
+}
+#multiple .custom-offset-row input{
+  width:100%;
+  box-sizing:border-box;
+  border:1.2px solid #cbd5e1;
+  border-radius:9px;
+  padding:9px 8px;
+  font-size:14px;
+  font-weight:800;
+  color:#173453;
+  background:#fff;
+  text-align:center;
+}
+#multiple .custom-rl-answer{
+  min-height:39px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:#edf7ff;
+  color:#0f3b66;
+  font-size:14px;
+  font-weight:950;
+  padding:8px 5px;
+  box-sizing:border-box;
+}
+#multiple .custom-row-del{
+  width:30px;
+  height:30px;
+  margin:auto;
+  border:0;
+  border-radius:8px;
+  background:#fee2e2;
+  color:#b91c1c;
+  font-size:17px;
+  font-weight:950;
+  cursor:pointer;
+}
+#multiple .custom-row-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:9px;
+}
+#multiple .custom-row-actions button{
+  border:0;
+  border-radius:10px;
+  padding:10px 8px;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+#multiple .custom-add{background:#173453;color:#fff}
+#multiple .custom-add5{background:#e2e8f0;color:#173453}
+#multiple .custom-help{
+  margin-top:7px;
+  font-size:10.5px;
+  line-height:1.45;
+  color:#64748b;
+}
+#multiple.custom-mode-active .multi-answer-head,
+#multiple.custom-mode-active #multiAnswers{
+  display:none!important;
+}
+#multiple.equal-mode-active .multi-answer-head,
+#multiple.equal-mode-active #multiAnswers{
+  display:grid;
+}
+@media(max-width:430px){
+  #multiple .custom-offset-head,
+  #multiple .custom-offset-row{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) 38px;
+  }
+  #multiple .custom-offset-row input,
+  #multiple .custom-rl-answer{
+    font-size:13px;
+  }
+}
+</style>
+
+
+<style id="vcMultipleOffsetBigOffsetRlFont">
+#multiple .custom-offset-row input{
+  font-size:18px!important;
+  font-weight:900!important;
+  min-height:46px!important;
+}
+#multiple .custom-rl-answer{
+  font-size:18px!important;
+  font-weight:950!important;
+  min-height:46px!important;
+}
+#multiple .custom-offset-head{
+  font-size:13px!important;
+  font-weight:950!important;
+}
+@media(max-width:430px){
+  #multiple .custom-offset-row input,
+  #multiple .custom-rl-answer{
+    font-size:17px!important;
+  }
+  #multiple .custom-offset-head{
+    font-size:12px!important;
+  }
+}
+</style>
+
+
+<style id="vcMultipleOffsetNextFocus">
+#multiple .custom-offset-row:focus-within{
+  background:#f8fbff;
+  box-shadow:inset 3px 0 0 #1976d2;
+}
+#multiple .custom-offset-input:focus{
+  border-color:#1976d2!important;
+  box-shadow:0 0 0 3px rgba(25,118,210,.10)!important;
+  outline:none!important;
+}
+</style>
+
+
+<style id="vcDeletePdfOfflineStyle">
+#deletePdfPage .dpp-offline-badge{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin:8px 0 10px;padding:7px 9px;border-radius:10px;
+  background:#ecfdf3;border:1px solid #b7e4c7;color:#166534;
+  font-size:10.5px;font-weight:900
+}
+</style>
+
+<style id="vcOffsetRlRowsLikeMultiple">
+#two .two-find-table{
+  border:1px solid #dbe4ec;border-radius:14px;overflow:hidden;background:#fff;margin-top:10px
+}
+#two .two-find-head,#two .two-find-row{
+  display:grid;grid-template-columns:1fr 1fr 42px;gap:0;align-items:center
+}
+#two .two-find-head{
+  background:#173453;color:#fff;font-size:13px;font-weight:950
+}
+#two .two-find-head>div{
+  padding:10px 9px;border-right:1px solid rgba(255,255,255,.16)
+}
+#two .two-find-head>div:last-child{border-right:0}
+#two .two-find-row{border-top:1px solid #edf1f5}
+#two .two-find-row:first-child{border-top:0}
+#two .two-find-cell{padding:7px;min-width:0;border-right:1px solid #edf1f5}
+#two .two-find-input{
+  width:100%;box-sizing:border-box;border:1.2px solid #cbd5e1;border-radius:9px;
+  padding:9px 8px;min-height:46px;font-size:18px;font-weight:900;color:#173453;
+  background:#fff;text-align:center
+}
+#two .two-find-answer{
+  min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:9px;
+  background:#edf7ff;color:#0f3b66;font-size:18px;font-weight:950;padding:8px 5px;box-sizing:border-box
+}
+#two .two-find-del{
+  width:30px;height:30px;margin:auto;border:0;border-radius:8px;background:#fee2e2;
+  color:#b91c1c;font-size:17px;font-weight:950;cursor:pointer
+}
+#two .two-find-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px
+}
+#two .two-find-actions button{
+  border:0;border-radius:10px;padding:10px 8px;font-size:11px;font-weight:900;cursor:pointer
+}
+#two .two-find-add{background:#173453;color:#fff}
+#two .two-find-add5{background:#e2e8f0;color:#173453}
+#two .two-find-help{margin-top:7px;font-size:10.5px;line-height:1.45;color:#64748b}
+#two .two-find-row:focus-within{
+  background:#f8fbff;box-shadow:inset 3px 0 0 #1976d2
+}
+#two .two-find-input:focus{
+  border-color:#1976d2!important;box-shadow:0 0 0 3px rgba(25,118,210,.10)!important;outline:none!important
+}
+@media(max-width:430px){
+  #two .two-find-head,#two .two-find-row{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) 38px
+  }
+  #two .two-find-input,#two .two-find-answer{font-size:17px}
+  #two .two-find-head{font-size:12px}
+}
+</style>
+
+
+<style id="vcPegSameCamberStyle">
+#pegLevel table{min-width:1100px!important}
+#pegLevel .peg-cam{
+  min-width:86px!important;
+  font-size:16px!important;
+  font-weight:800!important;
+}
+#pegLevel .peg-cam.same{
+  background:#eef2f7!important;
+  color:#526173!important;
+}
+#pegLevel th:nth-child(3){min-width:100px}
+</style>
+
+
+<style id="vcPegBoldStaffBox">
+/* Subgrade / GSB Peg Level — bold readable text */
+#pegLevel,
+#pegLevel h2,
+#pegLevel .peg-sub,
+#pegLevel .peg-example,
+#pegLevel .peg-panel,
+#pegLevel label,
+#pegLevel input,
+#pegLevel select,
+#pegLevel button,
+#pegLevel th,
+#pegLevel td,
+#pegLevel .peg-help,
+#pegLevel .peg-summary,
+#pegLevel .peg-chainage-end,
+#pegLevel .peg-hi-label,
+#pegLevel .peg-out{
+  font-weight:800!important;
+}
+
+#pegLevel input,
+#pegLevel select{
+  font-weight:900!important;
+}
+
+#pegLevel th{
+  font-weight:950!important;
+}
+
+#pegLevel .peg-rl > div{
+  font-weight:900!important;
+}
+
+/* Staff Reading result highlighted in a clear rounded box */
+#pegLevel .peg-staff{
+  text-align:center!important;
+}
+
+#pegLevel .peg-staff > div{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:92px;
+  min-height:38px;
+  margin:3px 2px;
+  padding:6px 10px;
+  border:2px solid #173453;
+  border-radius:12px;
+  background:#eef6ff;
+  color:#0f2f53;
+  font-size:17px;
+  font-weight:950!important;
+  line-height:1.15;
+  box-sizing:border-box;
+}
+
+@media(max-width:430px){
+  #pegLevel .peg-staff > div{
+    min-width:86px;
+    min-height:36px;
+    padding:5px 8px;
+    font-size:16px;
+  }
+}
+</style>
+
+
+
+<style id="vcPegPlainStaffGroupedSummary">
+/* Main table: Staff Reading back to simple/original look, but bold */
+#pegLevel .peg-staff{
+  text-align:left!important;
+  font-weight:900!important;
+  color:#173453!important;
+  line-height:1.5!important;
+}
+#pegLevel .peg-staff > div{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#173453!important;
+  font-size:15px!important;
+  font-weight:900!important;
+  min-width:0!important;
+  min-height:0!important;
+}
+/* Grouped bottom summary: one Chainage = one row, offsets = columns */
+#pegLevel .peg-bottom-summary{
+  margin:12px 0 4px;
+  border:1px solid #cfdbe7;
+  border-radius:14px;
+  overflow:hidden;
+  background:#fff;
+}
+#pegLevel .peg-bottom-title{
+  padding:9px 10px;
+  background:#eef4f9;
+  color:#173453;
+  font-size:13px;
+  font-weight:950!important;
+  text-align:center;
+  border-bottom:1px solid #dbe4ec;
+}
+#pegLevel .peg-bottom-scroll{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#pegLevel .peg-summary-matrix{
+  border-collapse:collapse;
+  width:max-content;
+  min-width:100%;
+  background:#fff;
+}
+#pegLevel .peg-summary-matrix th,
+#pegLevel .peg-summary-matrix td{
+  border-right:1px solid #dbe4ec;
+  border-bottom:1px solid #e7edf3;
+  padding:9px 10px;
+  text-align:center;
+  white-space:nowrap;
+  font-weight:900!important;
+  color:#173453;
+  font-size:14px;
+}
+#pegLevel .peg-summary-matrix th{
+  background:#173453;
+  color:#fff;
+  font-weight:950!important;
+}
+#pegLevel .peg-summary-matrix th:first-child,
+#pegLevel .peg-summary-matrix td:first-child{
+  position:sticky;
+  left:0;
+  z-index:2;
+  min-width:92px;
+  font-weight:950!important;
+}
+#pegLevel .peg-summary-matrix th:first-child{
+  background:#173453;
+}
+#pegLevel .peg-summary-matrix td:first-child{
+  background:#f8fafc;
+}
+#pegLevel .peg-summary-matrix th:last-child,
+#pegLevel .peg-summary-matrix td:last-child{
+  border-right:0;
+}
+#pegLevel .peg-bottom-empty{
+  padding:12px 10px;
+  text-align:center;
+  color:#64748b;
+  font-size:11px;
+  font-weight:800!important;
+  line-height:1.45;
+}
+@media(max-width:430px){
+  #pegLevel .peg-summary-matrix th,
+  #pegLevel .peg-summary-matrix td{
+    padding:8px 9px;
+    font-size:12.5px;
+  }
+  #pegLevel .peg-summary-matrix th:first-child,
+  #pegLevel .peg-summary-matrix td:first-child{
+    min-width:84px;
+  }
+}
+</style>
+
+
+<style id="vcPegAlignmentFixedSummaryTick">
+/* LEVEL SUMMARY: fixed in screen, no horizontal slide */
+#pegLevel .peg-bottom-scroll{
+  overflow:visible!important;
+  width:100%!important;
+}
+#pegLevel .peg-summary-matrix{
+  width:100%!important;
+  min-width:0!important;
+  table-layout:fixed!important;
+  border-collapse:collapse!important;
+}
+#pegLevel .peg-summary-matrix th,
+#pegLevel .peg-summary-matrix td{
+  min-width:0!important;
+  width:auto!important;
+  padding:7px 3px!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:12px!important;
+}
+#pegLevel .peg-summary-matrix th:first-child,
+#pegLevel .peg-summary-matrix td:first-child{
+  position:static!important;
+  min-width:0!important;
+  width:24%!important;
+}
+#pegLevel .peg-summary-matrix th:not(:first-child),
+#pegLevel .peg-summary-matrix td:not(:first-child){
+  width:auto!important;
+}
+#pegLevel .peg-summary-reading{
+  width:100%;
+  min-height:34px;
+  border:1.5px solid transparent;
+  border-radius:8px;
+  background:transparent;
+  color:#173453;
+  font-size:12px;
+  font-weight:950!important;
+  padding:4px 2px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  cursor:pointer;
+  box-sizing:border-box;
+}
+#pegLevel .peg-summary-reading .peg-summary-check{
+  display:none;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  align-items:center;
+  justify-content:center;
+  background:#15803d;
+  color:#fff;
+  font-size:10px;
+  font-weight:950!important;
+  flex:0 0 16px;
+}
+#pegLevel .peg-summary-reading.done{
+  background:#ecfdf3;
+  border-color:#15803d;
+  color:#14532d;
+}
+#pegLevel .peg-summary-reading.done .peg-summary-check{
+  display:inline-flex;
+}
+@media(max-width:430px){
+  #pegLevel .peg-summary-matrix th,
+  #pegLevel .peg-summary-matrix td{
+    padding:6px 2px!important;
+    font-size:10.5px!important;
+  }
+  #pegLevel .peg-summary-reading{
+    min-height:32px;
+    font-size:10.5px;
+    padding:3px 1px;
+  }
+}
+</style>
+
+
+<style id="vcPegBigVisibleSummary">
+#pegLevel .peg-bottom-summary{
+  margin:16px 0 8px!important;
+  border:2px solid #b9c9d9!important;
+  border-radius:16px!important;
+  background:#fff!important;
+  overflow:hidden!important;
+}
+#pegLevel .peg-bottom-title{
+  padding:12px 10px!important;
+  background:#173453!important;
+  color:#fff!important;
+  font-size:18px!important;
+  font-weight:950!important;
+  letter-spacing:.2px;
+  text-align:center!important;
+}
+#pegLevel .peg-bottom-scroll{
+  overflow:visible!important;
+  width:100%!important;
+  padding:10px!important;
+  box-sizing:border-box!important;
+  background:#f8fafc!important;
+}
+#pegLevel .peg-summary-card{
+  border:1.5px solid #cdd9e4;
+  border-radius:14px;
+  background:#fff;
+  overflow:hidden;
+  margin:0 0 12px;
+}
+#pegLevel .peg-summary-card:last-child{margin-bottom:0}
+#pegLevel .peg-summary-chainage{
+  padding:10px 12px;
+  background:#eaf2f8;
+  color:#173453;
+  font-size:18px;
+  font-weight:950!important;
+  text-align:center;
+  border-bottom:1px solid #d4e0ea;
+}
+#pegLevel .peg-summary-offset-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(86px,1fr));
+  gap:8px;
+  padding:10px;
+}
+#pegLevel .peg-summary-offset-box{
+  min-width:0;
+  border:1.5px solid #d7e1ea;
+  border-radius:11px;
+  overflow:hidden;
+  background:#fff;
+}
+#pegLevel .peg-summary-offset-label{
+  padding:6px 4px;
+  background:#173453;
+  color:#fff;
+  text-align:center;
+  font-size:14px;
+  font-weight:950!important;
+}
+#pegLevel .peg-summary-reading{
+  width:100%!important;
+  min-height:46px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#173453!important;
+  font-size:17px!important;
+  font-weight:950!important;
+  padding:7px 4px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  cursor:pointer!important;
+  box-sizing:border-box!important;
+}
+#pegLevel .peg-summary-reading.done{
+  background:#ecfdf3!important;
+  color:#14532d!important;
+  box-shadow:inset 0 0 0 2px #15803d!important;
+}
+#pegLevel .peg-summary-reading .peg-summary-check{
+  display:none;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  align-items:center;
+  justify-content:center;
+  background:#15803d;
+  color:#fff;
+  font-size:12px;
+  font-weight:950!important;
+  flex:0 0 20px;
+}
+#pegLevel .peg-summary-reading.done .peg-summary-check{
+  display:inline-flex;
+}
+#pegLevel .peg-bottom-empty{
+  padding:18px 12px!important;
+  font-size:14px!important;
+  font-weight:850!important;
+}
+@media(max-width:430px){
+  #pegLevel .peg-bottom-title{font-size:17px!important}
+  #pegLevel .peg-summary-chainage{font-size:17px!important}
+  #pegLevel .peg-summary-offset-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+    padding:8px;
+  }
+  #pegLevel .peg-summary-offset-label{font-size:13px}
+  #pegLevel .peg-summary-reading{
+    min-height:44px!important;
+    font-size:16px!important;
+  }
+}
+</style>
+
+
+<style id="vcPegCompactRLAndSummaryLabels">
+/* LEVEL SUMMARY heading line */
+#pegLevel .peg-summary-chainage{
+  display:grid!important;
+  grid-template-columns:auto 1fr auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  padding:10px 12px!important;
+}
+#pegLevel .peg-summary-chainage-label,
+#pegLevel .peg-summary-staff-label{
+  font-size:12px!important;
+  font-weight:900!important;
+  color:#526173!important;
+}
+#pegLevel .peg-summary-chainage strong{
+  font-size:18px!important;
+  font-weight:950!important;
+  color:#173453!important;
+  text-align:center!important;
+}
+#pegLevel .peg-summary-staff-label{
+  text-align:right!important;
+}
+
+</style>
+
+
+<style id="vcPegSummaryHeadingSwap">
+#pegLevel .peg-summary-chainage{
+  display:grid!important;
+  grid-template-columns:auto 1fr!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:10px 12px!important;
+}
+#pegLevel .peg-summary-chainage-value{
+  font-size:18px!important;
+  font-weight:950!important;
+  color:#173453!important;
+  text-align:left!important;
+  white-space:nowrap!important;
+}
+#pegLevel .peg-summary-staff-label{
+  font-size:19px!important;
+  font-weight:950!important;
+  color:#173453!important;
+  text-align:center!important;
+}
+#pegLevel .peg-summary-chainage-label{
+  display:none!important;
+}
+@media(max-width:430px){
+  #pegLevel .peg-summary-chainage{
+    grid-template-columns:auto 1fr!important;
+    gap:7px!important;
+    padding:9px 8px!important;
+  }
+  #pegLevel .peg-summary-chainage-value{
+    font-size:16px!important;
+  }
+  #pegLevel .peg-summary-staff-label{
+    font-size:17px!important;
+  }
+}
+</style>
+
+
+<style id="vcPegSummaryRLNearReading">
+#pegLevel .peg-summary-values{
+  display:grid;
+  grid-template-columns:.9fr 1.15fr;
+  align-items:stretch;
+  min-width:0;
+}
+#pegLevel .peg-summary-rl,
+#pegLevel .peg-summary-reading{
+  min-width:0!important;
+  min-height:48px!important;
+  padding:6px 4px!important;
+  box-sizing:border-box!important;
+}
+#pegLevel .peg-summary-rl{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  background:#f8fafc;
+  color:#173453;
+  border-right:1px solid #d7e1ea;
+}
+#pegLevel .peg-summary-rl strong{
+  font-size:15px!important;
+  font-weight:950!important;
+  line-height:1.05;
+}
+#pegLevel .peg-summary-reading{
+  border-radius:0!important;
+  flex-direction:column;
+  gap:2px!important;
+}
+#pegLevel .peg-summary-reading strong{
+  font-size:16px!important;
+  font-weight:950!important;
+  line-height:1.05;
+}
+#pegLevel .peg-summary-mini-label{
+  font-size:9px!important;
+  font-weight:900!important;
+  color:#64748b!important;
+  line-height:1;
+}
+#pegLevel .peg-summary-reading.done .peg-summary-mini-label{
+  color:#166534!important;
+}
+#pegLevel .peg-summary-reading .peg-summary-check{
+  position:absolute;
+  right:3px;
+  top:3px;
+}
+#pegLevel .peg-summary-reading{
+  position:relative;
+}
+@media(max-width:430px){
+  #pegLevel .peg-summary-values{
+    grid-template-columns:.88fr 1.12fr;
+  }
+  #pegLevel .peg-summary-rl,
+  #pegLevel .peg-summary-reading{
+    min-height:46px!important;
+    padding:5px 2px!important;
+  }
+  #pegLevel .peg-summary-rl strong{
+    font-size:13px!important;
+  }
+  #pegLevel .peg-summary-reading strong{
+    font-size:14px!important;
+  }
+  #pegLevel .peg-summary-mini-label{
+    font-size:8px!important;
+  }
+}
+</style>
+
+
+<style id="vcPegSummaryVerticalRLReading">
+#pegLevel .peg-summary-tick-help{
+  padding:8px 10px;
+  background:#fff7ed;
+  color:#9a3412;
+  border-bottom:1px solid #fed7aa;
+  text-align:center;
+  font-size:13px;
+  font-weight:950!important;
+  line-height:1.35;
+}
+
+/* RL ऊपर, Staff Reading नीचे — bigger values */
+#pegLevel .peg-summary-values{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  min-width:0!important;
+}
+#pegLevel .peg-summary-rl,
+#pegLevel .peg-summary-reading{
+  width:100%!important;
+  min-width:0!important;
+  min-height:52px!important;
+  padding:7px 5px!important;
+  box-sizing:border-box!important;
+}
+#pegLevel .peg-summary-rl{
+  border-right:0!important;
+  border-bottom:1px solid #d7e1ea!important;
+  background:#f8fafc!important;
+}
+#pegLevel .peg-summary-rl strong{
+  font-size:18px!important;
+  font-weight:950!important;
+  line-height:1.1!important;
+}
+#pegLevel .peg-summary-reading{
+  border-radius:0!important;
+  gap:3px!important;
+}
+#pegLevel .peg-summary-reading strong{
+  font-size:20px!important;
+  font-weight:950!important;
+  line-height:1.1!important;
+}
+#pegLevel .peg-summary-mini-label{
+  font-size:11px!important;
+  font-weight:950!important;
+  color:#64748b!important;
+}
+#pegLevel .peg-summary-reading.done{
+  background:#ecfdf3!important;
+  color:#14532d!important;
+  box-shadow:inset 0 0 0 2px #15803d!important;
+}
+#pegLevel .peg-summary-reading .peg-summary-check{
+  right:5px!important;
+  top:5px!important;
+}
+#pegLevel .peg-summary-staff-label{
+  font-size:19px!important;
+  font-weight:950!important;
+}
+
+@media(max-width:430px){
+  #pegLevel .peg-summary-tick-help{
+    font-size:12px!important;
+    padding:7px 8px!important;
+  }
+  #pegLevel .peg-summary-rl,
+  #pegLevel .peg-summary-reading{
+    min-height:48px!important;
+    padding:6px 3px!important;
+  }
+  #pegLevel .peg-summary-rl strong{
+    font-size:16px!important;
+  }
+  #pegLevel .peg-summary-reading strong{
+    font-size:18px!important;
+  }
+  #pegLevel .peg-summary-mini-label{
+    font-size:10px!important;
+  }
+  #pegLevel .peg-summary-staff-label{
+    font-size:17px!important;
+  }
+}
+</style>
+
+
+<style id="vcPegRemoveStaffReadingText">
+#pegLevel .peg-summary-chainage{
+  display:block!important;
+  padding:10px 12px!important;
+  text-align:center!important;
+}
+#pegLevel .peg-summary-chainage-value{
+  display:block!important;
+  font-size:19px!important;
+  font-weight:950!important;
+  color:#173453!important;
+  text-align:center!important;
+}
+#pegLevel .peg-summary-staff-label{
+  display:none!important;
+}
+@media(max-width:430px){
+  #pegLevel .peg-summary-chainage-value{
+    font-size:17px!important;
+  }
+}
+</style>
+
+
+<style id="vcPegPdfButtonBottom">
+#pegLevel .peg-pdf-bottom{margin-top:14px!important}
+#pegLevel .peg-pdf-bottom .peg-btn{width:100%!important}
+</style>
+
+
+<style id="vcPegChainagePlus10Suggestion">
+#pegLevel .peg-chwrap{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:4px!important;
+  align-items:stretch!important;
+}
+#pegLevel .peg-ch-suggestion{
+  width:100%;
+  min-height:27px;
+  border:1px dashed #8aa2b8;
+  border-radius:8px;
+  background:#eef6ff;
+  color:#173453;
+  font-size:12px!important;
+  font-weight:950!important;
+  line-height:1;
+  padding:5px 6px!important;
+  cursor:pointer;
+  text-align:center;
+}
+#pegLevel .peg-ch-suggestion:before{
+  content:"+10m  ";
+  color:#64748b;
+  font-size:10px;
+  font-weight:850;
+}
+#pegLevel .peg-ch-suggestion.hidden{
+  display:none!important;
+}
+</style>
+
 </head>
 <body class="">
 <div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
@@ -2287,20 +3497,34 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
   <div class="ex-calc">Offset difference = 3.4 − 1.6 = 1.8 m<br>Fall = 1.8 × 2.5% = 0.045 m</div>
   <div class="ex-ans">Answer: 12.329 − 0.045 = 12.284 m</div>
 </div>
+
 <div class="two-pair-row">
   <div class="two-field"><label>RL</label><div class="unitrow"><input id="rl" type="number" step="any" value="12.329"></div></div>
   <div class="two-field"><label>Given Offset</label><div class="unitrow"><input id="o1" type="number" step="any" value="1.6"></div></div>
 </div>
+
 <div class="two-pair-row">
   <div class="two-field"><label>Camber</label><div class="unitrow"><input id="camber" type="number" step="any" value="-2.5"><select class="unit"><option>%</option></select></div></div>
-  <div class="two-field"><label>Find Offsets</label><div class="unitrow"><input id="o2" type="text" inputmode="decimal" value="3.4, 5, 8" placeholder="3.4, 5, 8"></div></div>
 </div>
-<div class="note">एक साथ कई offset लिखें — comma या space से अलग करें। जैसे: 3.4, 5, 8, 10</div>
+
 <div class="two-pcl-box"><div class="pcl-label">PCL RL</div><div class="pcl-value" id="twoPclRL">12.369 m</div></div>
-<div class="two-multi-result">
-  <table><thead><tr><th>Offset</th><th>RL</th></tr></thead><tbody id="twoResultBody"><tr><td>3.4 m</td><td>12.284 m</td></tr><tr><td>5 m</td><td>12.244 m</td></tr><tr><td>8 m</td><td>12.169 m</td></tr></tbody></table>
+
+<div class="two-find-table">
+  <div class="two-find-head">
+    <div>Find Offset (m)</div>
+    <div>RL Answer (m)</div>
+    <div></div>
+  </div>
+  <div id="twoFindRows"></div>
 </div>
-<div class="result hidden" aria-hidden="true"><div class="rtitle" id="twoResultTitle">3 Offset RL Results</div><div class="answer" id="finalRL">12.169 m</div></div>
+
+<div class="two-find-actions">
+  <button type="button" class="two-find-add" onclick="twoAddOffsetRow()">+ ADD OFFSET</button>
+  <button type="button" class="two-find-add5" onclick="twoAddFiveOffsetRows()">+ 5 ROWS</button>
+</div>
+<div class="two-find-help">Offset डालते ही बगल में RL अपने-आप update होगा। Keyboard Next दबाने पर अगली Offset row खुलेगी।</div>
+
+<div class="result hidden" aria-hidden="true"><div class="rtitle" id="twoResultTitle">Offset RL</div><div class="answer" id="finalRL">—</div></div>
 <button class="pdfBtn" onclick="downloadCalculatorPDF('two')">DOWNLOAD PDF</button>
 <button class="clear" onclick="clearTwo()">Clear</button>
 </section>
@@ -2620,10 +3844,19 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 </div>
 
 <div id="customBox">
-  <div class="row">
-    <label>Offset List (m)</label>
-    <textarea id="offsetList" oninput="multiCalc()" placeholder="2.25, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 23.72">2.25, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 23.72</textarea>
+  <div class="custom-offset-table">
+    <div class="custom-offset-head">
+      <div>Offset (m)</div>
+      <div>RL Answer (m)</div>
+      <div></div>
+    </div>
+    <div id="customOffsetRows"></div>
   </div>
+  <div class="custom-row-actions">
+    <button type="button" class="custom-add" onclick="customOffsetAddRow()">+ ADD OFFSET</button>
+    <button type="button" class="custom-add5" onclick="customOffsetAddFive()">+ 5 ROWS</button>
+  </div>
+  <div class="custom-help">Offset डालते ही उसी के बगल वाले column में RL अपने-आप update होगा।</div>
 </div>
 
 <div id="equalBox" class="hidden">
@@ -2903,6 +4136,35 @@ Temperature: °C, °F, Kelvin.
 <button class="ps-back" onclick="navBack()">Back</button>
 </section>
 
+<section id="deletePdfPage" class="card hidden">
+<div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Delete PDF Page</strong></div>
+<h2>Delete PDF Page</h2>
+<p class="dpp-sub">PDF चुनें → हटाने वाले page पर tap करें → DELETE SELECTED → नई PDF download करें।</p>
+<div class="dpp-upload">
+  <label class="dpp-pick" for="dppFile">📄 CHOOSE PDF</label>
+  <input id="dppFile" type="file" accept="application/pdf,.pdf" onchange="dppLoadPdf(this)">
+  <div id="dppFileName" class="dpp-file">No PDF selected</div>
+</div>
+<div id="dppProgress" class="dpp-progress"><div class="dpp-track"><div id="dppBar" class="dpp-bar"></div></div><div id="dppProgressText" class="dpp-ptext">Loading…</div></div>
+<div class="dpp-toolbar">
+  <button id="dppSelectAllBtn" class="dpp-btn gray" type="button" onclick="dppSelectAll()" disabled>SELECT ALL</button>
+  <button id="dppClearBtn" class="dpp-btn gray" type="button" onclick="dppClearSelection()" disabled>CLEAR SELECT</button>
+  <button id="dppDeleteBtn" class="dpp-btn red" type="button" onclick="dppDeleteSelected()" disabled>DELETE SELECTED</button>
+</div>
+<div id="dppInfo" class="dpp-info"><span>Total Pages: <b id="dppTotal">0</b></span><span>Selected: <b id="dppSelected">0</b></span><span>Remaining: <b id="dppRemaining">0</b></span></div>
+
+<div id="dppOfflineBadge" class="dpp-offline-badge">⚡ Delete PDF Offline Engine</div>
+
+<div id="dppGrid" class="dpp-grid"></div>
+<div class="dpp-toolbar" style="grid-template-columns:1fr 1fr;margin-top:14px">
+  <button id="dppUndoBtn" class="dpp-btn gray" type="button" onclick="dppUndo()" disabled>↶ UNDO</button>
+  <button id="dppDownloadBtn" class="dpp-btn green" type="button" onclick="dppDownloadPdf()" disabled>DOWNLOAD NEW PDF</button>
+</div>
+<div id="dppStatus" class="dpp-status">PDF चुनें।</div>
+<div class="dpp-note">Original PDF नहीं बदलेगी। नई PDF में selected pages हटे होंगे। कम से कम 1 page रखना जरूरी है।</div>
+<button class="clear" onclick="dppReset()">Clear</button>
+</section>
+
 <section id="translate" class="card hidden">
 <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Translate Text</strong></div>
 
@@ -2945,11 +4207,11 @@ Temperature: °C, °F, Kelvin.
 <div class="vcToolFullHeader"><button type="button" class="vcToolFullBack" onclick="navBack()" aria-label="Back">←</button><strong>Subgrade / GSB Peg Level</strong></div>
 
 <h2>Subgrade / GSB Peg Level</h2>
-<p class="peg-sub">Manual Chainage • Manual Offset • PCL RL, Camber, Depth और HI से result</p>
+<p class="peg-sub">Manual Chainage • Manual Offset • PCL RL, Camber, Deep और HI से result</p>
 
 <div class="peg-example">
   <div class="peg-ex-title">Example</div>
-  <b>Chainage 37+200</b> • PCL RL <b>12.500</b> • Offsets <b>2, 4, 6</b> • Camber <b>-2.5%</b> • Depth <b>150 mm</b> • HI <b>14.000</b><br>
+  <b>Chainage 37+200</b> • PCL RL <b>12.500</b> • Offsets <b>2, 4, 6</b> • Camber <b>-2.5%</b> • Deep <b>220 mm</b> • HI <b>14.000</b><br>
   Peg RL: <b>2m = 12.300</b>, <b>4m = 12.250</b>, <b>6m = 12.200</b><br>
   Staff: <b>1.700</b>, <b>1.750</b>, <b>1.800</b>
 </div>
@@ -2957,10 +4219,11 @@ Temperature: °C, °F, Kelvin.
 <div class="peg-panel">
   <div class="peg-grid2">
     <div><label>Camber (%)</label><input id="pegCamber" type="number" step="any" value="-2.5"></div>
-    <div><label>Depth (mm)</label><input id="pegDepth" type="number" step="any" value="150"></div>
+    <div><label>Deep (mm)</label><input id="pegDepth" type="number" step="any" value="220"></div>
   </div>
-  <div class="peg-help" style="margin-top:10px"><b>Offsets:</b> हर row में manual डालें। एक या multiple offset ऐसे डाल सकते हैं: <b>2</b> या <b>2, 4, 6</b>.</div>
-  <label class="peg-same-opt"><input id="pegSameOffset" type="checkbox"> <span>Same Offset</span></label>
+  <div class="peg-help" style="margin-top:10px"><b>Camber:</b> Same Camber ON हो तो ऊपर वाला Camber सभी Chainage पर लगेगा। OFF करने पर हर row में अलग Camber डालें।<br><b>Offsets:</b> हर row में manual डालें। एक या multiple offset ऐसे डाल सकते हैं: <b>2</b> या <b>2, 4, 6</b>.</div>
+  <label class="peg-same-opt"><input id="pegSameCamber" type="checkbox" checked> <span>Same Camber</span></label>
+<label class="peg-same-opt"><input id="pegSameOffset" type="checkbox" checked> <span>Same Offset</span></label>
   <div class="peg-actions" style="grid-template-columns:1fr">
     <button class="peg-btn gray" onclick="pegClearValues()">CLEAR VALUES</button>
   </div>
@@ -2969,26 +4232,30 @@ Temperature: °C, °F, Kelvin.
 <div class="peg-panel">
   <div class="peg-tableWrap">
     <table>
-      <thead><tr><th>Chainage</th><th>PCL RL</th><th>Offset(s)</th><th>HI</th><th>Peg RL</th><th>Staff Reading</th><th>Chainage</th><th></th></tr></thead>
-      <tbody id="pegRows"><tr data-peg-id="1"><td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="none" autocomplete="off" value="" placeholder="37+200" onfocus="pegShowKeypad(this)" onclick="pegShowKeypad(this)"></div></td><td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td><td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6" readonly="" style="background: rgb(238, 242, 247);"></td><td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td><td class="peg-out peg-rl"><div>2m: -0.200</div><div>4m: -0.250</div><div>6m: -0.300</div></td><td class="peg-out peg-staff">—</td><td class="peg-chainage-end">—</td><td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td></tr></tbody>
+      <thead><tr><th>Chainage</th><th>PCL RL</th><th>Camber (%)</th><th>Offset(s)</th><th>HI</th><th></th></tr></thead>
+      <tbody id="pegRows"><tr data-peg-id="1"><td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="" placeholder="37+200"></div></td><td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td><td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6" readonly="" style="background: rgb(238, 242, 247);"></td><td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td><td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td></tr></tbody>
     </table>
   </div>
-  <div class="peg-actions">
+</div>
+  </div>
+
+  <div class="peg-actions" style="grid-template-columns:1fr">
     <button class="peg-btn green" onclick="pegAddRow()">+ ADD CHAINAGE</button>
+  </div>
+
+  <div id="pegBottomStaffSummary" class="peg-bottom-summary">
+    <div class="peg-bottom-title">LEVEL SUMMARY</div>
+    <div class="peg-summary-tick-help">Reading पर tap करें → ✓ Level Done</div>
+    <div class="peg-bottom-scroll">
+      <div id="pegBottomStaffRows">
+        <div class="peg-bottom-empty">Staff Reading आने पर एक Chainage की सभी Offset readings एक ही row में दिखाई देंगी।</div>
+      </div>
+  <div id="pegSummary" class="peg-summary">Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.</div>
+  <div class="peg-actions peg-pdf-bottom" style="grid-template-columns:1fr">
     <button class="peg-btn" onclick="pegDownloadPDF()">DOWNLOAD PDF</button>
   </div>
-  <div class="peg-help"><b>Formula:</b> Peg RL = PCL RL + (Offset × Camber ÷ 100) + Depth(m)<br>Staff Reading = HI − Peg RL<br><b>Chainage और PCL RL अलग-अलग column हैं।</b><br><b>Chainage:</b> हर row में Chainage manual डालें। Chainage box पर tap करते ही number keypad खुलेगा, जिसमें <b>+</b> key भी रहेगी। जैसे <b>37+200</b>।<br><b>Depth:</b> Subgrade/GSB Design RL से peg जितना ऊपर रखना हो, वह mm में भरें। वही Depth सभी rows में लागू होगा।<br><b>HI:</b> केवल जहाँ HI बदलती है वहीं नई HI डालें; बाकी rows में पिछली HI अपने-आप use होगी।</div>
-  <div id="pegSummary" class="peg-summary">Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.</div>
 </div>
-<div id="pegChainageKeypad" class="peg-keypad hidden">
-  <div class="peg-keypad-title">Chainage Keyboard</div>
-  <div class="peg-keygrid">
-    <button type="button" class="peg-key" onclick="pegKeypadPress('1')">1</button><button type="button" class="peg-key" onclick="pegKeypadPress('2')">2</button><button type="button" class="peg-key" onclick="pegKeypadPress('3')">3</button><button type="button" class="peg-key plus" onclick="pegKeypadPress('+')">+</button>
-    <button type="button" class="peg-key" onclick="pegKeypadPress('4')">4</button><button type="button" class="peg-key" onclick="pegKeypadPress('5')">5</button><button type="button" class="peg-key" onclick="pegKeypadPress('6')">6</button><button type="button" class="peg-key" onclick="pegKeypadPress('⌫')">⌫</button>
-    <button type="button" class="peg-key" onclick="pegKeypadPress('7')">7</button><button type="button" class="peg-key" onclick="pegKeypadPress('8')">8</button><button type="button" class="peg-key" onclick="pegKeypadPress('9')">9</button><button type="button" class="peg-key clear" onclick="pegKeypadPress('C')">CLEAR</button>
-    <button type="button" class="peg-key" onclick="pegKeypadPress('0')">0</button><button type="button" class="peg-key done" style="grid-column:span 3" onclick="pegKeypadDone()">DONE</button>
-  </div>
-</div>
+
 <button class="clear" onclick="navBack()">Back</button>
 </section>
 
@@ -5091,7 +6358,8 @@ body.day .sound-toggle{
     <button onclick="show('pdfPasswordRemover')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M11 8h29l9 9v37H11z" fill="#fff" stroke="#c62828" stroke-width="3"/><text x="28" y="35" text-anchor="middle" font-size="9" font-weight="900" fill="#c62828">PDF</text><path d="M37 41v-6a8 8 0 0 1 16 0" fill="none" stroke="#173453" stroke-width="5" stroke-linecap="round"/><rect x="34" y="40" width="23" height="17" rx="4" fill="#f59e0b"/><circle cx="46" cy="48" r="2.5" fill="#173453"/></svg></span><span class="toolLabel">PDF Password Remover</span></button>
     <button onclick="show('docScanner')" class=""><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 18V9h9M42 9h9v9M13 46v9h9M42 55h9v-9" fill="none" stroke="#1976d2" stroke-width="4" stroke-linecap="round"/><rect x="20" y="16" width="25" height="32" rx="3" fill="#fff" stroke="#6d7b88" stroke-width="2"/><path d="M24 25h17M24 31h17M24 37h12" stroke="#90a4ae" stroke-width="3" stroke-linecap="round"/><path d="M9 41h46" stroke="#e53935" stroke-width="2"/></svg></span><span class="toolLabel">Document Scanner</span></button>
     <button onclick="show('documents')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M7 23L32 8l25 15z" fill="#f6c344" stroke="#8d6e00" stroke-width="2"/><rect x="8" y="21" width="48" height="5" fill="#173453"/><path d="M15 26v22M26 26v22M38 26v22M49 26v22" stroke="#315d87" stroke-width="6"/><rect x="10" y="48" width="44" height="7" rx="2" fill="#173453"/></svg></span><span class="toolLabel">Government Document Download</span></button>
-  </nav>
+    <button onclick="show('deletePdfPage')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M15 7h25l10 10v40H15z" fill="#fff" stroke="#173453" stroke-width="3"/><path d="M40 7v12h12" fill="#dbeafe" stroke="#173453" stroke-width="3" stroke-linejoin="round"/><rect x="22" y="27" width="23" height="4" rx="2" fill="#9fb5c9"/><rect x="22" y="35" width="18" height="4" rx="2" fill="#9fb5c9"/><circle cx="44" cy="45" r="11" fill="#dc2626"/><path d="M39 45h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></span><span class="toolLabel">Delete PDF Page</span></button>
+</nav>
 </div>
 
 
@@ -5258,8 +6526,6 @@ function renderTool(id){
   vcLastOpenedToolId=id||vcLastOpenedToolId;
   document.body.classList.remove('home-mode');
   document.body.classList.add('tool-open');
-  var pk=document.getElementById('pegChainageKeypad');if(pk)pk.classList.add('hidden');
-  try{pegActiveChainageInput=null}catch(e){}
   document.querySelectorAll('main.wrap > section.card').forEach(function(el){el.classList.add('hidden')});
   var target=document.getElementById(id);
   if(target)target.classList.remove('hidden');
@@ -8433,32 +9699,222 @@ function downloadCalculatorPDF(type){
   calcPdfDownloadBlob(calcBuildReportPDF(title,sections),filename);
 }
 
+var twoOffsetRowSeq=0;
+var twoInitialRowCount=5;
+
+function twoMakeOffsetRow(value){
+  twoOffsetRowSeq++;
+  var row=document.createElement('div');
+  row.className='two-find-row';
+  row.dataset.rowId=twoOffsetRowSeq;
+  var safe=value==null?'':String(value);
+
+  row.innerHTML=
+    '<div class="two-find-cell">'+
+      '<input class="two-find-input" type="number" step="any" inputmode="decimal" enterkeyhint="next" autocomplete="off" placeholder="Offset" value="'+safe.replace(/"/g,'&quot;')+'">'+
+    '</div>'+
+    '<div class="two-find-cell"><div class="two-find-answer">—</div></div>'+
+    '<button type="button" class="two-find-del" title="Delete row">×</button>';
+
+  var inp=row.querySelector('.two-find-input');
+
+  inp.addEventListener('input',twoCalc);
+  inp.addEventListener('change',twoCalc);
+
+  inp.addEventListener('focus',function(){
+    setTimeout(function(){
+      try{row.scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+    },220);
+  });
+
+  inp.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+
+    var box=document.getElementById('twoFindRows');
+    if(!box)return;
+
+    var inputs=Array.from(box.querySelectorAll('.two-find-input'));
+    var pos=inputs.indexOf(inp);
+
+    if(pos>=0 && pos<inputs.length-1){
+      inputs[pos+1].focus();
+      try{inputs[pos+1].select()}catch(err){}
+      return;
+    }
+
+    var newRow=twoMakeOffsetRow('');
+    box.appendChild(newRow);
+    twoCalc();
+
+    var next=newRow.querySelector('.two-find-input');
+    if(next){
+      setTimeout(function(){
+        next.focus();
+        try{next.scrollIntoView({behavior:'smooth',block:'center'})}catch(err){}
+      },30);
+    }
+  });
+
+  row.querySelector('.two-find-del').addEventListener('click',function(){
+    var box=document.getElementById('twoFindRows');
+    if(!box)return;
+    var rows=box.querySelectorAll('.two-find-row');
+
+    if(rows.length<=1){
+      inp.value='';
+      twoCalc();
+      return;
+    }
+
+    row.remove();
+    twoCalc();
+  });
+
+  return row;
+}
+
+function twoEnsureOffsetRows(){
+  var box=document.getElementById('twoFindRows');
+  if(!box||box.children.length)return;
+
+  for(var i=0;i<twoInitialRowCount;i++){
+    box.appendChild(twoMakeOffsetRow(''));
+  }
+}
+
+function twoAddOffsetRow(){
+  var box=document.getElementById('twoFindRows');
+  if(!box)return;
+
+  var newRow=twoMakeOffsetRow('');
+  box.appendChild(newRow);
+  twoCalc();
+
+  var next=newRow.querySelector('.two-find-input');
+  if(next){
+    setTimeout(function(){
+      next.focus();
+      try{next.scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+    },30);
+  }
+}
+
+function twoAddFiveOffsetRows(){
+  var box=document.getElementById('twoFindRows');
+  if(!box)return;
+
+  for(var i=0;i<5;i++){
+    box.appendChild(twoMakeOffsetRow(''));
+  }
+  twoCalc();
+}
+
 function twoGetOffsets(){
- var raw=(document.getElementById('o2').value||'').trim();
- if(!raw)return [];
- return raw.split(/[\s,;]+/).map(function(v){return Number(v)}).filter(function(v){return Number.isFinite(v)});
+  var box=document.getElementById('twoFindRows');
+  if(!box)return [];
+
+  return Array.from(box.querySelectorAll('.two-find-input'))
+    .map(function(inp){
+      var raw=String(inp.value||'').trim();
+      return raw===''?NaN:Number(raw);
+    })
+    .filter(function(v){return Number.isFinite(v)});
 }
+
 function twoCalc(){
- var rl=Number(document.getElementById('rl').value),o1=Number(document.getElementById('o1').value),c=Number(document.getElementById('camber').value),offs=twoGetOffsets();
- var pclEl=document.getElementById('twoPclRL'),body=document.getElementById('twoResultBody'),finalEl=document.getElementById('finalRL'),title=document.getElementById('twoResultTitle');
- if(![rl,o1,c].every(Number.isFinite)){
-   if(pclEl)pclEl.textContent='—';if(body)body.innerHTML='<tr><td colspan="2">Valid value भरें</td></tr>';if(finalEl)finalEl.textContent='—';return;
- }
- var pcl=rl-(o1*c/100);
- if(pclEl)pclEl.textContent=pcl.toFixed(3)+' m';
- if(!offs.length){if(body)body.innerHTML='<tr><td colspan="2">Find Offsets भरें</td></tr>';if(finalEl)finalEl.textContent='—';if(title)title.textContent='Offset RL';return;}
- var rows='';
- offs.forEach(function(off){var r=pcl+(off*c/100);rows+='<tr><td>'+off+' m</td><td>'+r.toFixed(3)+' m</td></tr>';});
- if(body)body.innerHTML=rows;
- var last=offs[offs.length-1],lastRL=pcl+(last*c/100);
- if(finalEl)finalEl.textContent=lastRL.toFixed(3)+' m';
- if(title)title.textContent=offs.length===1?(last+' m Offset RL'):(offs.length+' Offset RL Results');
+  var rlEl=document.getElementById('rl'),
+      o1El=document.getElementById('o1'),
+      camEl=document.getElementById('camber'),
+      pclEl=document.getElementById('twoPclRL'),
+      finalEl=document.getElementById('finalRL'),
+      title=document.getElementById('twoResultTitle'),
+      box=document.getElementById('twoFindRows');
+
+  if(!rlEl||!o1El||!camEl||!pclEl||!box)return false;
+
+  var rl=Number(rlEl.value),
+      o1=Number(o1El.value),
+      c=Number(camEl.value);
+
+  var baseOk=[rl,o1,c].every(Number.isFinite);
+
+  if(!baseOk){
+    pclEl.textContent='—';
+    Array.from(box.querySelectorAll('.two-find-answer')).forEach(function(ans){
+      ans.textContent='—';
+    });
+    if(finalEl)finalEl.textContent='—';
+    if(title)title.textContent='Offset RL';
+    return false;
+  }
+
+  var pcl=rl-(o1*c/100);
+  pclEl.textContent=pcl.toFixed(3)+' m';
+
+  var validCount=0,lastRL=null,lastOff=null;
+
+  Array.from(box.querySelectorAll('.two-find-row')).forEach(function(row){
+    var inp=row.querySelector('.two-find-input');
+    var ans=row.querySelector('.two-find-answer');
+    var raw=inp?String(inp.value||'').trim():'';
+    var off=Number(raw);
+
+    if(raw!=='' && Number.isFinite(off)){
+      var resultRL=pcl+(off*c/100);
+      ans.textContent=resultRL.toFixed(3);
+      validCount++;
+      lastRL=resultRL;
+      lastOff=off;
+    }else{
+      ans.textContent='—';
+    }
+  });
+
+  if(finalEl)finalEl.textContent=lastRL==null?'—':lastRL.toFixed(3)+' m';
+
+  if(title){
+    if(validCount===1)title.textContent=lastOff+' m Offset RL';
+    else if(validCount>1)title.textContent=validCount+' Offset RL Results';
+    else title.textContent='Offset RL';
+  }
+
+  return validCount>0;
 }
+
 function clearTwo(){
- ['rl','o1','camber','o2'].forEach(function(x){document.getElementById(x).value=''});
- document.getElementById('finalRL').textContent='—';var p=document.getElementById('twoPclRL');if(p)p.textContent='—';var b=document.getElementById('twoResultBody');if(b)b.innerHTML='<tr><td colspan="2">Find Offsets भरें</td></tr>';var t=document.getElementById('twoResultTitle');if(t)t.textContent='Offset RL';
+  ['rl','o1','camber'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.value='';
+  });
+
+  var box=document.getElementById('twoFindRows');
+  if(box){
+    box.innerHTML='';
+    for(var i=0;i<twoInitialRowCount;i++){
+      box.appendChild(twoMakeOffsetRow(''));
+    }
+  }
+
+  var finalEl=document.getElementById('finalRL');
+  if(finalEl)finalEl.textContent='—';
+
+  var pcl=document.getElementById('twoPclRL');
+  if(pcl)pcl.textContent='—';
+
+  var title=document.getElementById('twoResultTitle');
+  if(title)title.textContent='Offset RL';
 }
-['rl','o1','camber','o2'].forEach(function(x){document.getElementById(x).addEventListener('input',twoCalc)});
+
+['rl','o1','camber'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el){
+    el.addEventListener('input',twoCalc);
+    el.addEventListener('change',twoCalc);
+  }
+});
+
+twoEnsureOffsetRows();
 twoCalc();
 function singleCalc(){
  var srlEl=document.getElementById('srl'),soEl=document.getElementById('so'),scEl=document.getElementById('sc'),resEl=document.getElementById('sres'),title=document.getElementById('singleResultTitle');
@@ -8472,65 +9928,231 @@ function clearSingle(){['srl','so','sc'].forEach(function(id){var el=document.ge
 singleCalc();
 let multiMode='custom';
 let eqRowCount=1;
+let customOffsetRowSeq=0;
+var customDefaultOffsets=['','','','',''];
+
+function customOffsetMakeRow(value){
+  customOffsetRowSeq++;
+  var row=document.createElement('div');
+  row.className='custom-offset-row';
+  row.dataset.rowId=customOffsetRowSeq;
+  var safe=value==null?'':String(value);
+  row.innerHTML=
+    '<div class="custom-offset-cell">'+
+      '<input class="custom-offset-input" type="number" step="any" inputmode="decimal" enterkeyhint="next" autocomplete="off" placeholder="Offset" value="'+safe.replace(/"/g,'&quot;')+'">'+
+    '</div>'+
+    '<div class="custom-offset-cell">'+
+      '<div class="custom-rl-answer">—</div>'+
+    '</div>'+
+    '<button type="button" class="custom-row-del" title="Delete row">×</button>';
+
+  var inp=row.querySelector('.custom-offset-input');
+  inp.addEventListener('input',multiCalc);
+  inp.addEventListener('change',multiCalc);
+
+  inp.addEventListener('focus',function(){
+    setTimeout(function(){
+      try{row.scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+    },220);
+  });
+
+  inp.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+
+    var box=document.getElementById('customOffsetRows');
+    if(!box)return;
+
+    var inputs=Array.from(box.querySelectorAll('.custom-offset-input'));
+    var pos=inputs.indexOf(inp);
+
+    if(pos>=0 && pos<inputs.length-1){
+      inputs[pos+1].focus();
+      try{inputs[pos+1].select()}catch(err){}
+      return;
+    }
+
+    var newRow=customOffsetMakeRow('');
+    box.appendChild(newRow);
+    multiCalc();
+
+    var next=newRow.querySelector('.custom-offset-input');
+    if(next){
+      setTimeout(function(){
+        next.focus();
+        try{next.scrollIntoView({behavior:'smooth',block:'center'})}catch(err){}
+      },30);
+    }
+  });
+
+  row.querySelector('.custom-row-del').addEventListener('click',function(){
+    var box=document.getElementById('customOffsetRows');
+    if(!box)return;
+    var rows=box.querySelectorAll('.custom-offset-row');
+    if(rows.length<=1){
+      inp.value='';
+      multiCalc();
+      return;
+    }
+    row.remove();
+    multiCalc();
+  });
+  return row;
+}
+
+function customOffsetEnsureRows(){
+  var box=document.getElementById('customOffsetRows');
+  if(!box||box.children.length)return;
+  customDefaultOffsets.forEach(function(){
+    box.appendChild(customOffsetMakeRow(''));
+  });
+}
+
+function customOffsetAddRow(){
+  var box=document.getElementById('customOffsetRows');
+  if(!box)return;
+  var newRow=customOffsetMakeRow('');
+  box.appendChild(newRow);
+  multiCalc();
+  var next=newRow.querySelector('.custom-offset-input');
+  if(next){
+    setTimeout(function(){
+      next.focus();
+      try{next.scrollIntoView({behavior:'smooth',block:'center'})}catch(e){}
+    },30);
+  }
+}
+
+function customOffsetAddFive(){
+  var box=document.getElementById('customOffsetRows');
+  if(!box)return;
+  for(var i=0;i<5;i++)box.appendChild(customOffsetMakeRow(''));
+  multiCalc();
+}
+
 function setMode(v){
   if(v!=='custom'&&v!=='equal')v='custom';
   multiMode=v;
   var custom=document.getElementById('customBox'),equal=document.getElementById('equalBox');
   var customTab=document.getElementById('customTab'),equalTab=document.getElementById('equalTab');
+  var section=document.getElementById('multiple');
+
   if(custom)custom.classList.toggle('hidden',v!=='custom');
   if(equal)equal.classList.toggle('hidden',v!=='equal');
   if(customTab)customTab.classList.toggle('active',v==='custom');
   if(equalTab)equalTab.classList.toggle('active',v==='equal');
+
+  if(section){
+    section.classList.toggle('custom-mode-active',v==='custom');
+    section.classList.toggle('equal-mode-active',v==='equal');
+  }
+
+  if(v==='custom')customOffsetEnsureRows();
   multiCalc();
 }
+
 function getOffsets(){
- if(multiMode==='custom'){
-   var listEl=document.getElementById('offsetList');
-   if(!listEl)return [];
-   return listEl.value.split(/[\s,;]+/).map(Number).filter(function(x){return Number.isFinite(x)});
- }
- var startEl=document.getElementById('eqStart'),spacingEl=document.getElementById('eqSpacing');
- if(!startEl||!spacingEl)return [];
- let start=+startEl.value;
- let spacing=+spacingEl.value;
- let count=Math.max(1,eqRowCount);
- if(!Number.isFinite(start)||!Number.isFinite(spacing)) return [];
- return Array.from({length:count},(_,i)=>start+i*spacing);
+  if(multiMode==='custom'){
+    var box=document.getElementById('customOffsetRows');
+    if(!box)return [];
+    return Array.from(box.querySelectorAll('.custom-offset-input'))
+      .map(function(inp){return Number(inp.value)})
+      .filter(function(x,idx){
+        var inp=box.querySelectorAll('.custom-offset-input')[idx];
+        return inp && String(inp.value).trim()!=='' && Number.isFinite(x);
+      });
+  }
+
+  var startEl=document.getElementById('eqStart'),spacingEl=document.getElementById('eqSpacing');
+  if(!startEl||!spacingEl)return [];
+  let start=+startEl.value;
+  let spacing=+spacingEl.value;
+  let count=Math.max(1,eqRowCount);
+  if(!Number.isFinite(start)||!Number.isFinite(spacing))return [];
+  return Array.from({length:count},(_,i)=>start+i*spacing);
 }
+
 function equalAddRow(){
- eqRowCount=Math.max(1,eqRowCount)+1;
- multiCalc();
+  eqRowCount=Math.max(1,eqRowCount)+1;
+  multiCalc();
 }
 function equalRemoveRow(){
- eqRowCount=Math.max(1,eqRowCount-1);
- multiCalc();
+  eqRowCount=Math.max(1,eqRowCount-1);
+  multiCalc();
+}
+
+function customOffsetUpdateAnswers(pcl,camber){
+  var box=document.getElementById('customOffsetRows');
+  if(!box)return 0;
+  var rows=Array.from(box.querySelectorAll('.custom-offset-row'));
+  var validCount=0;
+
+  rows.forEach(function(row){
+    var inp=row.querySelector('.custom-offset-input');
+    var ans=row.querySelector('.custom-rl-answer');
+    var raw=inp?String(inp.value||'').trim():'';
+    var off=Number(raw);
+
+    if(raw!=='' && Number.isFinite(off) && Number.isFinite(pcl) && Number.isFinite(camber)){
+      var rl=pcl+(off*camber/100);
+      ans.textContent=rl.toFixed(3);
+      validCount++;
+    }else{
+      ans.textContent='—';
+    }
+  });
+  return validCount;
 }
 
 function multiCalc(){
- var pclEl=document.getElementById('mrl'),camEl=document.getElementById('mc'),out=document.getElementById('multiAnswers');
- if(!pclEl||!camEl||!out)return false;
- let pcl=Number(pclEl.value);
- let camber=Number(camEl.value);
- let offsets=getOffsets();
- var removeBtn=document.getElementById('eqRemoveRowBtn');
- if(removeBtn)removeBtn.disabled=eqRowCount<=1;
- let ok=Number.isFinite(pcl)&&Number.isFinite(camber)&&offsets.length>0;
- if(!ok){out.innerHTML='<div class="multi-empty">Valid value भरें</div>';}
- else{
-   out.innerHTML=offsets.map(function(off){
-     var rl=pcl+(off*camber/100);
-     var offText=(Math.round(off*1000)/1000).toString();
-     return '<div class="multi-answer-row"><span class="ma-off">'+offText+'</span><span class="ma-rl">'+rl.toFixed(3)+'</span></div>';
-   }).join('');
- }
- return ok;
+  var pclEl=document.getElementById('mrl'),
+      camEl=document.getElementById('mc'),
+      out=document.getElementById('multiAnswers');
+
+  if(!pclEl||!camEl||!out)return false;
+
+  let pcl=Number(pclEl.value);
+  let camber=Number(camEl.value);
+
+  var removeBtn=document.getElementById('eqRemoveRowBtn');
+  if(removeBtn)removeBtn.disabled=eqRowCount<=1;
+
+  if(multiMode==='custom'){
+    customOffsetEnsureRows();
+    var count=customOffsetUpdateAnswers(pcl,camber);
+    return Number.isFinite(pcl)&&Number.isFinite(camber)&&count>0;
+  }
+
+  let offsets=getOffsets();
+  let ok=Number.isFinite(pcl)&&Number.isFinite(camber)&&offsets.length>0;
+
+  if(!ok){
+    out.innerHTML='<div class="multi-empty">Valid value भरें</div>';
+  }else{
+    out.innerHTML=offsets.map(function(off){
+      var rl=pcl+(off*camber/100);
+      var offText=(Math.round(off*1000)/1000).toString();
+      return '<div class="multi-answer-row"><span class="ma-off">'+offText+'</span><span class="ma-rl">'+rl.toFixed(3)+'</span></div>';
+    }).join('');
+  }
+  return ok;
 }
-['mrl','mc','offsetList','eqStart','eqSpacing'].forEach(function(id){
- var el=document.getElementById(id);if(el){el.addEventListener('input',multiCalc);el.addEventListener('change',multiCalc)}
+
+['mrl','mc','eqStart','eqSpacing'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el){
+    el.addEventListener('input',multiCalc);
+    el.addEventListener('change',multiCalc);
+  }
 });
-var customTabEl=document.getElementById('customTab'),equalTabEl=document.getElementById('equalTab');
+
+var customTabEl=document.getElementById('customTab'),
+    equalTabEl=document.getElementById('equalTab');
+
 if(customTabEl)customTabEl.addEventListener('click',function(){setMode('custom')});
 if(equalTabEl)equalTabEl.addEventListener('click',function(){setMode('equal')});
+
+customOffsetEnsureRows();
 setMode('custom');
 
 
@@ -8846,7 +10468,7 @@ calcFindWeight();
 function vcRebindLiveCalculators(){
   function bind(ids,fn){ids.forEach(function(id){var el=document.getElementById(id);if(el&&!el.dataset.vcLiveBound){el.addEventListener('input',fn);el.dataset.vcLiveBound='1'}})}
   bind(['srl','so','sc'],singleCalc);
-  bind(['mrl','mc','offsetList','eqStart','eqSpacing'],multiCalc);
+  bind(['mrl','mc','eqStart','eqSpacing'],multiCalc);
   bind(['pricePerKg','weightG'],calcFindPrice);
   bind(['priceKg2','totalPrice'],calcFindWeight);
   try{singleCalc()}catch(e){}
@@ -8857,6 +10479,102 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 /* Subgrade / GSB Peg Level Calculator */
 var pegRowSeq=0,pegChainageSyncBusy=false;
+
+
+
+var pegSummaryDone=new Set();
+
+function pegSummaryDoneKey(rowId,off){
+  return String(rowId)+'|'+String(off);
+}
+function pegToggleSummaryDone(btn){
+  if(!btn)return;
+  var key=String(btn.getAttribute('data-summary-key')||'');
+  if(!key)return;
+
+  if(pegSummaryDone.has(key))pegSummaryDone.delete(key);
+  else pegSummaryDone.add(key);
+
+  btn.classList.toggle('done',pegSummaryDone.has(key));
+  btn.setAttribute('aria-pressed',pegSummaryDone.has(key)?'true':'false');
+}
+
+function pegEscHtml(v){
+  return String(v==null?'':v).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function pegOffsetSort(a,b){
+  return Number(a)-Number(b);
+}
+function pegOffsetLabel(v){
+  var n=Number(v);
+  if(!isFinite(n))return String(v)+'m';
+  return (Math.abs(n-Math.round(n))<1e-9?String(Math.round(n)):String(n))+'m';
+}
+function pegRenderBottomStaffSummary(items){
+  var box=document.getElementById('pegBottomStaffRows');
+  if(!box)return;
+
+  if(!items||!items.length){
+    box.innerHTML='<div class="peg-bottom-empty">Staff Reading आने पर एक Chainage की सभी Offset readings यहाँ साफ़ दिखाई देंगी।</div>';
+    return;
+  }
+
+  var rows=[];
+  var rowMap={};
+
+  items.forEach(function(x){
+    var rowKey=String(x.rowId);
+    if(!rowMap[rowKey]){
+      rowMap[rowKey]={
+        rowId:x.rowId,
+        chainage:x.chainage||'—',
+        values:[]
+      };
+      rows.push(rowMap[rowKey]);
+    }
+    rowMap[rowKey].values.push({
+      off:Number(x.off),
+      peg:x.peg,
+      staff:x.staff
+    });
+  });
+
+  rows.forEach(function(row){
+    row.values.sort(function(a,b){return Number(a.off)-Number(b.off)});
+  });
+
+  box.innerHTML=rows.map(function(row){
+    var cells=row.values.map(function(v){
+      var doneKey=pegSummaryDoneKey(row.rowId,v.off);
+      var done=pegSummaryDone.has(doneKey);
+
+      return '<div class="peg-summary-offset-box">'+
+        '<div class="peg-summary-offset-label">'+pegEscHtml(pegOffsetLabel(v.off))+'</div>'+
+        '<div class="peg-summary-values">'+
+          '<div class="peg-summary-rl">'+
+            '<span class="peg-summary-mini-label">RL</span>'+
+            '<strong>'+Number(v.peg).toFixed(3)+'</strong>'+
+          '</div>'+
+          '<button type="button" class="peg-summary-reading'+(done?' done':'')+'" data-summary-key="'+pegEscHtml(doneKey)+'" aria-pressed="'+(done?'true':'false')+'" onclick="pegToggleSummaryDone(this)">'+
+            '<span class="peg-summary-mini-label">Reading</span>'+
+            '<strong>'+Number(v.staff).toFixed(3)+'</strong>'+
+            '<span class="peg-summary-check">✓</span>'+
+          '</button>'+
+        '</div>'+
+      '</div>';
+    }).join('');
+
+    return '<div class="peg-summary-card">'+
+      '<div class="peg-summary-chainage">'+
+        '<strong class="peg-summary-chainage-value">'+pegEscHtml(row.chainage)+'</strong>'+
+      '</div>'+
+      '<div class="peg-summary-offset-grid">'+cells+'</div>'+
+    '</div>';
+  }).join('');
+}
+
 function pegParseChainage(v){
   v=String(v==null?'':v).trim().replace(/,/g,'');
   if(!v)return NaN;
@@ -8878,48 +10596,107 @@ function pegParseOffsets(v){
 }
 function pegNormalizeChainageInput(inp){
   if(!inp)return;var raw=String(inp.value||'').trim();if(!raw)return;
-  var n=pegParseChainage(raw);if(isFinite(n)){inp.value=pegFormatChainage(n);pegRecalc();}
+  var n=pegParseChainage(raw);if(isFinite(n)){inp.value=pegFormatChainage(n);pegRecalc();pegUpdateChainageSuggestions();}
 }
-function pegInsertPlus(btn){
-  var inp=btn&&btn.parentElement?btn.parentElement.querySelector('.peg-ch'):null;if(!inp)return;
-  var v=inp.value||'';if(v.indexOf('+')>=0){inp.focus();return}
-  var s=typeof inp.selectionStart==='number'?inp.selectionStart:v.length,e=typeof inp.selectionEnd==='number'?inp.selectionEnd:s;
-  inp.value=v.slice(0,s)+'+'+v.slice(e);try{inp.setSelectionRange(s+1,s+1)}catch(err){}inp.focus();inp.dispatchEvent(new Event('input',{bubbles:true}));
+
+
+function pegUseChainageSuggestion(btn){
+  if(!btn)return;
+  var wrap=btn.closest('.peg-chwrap');
+  var inp=wrap?wrap.querySelector('.peg-ch'):null;
+  if(!inp)return;
+
+  var val=String(btn.getAttribute('data-value')||btn.textContent||'').trim();
+  if(!val)return;
+
+  inp.value=val;
+  inp.dispatchEvent(new Event('input',{bubbles:true}));
+  pegNormalizeChainageInput(inp);
+
+  try{
+    var tr=inp.closest('tr');
+    var next=tr&&tr.nextElementSibling?tr.nextElementSibling.querySelector('.peg-ch'):null;
+    if(next)next.focus();
+  }catch(e){}
 }
-var pegActiveChainageInput=null;
-function pegShowKeypad(inp){
-  pegActiveChainageInput=inp;var kp=document.getElementById('pegChainageKeypad');if(kp)kp.classList.remove('hidden');
+
+function pegUpdateChainageSuggestions(){
+  var rows=Array.from(document.querySelectorAll('#pegRows tr'));
+  if(!rows.length)return;
+
+  var firstInp=rows[0].querySelector('.peg-ch');
+  var firstVal=firstInp?pegParseChainage(firstInp.value):NaN;
+
+  rows.forEach(function(tr,i){
+    var inp=tr.querySelector('.peg-ch');
+    var btn=tr.querySelector('.peg-ch-suggestion');
+    if(!inp||!btn)return;
+
+    if(i===0){
+      btn.textContent='';
+      btn.removeAttribute('data-value');
+      btn.classList.add('hidden');
+      return;
+    }
+
+    var prevInp=rows[i-1].querySelector('.peg-ch');
+    var prevVal=prevInp?pegParseChainage(prevInp.value):NaN;
+    var suggestion=NaN;
+
+    if(isFinite(prevVal)){
+      suggestion=prevVal+10;
+    }else if(isFinite(firstVal)){
+      suggestion=firstVal+(i*10);
+    }
+
+    if(isFinite(suggestion)&&String(inp.value||'').trim()===''){
+      var formatted=pegFormatChainage(suggestion);
+      btn.textContent=formatted;
+      btn.setAttribute('data-value',formatted);
+      btn.classList.remove('hidden');
+    }else{
+      btn.textContent='';
+      btn.removeAttribute('data-value');
+      btn.classList.add('hidden');
+    }
+  });
 }
-function pegKeypadPress(k){
-  var inp=pegActiveChainageInput;if(!inp)return;
-  var v=String(inp.value||'');
-  if(k==='C')v='';
-  else if(k==='⌫')v=v.slice(0,-1);
-  else if(k==='+'){if(v.indexOf('+')<0&&v.length)v+='+';}
-  else v+=k;
-  inp.value=v;inp.dispatchEvent(new Event('input',{bubbles:true}));
-}
-function pegKeypadDone(){
-  var inp=pegActiveChainageInput;if(inp)pegNormalizeChainageInput(inp);
-  var kp=document.getElementById('pegChainageKeypad');if(kp)kp.classList.add('hidden');
-  pegActiveChainageInput=null;
-}
+
 function pegMakeRow(chainage){
   pegRowSeq++;var tr=document.createElement('tr');tr.dataset.pegId=pegRowSeq;
   var pegBody=document.getElementById('pegRows');
   var sameOff=document.getElementById('pegSameOffset');
   var firstOff=pegBody&&pegBody.querySelector('.peg-off');
   var inheritedOff=(sameOff&&sameOff.checked&&firstOff)?firstOff.value:'';
-  tr.innerHTML='<td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="none" autocomplete="off" value="'+(chainage||'')+'" placeholder="37+200" onfocus="pegShowKeypad(this)" onclick="pegShowKeypad(this)"></div></td>'+ 
-    '<td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td>'+ 
-    '<td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6" value="'+String(inheritedOff).replace(/"/g,'&quot;')+'"></td>'+ 
-    '<td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td>'+ 
-    '<td class="peg-out peg-rl">—</td><td class="peg-out peg-staff">—</td>'+ 
-    '<td class="peg-chainage-end">'+(chainage||'—')+'</td>'+
+
+  var sameCam=document.getElementById('pegSameCamber');
+  var globalCam=document.getElementById('pegCamber');
+  var inheritedCam=(sameCam&&sameCam.checked&&globalCam)?globalCam.value:'';
+
+  tr.innerHTML='<td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="'+(chainage||'')+'" placeholder="37+200"><button type="button" class="peg-ch-suggestion hidden" onclick="pegUseChainageSuggestion(this)"></button></div></td>'+
+    '<td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td>'+
+    '<td><input class="peg-cam" type="number" step="any" placeholder="-2.5" value="'+String(inheritedCam).replace(/"/g,'&quot;')+'"></td>'+
+    '<td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6" value="'+String(inheritedOff).replace(/"/g,'&quot;')+'"></td>'+
+    '<td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td>'+
     '<td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td>';
-  tr.querySelector('.peg-ch').addEventListener('input',pegRecalc);tr.querySelector('.peg-ch').addEventListener('blur',function(){pegNormalizeChainageInput(this)});
-  tr.querySelectorAll('.peg-pcl,.peg-off,.peg-hi').forEach(function(inp){inp.addEventListener('input',pegRecalc)});
-  document.getElementById('pegRows').appendChild(tr);pegSyncOffsets(false);return tr;
+
+  var chInp=tr.querySelector('.peg-ch');
+  chInp.addEventListener('input',function(){pegRecalc();pegUpdateChainageSuggestions()});
+  chInp.addEventListener('blur',function(){pegNormalizeChainageInput(this)});
+  chInp.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+    pegNormalizeChainageInput(this);
+    var next=tr.querySelector('.peg-pcl');
+    if(next)next.focus();
+  });
+  tr.querySelectorAll('.peg-pcl,.peg-cam,.peg-off,.peg-hi').forEach(function(inp){inp.addEventListener('input',pegRecalc)});
+
+  document.getElementById('pegRows').appendChild(tr);
+  pegSyncCambers(false);
+  pegSyncOffsets(false);
+  pegUpdateChainageSuggestions();
+  return tr;
 }
 function pegBuild50FromFirst(){
   var body=document.getElementById('pegRows'),rows=Array.from(body.querySelectorAll('tr'));
@@ -8935,6 +10712,58 @@ function pegBuild50FromFirst(){
 }
 function pegChainagesFromFirst(){if(pegChainageSyncBusy)return;var rows=Array.from(document.querySelectorAll('#pegRows tr'));if(!rows.length)return;var start=pegParseChainage(rows[0].querySelector('.peg-ch').value);if(isFinite(start))pegBuild50FromFirst()}
 function pegGenerate50(){pegBuild50FromFirst()}
+
+function pegApplySameCamber(){
+  var same=document.getElementById('pegSameCamber');
+  var globalCam=document.getElementById('pegCamber');
+  if(!same||!same.checked||!globalCam)return;
+
+  var cams=document.querySelectorAll('#pegRows .peg-cam');
+  for(var i=0;i<cams.length;i++)cams[i].value=globalCam.value;
+  pegSyncCambers(false);
+  pegRecalc();
+}
+
+function pegSyncCambers(doRecalc){
+  var same=document.getElementById('pegSameCamber');
+  var globalCam=document.getElementById('pegCamber');
+  var useSame=!!(same&&same.checked);
+
+  document.querySelectorAll('#pegRows .peg-cam').forEach(function(inp){
+    if(useSame&&globalCam){
+      inp.value=globalCam.value;
+      inp.readOnly=true;
+      inp.classList.add('same');
+      inp.title='Same Camber';
+    }else{
+      inp.readOnly=false;
+      inp.classList.remove('same');
+      inp.title='Manual Camber';
+    }
+  });
+
+  if(globalCam){
+    globalCam.disabled=!useSame;
+    globalCam.style.opacity=useSame?'1':'.48';
+  }
+
+  if(doRecalc!==false)pegRecalc();
+}
+
+function pegToggleSameCamber(){
+  var same=document.getElementById('pegSameCamber');
+  var globalCam=document.getElementById('pegCamber');
+
+  if(same&&same.checked&&globalCam){
+    var first=document.querySelector('#pegRows .peg-cam');
+    if(first&&String(first.value||'').trim()!=='')globalCam.value=first.value;
+  }
+
+  pegSyncCambers(false);
+  if(same&&same.checked)pegApplySameCamber();
+  else pegRecalc();
+}
+
 function pegApplySameOffset(){
   var same=document.getElementById('pegSameOffset');
   if(!same||!same.checked)return;
@@ -8955,9 +10784,9 @@ function pegApplySameOffset(){
   });
 })();
 function pegAddRow(){
-  pegMakeRow('');pegRecalc();
+  pegMakeRow('');pegRecalc();pegUpdateChainageSuggestions();
 }
-function pegDeleteRow(btn){var tr=btn.closest('tr');if(tr)tr.remove();pegRecalc()}
+function pegDeleteRow(btn){var tr=btn.closest('tr');if(tr)tr.remove();pegRecalc();pegUpdateChainageSuggestions()}
 function pegSyncOffsets(doRecalc){
   document.querySelectorAll('#pegRows .peg-off').forEach(function(i){
     i.readOnly=false;
@@ -8967,48 +10796,369 @@ function pegSyncOffsets(doRecalc){
   });
   if(doRecalc!==false)pegRecalc();
 }
+
 function pegFormatMultiResult(items,key){if(!items.length)return '—';return items.map(function(x){return '<div>'+x.off+'m: '+x[key].toFixed(3)+'</div>'}).join('')}
 function pegRecalc(){
-  var camber=Number(document.getElementById('pegCamber').value),depth=Number(document.getElementById('pegDepth').value),rows=Array.from(document.querySelectorAll('#pegRows tr')),currentHI=NaN,ok=0,hiCount=0;
+  var deep=Number(document.getElementById('pegDepth').value),
+      rows=Array.from(document.querySelectorAll('#pegRows tr')),
+      sameCam=document.getElementById('pegSameCamber'),
+      sameCamber=!!(sameCam&&sameCam.checked),
+      currentHI=NaN,ok=0,hiCount=0,
+      bottomStaffItems=[];
+
   rows.forEach(function(tr){
-    var pcl=Number(tr.querySelector('.peg-pcl').value),offs=pegParseOffsets(tr.querySelector('.peg-off').value),hiInput=tr.querySelector('.peg-hi'),hiText=hiInput.value.trim(),hiLabel=tr.querySelector('.peg-hi-label');
+    var pcl=Number(tr.querySelector('.peg-pcl').value),
+        camInput=tr.querySelector('.peg-cam'),
+        camber=camInput?Number(camInput.value):NaN,
+        offs=pegParseOffsets(tr.querySelector('.peg-off').value),
+        hiInput=tr.querySelector('.peg-hi'),
+        hiText=hiInput.value.trim(),
+        hiLabel=tr.querySelector('.peg-hi-label');
+
     if(hiLabel){hiLabel.textContent='';hiLabel.classList.remove('new')}
+
     if(hiText!==''&&isFinite(Number(hiText))){
       currentHI=Number(hiText);hiCount++;
-      if(hiLabel){hiLabel.textContent=hiCount===1?'HI':'New HI';if(hiCount>1)hiLabel.classList.add('new')}
+      if(hiLabel){
+        hiLabel.textContent=hiCount===1?'HI':'New HI';
+        if(hiCount>1)hiLabel.classList.add('new');
+      }
     }
-    var results=[];if(isFinite(pcl)&&offs.length&&isFinite(depth)&&isFinite(camber))offs.forEach(function(off){var pr=pcl+(off*camber/100)+(depth/1000),sr=isFinite(currentHI)?currentHI-pr:NaN;results.push({off:off,peg:pr,staff:sr});if(isFinite(sr))ok++});
-    tr.querySelector('.peg-rl').innerHTML=pegFormatMultiResult(results,'peg');var staffResults=results.filter(function(x){return isFinite(x.staff)});tr.querySelector('.peg-staff').innerHTML=pegFormatMultiResult(staffResults,'staff');var chEnd=tr.querySelector('.peg-chainage-end');if(chEnd)chEnd.textContent=tr.querySelector('.peg-ch').value||'—';
+
+    var results=[];
+    if(isFinite(pcl)&&offs.length&&isFinite(deep)&&isFinite(camber)){
+      offs.forEach(function(off){
+        var pr=pcl+(off*camber/100)+(deep/1000),
+            sr=isFinite(currentHI)?currentHI-pr:NaN;
+        results.push({off:off,peg:pr,staff:sr});
+        if(isFinite(sr))ok++;
+      });
+    }
+
+    var staffResults=results.filter(function(x){return isFinite(x.staff)});
+
+    var chainageValue=tr.querySelector('.peg-ch').value||'—';
+    staffResults.forEach(function(x){
+      bottomStaffItems.push({
+        rowId:tr.dataset.pegId,
+        chainage:chainageValue,
+        off:x.off,
+        peg:x.peg,
+        staff:x.staff
+      });
+    });
   });
-  document.getElementById('pegSummary').textContent=ok?ok+' result(s) calculated • Manual Offset • Depth '+(isFinite(depth)?depth:'—')+' mm same • HI जहाँ बदले वहीं डालें':'Chainage, PCL RL, Offset और HI डालते ही result automatic आएगा.';
+
+  pegRenderBottomStaffSummary(bottomStaffItems);
+
+  document.getElementById('pegSummary').textContent=ok
+    ? ok+' result(s) calculated • '+(sameCamber?'Same Camber':'Manual Camber')+' • Manual Offset • Deep '+(isFinite(deep)?deep:'—')+' mm same • HI जहाँ बदले वहीं डालें'
+    : 'Chainage, PCL RL, Camber, Offset और HI डालते ही result automatic आएगा.';
 }
 function pegClearValues(){
   var body=document.getElementById('pegRows');
   if(!body)return;
   body.innerHTML='';
   pegRowSeq=0;
-  var same=document.getElementById('pegSameOffset');if(same)same.checked=false;
+  pegSummaryDone.clear();
+
+  var sameOff=document.getElementById('pegSameOffset');
+  if(sameOff)sameOff.checked=true;
+
+  var sameCam=document.getElementById('pegSameCamber');
+  if(sameCam)sameCam.checked=true;
+
   for(var i=0;i<3;i++)pegMakeRow('');
+  pegSyncCambers(false);
+  pegSyncOffsets(false);
+  pegApplySameOffset();
   pegRecalc();
+  pegUpdateChainageSuggestions();
 }
 function pegDownloadPDF(){
-  var rows=Array.from(document.querySelectorAll('#pegRows tr'));if(!rows.length){alert('पहले rows बनाएं');return}
-  var jsPDF=window.jspdf&&window.jspdf.jsPDF;if(!jsPDF){alert('PDF library load नहीं हुई');return}
-  var cam=document.getElementById('pegCamber').value,depth=document.getElementById('pegDepth').value;
-  var doc=new jsPDF({unit:'mm',format:'a4'});doc.setFont('helvetica','bold');doc.setFontSize(16);doc.text('Subgrade / GSB Peg Level',14,16);doc.setFontSize(10);doc.setFont('helvetica','normal');doc.text('Camber: '+cam+'%   Depth: '+depth+' mm   Multiple Offset',14,23);
-  var y=32;doc.setFont('helvetica','bold');doc.text('Chainage',10,y);doc.text('PCL RL',43,y);doc.text('Offset',69,y);doc.text('HI',92,y);doc.text('Peg RL',116,y);doc.text('Staff',144,y);doc.text('Chainage',169,y);doc.setFont('helvetica','normal');y+=6;
-  var currentHI='';rows.forEach(function(tr){var ch=tr.querySelector('.peg-ch').value,pcl=tr.querySelector('.peg-pcl').value,offText=tr.querySelector('.peg-off').value,hi=tr.querySelector('.peg-hi').value;if(hi!=='')currentHI=hi;var offs=pegParseOffsets(offText);if(!offs.length)offs=[NaN];offs.forEach(function(off,idx){var pr='-',sr='-';if(isFinite(Number(pcl))&&isFinite(off)&&isFinite(Number(cam))&&isFinite(Number(depth))){var peg=Number(pcl)+(off*Number(cam)/100)+(Number(depth)/1000);pr=peg.toFixed(3);if(currentHI!==''&&isFinite(Number(currentHI)))sr=(Number(currentHI)-peg).toFixed(3)}if(y>282){doc.addPage();y=18}doc.text(idx===0?String(ch):'',10,y);doc.text(idx===0?String(pcl||'-'):'',43,y);doc.text(isFinite(off)?String(off):'-',69,y);doc.text(idx===0?String(currentHI||'-'):'',92,y);doc.text(String(pr),116,y);doc.text(String(sr),144,y);doc.text(idx===0?String(ch):'',169,y);y+=6})});
-  if(!vcSafeSaveJsPdf(doc,'Peg_Level_Report.pdf'))alert('PDF download नहीं हो पाई');
+  var rows=Array.from(document.querySelectorAll('#pegRows tr'));
+  if(!rows.length){alert('पहले Chainage data डालें');return}
+
+  var jsPDF=window.jspdf&&window.jspdf.jsPDF;
+  if(!jsPDF){alert('PDF library load नहीं हुई');return}
+
+  var deepEl=document.getElementById('pegDepth'),
+      sameCam=document.getElementById('pegSameCamber'),
+      sameOff=document.getElementById('pegSameOffset'),
+      globalCamEl=document.getElementById('pegCamber');
+
+  var deep=deepEl?Number(deepEl.value):NaN,
+      useSameCam=!!(sameCam&&sameCam.checked),
+      useSameOff=!!(sameOff&&sameOff.checked),
+      globalCam=globalCamEl?globalCamEl.value:'';
+
+  var groups=[],currentHI=NaN,totalLevels=0,doneLevels=0;
+
+  rows.forEach(function(tr){
+    var ch=String((tr.querySelector('.peg-ch')||{}).value||'').trim(),
+        pclRaw=String((tr.querySelector('.peg-pcl')||{}).value||'').trim(),
+        camRaw=String((tr.querySelector('.peg-cam')||{}).value||'').trim(),
+        offRaw=String((tr.querySelector('.peg-off')||{}).value||'').trim(),
+        hiRaw=String((tr.querySelector('.peg-hi')||{}).value||'').trim();
+
+    if(hiRaw!==''&&isFinite(Number(hiRaw)))currentHI=Number(hiRaw);
+
+    var pcl=Number(pclRaw),cam=Number(camRaw),offs=pegParseOffsets(offRaw);
+    if(!ch&&!pclRaw&&!camRaw&&!offRaw&&!hiRaw)return;
+
+    var group={
+      rowId:String(tr.dataset.pegId||''),
+      chainage:ch||'-',
+      pcl:isFinite(pcl)?pcl:null,
+      camber:isFinite(cam)?cam:null,
+      hi:isFinite(currentHI)?currentHI:null,
+      items:[]
+    };
+
+    offs.forEach(function(off){
+      var peg=null,staff=null;
+      if(isFinite(pcl)&&isFinite(cam)&&isFinite(off)&&isFinite(deep)){
+        peg=pcl+(off*cam/100)+(deep/1000);
+        if(isFinite(currentHI))staff=currentHI-peg;
+      }
+
+      var done=false;
+      try{
+        if(typeof pegSummaryDoneKey==='function'&&typeof pegSummaryDone!=='undefined'){
+          done=pegSummaryDone.has(pegSummaryDoneKey(group.rowId,off));
+        }
+      }catch(e){}
+
+      if(peg!==null){
+        totalLevels++;
+        if(done)doneLevels++;
+      }
+
+      group.items.push({
+        off:off,
+        peg:peg,
+        staff:staff,
+        done:done
+      });
+    });
+
+    if(group.items.length)groups.push(group);
+  });
+
+  if(!groups.length){
+    alert('PDF के लिए Chainage, PCL RL और Offset data डालें');
+    return;
+  }
+
+  var doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+  var pageW=210,pageH=297,left=12,right=12,contentW=pageW-left-right;
+  var navy=[23,52,83],blue=[234,242,248],line=[211,221,231];
+  var green=[21,128,61],greenBg=[236,253,243],muted=[100,116,139];
+  var y=0;
+
+  function txt(v){
+    if(v===null||v===undefined||v==='')return '-';
+    return String(v);
+  }
+  function num3(v){
+    return isFinite(v)?Number(v).toFixed(3):'-';
+  }
+  function drawPageHeader(){
+    y=12;
+    doc.setFillColor(navy[0],navy[1],navy[2]);
+    doc.roundedRect(left,y,contentW,22,4,4,'F');
+
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(15);
+    doc.text('SUBGRADE / GSB PEG LEVEL',left+6,y+8);
+
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica','normal');
+    doc.text('LEVEL REPORT',left+6,y+14);
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.text('Deep: '+(isFinite(deep)?deep:'-')+' mm',pageW-right-6,y+8,{align:'right'});
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7.5);
+    doc.text('Camber: '+(useSameCam?(txt(globalCam)+'% Same'):'By Chainage'),pageW-right-6,y+13,{align:'right'});
+    doc.text('Offset: '+(useSameOff?'Same':'By Chainage'),pageW-right-6,y+17,{align:'right'});
+
+    y+=27;
+
+    var gap=4,cardW=(contentW-gap*2)/3,cardH=12;
+    var cards=[
+      ['CHAINAGES',String(groups.length)],
+      ['LEVEL POINTS',String(totalLevels)],
+      ['DONE',String(doneLevels)]
+    ];
+    cards.forEach(function(c,i){
+      var x=left+i*(cardW+gap);
+      doc.setFillColor(248,250,252);
+      doc.setDrawColor(line[0],line[1],line[2]);
+      doc.roundedRect(x,y,cardW,cardH,2,2,'FD');
+      doc.setTextColor(muted[0],muted[1],muted[2]);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(6.5);
+      doc.text(c[0],x+3,y+4.3);
+      doc.setTextColor(navy[0],navy[1],navy[2]);
+      doc.setFontSize(11);
+      doc.text(c[1],x+3,y+9.5);
+    });
+    y+=17;
+  }
+
+  function drawGroupHeader(g,continued){
+    doc.setFillColor(blue[0],blue[1],blue[2]);
+    doc.setDrawColor(line[0],line[1],line[2]);
+    doc.roundedRect(left,y,contentW,10,2,2,'FD');
+
+    doc.setTextColor(navy[0],navy[1],navy[2]);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(10.5);
+    doc.text('Chainage  '+txt(g.chainage)+(continued?'  (cont.)':''),left+4,y+6.5);
+
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica','normal');
+    var meta='PCL RL: '+num3(g.pcl)+'     Camber: '+(isFinite(g.camber)?g.camber.toFixed(2):'-')+'%     HI: '+num3(g.hi);
+    doc.text(meta,pageW-right-4,y+6.3,{align:'right'});
+    y+=12;
+
+    var widths=[34,46,56,50];
+    var headers=['Offset','Peg RL','Staff Reading','Status'];
+    var x=left;
+
+    doc.setFillColor(navy[0],navy[1],navy[2]);
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+
+    headers.forEach(function(h,i){
+      doc.rect(x,y,widths[i],8,'F');
+      doc.text(h,x+widths[i]/2,y+5.3,{align:'center'});
+      x+=widths[i];
+    });
+    y+=8;
+  }
+
+  function ensureSpace(need,g,continued){
+    if(y+need<=pageH-15)return false;
+    doc.addPage();
+    drawPageHeader();
+    if(g)drawGroupHeader(g,continued!==false);
+    return true;
+  }
+
+  drawPageHeader();
+
+  groups.forEach(function(g,gi){
+    var minBlock=10+8+Math.min(2,Math.max(1,g.items.length))*9+5;
+    if(y+minBlock>pageH-15){
+      doc.addPage();
+      drawPageHeader();
+    }
+
+    drawGroupHeader(g,false);
+
+    g.items.forEach(function(item,ii){
+      if(y+9>pageH-15){
+        doc.addPage();
+        drawPageHeader();
+        drawGroupHeader(g,true);
+      }
+
+      var widths=[34,46,56,50];
+      var values=[
+        (isFinite(item.off)?String(item.off):'-')+' m',
+        num3(item.peg),
+        num3(item.staff),
+        item.done?'DONE':'PENDING'
+      ];
+      var x=left;
+
+      if(ii%2===1){
+        doc.setFillColor(250,252,254);
+        doc.rect(left,y,contentW,9,'F');
+      }
+
+      values.forEach(function(v,i){
+        doc.setDrawColor(226,232,240);
+        doc.rect(x,y,widths[i],9);
+
+        if(i===2){
+          doc.setFont('helvetica','bold');
+          doc.setFontSize(10);
+          doc.setTextColor(navy[0],navy[1],navy[2]);
+        }else if(i===3&&item.done){
+          doc.setFillColor(greenBg[0],greenBg[1],greenBg[2]);
+          doc.rect(x,y,widths[i],9,'F');
+          doc.setTextColor(green[0],green[1],green[2]);
+          doc.setFont('helvetica','bold');
+          doc.setFontSize(8);
+        }else{
+          doc.setTextColor(51,65,85);
+          doc.setFont('helvetica',i===1?'bold':'normal');
+          doc.setFontSize(8.5);
+        }
+
+        doc.text(String(v),x+widths[i]/2,y+5.8,{align:'center'});
+        x+=widths[i];
+      });
+
+      y+=9;
+    });
+
+    y+=5;
+  });
+
+  var pages=doc.getNumberOfPages();
+  for(var p=1;p<=pages;p++){
+    doc.setPage(p);
+    doc.setDrawColor(226,232,240);
+    doc.line(left,pageH-10,pageW-right,pageH-10);
+    doc.setTextColor(100,116,139);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7);
+    doc.text('Subgrade / GSB Peg Level Report',left,pageH-6);
+    doc.text('Page '+p+' of '+pages,pageW-right,pageH-6,{align:'right'});
+  }
+
+  if(!vcSafeSaveJsPdf(doc,'Subgrade_GSB_Peg_Level_Report.pdf')){
+    alert('PDF download नहीं हो पाई');
+  }
 }
+
 function pegInit(){
-  var c=document.getElementById('pegCamber'),d=document.getElementById('pegDepth'),body=document.getElementById('pegRows');
+  var c=document.getElementById('pegCamber'),
+      d=document.getElementById('pegDepth'),
+      body=document.getElementById('pegRows'),
+      sameCam=document.getElementById('pegSameCamber');
+
   if(!c||!d||!body)return;
-  c.addEventListener('input',pegRecalc);
+
+  c.addEventListener('input',function(){
+    if(sameCam&&sameCam.checked)pegApplySameCamber();
+    else pegRecalc();
+  });
+
   d.addEventListener('input',pegRecalc);
+
+  if(sameCam){
+    sameCam.addEventListener('change',pegToggleSameCamber);
+  }
+
   body.innerHTML='';
   pegRowSeq=0;
+  pegSummaryDone.clear();
+
   for(var i=0;i<3;i++)pegMakeRow('');
-  pegSyncOffsets(true);
+
+  pegSyncCambers(false);
+  pegSyncOffsets(false);
+  pegApplySameOffset();
+  pegRecalc();
+  pegUpdateChainageSuggestions();
 }
 
 pegInit();
@@ -13362,5 +15512,811 @@ window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.
 
 
 
+
+
+<script id="vcNewToolBadgeScript">
+(function(){
+  'use strict';
+
+  /*
+    जब किसी tool में नया बदलाव करें:
+    उसी tool id की version value बदलें।
+    Version बदलते ही NEW फिर दिखाई देगा।
+  */
+  var VC_TOOL_UPDATE_VERSIONS={
+    pegLevel:'2026-10-09-pegLevel-02'
+  };
+
+  var VC_NEW_SEEN_KEY='virendraToolNewSeenV2';
+  var vcSeen={};
+
+  try{
+    var saved=localStorage.getItem(VC_NEW_SEEN_KEY);
+    if(saved){
+      var parsed=JSON.parse(saved);
+      if(parsed&&typeof parsed==='object')vcSeen=parsed;
+    }
+  }catch(e){
+    vcSeen={};
+  }
+
+  function vcSaveSeen(){
+    try{
+      localStorage.setItem(VC_NEW_SEEN_KEY,JSON.stringify(vcSeen));
+    }catch(e){}
+  }
+
+  function vcGetToolIdFromButton(btn){
+    if(!btn)return '';
+    var code=btn.getAttribute('onclick')||'';
+    var m=code.match(/\bshow\s*\(\s*(['"])([^'"]+)\1/);
+    return m?m[2]:'';
+  }
+
+  function vcFindButton(toolId){
+    var buttons=document.querySelectorAll('.toolGroup .nav button');
+    for(var i=0;i<buttons.length;i++){
+      if(vcGetToolIdFromButton(buttons[i])===toolId)return buttons[i];
+    }
+    return null;
+  }
+
+  function vcRemoveBadge(toolId){
+    var btn=vcFindButton(toolId);
+    if(!btn)return;
+    btn.classList.remove('vc-new-tool');
+    var badge=btn.querySelector('.vc-new-tool-badge');
+    if(badge)badge.remove();
+  }
+
+  function vcAddBadge(toolId){
+    var btn=vcFindButton(toolId);
+    if(!btn)return;
+
+    btn.classList.add('vc-new-tool');
+
+    if(!btn.querySelector('.vc-new-tool-badge')){
+      var badge=document.createElement('span');
+      badge.className='vc-new-tool-badge';
+      badge.textContent='NEW';
+      btn.appendChild(badge);
+    }
+  }
+
+  function vcApplyNewToolBadges(){
+    document.querySelectorAll('.vc-new-tool-badge').forEach(function(x){x.remove()});
+    document.querySelectorAll('.toolGroup .nav button.vc-new-tool').forEach(function(x){
+      x.classList.remove('vc-new-tool');
+    });
+
+    Object.keys(VC_TOOL_UPDATE_VERSIONS).forEach(function(toolId){
+      var version=String(VC_TOOL_UPDATE_VERSIONS[toolId]||'');
+      if(!version)return;
+
+      /* केवल वही version NEW है जिसे user ने अभी तक नहीं देखा */
+      if(String(vcSeen[toolId]||'')!==version){
+        vcAddBadge(toolId);
+      }
+    });
+  }
+
+  function vcMarkToolSeen(toolId){
+    toolId=String(toolId||'');
+    var version=String(VC_TOOL_UPDATE_VERSIONS[toolId]||'');
+    if(!toolId||!version)return;
+
+    vcSeen[toolId]=version;
+    vcSaveSeen();
+    vcRemoveBadge(toolId);
+  }
+
+  /* Future tool updates के लिए global helpers */
+  window.vcMarkToolSeen=vcMarkToolSeen;
+  window.vcApplyNewToolBadges=vcApplyNewToolBadges;
+  window.VC_TOOL_UPDATE_VERSIONS=VC_TOOL_UPDATE_VERSIONS;
+
+  function vcInitNewBadges(){
+    vcApplyNewToolBadges();
+
+    /*
+      Tool card खोलने के बाद NEW seen मानें।
+      Menu पर वापस आने पर badge हट चुका रहेगा।
+    */
+    document.addEventListener('click',function(ev){
+      var target=ev.target;
+      if(!target||typeof target.closest!=='function')return;
+
+      var btn=target.closest('.toolGroup .nav button');
+      if(!btn)return;
+
+      var toolId=vcGetToolIdFromButton(btn);
+      if(!toolId||!VC_TOOL_UPDATE_VERSIONS[toolId])return;
+
+      setTimeout(function(){
+        vcMarkToolSeen(toolId);
+      },60);
+    },false);
+
+    /* Direct #tool=... open होने पर भी उसे seen करें */
+    setTimeout(function(){
+      var h=String(location.hash||'');
+      var m=h.match(/^#tool=([^&]+)/);
+      if(!m)return;
+
+      var id='';
+      try{id=decodeURIComponent(m[1])}catch(e){id=m[1]}
+      if(id&&VC_TOOL_UPDATE_VERSIONS[id])vcMarkToolSeen(id);
+    },120);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',vcInitNewBadges,{once:true});
+  }else{
+    setTimeout(vcInitNewBadges,0);
+  }
+})();
+</script>
+
+
+<script id="vcDeletePdfOfflineCache">
+(function(){
+'use strict';
+
+var VC_PDF_OFFLINE_DB='VirendraPdfOfflineAssetsV1';
+var VC_PDF_OFFLINE_STORE='assets';
+var VC_PDF_OFFLINE_VERSION=1;
+var VC_PDF_WORKER_BLOB_URL='';
+
+var VC_PDF_ASSETS={
+  pdfjs:{
+    key:'pdfjs-main-3.11.174',
+    urls:[
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+      'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js'
+    ]
+  },
+  worker:{
+    key:'pdfjs-worker-3.11.174',
+    urls:[
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
+      'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'
+    ]
+  },
+  pdflib:{
+    key:'pdf-lib-1.17.1',
+    urls:[
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js',
+      'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js'
+    ]
+  }
+};
+
+function vcPdfDbOpen(){
+  return new Promise(function(resolve,reject){
+    try{
+      if(!window.indexedDB){reject(new Error('IndexedDB unavailable'));return}
+      var req=indexedDB.open(VC_PDF_OFFLINE_DB,VC_PDF_OFFLINE_VERSION);
+      req.onupgradeneeded=function(){
+        var db=req.result;
+        if(!db.objectStoreNames.contains(VC_PDF_OFFLINE_STORE)){
+          db.createObjectStore(VC_PDF_OFFLINE_STORE);
+        }
+      };
+      req.onsuccess=function(){resolve(req.result)};
+      req.onerror=function(){reject(req.error||new Error('DB open failed'))};
+    }catch(e){reject(e)}
+  });
+}
+
+async function vcPdfDbGet(key){
+  var db=await vcPdfDbOpen();
+  return await new Promise(function(resolve,reject){
+    try{
+      var tx=db.transaction(VC_PDF_OFFLINE_STORE,'readonly');
+      var req=tx.objectStore(VC_PDF_OFFLINE_STORE).get(key);
+      req.onsuccess=function(){resolve(req.result||'')};
+      req.onerror=function(){reject(req.error||new Error('DB get failed'))};
+      tx.oncomplete=function(){try{db.close()}catch(e){}};
+    }catch(e){try{db.close()}catch(_e){};reject(e)}
+  });
+}
+
+async function vcPdfDbPut(key,value){
+  var db=await vcPdfDbOpen();
+  return await new Promise(function(resolve,reject){
+    try{
+      var tx=db.transaction(VC_PDF_OFFLINE_STORE,'readwrite');
+      tx.objectStore(VC_PDF_OFFLINE_STORE).put(String(value||''),key);
+      tx.oncomplete=function(){try{db.close()}catch(e){};resolve(true)};
+      tx.onerror=function(){try{db.close()}catch(e){};reject(tx.error||new Error('DB put failed'))};
+    }catch(e){try{db.close()}catch(_e){};reject(e)}
+  });
+}
+
+function vcPdfLocalKey(key){return 'vcPdfOfflineAsset::'+key}
+function vcPdfLocalGet(key){
+  try{return localStorage.getItem(vcPdfLocalKey(key))||''}catch(e){return ''}
+}
+function vcPdfLocalPut(key,value){
+  try{localStorage.setItem(vcPdfLocalKey(key),String(value||''));return true}catch(e){return false}
+}
+
+async function vcPdfAssetGet(key){
+  try{
+    var v=await vcPdfDbGet(key);
+    if(v)return v;
+  }catch(e){}
+  return vcPdfLocalGet(key);
+}
+
+async function vcPdfAssetPut(key,value){
+  if(!value)return false;
+  try{await vcPdfDbPut(key,value);return true}catch(e){}
+  return vcPdfLocalPut(key,value);
+}
+
+async function vcPdfFetchText(url,timeoutMs){
+  var ctrl=typeof AbortController!=='undefined'?new AbortController():null;
+  var timer=setTimeout(function(){try{if(ctrl)ctrl.abort()}catch(e){}},timeoutMs||18000);
+  try{
+    var res=await fetch(url,{cache:'force-cache',signal:ctrl?ctrl.signal:undefined});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return await res.text();
+  }finally{clearTimeout(timer)}
+}
+
+async function vcPdfFetchAsset(asset){
+  for(var i=0;i<asset.urls.length;i++){
+    try{
+      var txt=await vcPdfFetchText(asset.urls[i],22000);
+      if(txt&&txt.length>1000){
+        await vcPdfAssetPut(asset.key,txt);
+        return txt;
+      }
+    }catch(e){}
+  }
+  return '';
+}
+
+function vcPdfGlobalEval(code,label){
+  if(!code)return false;
+  try{
+    (0,eval)(String(code)+'\n//# sourceURL='+String(label||'vc-offline-pdf.js'));
+    return true;
+  }catch(e){
+    console.error('Offline PDF eval failed',label,e);
+    return false;
+  }
+}
+
+async function vcPdfEnsureOne(name,globalTest){
+  if(globalTest())return {ok:true,cached:!!(await vcPdfAssetGet(VC_PDF_ASSETS[name].key))};
+
+  var asset=VC_PDF_ASSETS[name];
+  var src=await vcPdfAssetGet(asset.key);
+  if(src){
+    vcPdfGlobalEval(src,asset.key+'.js');
+    if(globalTest())return {ok:true,cached:true};
+  }
+
+  src=await vcPdfFetchAsset(asset);
+  if(src){
+    vcPdfGlobalEval(src,asset.key+'.js');
+    if(globalTest())return {ok:true,cached:true};
+  }
+  return {ok:false,cached:false};
+}
+
+async function vcPdfEnsureWorker(){
+  var asset=VC_PDF_ASSETS.worker;
+  var src=await vcPdfAssetGet(asset.key);
+  if(!src)src=await vcPdfFetchAsset(asset);
+  if(!src)return false;
+
+  try{
+    if(VC_PDF_WORKER_BLOB_URL){
+      try{URL.revokeObjectURL(VC_PDF_WORKER_BLOB_URL)}catch(e){}
+    }
+    VC_PDF_WORKER_BLOB_URL=URL.createObjectURL(new Blob([src],{type:'text/javascript'}));
+    if(window.pdfjsLib&&pdfjsLib.GlobalWorkerOptions){
+      pdfjsLib.GlobalWorkerOptions.workerSrc=VC_PDF_WORKER_BLOB_URL;
+    }
+    return true;
+  }catch(e){
+    console.error('Offline worker blob failed',e);
+    return false;
+  }
+}
+
+window.vcEnsureDeletePdfOfflineLibs=async function(){
+  var pdfLibRes=await vcPdfEnsureOne('pdflib',function(){return !!window.PDFLib});
+  var pdfJsRes=await vcPdfEnsureOne('pdfjs',function(){return !!window.pdfjsLib});
+  var workerOk=false;
+
+  if(window.pdfjsLib){
+    workerOk=await vcPdfEnsureWorker();
+  }
+
+  return {
+    pdfLib:!!window.PDFLib,
+    pdfjs:!!window.pdfjsLib,
+    worker:!!workerOk,
+    offlineReady:!!window.PDFLib && !!window.pdfjsLib && !!workerOk,
+    pdfLibCached:pdfLibRes.cached,
+    pdfJsCached:pdfJsRes.cached
+  };
+};
+
+window.vcPrimeDeletePdfOffline=async function(){
+  try{
+    var r=await window.vcEnsureDeletePdfOfflineLibs();
+    var badge=document.getElementById('dppOfflineBadge');
+    if(badge){
+      if(r.offlineReady){
+        badge.textContent='⚡ OFFLINE READY — Preview + Delete + Download';
+        badge.style.background='#ecfdf3';
+        badge.style.color='#166534';
+      }else{
+        badge.textContent='⚡ Offline setup pending — internet रहते एक बार Tool खोलें';
+        badge.style.background='#fff7ed';
+        badge.style.color='#9a3412';
+      }
+    }
+    return r;
+  }catch(e){
+    console.warn('Delete PDF offline prime failed',e);
+    return {pdfLib:!!window.PDFLib,pdfjs:!!window.pdfjsLib,worker:false,offlineReady:false};
+  }
+};
+
+function vcPrimeSoon(){
+  setTimeout(function(){window.vcPrimeDeletePdfOffline().catch(function(){})},900);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',vcPrimeSoon);
+else vcPrimeSoon();
+
+})();
+</script>
+
+<script id="vcDeletePdfPageScript">
+(function(){
+'use strict';
+
+var dppOriginalBytes=null,dppFileName='',dppPageCount=0,dppRenderToken=0;
+var dppDeleted=new Set(),dppSelectedSet=new Set(),dppUndoStack=[];
+var dppPdfJsDoc=null,dppPreviewPageIndex=-1;
+
+function D(id){return document.getElementById(id)}
+function dppStatus(msg,bad){
+  var e=D('dppStatus');
+  if(e){e.textContent=msg||'';e.style.color=bad?'#b91c1c':'#64748b'}
+}
+function dppProgress(show,p,msg){
+  var box=D('dppProgress'),bar=D('dppBar'),txt=D('dppProgressText');
+  if(box)box.classList.toggle('show',!!show);
+  if(bar)bar.style.width=Math.max(0,Math.min(100,Number(p)||0))+'%';
+  if(txt&&msg)txt.textContent=msg;
+}
+function dppBaseName(name){
+  name=String(name||'document.pdf').replace(/\.pdf$/i,'');
+  return name||'document';
+}
+
+async function dppEnsureOfflineEngine(){
+  try{
+    if(typeof window.vcEnsureDeletePdfOfflineLibs==='function'){
+      return await window.vcEnsureDeletePdfOfflineLibs();
+    }
+  }catch(e){console.warn(e)}
+  return {pdfLib:!!window.PDFLib,pdfjs:!!window.pdfjsLib,worker:false,offlineReady:false};
+}
+
+function dppUpdateInfo(){
+  var selected=[...dppSelectedSet].filter(function(i){return !dppDeleted.has(i)});
+  var remaining=dppPageCount-dppDeleted.size-selected.length;
+  var hasPdf=!!dppOriginalBytes;
+
+  if(D('dppTotal'))D('dppTotal').textContent=dppPageCount;
+  if(D('dppSelected'))D('dppSelected').textContent=selected.length;
+  if(D('dppRemaining'))D('dppRemaining').textContent=Math.max(0,remaining);
+
+  if(D('dppSelectAllBtn'))D('dppSelectAllBtn').disabled=!hasPdf||dppPageCount-dppDeleted.size<2;
+  if(D('dppClearBtn'))D('dppClearBtn').disabled=!hasPdf||!selected.length;
+  if(D('dppDeleteBtn'))D('dppDeleteBtn').disabled=!hasPdf||!selected.length||remaining<1;
+  if(D('dppUndoBtn'))D('dppUndoBtn').disabled=!dppUndoStack.length;
+  if(D('dppDownloadBtn'))D('dppDownloadBtn').disabled=!hasPdf||dppDeleted.size===0;
+
+  Array.from(document.querySelectorAll('#dppGrid .dpp-page')).forEach(function(card){
+    var i=Number(card.dataset.pageIndex);
+    card.classList.toggle('selected',dppSelectedSet.has(i));
+    card.style.display=dppDeleted.has(i)?'none':'block';
+  });
+}
+
+window.dppReset=function(){
+  dppRenderToken++;
+  try{if(dppPdfJsDoc&&dppPdfJsDoc.destroy)dppPdfJsDoc.destroy()}catch(e){}
+  dppPdfJsDoc=null;dppPreviewPageIndex=-1;
+  dppOriginalBytes=null;dppFileName='';dppPageCount=0;
+  dppDeleted.clear();dppSelectedSet.clear();dppUndoStack=[];
+
+
+  if(D('dppGrid'))D('dppGrid').innerHTML='';
+  if(D('dppFile'))D('dppFile').value='';
+  if(D('dppFileName'))D('dppFileName').textContent='No PDF selected';
+
+  dppCloseFullPreview();
+  dppProgress(false,0,'');
+  dppUpdateInfo();
+  dppStatus('PDF चुनें।');
+};
+
+async function dppGetPageCount(bytes,engine){
+  if(engine&&engine.pdfLib&&window.PDFLib){
+    var pdf=await PDFLib.PDFDocument.load(bytes,{ignoreEncryption:true});
+    return pdf.getPageCount();
+  }
+
+  if(engine&&engine.pdfjs&&window.pdfjsLib){
+    var tmp=await pdfjsLib.getDocument({data:bytes.slice(),disableFontFace:false,useWorkerFetch:false}).promise;
+    var n=tmp.numPages||0;
+    try{await tmp.destroy()}catch(e){}
+    return n;
+  }
+
+  throw new Error('Offline PDF engine not ready');
+}
+
+window.dppLoadPdf=async function(input){
+  var file=input&&input.files&&input.files[0];
+  if(!file)return;
+  if(!/\.pdf$/i.test(file.name||'')&&file.type!=='application/pdf'){
+    dppStatus('कृपया PDF file चुनें।',true);
+    input.value='';
+    return;
+  }
+
+  var token=++dppRenderToken;
+  dppProgress(true,3,'Offline PDF engine तैयार हो रहा है…');
+  dppStatus('PDF loading…');
+
+  try{
+    var bytes=new Uint8Array(await file.arrayBuffer());
+    dppOriginalBytes=bytes;
+    dppFileName=file.name||'document.pdf';
+
+    var engine=await dppEnsureOfflineEngine();
+    dppPageCount=await dppGetPageCount(bytes,engine);
+
+    dppDeleted.clear();dppSelectedSet.clear();dppUndoStack=[];
+
+    if(!dppPageCount)throw new Error('No pages');
+
+    if(D('dppFileName')){
+      D('dppFileName').textContent=dppFileName+' • '+dppPageCount+' page'+(dppPageCount===1?'':'s');
+    }
+
+    dppProgress(true,10,'PDF pages का preview बन रहा है…');
+    await dppRenderPages(token);
+    dppProgress(false,100,'');
+    dppUpdateInfo();
+
+    var badge=D('dppOfflineBadge');
+    if(engine.offlineReady){
+      if(badge){
+        badge.textContent='⚡ OFFLINE READY — Preview + Delete + Download';
+        badge.style.background='#ecfdf3';badge.style.color='#166534';
+      }
+      dppStatus('Offline Ready ✓ जिस page को हटाना है उस पर tap करें।');
+    }else if(dppPdfJsDoc){
+      dppStatus('PDF तैयार ✓ जिस page को हटाना है उस पर tap करें।');
+    }else{
+      dppStatus('Page preview engine अभी उपलब्ध नहीं है। Internet ON रहते इस Tool को एक बार खोलें।',true);
+    }
+  }catch(e){
+    console.error(e);
+    dppReset();
+    dppStatus('PDF open नहीं हुई। Password-protected/corrupt PDF हो सकती है या offline engine तैयार नहीं है।',true);
+  }
+};
+
+function dppMakeCard(index){
+  var card=document.createElement('div');
+  card.className='dpp-page';
+  card.dataset.pageIndex=index;
+
+  card.innerHTML=
+    '<div class="dpp-delete-mark">DELETE</div>'+
+    '<canvas></canvas>'+
+    '<div class="dpp-page-no"><span>Page '+(index+1)+'</span><span class="dpp-check">✓</span></div>'+
+    '<div class="dpp-preview-row">'+
+      '<span class="dpp-preview-help">Page पर tap = delete के लिए select</span>'+
+      '<button type="button" class="dpp-preview-open">FULL PREVIEW</button>'+
+    '</div>';
+
+  card.addEventListener('click',function(e){
+    if(e.target&&e.target.closest&&e.target.closest('.dpp-preview-open'))return;
+    if(dppDeleted.has(index))return;
+    if(dppSelectedSet.has(index))dppSelectedSet.delete(index);
+    else dppSelectedSet.add(index);
+    dppUpdateInfo();
+  });
+
+  var pbtn=card.querySelector('.dpp-preview-open');
+  if(pbtn){
+    pbtn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      dppOpenFullPreview(index);
+    });
+  }
+  return card;
+}
+
+async function dppOpenPdfJsDocument(){
+  var engine=await dppEnsureOfflineEngine();
+  if(!engine.pdfjs||!window.pdfjsLib)throw new Error('pdf.js unavailable');
+
+  try{if(dppPdfJsDoc&&dppPdfJsDoc.destroy)await dppPdfJsDoc.destroy()}catch(e){}
+  dppPdfJsDoc=await pdfjsLib.getDocument({
+    data:dppOriginalBytes.slice(),
+    disableFontFace:false,
+    useWorkerFetch:false
+  }).promise;
+  return dppPdfJsDoc;
+}
+
+async function dppRenderPageToCanvas(pageIndex,canvas,targetWidth){
+  if(!dppPdfJsDoc)await dppOpenPdfJsDocument();
+  var page=await dppPdfJsDoc.getPage(pageIndex+1);
+  var base=page.getViewport({scale:1});
+  var scale=Math.max(.35,Number(targetWidth||420)/base.width);
+  var vp=page.getViewport({scale:scale});
+  canvas.width=Math.max(1,Math.round(vp.width));
+  canvas.height=Math.max(1,Math.round(vp.height));
+  var ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  await page.render({canvasContext:ctx,viewport:vp}).promise;
+}
+
+async function dppRenderPages(token){
+  var grid=D('dppGrid');
+  grid.innerHTML='';
+
+  for(var i=0;i<dppPageCount;i++){
+    grid.appendChild(dppMakeCard(i));
+  }
+
+  try{
+    await dppOpenPdfJsDocument();
+  }catch(e){
+    console.warn('Thumbnail PDF engine unavailable',e);
+    dppPdfJsDoc=null;
+  }
+
+  for(var i=0;i<dppPageCount;i++){
+    if(token!==dppRenderToken)return;
+    var card=grid.querySelector('[data-page-index="'+i+'"]');
+    if(!card)continue;
+    var canvas=card.querySelector('canvas');
+
+    if(dppPdfJsDoc){
+      try{
+        await dppRenderPageToCanvas(i,canvas,520);
+      }catch(e){
+        console.warn('Page thumbnail failed',i+1,e);
+        dppPlaceholder(canvas,i+1);
+      }
+    }else{
+      dppPlaceholder(canvas,i+1);
+    }
+
+    dppProgress(
+      true,
+      10+Math.round((i+1)/dppPageCount*86),
+      'Preview '+(i+1)+' / '+dppPageCount
+    );
+  }
+}
+
+function dppPlaceholder(canvas,no){
+  canvas.width=420;canvas.height=330;
+  var c=canvas.getContext('2d');
+  c.fillStyle='#f8fafc';c.fillRect(0,0,canvas.width,canvas.height);
+  c.strokeStyle='#d7e0e8';c.lineWidth=3;c.strokeRect(18,18,384,294);
+  c.fillStyle='#173453';c.textAlign='center';
+  c.font='bold 33px Arial';c.fillText('Page '+no,210,125);
+  c.font='bold 18px Arial';c.fillStyle='#1976d2';
+  c.fillText('Preview unavailable',210,175);
+  c.font='14px Arial';c.fillStyle='#64748b';
+  c.fillText('Offline engine तैयार करें',210,215);
+}
+
+
+window.dppOpenFullPreview=async function(index){
+  if(index<0||index>=dppPageCount||dppDeleted.has(index))return;
+  dppPreviewPageIndex=index;
+
+  var modal=D('dppFullPreview');
+  if(modal){
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+  }
+
+  if(D('dppFullPreviewTitle')){
+    D('dppFullPreviewTitle').textContent='Page '+(index+1)+' — Full Preview';
+  }
+
+  var btn=D('dppPreviewSelectBtn');
+  if(btn){
+    btn.textContent=dppSelectedSet.has(index)?'UNSELECT THIS PAGE':'SELECT THIS PAGE';
+  }
+
+  var canvas=D('dppFullPreviewCanvas');
+  if(!canvas)return;
+
+  canvas.width=520;canvas.height=700;
+  var ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#64748b';ctx.font='bold 18px Arial';ctx.textAlign='center';
+  ctx.fillText('Loading Page '+(index+1)+'…',260,350);
+
+  try{
+    await dppRenderPageToCanvas(index,canvas,1100);
+  }catch(e){
+    console.warn('Canvas full preview unavailable',e);
+    dppPlaceholder(canvas,index+1);
+    dppStatus('Full preview उपलब्ध नहीं है।',true);
+  }
+};
+
+window.dppCloseFullPreview=function(){
+  var modal=D('dppFullPreview');
+  if(modal){
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+  }
+  dppPreviewPageIndex=-1;
+};
+
+window.dppTogglePreviewPage=function(){
+  var i=dppPreviewPageIndex;
+  if(i<0||i>=dppPageCount||dppDeleted.has(i))return;
+
+  if(dppSelectedSet.has(i))dppSelectedSet.delete(i);
+  else dppSelectedSet.add(i);
+
+  dppUpdateInfo();
+
+  var btn=D('dppPreviewSelectBtn');
+  if(btn){
+    btn.textContent=dppSelectedSet.has(i)?'UNSELECT THIS PAGE':'SELECT THIS PAGE';
+  }
+};
+
+window.dppSelectAll=function(){
+  if(!dppOriginalBytes)return;
+  dppSelectedSet.clear();
+
+  var avail=[];
+  for(var i=0;i<dppPageCount;i++){
+    if(!dppDeleted.has(i))avail.push(i);
+  }
+
+  avail.slice(0,Math.max(0,avail.length-1)).forEach(function(i){
+    dppSelectedSet.add(i);
+  });
+
+  dppUpdateInfo();
+  dppStatus('Last page सुरक्षित रखा गया है।');
+};
+
+window.dppClearSelection=function(){
+  dppSelectedSet.clear();
+  dppUpdateInfo();
+  dppStatus('Selection clear ✓');
+};
+
+window.dppDeleteSelected=function(){
+  var sel=[...dppSelectedSet]
+    .filter(function(i){return !dppDeleted.has(i)})
+    .sort(function(a,b){return a-b});
+
+  if(!sel.length){
+    dppStatus('पहले page select करें।',true);
+    return;
+  }
+
+  if(dppPageCount-dppDeleted.size-sel.length<1){
+    dppStatus('सभी pages delete नहीं कर सकते। कम से कम 1 page रखें।',true);
+    return;
+  }
+
+  dppUndoStack.push(new Set(dppDeleted));
+  sel.forEach(function(i){dppDeleted.add(i)});
+  dppSelectedSet.clear();
+  dppUpdateInfo();
+  dppStatus(sel.length+' page'+(sel.length===1?'':'s')+' delete list में जोड़ दिया ✓');
+};
+
+window.dppUndo=function(){
+  if(!dppUndoStack.length)return;
+  dppDeleted=dppUndoStack.pop();
+  dppSelectedSet.clear();
+  dppUpdateInfo();
+  dppStatus('Last delete undo हो गया ✓');
+};
+
+window.dppDownloadPdf=async function(){
+  if(!dppOriginalBytes){
+    dppStatus('पहले PDF चुनें।',true);
+    return;
+  }
+  if(!dppDeleted.size){
+    dppStatus('कोई page delete नहीं किया गया है।',true);
+    return;
+  }
+
+  try{
+    dppProgress(true,5,'Offline PDF engine तैयार हो रहा है…');
+    var engine=await dppEnsureOfflineEngine();
+
+    if(!engine.pdfLib||!window.PDFLib){
+      throw new Error('Offline delete engine अभी save नहीं है। Internet ON रहते इस Tool को एक बार खोलें।');
+    }
+
+    var src=await PDFLib.PDFDocument.load(dppOriginalBytes,{ignoreEncryption:true});
+    var newPdf=await PDFLib.PDFDocument.create();
+    var keep=[];
+
+    for(var i=0;i<dppPageCount;i++){
+      if(!dppDeleted.has(i))keep.push(i);
+    }
+
+    if(!keep.length)throw new Error('No pages remaining');
+
+    var copied=await newPdf.copyPages(src,keep);
+    copied.forEach(function(page){newPdf.addPage(page)});
+
+    dppProgress(true,72,'PDF save हो रही है…');
+
+    var bytes=await newPdf.save();
+    var name=dppBaseName(dppFileName)+'_pages_deleted.pdf';
+    var ok=vcSafeSaveBytes(bytes,name,'application/pdf');
+
+    dppProgress(false,100,'');
+    dppStatus(ok?'नई PDF download शुरू ✓':'PDF download नहीं हुई।',!ok);
+  }catch(e){
+    console.error(e);
+    dppProgress(false,0,'');
+    dppStatus('नई PDF नहीं बन पाई: '+(e.message||e),true);
+  }
+};
+
+var dppModal=D('dppFullPreview');
+if(dppModal){
+  dppModal.addEventListener('click',function(e){
+    if(e.target===dppModal)dppCloseFullPreview();
+  });
+}
+
+})();
+</script>
+
+<div id="dppFullPreview" aria-hidden="true">
+  <div id="dppFullPreviewBox">
+    <div id="dppFullPreviewHead">
+      <div id="dppFullPreviewTitle">PDF Page Preview</div>
+      <button id="dppFullPreviewClose" type="button" onclick="dppCloseFullPreview()">✕ CLOSE</button>
+    </div>
+    <div id="dppFullPreviewScroll">
+      <canvas id="dppFullPreviewCanvas"></canvas>
+    </div>
+    <div id="dppFullPreviewActions">
+      <button id="dppPreviewSelectBtn" type="button" onclick="dppTogglePreviewPage()">SELECT THIS PAGE</button>
+      <button id="dppPreviewBackBtn" type="button" onclick="dppCloseFullPreview()">BACK</button>
+    </div>
+  </div>
+</div>
 
 </body></html>
