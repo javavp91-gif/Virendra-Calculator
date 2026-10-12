@@ -4955,6 +4955,749 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 }
 </style>
 
+
+<style id="vcPdfEditorManualSizeCleanCover">
+#pdfEditor .pde-font-size-box{
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) 42px;
+  gap:5px;
+  align-items:center;
+}
+#pdfEditor .pde-font-size-box button{
+  height:42px;
+  border:1.3px solid #bfcdda;
+  border-radius:9px;
+  background:#eef4f8;
+  color:#173453;
+  font-size:22px;
+  font-weight:950;
+  line-height:1;
+}
+#pdfEditor .pde-font-size-box #pdeFontSize{
+  min-width:0;
+  height:42px;
+  margin:0;
+  text-align:center;
+  font-weight:900;
+}
+#pdfEditor .pde-font-original-btn{
+  width:100%;
+  min-height:31px;
+  margin-top:5px;
+  border:1px solid #c9d5df;
+  border-radius:8px;
+  background:#f8fafc;
+  color:#526b82;
+  font-size:9.5px;
+  font-weight:950;
+}
+</style>
+
+
+<style id="vcPdfEditorSettingsVisibleFix">
+#pdfEditor .pde-auto-settings{
+  display:block!important;
+}
+#pdfEditor .pde-font-size-box{
+  display:grid!important;
+}
+#pdfEditor .pde-font-size-box button,
+#pdfEditor .pde-font-original-btn{
+  display:block!important;
+}
+#pdfEditor .pde-font-size-box #pdeFontSize{
+  display:block!important;
+}
+#pdfEditor .pde-font-size-highlight{
+  margin:8px 0 3px;
+  padding:7px 9px;
+  border-radius:9px;
+  background:#eef6ff;
+  color:#173453;
+  font-size:11px;
+  font-weight:950;
+  text-align:center;
+}
+</style>
+
+
+<style id="vcPdfEditorSimpleStyleControls">
+#pdfEditor .pde-auto-settings{
+  display:none!important;
+}
+#pdfEditor .pde-simple-style{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:8px;
+}
+#pdfEditor .pde-simple-style.hidden{
+  display:none!important;
+}
+#pdfEditor .pde-simple-group{
+  display:grid;
+  grid-template-columns:auto 38px minmax(38px,1fr) 38px;
+  gap:4px;
+  align-items:center;
+  padding:6px;
+  border:1px solid #d5e0e9;
+  border-radius:10px;
+  background:#f8fbfd;
+}
+#pdfEditor .pde-simple-label{
+  font-size:9px;
+  font-weight:950;
+  color:#64748b;
+}
+#pdfEditor .pde-simple-group button{
+  height:36px;
+  border:1px solid #c6d3de;
+  border-radius:8px;
+  background:#eef4f8;
+  color:#173453;
+  font-size:14px;
+  font-weight:950;
+  padding:0;
+}
+#pdfEditor .pde-simple-group strong{
+  min-width:0;
+  text-align:center;
+  color:#173453;
+  font-size:11px;
+  font-weight:950;
+}
+@media(max-width:390px){
+  #pdfEditor .pde-simple-style{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+
+<style id="vcPdfEditorLivePreviewColorBold">
+#pdfEditor .pde-simple-preview-wrap{
+  grid-column:1/-1;
+  padding:7px 8px 8px;
+  border:1px solid #d7e2ea;
+  border-radius:10px;
+  background:#fff;
+}
+#pdfEditor .pde-simple-preview-wrap>span{
+  display:block;
+  margin-bottom:4px;
+  color:#64748b;
+  font-size:9px;
+  font-weight:950;
+}
+#pdfEditor #pdeSimplePreview{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  overflow:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  color:#000;
+  font-size:16px;
+  line-height:1.15;
+}
+</style>
+
+
+<style id="vcPdfEditorSmartSimple">
+#pdfEditor .pde-smart-mini-badge{
+  grid-column:1/-1;
+  padding:5px 8px;
+  border-radius:8px;
+  background:#eef7f0;
+  color:#23623b;
+  text-align:center;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.25px;
+}
+</style>
+
+
+<style id="vcPdfEditorLiveOnPdf">
+#pdfEditor .pde-simple-preview-wrap{
+  display:none!important;
+}
+#pdfEditor .pde-live-pdf-hint{
+  grid-column:1/-1;
+  margin-top:-1px;
+  color:#547089;
+  text-align:center;
+  font-size:9px;
+  font-weight:850;
+}
+</style>
+
+
+<style id="vcPdfEditorPasswordSupport">
+.pde-pass-modal{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(10,20,30,.62);
+}
+.pde-pass-modal.hidden{display:none!important}
+.pde-pass-box{
+  width:min(92vw,390px);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 16px 45px rgba(0,0,0,.28);
+  padding:17px;
+}
+.pde-pass-title{
+  color:#173453;
+  font-size:18px;
+  font-weight:950;
+}
+.pde-pass-msg{
+  margin:7px 0 11px;
+  color:#526b82;
+  font-size:12px;
+  font-weight:750;
+  line-height:1.4;
+}
+#pdePasswordInput{
+  width:100%;
+  height:44px;
+  box-sizing:border-box;
+  border:1.4px solid #bfcdda;
+  border-radius:10px;
+  padding:0 11px;
+  font-size:16px;
+  font-weight:800;
+}
+.pde-pass-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:11px;
+}
+.pde-pass-actions .tool-btn{margin:0}
+</style>
+
+
+<style id="vcPdfEditorCompactMobile">
+#pdfEditor{
+  --pde-gap:5px;
+}
+#pdfEditor .tool-box{
+  padding:7px!important;
+  margin:6px 0!important;
+  border-radius:10px!important;
+}
+#pdfEditor h2{
+  margin:5px 0 7px!important;
+  font-size:18px!important;
+}
+#pdfEditor .pde-chip{
+  padding:3px 7px!important;
+  font-size:9px!important;
+  border-radius:7px!important;
+}
+#pdfEditor label{
+  margin-bottom:3px!important;
+  font-size:10px!important;
+}
+#pdfEditor input,
+#pdfEditor select,
+#pdfEditor textarea{
+  min-height:36px!important;
+  height:36px!important;
+  padding:6px 8px!important;
+  border-radius:8px!important;
+  font-size:12px!important;
+}
+#pdfEditor textarea{
+  resize:none!important;
+  line-height:1.2!important;
+}
+#pdfEditor .tool-btn{
+  min-height:36px!important;
+  height:auto!important;
+  padding:7px 8px!important;
+  margin-top:5px!important;
+  border-radius:8px!important;
+  font-size:10px!important;
+  line-height:1.1!important;
+}
+#pdfEditor .pde-page-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 64px;
+  gap:5px;
+  align-items:center;
+  margin-top:5px;
+}
+#pdfEditor .pde-page-row .tool-btn{
+  margin:0!important;
+  height:36px!important;
+}
+#pdfEditor .pde-editor-scroll{
+  max-height:52vh!important;
+  margin:5px 0!important;
+  border-radius:8px!important;
+}
+#pdfEditor #pdeEditStage{
+  margin:0 auto!important;
+}
+#pdfEditor .pde-quick-tools{
+  display:grid!important;
+  grid-template-columns:1fr 1fr 1fr!important;
+  gap:5px!important;
+  margin:5px 0!important;
+}
+#pdfEditor .pde-quick-tools .tool-btn{
+  margin:0!important;
+  padding:6px 3px!important;
+  min-height:34px!important;
+  font-size:9px!important;
+}
+#pdfEditor .pde-text-replace-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  margin-top:5px;
+}
+#pdfEditor .pde-text-cell{
+  min-width:0;
+}
+#pdfEditor .pde-text-cell input,
+#pdfEditor .pde-text-cell textarea{
+  width:100%!important;
+  box-sizing:border-box!important;
+}
+#pdfEditor .pde-simple-style{
+  gap:5px!important;
+  margin-top:5px!important;
+}
+#pdfEditor .pde-smart-mini-badge{
+  padding:3px 6px!important;
+  font-size:8px!important;
+}
+#pdfEditor .pde-simple-group{
+  grid-template-columns:auto 34px minmax(34px,1fr) 34px!important;
+  gap:3px!important;
+  padding:4px!important;
+  border-radius:8px!important;
+}
+#pdfEditor .pde-simple-group button{
+  height:32px!important;
+  font-size:12px!important;
+  border-radius:7px!important;
+}
+#pdfEditor .pde-simple-group strong{
+  font-size:10px!important;
+}
+#pdfEditor .pde-simple-label{
+  font-size:8px!important;
+}
+#pdfEditor .pde-live-pdf-hint{
+  font-size:8px!important;
+  margin-top:0!important;
+}
+#pdfEditor .pde-editor-actions{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:5px!important;
+  margin-top:5px!important;
+}
+#pdfEditor .pde-editor-actions .tool-btn{
+  margin:0!important;
+}
+#pdfEditor #pdeSaveBtn{
+  margin-top:0!important;
+}
+#pdfEditor .clear{
+  min-height:34px!important;
+  padding:6px 8px!important;
+  margin-top:5px!important;
+}
+#pdfEditor .pde-pages{
+  gap:5px!important;
+}
+@media(max-width:360px){
+  #pdfEditor .pde-text-replace-row{
+    grid-template-columns:1fr 1fr!important;
+  }
+  #pdfEditor .pde-simple-style{
+    grid-template-columns:1fr!important;
+  }
+  #pdfEditor .pde-page-row{
+    grid-template-columns:minmax(0,1fr) 58px;
+  }
+}
+</style>
+
+
+<style id="vcPdfEditorReadableCompact">
+#pdfEditor .tool-box{
+  padding:10px!important;
+  margin:8px 0!important;
+  border-radius:12px!important;
+}
+#pdfEditor h2{
+  margin:7px 0 9px!important;
+  font-size:20px!important;
+}
+#pdfEditor label{
+  margin-bottom:4px!important;
+  font-size:12px!important;
+  font-weight:850!important;
+}
+#pdfEditor input,
+#pdfEditor select,
+#pdfEditor textarea{
+  min-height:44px!important;
+  height:44px!important;
+  padding:8px 10px!important;
+  border-radius:9px!important;
+  font-size:14px!important;
+}
+#pdfEditor textarea{
+  line-height:1.25!important;
+}
+#pdfEditor .tool-btn{
+  min-height:42px!important;
+  padding:9px 10px!important;
+  border-radius:9px!important;
+  font-size:12px!important;
+  line-height:1.15!important;
+}
+#pdfEditor .pde-page-row{
+  grid-template-columns:minmax(0,1fr) 78px!important;
+  gap:7px!important;
+  margin-top:7px!important;
+}
+#pdfEditor .pde-page-row .tool-btn{
+  height:44px!important;
+}
+#pdfEditor .pde-editor-scroll{
+  max-height:50vh!important;
+  margin:7px 0!important;
+}
+#pdfEditor .pde-quick-tools{
+  gap:7px!important;
+  margin:7px 0!important;
+}
+#pdfEditor .pde-quick-tools .tool-btn{
+  min-height:40px!important;
+  padding:8px 5px!important;
+  font-size:11px!important;
+}
+#pdfEditor .pde-text-replace-row{
+  gap:7px!important;
+  margin-top:7px!important;
+}
+#pdfEditor .pde-simple-style{
+  gap:7px!important;
+  margin-top:7px!important;
+}
+#pdfEditor .pde-smart-mini-badge{
+  padding:5px 7px!important;
+  font-size:10px!important;
+}
+#pdfEditor .pde-simple-group{
+  grid-template-columns:auto 42px minmax(48px,1fr) 42px!important;
+  gap:5px!important;
+  padding:6px!important;
+  border-radius:9px!important;
+}
+#pdfEditor .pde-simple-group button{
+  height:38px!important;
+  font-size:15px!important;
+  border-radius:8px!important;
+}
+#pdfEditor .pde-simple-group strong{
+  font-size:12px!important;
+}
+#pdfEditor .pde-simple-label{
+  font-size:10px!important;
+}
+#pdfEditor .pde-live-pdf-hint{
+  font-size:10px!important;
+  margin-top:2px!important;
+}
+#pdfEditor .pde-editor-actions{
+  gap:7px!important;
+  margin-top:7px!important;
+}
+#pdfEditor .clear{
+  min-height:40px!important;
+  padding:8px 10px!important;
+  margin-top:7px!important;
+  font-size:12px!important;
+}
+@media(max-width:360px){
+  #pdfEditor input,
+  #pdfEditor select,
+  #pdfEditor textarea{
+    font-size:13px!important;
+  }
+  #pdfEditor .pde-page-row{
+    grid-template-columns:minmax(0,1fr) 72px!important;
+  }
+}
+</style>
+
+
+<style id="vcPdfEditorSmallActionBoxes">
+#pdfEditor .pde-editor-actions{
+  display:flex!important;
+  gap:6px!important;
+  margin-top:7px!important;
+  flex-wrap:wrap!important;
+}
+#pdfEditor .pde-editor-actions .tool-btn{
+  width:auto!important;
+  min-width:82px!important;
+  min-height:36px!important;
+  padding:7px 12px!important;
+  margin:0!important;
+  font-size:11px!important;
+  border-radius:8px!important;
+  flex:0 0 auto!important;
+}
+
+#pdfEditor .pde-small-action-row{
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+  flex-wrap:wrap;
+}
+#pdfEditor .pde-small-action-row .tool-btn{
+  width:auto!important;
+  min-width:82px!important;
+  min-height:34px!important;
+  padding:6px 11px!important;
+  margin:0!important;
+  font-size:10px!important;
+  border-radius:8px!important;
+  flex:0 0 auto!important;
+}
+
+@media(max-width:360px){
+  #pdfEditor .pde-editor-actions .tool-btn,
+  #pdfEditor .pde-small-action-row .tool-btn{
+    min-width:76px!important;
+  }
+}
+</style>
+
+
+<style id="vcPdfEditorUtilityActionRow">
+#pdfEditor .pde-primary-action-row{
+  display:flex;
+  gap:6px;
+  margin-top:7px;
+  flex-wrap:wrap;
+}
+#pdfEditor .pde-primary-action-row .tool-btn{
+  width:auto!important;
+  min-width:82px!important;
+  min-height:36px!important;
+  padding:7px 12px!important;
+  margin:0!important;
+  font-size:11px!important;
+  border-radius:8px!important;
+  flex:0 0 auto!important;
+}
+
+#pdfEditor .pde-utility-action-row{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:5px;
+  margin-top:6px;
+}
+#pdfEditor .pde-utility-action-row .tool-btn{
+  width:100%!important;
+  min-width:0!important;
+  min-height:34px!important;
+  padding:6px 4px!important;
+  margin:0!important;
+  font-size:9px!important;
+  border-radius:8px!important;
+  line-height:1.05!important;
+}
+@media(max-width:360px){
+  #pdfEditor .pde-utility-action-row{
+    gap:4px;
+  }
+  #pdfEditor .pde-utility-action-row .tool-btn{
+    font-size:8px!important;
+    padding:6px 2px!important;
+  }
+}
+</style>
+
+
+<style id="vcPdfPhotoDocumentHeadingRestore">
+body:not(.tool-open) #pdfPhotoDocumentGroup .toolGroupTitle{
+  background:linear-gradient(120deg,#6025de,#8f39f7)!important;
+  color:#ffffff!important;
+}
+body:not(.tool-open) #pdfPhotoDocumentGroup .toolGroupTitle .groupWords b{
+  color:#ffffff!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+body:not(.tool-open) #pdfPhotoDocumentGroup .toolGroupTitle .groupWords small{
+  color:rgba(255,255,255,.88)!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+</style>
+
+
+<style id="vcPdfEditorActionRowsFinal">
+#pdfEditor .pde-top-action-row{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:5px;
+  margin-top:7px;
+}
+#pdfEditor .pde-top-action-row .tool-btn{
+  width:100%!important;
+  min-width:0!important;
+  min-height:34px!important;
+  padding:6px 3px!important;
+  margin:0!important;
+  font-size:9px!important;
+  border-radius:8px!important;
+  line-height:1.05!important;
+}
+
+#pdfEditor .pde-bottom-action-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:7px;
+}
+#pdfEditor .pde-bottom-action-row .tool-btn{
+  width:100%!important;
+  min-width:0!important;
+  min-height:44px!important;
+  padding:9px 8px!important;
+  margin:0!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  border-radius:9px!important;
+  line-height:1.1!important;
+}
+
+@media(max-width:360px){
+  #pdfEditor .pde-top-action-row{
+    gap:4px;
+  }
+  #pdfEditor .pde-top-action-row .tool-btn{
+    font-size:8px!important;
+    padding:6px 2px!important;
+  }
+}
+</style>
+
+
+<style id="vcPdfEditorPositionControls">
+#pdfEditor .pde-position-group{
+  display:grid;
+  grid-template-columns:minmax(68px,1fr) repeat(4,42px);
+  gap:5px;
+  align-items:center;
+  margin-top:6px;
+}
+#pdfEditor .pde-position-group button{
+  width:42px!important;
+  height:38px!important;
+  min-width:42px!important;
+  min-height:38px!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:8px!important;
+  font-size:20px!important;
+  font-weight:900!important;
+  line-height:1!important;
+}
+@media(max-width:360px){
+  #pdfEditor .pde-position-group{
+    grid-template-columns:minmax(58px,1fr) repeat(4,38px);
+    gap:4px;
+  }
+  #pdfEditor .pde-position-group button{
+    width:38px!important;
+    min-width:38px!important;
+  }
+}
+</style>
+
+
+<style id="vcPdfEditorHiDpiZoom">
+#pdfEditor #pdeEditCanvas{
+  image-rendering:auto!important;
+  transform:translateZ(0);
+}
+#pdfEditor #pdeEditStage{
+  transform-origin:0 0;
+}
+</style>
+
+
+<style id="vcPdfEditorAutoApplyVisibleOpen">
+#pdfEditor .pde-open-notice{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:34px;
+  margin:6px 0 7px;
+  padding:6px 10px;
+  border-radius:9px;
+  background:#e8f7ee;
+  border:1px solid #86d39f;
+  color:#176b37;
+  font-size:12px;
+  font-weight:900;
+}
+#pdfEditor .pde-auto-apply-bar{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 86px;
+  gap:7px;
+  align-items:center;
+  margin-top:7px;
+  position:sticky;
+  bottom:4px;
+  z-index:24;
+  padding:5px;
+  border-radius:10px;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 2px 10px rgba(0,0,0,.12);
+}
+#pdfEditor .pde-auto-apply-bar span{
+  min-height:34px;
+  display:flex;
+  align-items:center;
+  padding:5px 8px;
+  border-radius:8px;
+  background:#ecfdf5;
+  color:#166534;
+  font-size:11px;
+  font-weight:900;
+}
+#pdfEditor .pde-auto-apply-bar .tool-btn{
+  width:100%!important;
+  min-width:0!important;
+  min-height:36px!important;
+  margin:0!important;
+  padding:7px 8px!important;
+  font-size:11px!important;
+  border-radius:8px!important;
+}
+</style>
+
 </head>
 <body class="">
 <div id="vcAppSplash" aria-label="Welcome to Virendra Calculator"></div>
@@ -6911,32 +7654,78 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </div>
 <div class="tool-box">
 <span class="pde-chip">TEXT EDIT / REPLACE</span>
-<label>Page to Edit</label>
-<div class="pde-grid2">
-<select id="pdeEditPage"><option value="">Load PDF first</option></select>
-<button class="tool-btn" onclick="pdeOpenTextEditor()" style="margin-top:0">OPEN PAGE FOR TEXT EDIT</button>
+<div class="pde-page-row">
+  <select id="pdeEditPage" aria-label="Page to Edit"><option value="">Load PDF first</option></select>
+  <button class="tool-btn" onclick="pdeOpenTextEditor()" type="button">OPEN</button>
 </div>
 
 <div class="hidden" id="pdeEditorArea">
+<div id="pdeOpenNotice" class="pde-open-notice">PDF OPEN ✓</div>
 <div class="pde-editor-scroll">
 <div id="pdeEditStage"><canvas id="pdeEditCanvas"></canvas><div id="pdeTextLayer"></div></div>
 </div>
 <div class="pde-quick-tools">
-<button class="tool-btn gray" id="pdeAddTextBtn" onclick="pdeStartAddText()" type="button">+ ADD NEW TEXT</button>
-<button class="tool-btn gray" onclick="pdeStartManualArea()" type="button">MANUAL SELECT</button>
-<button class="tool-btn gray" id="pdeAddRowBtn" onclick="pdeStartAddRow()" type="button">+ ADD FULL ROW</button>
+<button class="tool-btn gray" id="pdeAddTextBtn" onclick="pdeStartAddText()" type="button">+ TEXT</button>
+<button class="tool-btn gray" onclick="pdeStartManualArea()" type="button">SELECT</button>
+<button class="tool-btn gray" id="pdeAddRowBtn" onclick="pdeStartAddRow()" type="button">+ ROW</button>
 </div>
-<button class="tool-btn" id="pdeOcrBtn" onclick="pdeOcrDetectWords()">OCR DETECT ALL WORDS (SCANNED PDF)</button>
 <div class="tool-status pde-hidden-status" id="pdeSelectedInfo"></div>
 
-<label>Selected / Old Text</label>
-<input id="pdeOldText" readonly="" type="text"/>
-<label style="margin-top:8px">Replace With</label>
-<textarea id="pdeNewText"></textarea>
+<div class="pde-text-replace-row">
+  <div class="pde-text-cell">
+    <label>Old Text</label>
+    <input id="pdeOldText" readonly="" type="text"/>
+  </div>
+  <div class="pde-text-cell">
+    <label>Replace With</label>
+    <textarea id="pdeNewText"></textarea>
+  </div>
+</div>
+
+<div id="pdeAutoApplyBar" class="pde-auto-apply-bar">
+  <span id="pdeAutoApplyState">TYPE करें • AUTO APPLY ON</span>
+  <button class="tool-btn green" type="button" onclick="pdeApplyTextEdit()">APPLY</button>
+</div>
+
+<div id="pdeSimpleStyleBar" class="pde-simple-style hidden">
+  <div class="pde-smart-mini-badge">SMART • LIVE PDF ✓</div>
+  <div class="pde-simple-group">
+    <span class="pde-simple-label">BOLD</span>
+    <button type="button" onclick="pdeBoldStep(-1)">B−</button>
+    <strong id="pdeBoldState">AUTO</strong>
+    <button type="button" onclick="pdeBoldStep(1)">B+</button>
+  </div>
+  <div class="pde-simple-group">
+    <span class="pde-simple-label">SIZE</span>
+    <button type="button" onclick="pdeFontSizeStep(-0.5)">−</button>
+    <strong id="pdeSizeState">12</strong>
+    <button type="button" onclick="pdeFontSizeStep(0.5)">+</button>
+  </div>
+  <div class="pde-position-group">
+    <span class="pde-simple-label">POSITION</span>
+    <button type="button" onclick="pdeNudgeSelected(-1,0)" aria-label="Move text left">←</button>
+    <button type="button" onclick="pdeNudgeSelected(0,-1)" aria-label="Move text up">↑</button>
+    <button type="button" onclick="pdeNudgeSelected(0,1)" aria-label="Move text down">↓</button>
+    <button type="button" onclick="pdeNudgeSelected(1,0)" aria-label="Move text right">→</button>
+  </div>
+  <div class="pde-simple-preview-wrap">
+    <span>PREVIEW</span>
+    <div id="pdeSimplePreview">Replace Text</div>
+  </div>
+  <div class="pde-live-pdf-hint">बदलाव ऊपर PDF में तुरंत दिखेगा</div>
+</div>
 <div class="pde-auto-settings">
 <div class="pde-grid2" style="margin-top:8px">
-<div><label>Font</label><select id="pdeFontMode"><option selected="" value="auto">Auto Match Pro</option><option value="Helvetica">Arial / Helvetica</option><option value="Times New Roman">Times / Serif</option><option value="Courier New">Courier / Mono</option></select></div>
-<div><label>Font Size (pt)</label><input id="pdeFontSize" max="120" min="4" step="0.1" type="number" value="12"/></div>
+<div><label>Font</label><select id="pdeFontMode"><option selected="" value="auto">Original Font Match • Vector</option><option value="Helvetica">Arial / Helvetica</option><option value="Times New Roman">Times / Serif</option><option value="Courier New">Courier / Mono</option></select></div>
+<div>
+<label>Font Size (pt)</label>
+<div class="pde-font-size-box">
+  <button type="button" onclick="pdeFontSizeStep(-0.5)" aria-label="Decrease font size">−</button>
+  <input id="pdeFontSize" max="120" min="4" step="0.1" type="number" value="12"/>
+  <button type="button" onclick="pdeFontSizeStep(0.5)" aria-label="Increase font size">+</button>
+</div>
+<button type="button" class="pde-font-original-btn" onclick="pdeFontSizeOriginal()">ORIGINAL SIZE</button>
+</div>
 </div>
 <div class="pde-grid2" style="margin-top:8px">
 <div><label>Text Style</label><select id="pdeTextStyle"><option selected="" value="auto">Same as Original</option><option value="normal">Normal</option><option value="bold">Bold</option><option value="italic">Italic</option><option value="bolditalic">Bold Italic</option></select></div>
@@ -6948,7 +7737,7 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 </div>
 <div class="pde-grid2" style="margin-top:8px">
 <div><label>Text Color</label><input id="pdeTextColor" type="color" value="#000000"/></div>
-<div><label>Width Match</label><select id="pdeWidthMode"><option selected="" value="smart">Smart Same Width</option><option value="fit">Fit inside old box</option><option value="natural">Natural width</option></select></div>
+<div><label>Width Match</label><select id="pdeWidthMode"><option value="smart">Smart Same Width</option><option value="fit">Fit inside old box</option><option selected="" value="natural">Original Text Scale</option></select></div>
 </div>
 <div style="margin-top:8px">
 <label>Cover Background</label>
@@ -6962,25 +7751,36 @@ window.addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentRows.length)setTime
 
 
 </div>
-<div class="pde-editor-actions">
-<button class="tool-btn green" onclick="pdeApplyTextEdit()">APPLY TEXT CHANGE</button>
-<button class="tool-btn gray" onclick="pdeUndoTextEdit()">UNDO LAST</button>
+<div class="pde-top-action-row">
+  <button class="tool-btn green" onclick="pdeApplyTextEdit()">APPLY</button>
+  <button class="tool-btn red" onclick="pdeDeleteSelected()">DELETE</button>
+  <button class="tool-btn gray" onclick="pdeUndoTextEdit()">UNDO</button>
+  <button class="tool-btn gray" onclick="pdeResetPageTextEdits()">RESET</button>
 </div>
-<button class="tool-btn red" onclick="pdeDeleteSelected()">DELETE SELECTED TEXT</button>
-<button class="tool-btn gray" onclick="pdeResetPageTextEdits()">RESET TEXT CHANGES ON THIS PAGE</button>
+
+<div class="pde-bottom-action-row">
+  <button class="tool-btn green" id="pdeSaveBtn" onclick="pdeSave()">DOWNLOAD PDF</button>
+  <button class="tool-btn gray" onclick="pdeClear()">CLEAR</button>
+</div>
 </div>
 <div class="tool-status pde-hidden-status" id="pdeEditStatus"></div>
 
 </div>
-<div class="tool-box">
-
-
-<button class="tool-btn green" id="pdeSaveBtn" onclick="pdeSave()">CREATE &amp; DOWNLOAD EDITED PDF</button>
-<button class="tool-btn gray" onclick="pdeClear()">CLEAR</button>
-</div>
 <button class="clear" onclick="navBack()">Back</button>
 </section>
 
+<div id="pdePasswordModal" class="pde-pass-modal hidden" aria-hidden="true">
+  <div class="pde-pass-box" role="dialog" aria-modal="true" aria-labelledby="pdePasswordTitle">
+    <div id="pdePasswordTitle" class="pde-pass-title">🔒 Password PDF</div>
+    <div id="pdePasswordMsg" class="pde-pass-msg">PDF खोलने के लिए password डालें</div>
+    <input id="pdePasswordInput" type="password" autocomplete="current-password" placeholder="PDF password"
+      onkeydown="if(event.key==='Enter'){pdePasswordSubmit()}else if(event.key==='Escape'){pdePasswordCancel()}">
+    <div class="pde-pass-actions">
+      <button type="button" class="tool-btn gray" onclick="pdePasswordCancel()">CANCEL</button>
+      <button type="button" class="tool-btn green" onclick="pdePasswordSubmit()">UNLOCK PDF</button>
+    </div>
+  </div>
+</div>
 
 
 <section id="docScanner" class="card hidden">
@@ -7897,7 +8697,7 @@ body.day .sound-toggle{
   </nav>
 </div>
 
-<div class="toolGroup">
+<div class="toolGroup" id="pdfPhotoDocumentGroup">
   <div class="toolGroupTitle"><span class="groupIcon">📄</span><span class="groupWords"><b>PDF, Photo &amp; Document Work</b><small>Image, PDF &amp; Document Tools</small></span></div>
   <nav class="nav">
     <button onclick="show('photoTool')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="12" width="50" height="39" rx="6" fill="#edf6ff" stroke="#173453" stroke-width="3"/><circle cx="24" cy="27" r="7" fill="#ffc107"/><path d="M12 46l13-13 8 8 7-7 12 12z" fill="#55a95a"/><path d="M38 55c8-5 14-5 19-1" fill="none" stroke="#263238" stroke-width="3" stroke-linecap="round"/></svg></span><span class="toolLabel">Photo &amp; Signature Tool</span></button>
@@ -8172,11 +8972,137 @@ function openOfficialDocument(type){
 
 
 /* PDF Editor */
-var pdeModel=[],pdeBuffers=[];
-var pdeEditState={modelIndex:-1,scale:1.35,viewport:null,textItems:[],selected:-1,manualMode:false,manualBox:null,addMode:false,addBox:null,rowMode:false,rowBox:null,colorPickMode:false,ocrMode:false,moveBox:null};
+var pdeModel=[],pdeBuffers=[],pdePasswords=[],pdeProtectedFlags=[];
+var pdePasswordWaiter=null;
+var pdeEditState={modelIndex:-1,scale:1.35,renderRatio:1,viewport:null,textItems:[],selected:-1,manualMode:false,manualBox:null,addMode:false,addBox:null,rowMode:false,rowBox:null,colorPickMode:false,ocrMode:false,moveBox:null};
+
+function pdeHidePasswordModal(){
+  var modal=document.getElementById('pdePasswordModal');
+  if(modal){
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden','true');
+  }
+}
+
+function pdeAskPassword(label,incorrect){
+  return new Promise(function(resolve){
+    var modal=document.getElementById('pdePasswordModal'),
+        msg=document.getElementById('pdePasswordMsg'),
+        inp=document.getElementById('pdePasswordInput');
+
+    if(!modal||!inp){
+      var v=window.prompt((incorrect?'गलत password. ':'')+(label||'PDF')+' का password डालें:','');
+      resolve(v===null?null:v);
+      return;
+    }
+
+    // Only one PDF password dialog is allowed at a time.
+    if(pdePasswordWaiter){
+      try{pdePasswordWaiter(null)}catch(e){}
+      pdePasswordWaiter=null;
+    }
+
+    pdePasswordWaiter=resolve;
+
+    if(msg){
+      msg.textContent=incorrect
+        ?'Password सही नहीं है। दोबारा password डालें।'
+        :(label||'यह PDF')+' password से सुरक्षित है। Password डालें।';
+    }
+
+    inp.value='';
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden','false');
+
+    setTimeout(function(){
+      try{inp.focus()}catch(e){}
+    },50);
+  });
+}
+
+function pdePasswordSubmit(){
+  var inp=document.getElementById('pdePasswordInput'),
+      v=inp?String(inp.value||''):'';
+
+  if(!v){
+    var msg=document.getElementById('pdePasswordMsg');
+    if(msg)msg.textContent='Password खाली नहीं हो सकता।';
+    try{inp.focus()}catch(e){}
+    return;
+  }
+
+  var done=pdePasswordWaiter;
+  pdePasswordWaiter=null;
+  pdeHidePasswordModal();
+
+  if(done)done(v);
+}
+
+function pdePasswordCancel(){
+  var done=pdePasswordWaiter;
+  pdePasswordWaiter=null;
+  pdeHidePasswordModal();
+
+  if(done)done(null);
+}
+
+async function pdeOpenPdfJsDocument(bytes,fileIndex,label,extra){
+  if(!window.pdfjsLib)throw new Error('PDF library load नहीं हुई');
+
+  var data=bytes instanceof ArrayBuffer
+      ?new Uint8Array(bytes.slice(0))
+      :new Uint8Array(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)),
+      params=Object.assign({
+        data:data,
+        fontExtraProperties:true
+      },extra||{});
+
+  if(pdePasswords[fileIndex]){
+    params.password=pdePasswords[fileIndex];
+  }
+
+  var task=window.pdfjsLib.getDocument(params),
+      cancelled=false;
+
+  task.onPassword=function(updatePassword,reason){
+    pdeProtectedFlags[fileIndex]=true;
+
+    var incorrect=false;
+    try{
+      incorrect=reason===2 ||
+        (window.pdfjsLib.PasswordResponses &&
+         reason===window.pdfjsLib.PasswordResponses.INCORRECT_PASSWORD);
+    }catch(e){}
+
+    (async function(){
+      var pass=await pdeAskPassword(label||'PDF',incorrect);
+
+      if(pass===null){
+        cancelled=true;
+        try{await task.destroy()}catch(e){}
+        return;
+      }
+
+      pdePasswords[fileIndex]=pass;
+      updatePassword(pass);
+    })();
+  };
+
+  try{
+    var doc=await task.promise;
+    return doc;
+  }catch(e){
+    if(cancelled){
+      throw new Error('Password PDF खोलना रद्द किया गया।');
+    }
+    throw e;
+  }
+}
 
 function pdeClear(){
-  pdeModel=[];pdeBuffers=[];pdeEditState={modelIndex:-1,scale:1.35,viewport:null,textItems:[],selected:-1,manualMode:false,manualBox:null,addMode:false,addBox:null,rowMode:false,rowBox:null,colorPickMode:false,ocrMode:false};
+  pdeLivePdfBaseCanvas=null;pdeAnalysisCanvas=null;
+
+  pdeModel=[];pdeBuffers=[];pdePasswords=[];pdeProtectedFlags=[];pdePasswordWaiter=null;pdeHidePasswordModal();pdeEditState={modelIndex:-1,scale:1.35,viewport:null,textItems:[],selected:-1,manualMode:false,manualBox:null,addMode:false,addBox:null,rowMode:false,rowBox:null,colorPickMode:false,ocrMode:false};
   var p=document.getElementById('pdePages');if(p)p.innerHTML='';
   var s=document.getElementById('pdeStatus');if(s)s.textContent='';
   var es=document.getElementById('pdeEditStatus');if(es)es.textContent='';
@@ -8190,7 +9116,7 @@ function pdePopulateEditPages(){
   var prev=sel.value;sel.innerHTML='';
   pdeModel.forEach(function(m,i){
     if(m.deleted)return;
-    var o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+m.name+' - Page '+(m.pageIndex+1)+(m.textEdits&&m.textEdits.length?' • '+m.textEdits.length+' edit(s)':'');sel.appendChild(o);
+    var o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+m.name+(m.protectedPdf?' 🔓':'')+' - Page '+(m.pageIndex+1)+(m.textEdits&&m.textEdits.length?' • '+m.textEdits.length+' edit(s)':'');sel.appendChild(o);
   });
   if(!sel.options.length){var x=document.createElement('option');x.value='';x.textContent='No page available';sel.appendChild(x)}
   if(prev && Array.from(sel.options).some(function(o){return o.value===prev}))sel.value=prev;
@@ -8206,15 +9132,20 @@ async function pdeLoad(){
     for(var fi=0;fi<files.length;fi++){
       st.textContent='PDF '+(fi+1)+' / '+files.length+' load हो रही है…';
       var ab=await files[fi].arrayBuffer();pdeBuffers.push(ab.slice(0));
-      var pdf=await window.pdfjsLib.getDocument({data:new Uint8Array(ab.slice(0))}).promise;
+      var pdf=await pdeOpenPdfJsDocument(
+        ab.slice(0),
+        fi,
+        files[fi].name,
+        {fontExtraProperties:true}
+      );
       for(var pn=1;pn<=pdf.numPages;pn++){
         var page=await pdf.getPage(pn),vp=page.getViewport({scale:.42});
         var c=document.createElement('canvas');c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);
         await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
-        pdeModel.push({fileIndex:fi,pageIndex:pn-1,rotation:0,deleted:false,name:files[fi].name,thumb:c.toDataURL('image/jpeg',.78),textEdits:[]});
+        pdeModel.push({fileIndex:fi,pageIndex:pn-1,rotation:0,deleted:false,name:files[fi].name,protectedPdf:!!pdeProtectedFlags[fi],thumb:c.toDataURL('image/jpeg',.78),textEdits:[]});
       }
     }
-    pdeRender();pdePopulateEditPages();st.textContent='Loaded ✓ '+pdeModel.length+' page(s)';
+    pdeRender();pdePopulateEditPages();var locked=pdeProtectedFlags.filter(Boolean).length;st.textContent='Loaded ✓ '+pdeModel.length+' page(s)'+(locked?' • 🔓 Password PDF unlocked':'');
   }catch(e){console.error(e);st.textContent='Error: '+(e.message||e);alert('PDF load नहीं हुई')}
   finally{btn.disabled=false;btn.textContent='LOAD PDF PAGES'}
 }
@@ -8292,29 +9223,248 @@ function pdeUpdateDetectedStyle(info,bg,color){
   put('pdeDetectedBg',(bg||'#ffffff').toUpperCase());
 }
 
+function pdeUpdateSimplePreview(){
+  var box=document.getElementById('pdeSimplePreview');
+  if(!box)return;
+
+  var info=(typeof pdeCurrentSelectedInfo==='function')?pdeCurrentSelectedInfo():null,
+      txt=(document.getElementById('pdeNewText')||{}).value||((info&&info.text)||'Replace Text'),
+      fs=parseFloat((document.getElementById('pdeFontSize')||{}).value)||12,
+      color=(document.getElementById('pdeTextColor')||{}).value||'#000000',
+      level=Number(info&&info._pdeBoldLevel);
+
+  if(!isFinite(level))level=0;
+
+  var family='Arial';
+  try{family=pdeBestCanvasFontFamily(info||{family:'Arial'})||'Arial'}catch(e){}
+
+  box.textContent=txt;
+  box.style.fontFamily='"'+String(family).replace(/["']/g,'')+'"';
+  box.style.fontSize=Math.max(9,Math.min(42,fs*1.22))+'px';
+  box.style.color=color;
+
+  // CSS can only show normal/bold; EXTRA gets a tiny text shadow so the
+  // preview visibly reflects the extra vector-bold level.
+  box.style.fontWeight=level<=-1?'400':(level===0?(info&&info.bold?'700':'400'):'700');
+  box.style.fontStyle=info&&info.italic?'italic':'normal';
+  box.style.justifyContent=(info&&info._pdeSmartAlign==='right')?'flex-end':((info&&info._pdeSmartAlign==='center')?'center':'flex-start');
+  box.style.textAlign=(info&&info._pdeSmartAlign)||'left';
+  box.style.textShadow=level>=2?'0.35px 0 currentColor, -0.35px 0 currentColor':'none';
+}
+
+function pdeRefreshSimpleStyleState(){
+  var fs=document.getElementById('pdeFontSize'),
+      ss=document.getElementById('pdeSizeState'),
+      bs=document.getElementById('pdeBoldState'),
+      info=(typeof pdeCurrentSelectedInfo==='function')?pdeCurrentSelectedInfo():null,
+      level=Number(info&&info._pdeBoldLevel);
+
+  if(!isFinite(level))level=0;
+
+  if(ss&&fs)ss.textContent=String(fs.value||'12');
+
+  if(bs){
+    bs.textContent=
+      level<=-1?'NORMAL':
+      level===0?'ORIGINAL':
+      level===1?'BOLD':'EXTRA';
+  }
+
+  pdeUpdateSimplePreview();
+}
+
+function pdeShowSimpleStyleBar(show){
+  var bar=document.getElementById('pdeSimpleStyleBar');
+  if(!bar)return;
+  bar.classList.toggle('hidden',!show);
+  if(show)pdeRefreshSimpleStyleState();
+}
+
+(function(){
+  function bindPdeSimplePreview(){
+    var nt=document.getElementById('pdeNewText');
+    if(nt&&!nt.dataset.pdeSimplePreviewBound){
+      nt.dataset.pdeSimplePreviewBound='1';
+      nt.addEventListener('input',function(){
+        var state=document.getElementById('pdeAutoApplyState');
+        if(state)state.textContent='TYPING…';
+        pdeUpdateSimplePreview();
+        pdeRenderLiveOnPdf();
+        if(state)state.textContent='AUTO APPLIED ✓';
+      });
+    }
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',bindPdeSimplePreview);
+  }else{
+    setTimeout(bindPdeSimplePreview,0);
+  }
+})();
+
+
+function pdeBoldStep(dir){
+  var info=(typeof pdeCurrentSelectedInfo==='function')?pdeCurrentSelectedInfo():null,
+      sty=document.getElementById('pdeTextStyle');
+
+  if(!info||!sty)return;
+
+  var level=Number(info._pdeBoldLevel);
+  if(!isFinite(level))level=0;
+
+  level+=Number(dir)>0?1:-1;
+  level=Math.max(-1,Math.min(2,level));
+  info._pdeBoldLevel=level;
+
+  // ORIGINAL means exact detected source style.
+  if(level<=-1){
+    sty.value='normal';
+  }else if(level===0){
+    sty.value='auto';
+  }else{
+    sty.value='bold';
+  }
+
+  pdeRefreshSimpleStyleState();
+  pdeUpdateStylePreview();
+  pdeRenderLiveOnPdf();
+}
+
+function pdeFontSizeStep(delta){
+  var el=document.getElementById('pdeFontSize');
+  if(!el)return;
+
+  var v=parseFloat(el.value);
+  if(!isFinite(v))v=12;
+
+  v=Math.max(4,Math.min(120,Math.round((v+Number(delta||0))*10)/10));
+  el.value=String(v);
+
+  // Manual change: do not silently snap back to auto-exact size.
+  if(el.dataset)el.dataset.pdeAutoShown='__manual__';
+
+  pdeRefreshSimpleStyleState();
+  pdeUpdateStylePreview();
+  pdeRenderLiveOnPdf();
+}
+
+function pdeNudgeSelected(dx,dy){
+  var info=(typeof pdeCurrentSelectedInfo==='function')?pdeCurrentSelectedInfo():null,
+      vp=pdeEditState&&pdeEditState.viewport;
+
+  if(!info||!vp){
+    var st0=document.getElementById('pdeEditStatus');
+    if(st0)st0.textContent='पहले PDF में text select करें';
+    return;
+  }
+
+  dx=Number(dx)||0;
+  dy=Number(dy)||0;
+
+  var nx=(Number(info.x)||0)+dx,
+      ny=(Number(info.y)||0)+dy,
+      maxX=Math.max(0,vp.width-(Number(info.w)||0)),
+      maxY=Math.max(0,vp.height-(Number(info.h)||0));
+
+  info.x=Math.max(0,Math.min(maxX,nx));
+  info.y=Math.max(0,Math.min(maxY,ny));
+
+  if(typeof pdeShowMoveGuide==='function'){
+    try{pdeShowMoveGuide(info)}catch(_e){}
+  }
+
+  if(typeof pdeRenderLiveOnPdf==='function'){
+    pdeRenderLiveOnPdf();
+  }
+
+  var st=document.getElementById('pdeEditStatus');
+  if(st)st.textContent='Position auto applied ✓';
+}
+
+
+function pdeFontSizeOriginal(){
+  var el=document.getElementById('pdeFontSize');
+  if(!el)return;
+
+  var original=Number(el.dataset&&el.dataset.pdeAutoExact);
+  if(!isFinite(original)||original<=0)return;
+
+  el.value=original.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
+  if(el.dataset)el.dataset.pdeAutoShown=el.value;
+
+  pdeRefreshSimpleStyleState();
+  pdeUpdateStylePreview();
+}
+
+(function(){
+  var fs=document.getElementById('pdeFontSize');
+  if(fs && !fs.dataset.pdeManualBound){
+    fs.dataset.pdeManualBound='1';
+    fs.addEventListener('input',function(){
+      if(fs.dataset)fs.dataset.pdeAutoShown='__manual__';
+      pdeUpdateStylePreview();
+    });
+  }
+})();
+
+
 function pdeSyncStyleControls(info,isNew){
   if(!info)return;
-  var bg=isNew?'#ffffff':pdeAutoBackgroundForInfo(pdeOriginalInfo(info)),
-      color=isNew?(document.getElementById('pdeTextColor').value||'#000000'):pdeAutoTextColorForInfo(pdeOriginalInfo(info),bg);
 
+  if(!isFinite(Number(info._pdeBoldLevel)))info._pdeBoldLevel=0;
 
+  var original=pdeOriginalInfo(info),
+      bg=isNew?'#ffffff':pdeAutoBackgroundForInfo(original),
+      color=isNew?(document.getElementById('pdeTextColor').value||'#000000'):pdeAutoTextColorForInfo(original,bg);
 
-  if(!isNew && info.source==='pdf' && !info.bold){
+  // If the exact embedded PDF font is available, its own face already contains
+  // normal/bold/italic appearance. Do not second-guess it visually.
+  if(!isNew && info.source==='pdf' && !info.loadedName && !info.bold){
     info.bold=pdeSmartBoldForInfo(info,bg);
   }
 
-  var fm=document.getElementById('pdeFontMode');if(fm)fm.value='auto';
-  var fs=document.getElementById('pdeFontSize');if(fs)fs.value=Math.round((Number(info.fontSizePt)||12)*10)/10;
-  var sty=document.getElementById('pdeTextStyle');if(sty)sty.value='auto';
-  var ls=document.getElementById('pdeLineSpacing');if(ls)ls.value='1.05';
-  var cs=document.getElementById('pdeLetterSpacing');if(cs)cs.value='0';
-  var al=document.getElementById('pdeAlign');if(al)al.value='auto';
-  var wm=document.getElementById('pdeWidthMode');if(wm)wm.value=isNew?'natural':'smart';
-  var fw=document.getElementById('pdeFitWidth');if(fw)fw.checked=true;
-  var bgEl=document.getElementById('pdeBgColor');if(bgEl)bgEl.value=bg;
-  var tc=document.getElementById('pdeTextColor');if(tc)tc.value=color;
+  var fm=document.getElementById('pdeFontMode');
+  if(fm)fm.value='auto';
 
+  var fs=document.getElementById('pdeFontSize');
+  if(fs){
+    var exactSize=Number(info.originalFontSizePt||info.fontSizePt)||12;
+    fs.value=exactSize.toFixed(3).replace(/0+$/,'').replace(/\.$/,'');
+    fs.dataset.pdeAutoExact=String(exactSize);
+    fs.dataset.pdeAutoShown=fs.value;
+  }
+
+  var sty=document.getElementById('pdeTextStyle');
+  if(sty)sty.value='auto';
+
+  var ls=document.getElementById('pdeLineSpacing');
+  if(ls)ls.value='1.05';
+
+  var cs=document.getElementById('pdeLetterSpacing');
+  if(cs)cs.value='0';
+
+  var al=document.getElementById('pdeAlign');
+  if(al)al.value='auto';
+
+  // Exact Match should preserve the original PDF text scale, not stretch the
+  // replacement to the old box. User can still choose Smart/Fit manually.
+  var wm=document.getElementById('pdeWidthMode');
+  if(wm)wm.value='natural';
+
+  var fw=document.getElementById('pdeFitWidth');
+  if(fw)fw.checked=false;
+
+  var bgEl=document.getElementById('pdeBgColor');
+  if(bgEl)bgEl.value=bg;
+
+  var tc=document.getElementById('pdeTextColor');
+  if(tc)tc.value=color;
+
+  info._pdeDetectedColor=color;
+  info._pdeSmartAlign=pdeSmartAlignForInfo(info);
+  info._pdeOriginalBold=!!info.bold;
   pdeUpdateDetectedStyle(info,bg,color);
+  pdeShowSimpleStyleBar(true);
+  pdeRefreshSimpleStyleState();
   pdeUpdateStylePreview();
 }
 
@@ -8325,7 +9475,7 @@ function pdeMatchSelectedStyle(){
   if(isNew){
     var near=pdeNearestTextInfo(info.x+info.w/2,info.y+info.h/2);
     if(near){
-      info.family=near.family;info.fontName=near.fontName;info.fontSizePt=near.fontSizePt;
+      info.family=near.family;info.cssFamily=near.cssFamily||near.family;info.loadedName=near.loadedName||'';info.nativeFamily=near.nativeFamily||near.family;info.fontName=near.fontName;info.fontSizePt=near.fontSizePt;
       info.bold=!!near.bold;info.italic=!!near.italic;info.baselineOffsetRatio=near.baselineOffsetRatio;
       pdeSyncStyleControls(near,true);
       var st=document.getElementById('pdeEditStatus');if(st)st.textContent='Nearest PDF text style copied ✓';
@@ -8340,7 +9490,7 @@ function pdeUpdateStylePreview(){
   var box=document.getElementById('pdeStylePreview');if(!box)return;
   var info=pdeCurrentSelectedInfo(),txt=(document.getElementById('pdeNewText')||{}).value||'New Text';
   var mode=(document.getElementById('pdeFontMode')||{}).value||'auto';
-  var fam=mode==='auto'?(info&&info.family||'Arial'):mode;
+  var fam=mode==='auto'?pdeBestCanvasFontFamily(info||{family:'Arial'}):mode;
   var fs=Math.max(4,parseFloat((document.getElementById('pdeFontSize')||{}).value)||12);
   var style=(document.getElementById('pdeTextStyle')||{}).value||'auto';
   var bold=style==='auto'?!!(info&&info.bold):(style==='bold'||style==='bolditalic');
@@ -8358,6 +9508,61 @@ function pdeUpdateStylePreview(){
   box.style.justifyContent=box.style.textAlign==='center'?'center':(box.style.textAlign==='right'?'flex-end':'flex-start');
   box.style.letterSpacing=(parseFloat((document.getElementById('pdeLetterSpacing')||{}).value)||0)+'px';
 }
+
+function pdeFontAvailable(family,bold,italic){
+  family=String(family||'').replace(/["']/g,'').trim();
+  if(!family)return false;
+  if(!document.fonts||typeof document.fonts.check!=='function')return true;
+
+  var style=italic?'italic ':'',
+      weight=bold?'700 ':'400 ';
+
+  try{
+    return document.fonts.check(style+weight+' 16px "'+family+'"');
+  }catch(e){
+    return false;
+  }
+}
+
+function pdeBestCanvasFontFamily(e){
+  e=e||{};
+
+  var exactCandidates=[e.loadedName,e.cssFamily].filter(function(v){
+    return String(v||'').trim()!=='';
+  });
+
+  for(var i=0;i<exactCandidates.length;i++){
+    var exact=String(exactCandidates[i]).replace(/["']/g,'').trim();
+    if(exact && pdeFontAvailable(exact,false,false))return exact;
+  }
+
+  var candidates=[e.nativeFamily,e.family,'Arial'].filter(function(v){
+    return String(v||'').trim()!=='';
+  });
+
+  var seen={};
+  for(var j=0;j<candidates.length;j++){
+    var fam=String(candidates[j]).replace(/["']/g,'').trim();
+    if(!fam||seen[fam])continue;
+    seen[fam]=1;
+    if(pdeFontAvailable(fam,!!e.bold,!!e.italic))return fam;
+  }
+
+  return String(e.family||'Arial').replace(/["']/g,'')||'Arial';
+}
+
+function pdeHasExactLoadedFont(e){
+  if(!e||!e.autoMatch)return false;
+
+  var exact=String(e.loadedName||e.cssFamily||'').replace(/["']/g,'').trim();
+  if(!exact)return false;
+
+  // PDF.js subset/embedded fonts are typically registered as a unique family.
+  // Asking the browser for 700/italic can synthesize a different-looking face.
+  return pdeFontAvailable(exact,false,false);
+}
+
+
 
 function pdeMeasureCanvasText(ctx,text,spacingPx){
   var arr=Array.from(String(text||'')),w=ctx.measureText(String(text||'')).width;
@@ -8381,69 +9586,579 @@ function pdePdfTextWidth(font,text,size,spacingPt){
 }
 
 function pdePdfDrawSpacedText(pg,font,text,x,y,size,color,rot,spacingPt){
-  text=String(text||'');spacingPt=Number(spacingPt)||0;
-  if(Math.abs(spacingPt)<.001){
-    var opts={x:x,y:y,size:size,font:font,color:color};
-    if(rot)opts.rotate=PDFLib.degrees(-rot);
-    pg.drawText(text,opts);return;
+  text=String(text||'');
+
+  var opts={
+    x:x,
+    y:y,
+    size:size,
+    font:font,
+    color:color
+  };
+
+  if(rot)opts.rotate=PDFLib.degrees(-rot);
+
+  pg.drawText(text,opts);
+}
+
+function pdeSmartAlignForInfo(info){
+  if(!info)return 'left';
+
+  var t=String(info.text||'').trim();
+
+  // Amounts, percentages, dates and decimal numbers usually align to the
+  // right in forms/tables.
+  if(pdeLooksAmountText(t) || /^\(?[-+]?\d[\d,]*(?:\.\d+)?%?\)?$/.test(t)){
+    return 'right';
   }
-  var arr=Array.from(text),cx=x;
-  arr.forEach(function(ch,i){
-    var opts={x:cx,y:y,size:size,font:font,color:color};
-    if(rot)opts.rotate=PDFLib.degrees(-rot);
-    pg.drawText(ch,opts);
-    cx+=font.widthOfTextAtSize(ch,size)+(i<arr.length-1?spacingPt:0);
+
+  // Short centred labels/IDs surrounded by similar text are often centered.
+  var items=pdeEditState.textItems||[],
+      cy=info.y+info.h/2,
+      leftGap=1e9,rightGap=1e9;
+
+  items.forEach(function(x){
+    if(!x||x===info)return;
+    var xy=x.y+x.h/2;
+    if(Math.abs(xy-cy)>Math.max(8,info.h*.7))return;
+
+    if(x.x+x.w<=info.x){
+      leftGap=Math.min(leftGap,info.x-(x.x+x.w));
+    }else if(x.x>=info.x+info.w){
+      rightGap=Math.min(rightGap,x.x-(info.x+info.w));
+    }
   });
+
+  if(isFinite(leftGap)&&isFinite(rightGap) &&
+     Math.abs(leftGap-rightGap)<=Math.max(8,info.h*.65) &&
+     t.length<=18){
+    return 'center';
+  }
+
+  return 'left';
+}
+
+function pdeSmartFitDecision(info,newText,fontSizePt){
+  var out={fit:false,size:Number(fontSizePt)||12};
+
+  if(!info)return out;
+
+  var oldText=String(info.text||''),
+      txt=String(newText||''),
+      oldLen=Math.max(1,Array.from(oldText).length),
+      newLen=Math.max(1,Array.from(txt).length),
+      ratio=newLen/oldLen;
+
+  // Keep the original size normally. Only when replacement is clearly
+  // longer, allow a gentle automatic shrink. Never shrink more than 12%.
+  if(ratio>1.18){
+    out.fit=true;
+    out.size=Math.max(4,(Number(fontSizePt)||12)*Math.max(.88,1/Math.sqrt(ratio)));
+  }
+
+  return out;
+}
+
+var pdeLivePdfBaseCanvas=null;
+var pdeAnalysisCanvas=null;
+var pdeLivePdfDraftDirty=false;
+
+function pdeEditorRenderRatio(){
+  var dpr=Number(window.devicePixelRatio)||1;
+
+  // Keep at least 2x backing pixels for crisp mobile pinch zoom.
+  // Cap at 2.5x to avoid excessive memory use on long sessions.
+  return Math.max(2,Math.min(2.5,dpr));
+}
+
+function pdeEditorCanvasScale(){
+  return (Number(pdeEditState.scale)||1)*
+         (Number(pdeEditState.renderRatio)||1);
+}
+
+function pdeGetAnalysisCanvas(){
+  return pdeAnalysisCanvas || document.getElementById('pdeEditCanvas');
+}
+
+function pdeCaptureLivePdfBase(canvas){
+  if(!canvas||!canvas.width||!canvas.height)return;
+
+  var c=document.createElement('canvas');
+  c.width=canvas.width;
+  c.height=canvas.height;
+  c.getContext('2d').drawImage(canvas,0,0);
+  pdeLivePdfBaseCanvas=c;
+
+  // Keep a CSS-resolution copy for text-colour/background/cleanup analysis.
+  // Selection coordinates are in CSS/PDF viewport pixels, so this prevents
+  // HiDPI backing pixels from changing detection math.
+  var vp=pdeEditState&&pdeEditState.viewport;
+  if(vp&&vp.width&&vp.height){
+    var a=document.createElement('canvas');
+    a.width=Math.max(1,Math.ceil(vp.width));
+    a.height=Math.max(1,Math.ceil(vp.height));
+    var actx=a.getContext('2d',{alpha:false});
+    actx.fillStyle='#ffffff';
+    actx.fillRect(0,0,a.width,a.height);
+    actx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,a.width,a.height);
+    pdeAnalysisCanvas=a;
+  }
+}
+
+function pdeRestoreLivePdfBase(){
+  var canvas=document.getElementById('pdeEditCanvas');
+  if(!canvas||!pdeLivePdfBaseCanvas)return false;
+  if(canvas.width!==pdeLivePdfBaseCanvas.width || canvas.height!==pdeLivePdfBaseCanvas.height)return false;
+
+  var ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(pdeLivePdfBaseCanvas,0,0);
+  return true;
+}
+
+function pdeRenderCommittedPdfEdits(){
+  var canvas=document.getElementById('pdeEditCanvas'),
+      idx=pdeEditState.modelIndex,
+      m=idx>=0?pdeModel[idx]:null;
+
+  if(!canvas||!m)return;
+
+  if(!pdeRestoreLivePdfBase())return;
+  pdeDrawEditsOnCanvas(canvas,m.textEdits||[],pdeEditorCanvasScale());
+  pdeLivePdfDraftDirty=false;
+}
+
+function pdeCurrentEditInfo(){
+  var id=pdeEditState.selected;
+
+  if(id===-5)return pdeEditState.rowBox;
+  if(id===-4)return pdeEditState.lineBox;
+  if(id===-3)return pdeEditState.addBox;
+  if(id===-2)return pdeEditState.manualBox;
+
+  return (pdeEditState.textItems||[])[id]||null;
+}
+
+function pdeBuildLiveDraftEdit(){
+  var info=pdeCurrentEditInfo(),
+      idx=pdeEditState.modelIndex,
+      m=idx>=0?pdeModel[idx]:null,
+      vp=pdeEditState.viewport;
+
+  if(!m||!info||!vp)return null;
+
+  var id=pdeEditState.selected,
+      txt=(document.getElementById('pdeNewText')||{}).value||'',
+      fsEl=document.getElementById('pdeFontSize'),
+      rawFs=parseFloat(fsEl&&fsEl.value),
+      mode=(document.getElementById('pdeFontMode')||{}).value||'auto',
+      autoExact=Number(fsEl&&fsEl.dataset&&fsEl.dataset.pdeAutoExact),
+      autoShown=String(fsEl&&fsEl.dataset&&fsEl.dataset.pdeAutoShown||''),
+      currentShown=String(fsEl&&fsEl.value||''),
+      fs=(mode==='auto'&&isFinite(autoExact)&&currentShown===autoShown)
+        ?autoExact
+        :(isFinite(rawFs)?rawFs:(Number(info.originalFontSizePt||info.fontSizePt)||12));
+
+  if(!isFinite(fs)||fs<=0)return null;
+
+  var fam=mode==='auto'?(info.family||'Arial'):mode,
+      style=(document.getElementById('pdeTextStyle')||{}).value||'auto',
+      isNew=(id===-3||id===-5),
+      autoBold=!!info.bold,
+      autoItalic=!!info.italic,
+      bold=style==='auto'?autoBold:(style==='bold'||style==='bolditalic'),
+      italic=style==='auto'?autoItalic:(style==='italic'||style==='bolditalic'),
+      align=(document.getElementById('pdeAlign')||{}).value||'auto',
+      lineSpacing=parseFloat((document.getElementById('pdeLineSpacing')||{}).value)||1.05,
+      letterSpacing=parseFloat((document.getElementById('pdeLetterSpacing')||{}).value)||0,
+      widthMode=(document.getElementById('pdeWidthMode')||{}).value||'natural',
+      fitWidth=!!((document.getElementById('pdeFitWidth')||{}).checked),
+      bg=(document.getElementById('pdeBgColor')||{}).value||'#ffffff',
+      color=info._pdeDetectedColor ||
+        ((document.getElementById('pdeTextColor')||{}).value||'#000000');
+
+  // Cover calculation must look at the original PDF, not a previous draft.
+  pdeRestoreLivePdfBase();
+
+  if(!isNew){
+    try{
+      color=info._pdeDetectedColor ||
+        pdeAutoTextColorForInfo(pdeOriginalInfo(info),bg) ||
+        color;
+    }catch(_e){}
+  }
+
+  var coverInfo=isNew?info:pdeOriginalInfo(info),
+      safeCover=isNew?coverInfo:pdeSafeCoverBox(coverInfo,bg),
+      br=Number(info.baselineOffsetRatio);
+
+  if(!isFinite(br))br=.92;
+
+  var smartAlign=info._pdeSmartAlign || pdeSmartAlignForInfo(info),
+      fsManual=fsEl&&fsEl.dataset&&fsEl.dataset.pdeAutoShown==='__manual__',
+      smartFit=pdeSmartFitDecision(info,txt,fs);
+
+  if(mode==='auto' && !fsManual && smartFit.fit){
+    fs=smartFit.size;
+    fitWidth=true;
+  }
+
+  var soloAnchor=pdeSoloWordAnchor(info,m);
+
+  return {
+    itemKey:info.itemKey,
+    oldText:info.text||'',
+    text:txt,
+    xRatio:info.x/vp.width,
+    yRatio:info.y/vp.height,
+    wRatio:info.w/vp.width,
+    hRatio:info.h/vp.height,
+    coverXRatio:safeCover.x/vp.width,
+    coverYRatio:safeCover.y/vp.height,
+    coverWRatio:safeCover.w/vp.width,
+    coverHRatio:safeCover.h/vp.height,
+    fontSizePt:fs,
+    family:fam,
+    cssFamily:mode==='auto'?(info.cssFamily||info.loadedName||info.nativeFamily||info.family||fam):fam,
+    loadedName:mode==='auto'?(info.loadedName||''):'',
+    nativeFamily:mode==='auto'?(info.nativeFamily||info.family||fam):fam,
+    fontName:info.fontName||'',
+    pdfJsFontName:info.pdfJsFontName||'',
+    fontCacheKey:info.fontCacheKey||'',
+    hasEmbeddedFont:!!info.hasEmbeddedFont,
+    fontWeight:Number(info.fontWeight)||(bold?700:400),
+    bold:bold,
+    italic:italic,
+    boldLevel:isFinite(Number(info._pdeBoldLevel))?Number(info._pdeBoldLevel):0,
+    originalBold:info.originalBold!==undefined?info.originalBold:autoBold,
+    originalItalic:info.originalItalic!==undefined?info.originalItalic:autoItalic,
+    originalFontSizePt:Number(info.originalFontSizePt||info.fontSizePt)||fs,
+    pdfScaleX:isFinite(Number(info.pdfScaleX))?Number(info.pdfScaleX):1,
+    baselineOffsetRatio:br,
+    autoMatch:mode==='auto',
+    color:color,
+    bg:bg,
+    fitWidth:fitWidth||widthMode==='fit',
+    matchWidth:false,
+    smartAlign:smartAlign,
+    soloAnchor:soloAnchor,
+    align:align,
+    isNew:isNew,
+    lineSpacing:lineSpacing,
+    letterSpacing:letterSpacing,
+    _pdeLiveDraft:true
+  };
+}
+
+function pdeCommitLiveDraft(draft,quiet){
+  if(!draft)return false;
+
+  var idx=pdeEditState.modelIndex,
+      m=idx>=0?pdeModel[idx]:null;
+
+  if(!m)return false;
+
+  var committed={};
+
+  Object.keys(draft).forEach(function(k){
+    if(k!=='_pdeLiveDraft')committed[k]=draft[k];
+  });
+
+  m.textEdits=(m.textEdits||[]).filter(function(e){
+    return e.itemKey!==committed.itemKey;
+  });
+
+  m.textEdits.push(committed);
+  pdeLivePdfDraftDirty=false;
+
+  var state=document.getElementById('pdeAutoApplyState');
+  if(state)state.textContent='AUTO APPLIED ✓';
+
+  if(!quiet){
+    var st=document.getElementById('pdeEditStatus');
+    if(st)st.textContent='Auto applied ✓';
+  }
+
+  return true;
+}
+
+function pdeRenderLiveOnPdf(){
+  var canvas=document.getElementById('pdeEditCanvas'),
+      idx=pdeEditState.modelIndex,
+      m=idx>=0?pdeModel[idx]:null;
+
+  if(!canvas||!m||!pdeEditState.viewport)return;
+
+  var draft=pdeBuildLiveDraftEdit();
+  if(!draft){
+    pdeRenderCommittedPdfEdits();
+    return;
+  }
+
+  if(!pdeRestoreLivePdfBase())return;
+
+  var edits=(m.textEdits||[]).filter(function(e){
+    return e.itemKey!==draft.itemKey;
+  });
+
+  edits.push(draft);
+  pdeDrawEditsOnCanvas(canvas,edits,pdeEditorCanvasScale());
+
+  // The same draft visible on PDF is immediately stored.
+  pdeCommitLiveDraft(draft,true);
+}
+
+function pdeSmartWordFlowEligible(e){
+  if(!e||e.isNew)return false;
+
+  var key=String(e.itemKey||''),
+      oldText=String(e.oldText||'').trim(),
+      newText=String(e.text||'').trim();
+
+  if(key.indexOf('pdf_')!==0)return false;
+  if(!oldText||!newText)return false;
+  if(/[\r\n]/.test(oldText)||/[\r\n]/.test(newText))return false;
+
+  // Individual words only. Whole phrases/rows should keep their own box.
+  if(/\s/.test(oldText)||/\s/.test(newText))return false;
+
+  return true;
+}
+
+function pdeSmartWordGap(originalGap,fontSize){
+  fontSize=Math.max(4,Number(fontSize)||12);
+  originalGap=Number(originalGap);
+
+  // A normal one-space visual gap is usually around 0.18–0.55 em.
+  // Clamp noisy PDF word boxes into that range, while retaining the
+  // document's own spacing as much as possible.
+  var minGap=fontSize*.18,
+      maxGap=fontSize*.55;
+
+  if(!isFinite(originalGap))return fontSize*.28;
+  return Math.max(minGap,Math.min(maxGap,originalGap));
+}
+
+function pdeFindPreviousWordFlowRow(rows,dx,dy,dw,dh,fontSize){
+  if(!rows||!rows.length)return null;
+
+  var cy=dy+dh/2,
+      best=null,
+      bestScore=1e99,
+      maxOriginalGap=Math.max(18,fontSize*1.45);
+
+  rows.forEach(function(r){
+    var yDiff=Math.abs(r.cy-cy),
+        originalGap=dx-r.origRight;
+
+    if(yDiff>Math.max(3,dh*.48))return;
+    if(originalGap<Math.max(-2,-fontSize*.18))return;
+    if(originalGap>maxOriginalGap)return;
+
+    var score=yDiff*4+Math.abs(originalGap);
+    if(score<bestScore){
+      bestScore=score;
+      best={row:r,originalGap:originalGap};
+    }
+  });
+
+  return best;
 }
 
 function pdeResolveAlign(editOrInfo){
   var a=(editOrInfo&&editOrInfo.align)||'auto';
+
   if(a==='auto'){
-    var t=(editOrInfo&&editOrInfo.oldText)|| (editOrInfo&&editOrInfo.text)||'';
+    if(editOrInfo&&editOrInfo.smartAlign){
+      return editOrInfo.smartAlign;
+    }
+
+    var t=(editOrInfo&&editOrInfo.oldText)||
+          (editOrInfo&&editOrInfo.text)||
+          '';
+
     if(pdeLooksDateText(t))return 'left';
     if(pdeLooksAmountText(t))return 'right';
+
     return 'left';
   }
+
   return a;
 }
 function pdeSetCanvasFont(ctx,e,sizePx){
-  var family=e.family||'Arial',weight=e.bold?'700':'400',style=e.italic?'italic':'normal';
-  ctx.font=style+' '+weight+' '+Math.max(4,sizePx)+'px "'+family+'"';
+  e=e||{};
+
+  var weight=pdeEffectiveBold(e)?'700':'400',
+      style=pdeEffectiveItalic(e)?'italic':'normal',
+      family='';
+
+  if(e.autoMatch){
+    family=String(
+      e.loadedName||
+      e.cssFamily||
+      e.nativeFamily||
+      ''
+    ).trim();
+  }
+
+  if(!family){
+    family=pdeCanvasFallbackFamily(e);
+  }
+
+  family=family.replace(/["']/g,'');
+
+  ctx.font=
+    style+' '+
+    weight+' '+
+    Math.max(4,sizePx)+'px "'+
+    family+'"';
 }
 function pdeLayoutCanvasText(ctx,e,x,y,w,h,scale){
-  var sizePx=Math.max(4,(Number(e.fontSizePt)||12)*scale),lines=String(e.text||'').split(/\r?\n/),
+  var sizePx=Math.max(4,(Number(e.fontSizePt)||12)*scale),
+      lines=String(e.text||'').split(/\r?\n/),
       spacingPx=(Number(e.letterSpacing)||0)*scale;
+
   pdeSetCanvasFont(ctx,e,sizePx);
-  var widths=lines.map(function(t){return pdeMeasureCanvasText(ctx,t,spacingPx)}),natural=Math.max.apply(null,widths.concat([1]));
 
-  if(e.matchWidth && lines.length===1 && natural>0 && w>0){
-    var mr=Math.max(.86,Math.min(1.14,w/natural));
-    sizePx=Math.max(4,sizePx*mr);spacingPx*=mr;
-    pdeSetCanvasFont(ctx,e,sizePx);
-    widths=lines.map(function(t){return pdeMeasureCanvasText(ctx,t,spacingPx)});
-    natural=Math.max.apply(null,widths.concat([1]));
+  var widths=lines.map(function(t){
+        return pdeMeasureCanvasText(ctx,t,spacingPx);
+      }),
+      natural=Math.max.apply(null,widths.concat([1])),
+      baseScale=1;
+
+  if(e.fitWidth && natural>w && w>0){
+    baseScale=Math.max(.48,Math.min(1,w/natural));
   }
 
-  if(e.fitWidth && natural>w){
-    var r=w/natural;
-    sizePx=Math.max(4,sizePx*r);spacingPx*=r;
-    pdeSetCanvasFont(ctx,e,sizePx);
-    widths=lines.map(function(t){return pdeMeasureCanvasText(ctx,t,spacingPx)});
-    natural=Math.max.apply(null,widths.concat([1]));
-  }
+  widths=widths.map(function(v){return v*baseScale});
+  natural=Math.max.apply(null,widths.concat([1]));
 
-  var align=pdeResolveAlign(e),lineSpacing=Math.max(.8,Math.min(3,Number(e.lineSpacing)||1.05)),lineH=sizePx*lineSpacing,padX=2.2*scale,padY=1.1*scale;
-  var br=Number(e.baselineOffsetRatio);if(!isFinite(br))br=.92;br=Math.max(.55,Math.min(1.25,br));
-  return {lines:lines,widths:widths,sizePx:sizePx,spacingPx:spacingPx,align:align,lineH:lineH,coverX:x-padX,coverY:y-padY,coverW:Math.max(w,natural)+padX*2,coverH:Math.max(h,lineH*lines.length)+padY*2,baseline:y+h*br};
+  var align=pdeResolveAlign(e),
+      lineSpacing=Math.max(.8,Math.min(3,Number(e.lineSpacing)||1.05)),
+      lineH=sizePx*lineSpacing,
+      padX=2.2*scale,
+      padY=1.1*scale,
+      br=Number(e.baselineOffsetRatio);
+
+  if(!isFinite(br))br=.92;
+  br=Math.max(.55,Math.min(1.25,br));
+
+  return {
+    lines:lines,
+    widths:widths,
+    sizePx:sizePx,
+    spacingPx:spacingPx,
+    textScaleX:baseScale,
+    align:align,
+    lineH:lineH,
+    coverX:x-padX,
+    coverY:y-padY,
+    coverW:Math.max(w,natural)+padX*2,
+    coverH:Math.max(h,lineH*lines.length)+padY*2,
+    baseline:y+h*br
+  };
 }
 function pdeDrawEditsOnCanvas(canvas,edits,scale){
   if(!edits||!edits.length)return;
-  var ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
-  edits.forEach(function(e){
-    var x=e.xRatio*W,y=e.yRatio*H,w=e.wRatio*W,h=e.hRatio*H;ctx.save();var lay=pdeLayoutCanvasText(ctx,e,x,y,w,h,scale);
-    if(!e.isNew){var cx=(isFinite(e.coverXRatio)?e.coverXRatio:e.xRatio)*W,cy=(isFinite(e.coverYRatio)?e.coverYRatio:e.yRatio)*H,cw=(isFinite(e.coverWRatio)?e.coverWRatio:e.wRatio)*W,ch=(isFinite(e.coverHRatio)?e.coverHRatio:e.hRatio)*H;ctx.fillStyle=e.bg||'#ffffff';ctx.fillRect(Math.max(0,cx),Math.max(0,cy),Math.min(W-Math.max(0,cx),cw),Math.min(H-Math.max(0,cy),ch));}
-    ctx.fillStyle=e.color||'#000000';ctx.textBaseline='alphabetic';pdeSetCanvasFont(ctx,e,lay.sizePx);
-    lay.lines.forEach(function(line,li){if(!line)return;var tw=lay.widths[li],tx=x;if(lay.align==='right')tx=x+w-tw;else if(lay.align==='center')tx=x+(w-tw)/2;try{pdeFillCanvasText(ctx,line,tx,lay.baseline+li*lay.lineH,lay.spacingPx)}catch(err){ctx.font=Math.max(4,lay.sizePx)+'px Arial';ctx.fillText(line,tx,lay.baseline+li*lay.lineH)}});
+
+  var ctx=canvas.getContext('2d'),
+      W=canvas.width,H=canvas.height,
+      list=edits.slice().sort(function(a,b){
+        var ay=(Number(a.yRatio)||0)*H,
+            by=(Number(b.yRatio)||0)*H;
+
+        if(Math.abs(ay-by)>3)return ay-by;
+        return ((Number(a.xRatio)||0)-(Number(b.xRatio)||0))*W;
+      });
+
+  // First remove all old text. This prevents the cover of a later word
+  // from erasing an earlier replacement when words shift closer together.
+  list.forEach(function(e){
+    if(e.isNew)return;
+
+    var cx=(isFinite(e.coverXRatio)?e.coverXRatio:e.xRatio)*W,
+        cy=(isFinite(e.coverYRatio)?e.coverYRatio:e.yRatio)*H,
+        cw=(isFinite(e.coverWRatio)?e.coverWRatio:e.wRatio)*W,
+        ch=(isFinite(e.coverHRatio)?e.coverHRatio:e.hRatio)*H;
+
+    ctx.save();
+    ctx.fillStyle=e.bg||'#ffffff';
+    ctx.fillRect(
+      Math.max(0,cx),
+      Math.max(0,cy),
+      Math.min(W-Math.max(0,cx),cw),
+      Math.min(H-Math.max(0,cy),ch)
+    );
+    ctx.restore();
+  });
+
+  var flowRows=[];
+
+  list.forEach(function(e){
+    var x=e.xRatio*W,
+        y=e.yRatio*H,
+        w=e.wRatio*W,
+        h=e.hRatio*H;
+
+    ctx.save();
+
+    var lay=pdeLayoutCanvasText(ctx,e,x,y,w,h,scale);
+
+    ctx.fillStyle=e.color||'#000000';
+    ctx.textBaseline='alphabetic';
+    pdeSetCanvasFont(ctx,e,lay.sizePx);
+
+    lay.lines.forEach(function(line,li){
+      if(!line)return;
+
+      var tw=lay.widths[li],
+          tx=x,
+          flowHit=null;
+
+      if(li===0 && lay.lines.length===1 && pdeSmartWordFlowEligible(e)){
+        flowHit=pdeFindPreviousWordFlowRow(
+          flowRows,x,y,w,h,lay.sizePx
+        );
+      }
+
+      if(flowHit){
+        tx=flowHit.row.finalRight+
+           pdeSmartWordGap(flowHit.originalGap,lay.sizePx);
+      }else if(e.soloAnchor==='right'){
+        tx=x+w-tw;
+      }else{
+        if(lay.align==='right')tx=x+w-tw;
+        else if(lay.align==='center')tx=x+(w-tw)/2;
+      }
+
+      try{
+        ctx.save();
+        ctx.translate(tx,0);
+        ctx.scale(lay.textScaleX,1);
+        pdeFillCanvasText(
+          ctx,line,0,
+          lay.baseline+li*lay.lineH,
+          lay.spacingPx
+        );
+        ctx.restore();
+      }catch(err){
+        ctx.font=Math.max(4,lay.sizePx)+'px Arial';
+        ctx.fillText(line,tx,lay.baseline+li*lay.lineH);
+      }
+
+      if(li===0 && lay.lines.length===1 && pdeSmartWordFlowEligible(e)){
+        flowRows.push({
+          cy:y+h/2,
+          origX:x,
+          origRight:x+w,
+          finalX:tx,
+          finalRight:tx+tw,
+          h:h,
+          itemKey:e.itemKey
+        });
+      }
+    });
+
     ctx.restore();
   });
 }
@@ -8470,8 +10185,34 @@ function pdeShowMoveGuide(info){
 }
 function pdeOriginalInfo(info){
   if(!info)return info;
-  if(!isFinite(info.origX))return info;
-  return {x:info.origX,y:info.origY,w:info.origW,h:info.origH,text:info.text,fontSizePt:info.fontSizePt,family:info.family,fontName:info.fontName||'',source:info.source||'',bold:info.bold,italic:info.italic,baselineOffsetRatio:info.baselineOffsetRatio};
+
+  var x=isFinite(info.origX)?info.origX:info.x,
+      y=isFinite(info.origY)?info.origY:info.y,
+      w=isFinite(info.origW)?info.origW:info.w,
+      h=isFinite(info.origH)?info.origH:info.h;
+
+  return {
+    x:x,y:y,w:w,h:h,
+    text:info.text,
+    fontSizePt:info.fontSizePt,
+    originalFontSizePt:info.originalFontSizePt||info.fontSizePt,
+    family:info.family,
+    fontName:info.fontName||'',
+    pdfJsFontName:info.pdfJsFontName||'',
+    fontCacheKey:info.fontCacheKey||'',
+    hasEmbeddedFont:!!info.hasEmbeddedFont,
+    fontWeight:Number(info.fontWeight)||(info.bold?700:400),
+    cssFamily:info.cssFamily||info.family||'',
+    loadedName:info.loadedName||'',
+    nativeFamily:info.nativeFamily||info.family||'',
+    source:info.source||'',
+    bold:info.bold,
+    italic:info.italic,
+    originalBold:info.originalBold!==undefined?info.originalBold:info.bold,
+    originalItalic:info.originalItalic!==undefined?info.originalItalic:info.italic,
+    pdfScaleX:isFinite(Number(info.pdfScaleX))?Number(info.pdfScaleX):1,
+    baselineOffsetRatio:info.baselineOffsetRatio
+  };
 }
 
 function pdeAddWordHit(info,layer,isOcr){
@@ -8492,10 +10233,462 @@ function pdeAddWordHit(info,layer,isOcr){
   });
   layer.appendChild(hit);return id;
 }
+var pdeEmbeddedFontBytesCache={};
+var pdePageFontCandidateCache={};
+var pdeFontkitLoadPromise=null;
+
+function pdeOriginalTextChars(text){
+  var set={};
+  Array.from(String(text||'')).forEach(function(ch){
+    if(!/\s/.test(ch))set[ch]=true;
+  });
+  return set;
+}
+
+function pdeCanSafelyReuseSubsetForText(e){
+  if(!e||!e.autoMatch)return false;
+
+  var set=pdeOriginalTextChars(e.oldText||''),
+      chars=Array.from(String(e.text||'')).filter(function(ch){
+        return !/\s/.test(ch);
+      });
+
+  if(!chars.length)return true;
+
+  for(var i=0;i<chars.length;i++){
+    if(!set[chars[i]])return false;
+  }
+  return true;
+}
+
+function pdeFontStyleSignature(e){
+  e=e||{};
+  return {
+    bold:pdeEffectiveBold(e),
+    italic:pdeEffectiveItalic(e),
+    family:String(
+      e.nativeFamily||
+      e.cssFamily||
+      e.family||
+      e.fontName||
+      ''
+    ).toLowerCase().replace(/[^a-z0-9]+/g,'')
+  };
+}
+
+async function pdeGetMatchingPageEmbeddedFont(out,jpage,e,fontCache){
+  if(!jpage||!e||!e.autoMatch)return null;
+
+  var pageKey=String(
+    (pdeEditState&&isFinite(pdeEditState.modelIndex))
+      ?pdeEditState.modelIndex
+      :'page'
+  )+'|'+String(jpage.pageNumber||0);
+
+  var candidates=pdePageFontCandidateCache[pageKey];
+
+  if(!candidates){
+    candidates=[];
+
+    try{
+      var tc=await jpage.getTextContent(),
+          styles=tc.styles||{},
+          names=[];
+
+      (tc.items||[]).forEach(function(it){
+        var n=it&&it.fontName;
+        if(n&&names.indexOf(n)<0)names.push(n);
+      });
+
+      for(var i=0;i<names.length;i++){
+        var name=names[i],
+            obj=await pdeResolvePdfFontObject(jpage,name),
+            sty=styles[name]||{},
+            raw=pdeCopyFontBytes(obj&&obj.data);
+
+        if(!raw||raw.length<100)continue;
+
+        var sig=[
+          name||'',
+          sty.fontFamily||'',
+          obj&&obj.name||'',
+          obj&&obj.loadedName||'',
+          obj&&obj.fontFamily||'',
+          obj&&obj.fontWeight||'',
+          obj&&obj.cssFontInfo&&obj.cssFontInfo.fontFamily||'',
+          obj&&obj.cssFontInfo&&obj.cssFontInfo.fontWeight||''
+        ].join(' ');
+
+        var wt=parseInt(
+              obj&&(
+                obj.fontWeight||
+                obj.cssFontInfo&&obj.cssFontInfo.fontWeight
+              )||'',
+              10
+            ),
+            bold=!!(obj&&(obj.bold||obj.black)) ||
+              /bold|semibold|demibold|demi|black|heavy|extrabold|ultrabold/i.test(sig) ||
+              (isFinite(wt)&&wt>=600),
+            italic=!!(obj&&obj.italic) ||
+              Number(obj&&obj.italicAngle||0)!==0 ||
+              /italic|oblique/i.test(sig),
+            family=String(
+              obj&&(
+                obj.fontFamily||
+                obj.name||
+                obj.loadedName
+              )||
+              sty.fontFamily||
+              name||
+              ''
+            ).toLowerCase().replace(/[^a-z0-9]+/g,'');
+
+        candidates.push({
+          name:name,
+          bytes:raw,
+          family:family,
+          bold:bold,
+          italic:italic
+        });
+      }
+    }catch(_e){}
+
+    pdePageFontCandidateCache[pageKey]=candidates;
+  }
+
+  if(!candidates.length)return null;
+
+  var target=pdeFontStyleSignature(e),
+      ranked=candidates.slice().sort(function(a,b){
+        function score(c){
+          var sc=0;
+          if(c.bold===target.bold)sc+=4;
+          if(c.italic===target.italic)sc+=3;
+
+          if(target.family&&c.family){
+            if(c.family===target.family)sc+=10;
+            else if(
+              c.family.indexOf(target.family)>=0 ||
+              target.family.indexOf(c.family)>=0
+            )sc+=7;
+          }
+          return sc;
+        }
+        return score(b)-score(a);
+      });
+
+  for(var r=0;r<ranked.length;r++){
+    var c=ranked[r],
+        key='pagefont|'+pageKey+'|'+c.name+'|'+c.bytes.length,
+        font=fontCache[key];
+
+    try{
+      if(!font){
+        var fk=await pdeLoadFontkit();
+        if(!fk)continue;
+
+        if(!out._pdeFontkitRegistered){
+          out.registerFontkit(fk);
+          out._pdeFontkitRegistered=true;
+        }
+
+        font=await out.embedFont(c.bytes,{subset:true});
+        fontCache[key]=font;
+      }
+
+      if(pdeEmbeddedFontSupportsText(font,e.text)){
+        try{
+          font._pdeSourceBold=!!c.bold;
+          font._pdeSourceFamily=String(c.family||'');
+        }catch(_metaErr){}
+        return font;
+      }
+    }catch(_err){}
+  }
+
+  return null;
+}
+
+function pdeCurrentFontCacheKey(fontName){
+  var idx=pdeEditState&&isFinite(pdeEditState.modelIndex)?pdeEditState.modelIndex:-1,
+      model=idx>=0&&pdeModel[idx]?pdeModel[idx]:null,
+      fi=model?model.fileIndex:-1;
+  return String(fi)+'|'+String(fontName||'');
+}
+
+function pdeCopyFontBytes(data){
+  try{
+    if(!data)return null;
+    if(data instanceof Uint8Array)return new Uint8Array(data);
+    if(data instanceof ArrayBuffer)return new Uint8Array(data.slice(0));
+    if(ArrayBuffer.isView(data))return new Uint8Array(data.buffer.slice(data.byteOffset,data.byteOffset+data.byteLength));
+  }catch(e){}
+  return null;
+}
+
+function pdeCacheEmbeddedFontBytes(fontName,obj){
+  if(!fontName||!obj)return '';
+  var bytes=pdeCopyFontBytes(obj.data),
+      key=pdeCurrentFontCacheKey(fontName);
+
+  if(bytes&&bytes.length>100){
+    pdeEmbeddedFontBytesCache[key]=bytes;
+    return key;
+  }
+  return pdeEmbeddedFontBytesCache[key]?key:'';
+}
+
+function pdeLoadFontkit(){
+  if(window.fontkit)return Promise.resolve(window.fontkit);
+  if(pdeFontkitLoadPromise)return pdeFontkitLoadPromise;
+
+  pdeFontkitLoadPromise=new Promise(function(resolve,reject){
+    var old=document.getElementById('pdeFontkitLoader');
+    if(old){
+      old.addEventListener('load',function(){window.fontkit?resolve(window.fontkit):reject(new Error('FontKit load failed'))},{once:true});
+      old.addEventListener('error',function(){reject(new Error('FontKit load failed'))},{once:true});
+      return;
+    }
+
+    var sc=document.createElement('script');
+    sc.id='pdeFontkitLoader';
+    sc.src='https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js';
+    sc.async=true;
+    sc.onload=function(){
+      if(window.fontkit)resolve(window.fontkit);
+      else reject(new Error('FontKit load failed'));
+    };
+    sc.onerror=function(){reject(new Error('FontKit load failed'))};
+    document.head.appendChild(sc);
+  });
+
+  return pdeFontkitLoadPromise;
+}
+
+function pdeCanReuseOriginalSubsetFont(e){
+  if(!e||!e.autoMatch)return false;
+
+  var oldChars={},
+      oldText=String(e.oldText||''),
+      newText=String(e.text||'');
+
+  Array.from(oldText).forEach(function(ch){
+    if(!/\s/.test(ch))oldChars[ch]=true;
+  });
+
+  var chars=Array.from(newText).filter(function(ch){return !/\s/.test(ch)});
+  if(!chars.length)return true;
+
+  for(var i=0;i<chars.length;i++){
+    if(!oldChars[chars[i]])return false;
+  }
+  return true;
+}
+
+function pdeSoloWordAnchor(info,m){
+  if(!info||!m||!pdeEditState||!pdeEditState.textItems)return 'left';
+
+  var edited={},items=pdeEditState.textItems||[],
+      cy=info.y+info.h/2,right=null,left=null;
+
+  (m.textEdits||[]).forEach(function(e){
+    if(e&&e.itemKey)edited[String(e.itemKey)]=true;
+  });
+
+  items.forEach(function(x){
+    if(!x||x===info)return;
+    if(String(x.itemKey||'')===String(info.itemKey||''))return;
+    if(edited[String(x.itemKey||'')])return;
+
+    var xcy=x.y+x.h/2;
+    if(Math.abs(xcy-cy)>Math.max(4,Math.min(info.h,x.h)*.55))return;
+
+    if(x.x>=info.x+info.w){
+      var g=x.x-(info.x+info.w);
+      if(g<=Math.max(24,info.h*1.8) && (!right||g<right.gap))right={gap:g};
+    }else if(x.x+x.w<=info.x){
+      var g2=info.x-(x.x+x.w);
+      if(g2<=Math.max(24,info.h*1.8) && (!left||g2<left.gap))left={gap:g2};
+    }
+  });
+
+  if(right && (!left || right.gap<=left.gap))return 'right';
+  return 'left';
+}
+
+function pdeEmbeddedFontSupportsText(font,text){
+  text=String(text||'');
+  if(!font)return false;
+
+  var chars=Array.from(text).filter(function(ch){
+    return !/^\s$/.test(ch);
+  });
+
+  if(!chars.length)return true;
+
+  try{
+    var raw=font.embedder&&font.embedder.font;
+
+    if(raw){
+      if(typeof raw.hasGlyphForCodePoint==='function'){
+        for(var i=0;i<chars.length;i++){
+          if(!raw.hasGlyphForCodePoint(chars[i].codePointAt(0)))return false;
+        }
+        return true;
+      }
+
+      if(typeof raw.glyphForCodePoint==='function'){
+        for(var j=0;j<chars.length;j++){
+          var g=raw.glyphForCodePoint(chars[j].codePointAt(0));
+          if(!g || g.id===0 || g.name==='.notdef')return false;
+        }
+        return true;
+      }
+
+      if(raw.characterSet){
+        var set=raw.characterSet;
+
+        for(var k=0;k<chars.length;k++){
+          var cp=chars[k].codePointAt(0),
+              ok=false;
+
+          if(typeof set.has==='function'){
+            ok=set.has(cp);
+          }else if(typeof set.indexOf==='function'){
+            ok=set.indexOf(cp)>=0;
+          }else if(Array.isArray(set)){
+            ok=set.indexOf(cp)>=0;
+          }
+
+          if(!ok)return false;
+        }
+
+        return true;
+      }
+
+      if(typeof raw.layout==='function'){
+        try{
+          var run=raw.layout(text),
+              glyphs=run&&run.glyphs||[];
+
+          if(glyphs.length!==chars.length)return false;
+
+          for(var r=0;r<glyphs.length;r++){
+            if(!glyphs[r] || glyphs[r].id===0 || glyphs[r].name==='.notdef'){
+              return false;
+            }
+          }
+
+          return true;
+        }catch(_layoutErr){}
+      }
+    }
+
+    // Last fallback only: if the font can encode the string without throwing.
+    if(typeof font.encodeText==='function'){
+      try{
+        font.encodeText(text);
+        return true;
+      }catch(_encodeErr){}
+    }
+
+    return false;
+  }catch(_e){
+    return false;
+  }
+}
+
+async function pdeGetOriginalEmbeddedPdfFont(out,jpage,e,fontCache){
+  if(!e||!e.autoMatch)return null;
+
+
+  var pdfJsName=String(e.pdfJsFontName||''),
+      cacheKey=String(e.fontCacheKey||'');
+
+  if(!cacheKey && pdfJsName){
+    cacheKey=pdeCurrentFontCacheKey(pdfJsName);
+  }
+
+  var bytes=cacheKey?pdeEmbeddedFontBytesCache[cacheKey]:null;
+
+  // If bytes were not captured while opening the editor, try once more now.
+  if((!bytes||!bytes.length) && jpage && pdfJsName){
+    try{
+      var obj=await pdeResolvePdfFontObject(jpage,pdfJsName);
+      var raw=pdeCopyFontBytes(obj&&obj.data);
+      if(raw&&raw.length>100){
+        bytes=raw;
+        if(cacheKey)pdeEmbeddedFontBytesCache[cacheKey]=raw;
+      }
+    }catch(e){}
+  }
+
+  if(!bytes||bytes.length<100)return null;
+
+  var embeddedKey='embedded|'+cacheKey+'|'+bytes.length;
+  if(fontCache[embeddedKey]){
+    var cached=fontCache[embeddedKey];
+
+    if(!pdeEmbeddedFontSupportsText(cached,e.text))return null;
+
+    try{
+      cached._pdeSourceBold=!!pdeEffectiveBold(e);
+      cached._pdeSourceFamily=String(e.nativeFamily||e.cssFamily||e.family||e.fontName||'');
+    }catch(_metaErr){}
+
+    return cached;
+  }
+
+  try{
+    var fk=await pdeLoadFontkit();
+    if(!fk)return null;
+
+    if(!out._pdeFontkitRegistered){
+      out.registerFontkit(fk);
+      out._pdeFontkitRegistered=true;
+    }
+
+    // Keep the original face. If the original PDF uses a subset font,
+    // this preserves the same bold/italic glyph design for supported glyphs.
+    var font=await out.embedFont(bytes,{subset:true});
+    fontCache[embeddedKey]=font;
+
+    if(!pdeEmbeddedFontSupportsText(font,e.text)){
+      return null;
+    }
+
+    try{
+      font._pdeSourceBold=!!pdeEffectiveBold(e);
+      font._pdeSourceFamily=String(e.nativeFamily||e.cssFamily||e.family||e.fontName||'');
+    }catch(_metaErr){}
+
+    return font;
+  }catch(err){
+    console.warn('Original embedded font could not be reused:',err);
+    return null;
+  }
+}
+
 function pdePdfFontMeta(page,fontName,styles){
   var sty=(styles&&styles[fontName])||{},obj=null;
   try{if(page&&page.commonObjs)obj=page.commonObjs.get(fontName)}catch(e){obj=null}
   obj=obj||{};
+
+  var loadedName=String(
+    obj.loadedName ||
+    obj.cssFontInfo&&obj.cssFontInfo.fontFamily ||
+    ''
+  ).replace(/["']/g,'');
+
+  var nativeFamily=String(
+    obj.fontFamily ||
+    sty.fontFamily ||
+    obj.name ||
+    loadedName ||
+    fontName ||
+    ''
+  ).replace(/["']/g,'');
+
   var sig=[
     fontName||'',
     sty.fontFamily||'',
@@ -8506,10 +10699,26 @@ function pdePdfFontMeta(page,fontName,styles){
     obj.cssFontInfo&&obj.cssFontInfo.fontFamily||'',
     obj.cssFontInfo&&obj.cssFontInfo.fontWeight||''
   ].join(' ');
-  var bold=!!(obj.bold||obj.black)||/bold|semibold|demibold|demi|black|heavy|extrabold|ultrabold|700|800|900/i.test(sig);
-  var italic=!!obj.italic||Number(obj.italicAngle||0)!==0||/italic|oblique/i.test(sig);
+
+  var bold=!!(obj.bold||obj.black)||
+    /bold|semibold|demibold|demi|black|heavy|extrabold|ultrabold|700|800|900/i.test(sig);
+
+  var italic=!!obj.italic||
+    Number(obj.italicAngle||0)!==0||
+    /italic|oblique/i.test(sig);
+
   var family=pdeCssFamily(obj.fontFamily||sty.fontFamily||'',obj.name||obj.loadedName||fontName||'');
-  return {family:family,bold:bold,italic:italic,fontName:obj.name||obj.loadedName||fontName||'',raw:sig};
+
+  return {
+    family:family,
+    cssFamily:loadedName||nativeFamily||family,
+    loadedName:loadedName,
+    nativeFamily:nativeFamily,
+    bold:bold,
+    italic:italic,
+    fontName:obj.name||obj.loadedName||fontName||'',
+    raw:sig
+  };
 }
 
 function pdeResolvePdfFontObject(page,fontName){
@@ -8533,40 +10742,72 @@ async function pdeBuildPdfFontMetaMap(page,items,styles){
   });
 
   var map={};
+
   await Promise.all(names.map(async function(name){
     var obj=await pdeResolvePdfFontObject(page,name),
-        sty=(styles&&styles[name])||{},
-        sig=[
-          name||'',
-          sty.fontFamily||'',
-          obj&&obj.name||'',
-          obj&&obj.loadedName||'',
-          obj&&obj.fontFamily||'',
-          obj&&obj.fontWeight||'',
-          obj&&obj.cssFontInfo&&obj.cssFontInfo.fontFamily||'',
-          obj&&obj.cssFontInfo&&obj.cssFontInfo.fontWeight||'',
-          obj&&obj.fontMatrix&&obj.fontMatrix.join(',')||''
-        ].join(' ');
+        sty=(styles&&styles[name])||{};
+
+    obj=obj||{};
+
+    var loadedName=String(
+      obj.loadedName ||
+      obj.cssFontInfo&&obj.cssFontInfo.fontFamily ||
+      ''
+    ).replace(/["']/g,'');
+
+    var nativeFamily=String(
+      obj.fontFamily ||
+      sty.fontFamily ||
+      obj.name ||
+      loadedName ||
+      name ||
+      ''
+    ).replace(/["']/g,'');
+
+    var sig=[
+      name||'',
+      sty.fontFamily||'',
+      obj.name||'',
+      obj.loadedName||'',
+      obj.fontFamily||'',
+      obj.fontWeight||'',
+      obj.cssFontInfo&&obj.cssFontInfo.fontFamily||'',
+      obj.cssFontInfo&&obj.cssFontInfo.fontWeight||''
+    ].join(' ');
 
     var weightText=String(
-      obj&&obj.fontWeight ||
-      obj&&obj.cssFontInfo&&obj.cssFontInfo.fontWeight ||
+      obj.fontWeight ||
+      obj.cssFontInfo&&obj.cssFontInfo.fontWeight ||
       ''
     ).toLowerCase();
 
-    var bold=!!(obj&&(obj.bold||obj.black)) ||
-      /bold|semibold|demibold|demi|black|heavy|extrabold|ultrabold/.test(sig.toLowerCase()) ||
-      /^(700|800|900)$/.test(weightText);
+    var numericWeight=parseInt(weightText,10),
+        bold=!!(obj.bold||obj.black) ||
+          /bold|semibold|demibold|demi|black|heavy|extrabold|ultrabold/i.test(sig) ||
+          (isFinite(numericWeight)&&numericWeight>=600),
+        italic=!!obj.italic ||
+          Number(obj.italicAngle||0)!==0 ||
+          /italic|oblique/i.test(sig);
 
-    var italic=!!(obj&&obj.italic) ||
-      Number(obj&&obj.italicAngle||0)!==0 ||
-      /italic|oblique/i.test(sig);
+    var fallbackFamily=pdeCssFamily(
+      obj.fontFamily||sty.fontFamily||'',
+      obj.name||obj.loadedName||name||''
+    );
+
+    var fontCacheKey=pdeCacheEmbeddedFontBytes(name,obj);
 
     map[name]={
-      family:pdeCssFamily(obj&&obj.fontFamily||sty.fontFamily||'',obj&&obj.name||obj&&obj.loadedName||name||''),
+      family:fallbackFamily,
+      cssFamily:loadedName||nativeFamily||fallbackFamily,
+      loadedName:loadedName,
+      nativeFamily:nativeFamily,
       bold:!!bold,
       italic:!!italic,
-      fontName:obj&&obj.name||obj&&obj.loadedName||name||'',
+      fontWeight:isFinite(numericWeight)?numericWeight:(bold?700:400),
+      fontName:obj.name||obj.loadedName||name||'',
+      pdfJsFontName:name,
+      fontCacheKey:fontCacheKey,
+      hasEmbeddedFont:!!fontCacheKey,
       raw:sig
     };
   }));
@@ -8576,7 +10817,7 @@ async function pdeBuildPdfFontMetaMap(page,items,styles){
 
 
 function pdeInkRatio(info,bgHex){
-  var canvas=document.getElementById('pdeEditCanvas');
+  var canvas=pdeGetAnalysisCanvas();
   if(!canvas||!info)return NaN;
   var ctx=canvas.getContext('2d',{willReadFrequently:true}),
       bg=pdeHexRgb(bgHex||'#ffffff'),
@@ -8637,26 +10878,87 @@ function pdeSmartBoldForInfo(info,bgHex){
 }
 
 function pdeSplitPdfTextItemIntoWords(it,n,tx,fontH,scale,styles,layer,page,fontMetaMap){
-  var str=String(it.str||'');if(!str.trim())return 0;
-  var x=tx[4],y=tx[5]-fontH,totalW=Math.max(4,Math.abs((it.width||0)*scale)),h=Math.max(5,fontH*1.08);
+  var str=String(it.str||'');
+  if(!str.trim())return 0;
+
+  var x=tx[4],
+      y=tx[5]-fontH,
+      totalW=Math.max(4,Math.abs((it.width||0)*scale)),
+      h=Math.max(5,fontH*1.08);
+
   if(!isFinite(x+y+totalW+h))return 0;
+
   var meta=(fontMetaMap&&fontMetaMap[it.fontName])||pdePdfFontMeta(page,it.fontName,styles),
       family=meta.family,
-      sig=meta.raw;
+      exactFamily=meta.cssFamily||meta.loadedName||family;
+
   var test=document.createElement('canvas').getContext('2d');
-  test.font=(meta.italic?'italic ':'')+(meta.bold?'700 ':'400 ')+Math.max(5,fontH)+'px "'+family+'"';
-  var fullMeasured=Math.max(1,test.measureText(str).width),matches=[],m,re=/\S+/g;
-  while((m=re.exec(str))!==null)matches.push({text:m[0],start:m.index,end:m.index+m[0].length});
+
+  // PDF.js gives each embedded face its own loaded font family.
+  // When that exact face exists, do not synthesize bold/italic again.
+  if(meta.loadedName && pdeFontAvailable(exactFamily,false,false)){
+    test.font=Math.max(5,fontH)+'px "'+exactFamily+'"';
+  }else{
+    test.font=(meta.italic?'italic ':'')+(meta.bold?'700 ':'400 ')+Math.max(5,fontH)+'px "'+family+'"';
+  }
+
+  var fullMeasured=Math.max(1,test.measureText(str).width),
+      pdfScaleX=totalW/fullMeasured;
+
+  if(!isFinite(pdfScaleX)||pdfScaleX<=0)pdfScaleX=1;
+  pdfScaleX=Math.max(.35,Math.min(3,pdfScaleX));
+
+  var matches=[],m,re=/\S+/g;
+  while((m=re.exec(str))!==null){
+    matches.push({text:m[0],start:m.index,end:m.index+m[0].length});
+  }
+
   if(!matches.length)return 0;
+
   matches.forEach(function(tok,wi){
-    var pre=str.slice(0,tok.start),upto=str.slice(0,tok.end);
-    var a=test.measureText(pre).width/fullMeasured,b=test.measureText(upto).width/fullMeasured;
-    if(!isFinite(a)||!isFinite(b)||b<=a){a=tok.start/Math.max(1,str.length);b=tok.end/Math.max(1,str.length)}
-    var wx=x+a*totalW,ww=Math.max(5,(b-a)*totalW);
-    var baselineY=tx[5],baselineOffsetRatio=(baselineY-y)/Math.max(1,h);
-    var info={text:tok.text,x:wx,y:y,w:ww,h:h,fontSizePt:fontH/scale,family:family,fontName:meta.fontName||it.fontName||'',bold:!!meta.bold,italic:!!meta.italic,baselineOffsetRatio:baselineOffsetRatio,itemKey:'pdf_'+n+'_'+wi,source:'pdf'};
+    var pre=str.slice(0,tok.start),
+        upto=str.slice(0,tok.end),
+        a=test.measureText(pre).width/fullMeasured,
+        b=test.measureText(upto).width/fullMeasured;
+
+    if(!isFinite(a)||!isFinite(b)||b<=a){
+      a=tok.start/Math.max(1,str.length);
+      b=tok.end/Math.max(1,str.length);
+    }
+
+    var wx=x+a*totalW,
+        ww=Math.max(5,(b-a)*totalW),
+        baselineY=tx[5],
+        baselineOffsetRatio=(baselineY-y)/Math.max(1,h),
+        exactSize=fontH/scale;
+
+    var info={
+      text:tok.text,
+      x:wx,y:y,w:ww,h:h,
+      fontSizePt:exactSize,
+      originalFontSizePt:exactSize,
+      family:family,
+      cssFamily:meta.cssFamily||family,
+      loadedName:meta.loadedName||'',
+      nativeFamily:meta.nativeFamily||family,
+      fontName:meta.fontName||it.fontName||'',
+      pdfJsFontName:meta.pdfJsFontName||it.fontName||'',
+      fontCacheKey:meta.fontCacheKey||'',
+      hasEmbeddedFont:!!meta.hasEmbeddedFont,
+      fontWeight:Number(meta.fontWeight)||(meta.bold?700:400),
+      bold:!!meta.bold,
+      italic:!!meta.italic,
+      originalBold:!!meta.bold,
+      originalItalic:!!meta.italic,
+      pdfScaleX:pdfScaleX,
+      baselineOffsetRatio:baselineOffsetRatio,
+      itemKey:'pdf_'+n+'_'+wi,
+      source:'pdf'
+    };
+
     pdeAddWordHit(info,layer,false);
   });
+
   return matches.length;
 }
 var pdeTesseractPromise=null;
@@ -8696,25 +10998,87 @@ async function pdeOcrDetectWords(){
 }
 
 async function pdeOpenTextEditor(){
-  var sel=document.getElementById('pdeEditPage'),idx=parseInt(sel.value,10),st=document.getElementById('pdeEditStatus');
-  if(!isFinite(idx)||!pdeModel[idx]){alert('पहले PDF page चुनें');return}
-  pdeEditState.modelIndex=idx;pdeEditState.selected=-1;st.textContent='Page text load हो रहा है…';
-  document.getElementById('pdeEditorArea').classList.remove('hidden');
+  var sel=document.getElementById('pdeEditPage'),
+      idx=parseInt(sel.value,10),
+      st=document.getElementById('pdeEditStatus');
+
+  if(!isFinite(idx)||!pdeModel[idx]){
+    alert('पहले PDF page चुनें');
+    return;
+  }
+
+  pdeEditState.modelIndex=idx;
+  pdeEditState.selected=-1;
+  pdeShowSimpleStyleBar(false);
+  st.textContent='Page text load हो रहा है…';
+
+  var area=document.getElementById('pdeEditorArea'),
+      notice=document.getElementById('pdeOpenNotice');
+
+  area.classList.remove('hidden');
+
+  if(notice)notice.textContent='PDF OPENING…';
+
+  try{
+    area.scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(_e){
+    try{area.scrollIntoView()}catch(__e){}
+  }
+
   await pdeRenderTextEditorPage();
+
+  if(notice)notice.textContent='PDF OPEN ✓ text पर tap करें';
+
+  setTimeout(function(){
+    var stage=document.getElementById('pdeEditStage');
+    if(stage){
+      try{
+        stage.scrollIntoView({behavior:'smooth',block:'center'});
+      }catch(_e){
+        try{stage.scrollIntoView()}catch(__e){}
+      }
+    }
+  },80);
 }
 
 async function pdeRenderTextEditorPage(){
   var idx=pdeEditState.modelIndex,m=pdeModel[idx];if(!m)return;
   var st=document.getElementById('pdeEditStatus'),canvas=document.getElementById('pdeEditCanvas'),layer=document.getElementById('pdeTextLayer');
-  layer.innerHTML='';pdeEditState.textItems=[];pdeEditState.selected=-1;pdeEditState.moveBox=null;pdeRemoveMoveGuide();
+  pdePageFontCandidateCache={};layer.innerHTML='';pdeEditState.textItems=[];pdeEditState.selected=-1;pdeLivePdfDraftDirty=false;pdeAnalysisCanvas=null;pdeEditState.moveBox=null;pdeShowSimpleStyleBar(false);pdeRemoveMoveGuide();
   try{
-    var pdf=await window.pdfjsLib.getDocument({data:new Uint8Array(pdeBuffers[m.fileIndex].slice(0))}).promise;
-    var page=await pdf.getPage(m.pageIndex+1),rot=((page.rotate||0)+m.rotation)%360,scale=pdeEditState.scale;
-    var vp=page.getViewport({scale:scale,rotation:rot});pdeEditState.viewport=vp;
-    canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
-    var stage=document.getElementById('pdeEditStage');stage.style.width=canvas.width+'px';stage.style.height=canvas.height+'px';pdeBindManualSelection();
-    await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
-    pdeDrawEditsOnCanvas(canvas,m.textEdits||[],scale);
+    var pdf=await pdeOpenPdfJsDocument(
+      pdeBuffers[m.fileIndex].slice(0),
+      m.fileIndex,
+      m.name,
+      {fontExtraProperties:true}
+    );
+    var page=await pdf.getPage(m.pageIndex+1),
+        rot=((page.rotate||0)+m.rotation)%360,
+        scale=pdeEditState.scale,
+        renderRatio=pdeEditorRenderRatio(),
+        vp=page.getViewport({scale:scale,rotation:rot}),
+        renderVp=page.getViewport({scale:scale*renderRatio,rotation:rot});
+
+    pdeEditState.viewport=vp;
+    pdeEditState.renderRatio=renderRatio;
+
+    canvas.width=Math.max(1,Math.ceil(renderVp.width));
+    canvas.height=Math.max(1,Math.ceil(renderVp.height));
+    canvas.style.width=Math.ceil(vp.width)+'px';
+    canvas.style.height=Math.ceil(vp.height)+'px';
+
+    var stage=document.getElementById('pdeEditStage');
+    stage.style.width=Math.ceil(vp.width)+'px';
+    stage.style.height=Math.ceil(vp.height)+'px';
+    pdeBindManualSelection();
+
+    await page.render({
+      canvasContext:canvas.getContext('2d',{alpha:false}),
+      viewport:renderVp
+    }).promise;
+
+    pdeCaptureLivePdfBase(canvas);
+    pdeDrawEditsOnCanvas(canvas,m.textEdits||[],scale*renderRatio);
     try{await page.getOperatorList()}catch(e){}
     var tc=await page.getTextContent(),styles=tc.styles||{},Util=window.pdfjsLib.Util;
     var fontMetaMap=await pdeBuildPdfFontMetaMap(page,tc.items,styles);
@@ -8848,7 +11212,7 @@ function pdeHexRgb(hex){
   return {r:parseInt(hex.slice(0,2),16)||0,g:parseInt(hex.slice(2,4),16)||0,b:parseInt(hex.slice(4,6),16)||0};
 }
 function pdeAutoBackgroundForInfo(info){
-  var canvas=document.getElementById('pdeEditCanvas');if(!canvas||!info)return '#ffffff';
+  var canvas=pdeGetAnalysisCanvas();if(!canvas||!info)return '#ffffff';
   var ctx=canvas.getContext('2d',{willReadFrequently:true}),W=canvas.width,H=canvas.height;
   var x0=Math.max(0,Math.floor(info.x)),y0=Math.max(0,Math.floor(info.y)),x1=Math.min(W-1,Math.ceil(info.x+info.w)),y1=Math.min(H-1,Math.ceil(info.y+info.h));
   var pad=Math.max(3,Math.round(Math.min(10,Math.max(4,info.h*.35)))),samples=[];
@@ -8864,57 +11228,156 @@ function pdeAutoBackgroundForInfo(info){
   if(!best)return '#ffffff';return pdeRgbToHex(best.r/best.n,best.g/best.n,best.b/best.n);
 }
 function pdeAutoTextColorForInfo(info,bgHex){
-  var canvas=document.getElementById('pdeEditCanvas');if(!canvas||!info)return '#000000';
-  var ctx=canvas.getContext('2d',{willReadFrequently:true}),W=canvas.width,H=canvas.height,bg=pdeHexRgb(bgHex),vals=[];
-  var x0=Math.max(0,Math.floor(info.x)),y0=Math.max(0,Math.floor(info.y)),x1=Math.min(W-1,Math.ceil(info.x+info.w)),y1=Math.min(H-1,Math.ceil(info.y+info.h));
-  var sw=Math.max(1,x1-x0+1),sh=Math.max(1,y1-y0+1),d=ctx.getImageData(x0,y0,sw,sh).data;
-  for(var i=0;i<d.length;i+=4){if(d[i+3]<30)continue;var dr=d[i]-bg.r,dg=d[i+1]-bg.g,db=d[i+2]-bg.b,dist=Math.sqrt(dr*dr+dg*dg+db*db);if(dist>34)vals.push({r:d[i],g:d[i+1],b:d[i+2],dist:dist})}
-  if(!vals.length)return '#000000';vals.sort(function(a,b){return b.dist-a.dist});vals=vals.slice(0,Math.max(3,Math.ceil(vals.length*.35)));
-  vals.sort(function(a,b){return (a.r+a.g+a.b)-(b.r+b.g+b.b)});var v=vals[Math.floor(vals.length*.45)];
-  var lum=0.2126*v.r+0.7152*v.g+0.0722*v.b;
-  var spread=Math.max(v.r,v.g,v.b)-Math.min(v.r,v.g,v.b);
-  // Neutral/dark document text should stay truly black, not anti-aliased grey.
-  if(lum<170 || (spread<38 && lum<225))return '#000000';
-  return pdeRgbToHex(v.r,v.g,v.b);
+  var canvas=pdeGetAnalysisCanvas();
+  if(!canvas||!info)return '#000000';
+
+  var ctx=canvas.getContext('2d',{willReadFrequently:true}),
+      W=canvas.width,H=canvas.height,
+      bg=pdeHexRgb(bgHex||'#ffffff'),
+      padX=Math.max(1,Math.min(3,(Number(info.h)||10)*.08)),
+      padY=Math.max(1,Math.min(3,(Number(info.h)||10)*.08)),
+      x0=Math.max(0,Math.floor((Number(info.x)||0)-padX)),
+      y0=Math.max(0,Math.floor((Number(info.y)||0)-padY)),
+      x1=Math.min(W,Math.ceil((Number(info.x)||0)+(Number(info.w)||1)+padX)),
+      y1=Math.min(H,Math.ceil((Number(info.y)||0)+(Number(info.h)||1)+padY)),
+      w=Math.max(1,x1-x0),
+      h=Math.max(1,y1-y0),
+      data=ctx.getImageData(x0,y0,w,h).data,
+      ink=[],
+      saturated=[];
+
+  for(var i=0;i<data.length;i+=4){
+    if(data[i+3]<40)continue;
+
+    var r=data[i],g=data[i+1],b=data[i+2],
+        dr=r-bg.r,dg=g-bg.g,db=b-bg.b,
+        dist=Math.sqrt(dr*dr+dg*dg+db*db);
+
+    if(dist<42)continue;
+    if(r>246&&g>246&&b>246)continue;
+
+    var maxc=Math.max(r,g,b),
+        minc=Math.min(r,g,b),
+        sat=maxc-minc,
+        lum=.2126*r+.7152*g+.0722*b;
+
+    var px={r:r,g:g,b:b,sat:sat,lum:lum,dist:dist};
+    ink.push(px);
+
+    if(sat>=34)saturated.push(px);
+  }
+
+  if(!ink.length)return '#000000';
+
+  /*
+    Decide first whether this is genuinely coloured text or grayscale/black.
+    Anti-aliased black text creates many gray pixels, so for grayscale text
+    we deliberately use the darkest real ink rather than the most common gray.
+  */
+  var colorRatio=saturated.length/ink.length;
+
+  if(colorRatio<.18){
+    var grayInk=ink.slice().sort(function(a,b){return a.lum-b.lum});
+
+    // Median of darkest ~22% ignores one-off black noise but keeps black text black.
+    var take=Math.max(1,Math.ceil(grayInk.length*.22)),
+        dark=grayInk.slice(0,take),
+        rs=dark.map(function(p){return p.r}),
+        gs=dark.map(function(p){return p.g}),
+        bs=dark.map(function(p){return p.b});
+
+    function med(a){
+      a.sort(function(x,y){return x-y});
+      return a[Math.floor(a.length/2)];
+    }
+
+    var rr=med(rs),gg=med(gs),bb=med(bs),
+        lum=.2126*rr+.7152*gg+.0722*bb,
+        spread=Math.max(rr,gg,bb)-Math.min(rr,gg,bb);
+
+    // Near-black/grayscale original text should not become light gray.
+    if(spread<24 && lum<95)return '#000000';
+
+    // Preserve genuinely dark-gray text, but clamp it so antialiasing cannot
+    // lift it into a visibly light gray.
+    if(spread<24 && lum<145){
+      var v=Math.max(0,Math.min(90,Math.round((rr+gg+bb)/3)));
+      return pdeRgbToHex(v,v,v);
+    }
+
+    return pdeRgbToHex(rr,gg,bb);
+  }
+
+  // Coloured text path: cluster saturated ink pixels and keep the real colour.
+  var bins={},bestKey='',bestScore=-1;
+
+  saturated.forEach(function(p){
+    var qr=Math.round(p.r/24)*24,
+        qg=Math.round(p.g/24)*24,
+        qb=Math.round(p.b/24)*24,
+        key=qr+','+qg+','+qb,
+        weight=1 + Math.min(2.5,p.dist/100) + Math.min(1.8,p.sat/85);
+
+    bins[key]=(bins[key]||0)+weight;
+
+    if(bins[key]>bestScore){
+      bestScore=bins[key];
+      bestKey=key;
+    }
+  });
+
+  if(!bestKey)return '#000000';
+
+  var parts=bestKey.split(',').map(Number),
+      target={r:parts[0],g:parts[1],b:parts[2]},
+      rs=[],gs=[],bs=[];
+
+  saturated.forEach(function(p){
+    var cd=Math.sqrt(
+      (p.r-target.r)*(p.r-target.r)+
+      (p.g-target.g)*(p.g-target.g)+
+      (p.b-target.b)*(p.b-target.b)
+    );
+    if(cd<=44){
+      rs.push(p.r);gs.push(p.g);bs.push(p.b);
+    }
+  });
+
+  function med2(a){
+    if(!a.length)return 0;
+    a.sort(function(x,y){return x-y});
+    return a[Math.floor(a.length/2)];
+  }
+
+  if(!rs.length)return pdeRgbToHex(target.r,target.g,target.b);
+
+  return pdeRgbToHex(med2(rs),med2(gs),med2(bs));
 }
 function pdeSafeCoverBox(info,bgHex){
-  var canvas=document.getElementById('pdeEditCanvas');
-  if(!canvas||!info)return {x:info.x,y:info.y,w:info.w,h:info.h};
-  var ctx=canvas.getContext('2d',{willReadFrequently:true}),W=canvas.width,H=canvas.height,bg=pdeHexRgb(bgHex||'#ffffff');
-  var x=Number(info.x)||0,y=Number(info.y)||0,w=Math.max(1,Number(info.w)||1),h=Math.max(1,Number(info.h)||1);
-  function dark(px,py){
-    px=Math.max(0,Math.min(W-1,Math.round(px)));py=Math.max(0,Math.min(H-1,Math.round(py)));
-    var d=ctx.getImageData(px,py,1,1).data,dr=d[0]-bg.r,dg=d[1]-bg.g,db=d[2]-bg.b;
-    return Math.sqrt(dr*dr+dg*dg+db*db)>58;
+  if(!info){
+    return {x:0,y:0,w:1,h:1};
   }
-  function verticalScore(px){
-    var ext=Math.max(5,h*.75),a=Math.max(0,Math.floor(y-ext)),b=Math.min(H-1,Math.ceil(y+h+ext)),n=0,c=0;
-    for(var yy=a;yy<=b;yy+=2){n++;if(dark(px,yy))c++;}
-    return n?c/n:0;
-  }
-  function horizontalScore(py){
-    var ext=Math.max(7,w*.35),a=Math.max(0,Math.floor(x-ext)),b=Math.min(W-1,Math.ceil(x+w+ext)),n=0,c=0;
-    for(var xx=a;xx<=b;xx+=2){n++;if(dark(xx,py))c++;}
-    return n?c/n:0;
-  }
-  var range=4,bestL=null,bestR=null,bestT=null,bestB=null;
-  for(var q=-range;q<=range;q++){
-    var lx=x+q,rx=x+w+q,ts=y+q,bs=y+h+q;
-    var sl=verticalScore(lx);if(sl>.72&&(!bestL||sl>bestL.s))bestL={p:lx,s:sl};
-    var sr=verticalScore(rx);if(sr>.72&&(!bestR||sr>bestR.s))bestR={p:rx,s:sr};
-    var st=horizontalScore(ts);if(st>.72&&(!bestT||st>bestT.s))bestT={p:ts,s:st};
-    var sb=horizontalScore(bs);if(sb>.72&&(!bestB||sb>bestB.s))bestB={p:bs,s:sb};
-  }
-  // Keep the cover just inside detected table/grid borders.
-  var gap=1.25;
-  var left=x,right=x+w,top=y,bottom=y+h;
-  if(bestL)left=Math.max(left,bestL.p+gap);
-  if(bestR)right=Math.min(right,bestR.p-gap);
-  if(bestT)top=Math.max(top,bestT.p+gap);
-  if(bestB)bottom=Math.min(bottom,bestB.p-gap);
-  if(right-left<Math.max(2,w*.55)){left=x;right=x+w;}
-  if(bottom-top<Math.max(2,h*.55)){top=y;bottom=y+h;}
-  return {x:left,y:top,w:Math.max(1,right-left),h:Math.max(1,bottom-top)};
+
+  var x=Number(info.x)||0,
+      y=Number(info.y)||0,
+      w=Math.max(1,Number(info.w)||1),
+      h=Math.max(1,Number(info.h)||1);
+
+  /*
+    SAFE WORD COVER:
+    Small allowance clears leftover antialias/punctuation strokes,
+    but never scans outward into neighbouring words.
+  */
+  var padX=Math.min(.70,Math.max(.25,h*.022)),
+      padTop=Math.min(.85,Math.max(.25,h*.028)),
+      padBottom=Math.min(1.05,Math.max(.35,h*.036));
+
+  return {
+    x:Math.max(0,x-padX),
+    y:Math.max(0,y-padTop),
+    w:w+padX*2,
+    h:h+padTop+padBottom
+  };
 }
 
 function pdeNearestTextInfo(x,y){
@@ -8939,32 +11402,99 @@ function pdeLineIdsFromWord(id){
   return same.slice(left,right+1).map(function(z){return z.id});
 }
 function pdeSelectLineFromWord(id){
-  var items=pdeEditState.textItems||[],base=items[id];if(!base)return;
-  var ids=pdeLineIdsFromWord(id);if(!ids.length){pdeSelectText(id);return}
-  var list=ids.map(function(i){return items[i]}).sort(function(a,b){return a.x-b.x});
-  var minX=Math.min.apply(null,list.map(function(x){return x.x})),minY=Math.min.apply(null,list.map(function(x){return x.y}));
-  var maxX=Math.max.apply(null,list.map(function(x){return x.x+x.w})),maxY=Math.max.apply(null,list.map(function(x){return x.y+x.h}));
-  var text='';
-  list.forEach(function(it,n){if(n){var prev=list[n-1],gap=it.x-(prev.x+prev.w);text+=(gap>Math.max(10,base.h*.85)?'  ':' ')}text+=it.text});
-  var baseBaseline=base.y+base.h*(isFinite(Number(base.baselineOffsetRatio))?Number(base.baselineOffsetRatio):.92);
-  var lineBaselineOffsetRatio=(baseBaseline-minY)/Math.max(1,maxY-minY);
-  var info={text:text,x:minX,y:minY,w:Math.max(6,maxX-minX),h:Math.max(7,maxY-minY),fontSizePt:base.fontSizePt,family:base.family,fontName:base.fontName,bold:base.bold,italic:base.italic,baselineOffsetRatio:lineBaselineOffsetRatio,itemKey:'line_'+pdeEditState.modelIndex+'_'+ids.join('_'),source:'line',lineIds:ids};
+  if(pdeLivePdfDraftDirty)pdeRenderCommittedPdfEdits();
+  var items=pdeEditState.textItems||[],base=items[id];
+  if(!base)return;
+
+  var ids=pdeLineIdsFromWord(id);
+  if(!ids.length){pdeSelectText(id);return}
+
+  var list=ids.map(function(i){return items[i]}).sort(function(a,b){return a.x-b.x}),
+      minX=Math.min.apply(null,list.map(function(x){return x.x})),
+      minY=Math.min.apply(null,list.map(function(x){return x.y})),
+      maxX=Math.max.apply(null,list.map(function(x){return x.x+x.w})),
+      maxY=Math.max.apply(null,list.map(function(x){return x.y+x.h})),
+      text='';
+
+  list.forEach(function(it,n){
+    if(n){
+      var prev=list[n-1],
+          gap=it.x-(prev.x+prev.w);
+      text+=(gap>Math.max(10,base.h*.85)?'  ':' ');
+    }
+    text+=it.text;
+  });
+
+  var baseBaseline=base.y+base.h*(isFinite(Number(base.baselineOffsetRatio))?Number(base.baselineOffsetRatio):.92),
+      lineBaselineOffsetRatio=(baseBaseline-minY)/Math.max(1,maxY-minY);
+
+  var info={
+    text:text,
+    x:minX,y:minY,w:Math.max(6,maxX-minX),h:Math.max(7,maxY-minY),
+    fontSizePt:base.fontSizePt,
+    originalFontSizePt:base.originalFontSizePt||base.fontSizePt,
+    family:base.family,
+    cssFamily:base.cssFamily||base.family,
+    loadedName:base.loadedName||'',
+    nativeFamily:base.nativeFamily||base.family,
+    fontName:base.fontName,
+    pdfJsFontName:base.pdfJsFontName||'',
+    fontCacheKey:base.fontCacheKey||'',
+    hasEmbeddedFont:!!base.hasEmbeddedFont,
+    fontWeight:Number(base.fontWeight)||(base.bold?700:400),
+    bold:base.bold,
+    italic:base.italic,
+    originalBold:base.originalBold!==undefined?base.originalBold:base.bold,
+    originalItalic:base.originalItalic!==undefined?base.originalItalic:base.italic,
+    pdfScaleX:isFinite(Number(base.pdfScaleX))?Number(base.pdfScaleX):1,
+    baselineOffsetRatio:lineBaselineOffsetRatio,
+    itemKey:'line_'+pdeEditState.modelIndex+'_'+ids.join('_'),
+    source:'line',
+    lineIds:ids
+  };
+
   pdeRememberOriginalBox(info);
-  pdeEditState.addMode=false;pdeEditState.rowMode=false;pdeEditState.rowBox=null;var rg=document.getElementById('pdeRowGuide');if(rg)rg.remove();pdeEditState.lineBox=info;pdeEditState.selected=-4;
-  var ab=document.getElementById('pdeAddTextBtn');if(ab)ab.classList.remove('pde-add-mode');
-  Array.from(document.querySelectorAll('#pdeTextLayer .pde-text-hit')).forEach(function(x){x.classList.remove('sel')});
-  ids.forEach(function(i){var el=document.querySelector('#pdeTextLayer .pde-text-hit[data-id="'+i+'"]');if(el)el.classList.add('sel')});
-  document.getElementById('pdeOldText').value=info.text;document.getElementById('pdeNewText').value=info.text;
+
+  pdeEditState.addMode=false;
+  pdeEditState.rowMode=false;
+  pdeEditState.rowBox=null;
+
+  var rg=document.getElementById('pdeRowGuide');
+  if(rg)rg.remove();
+
+  pdeEditState.lineBox=info;
+  pdeEditState.selected=-4;
+
+  var ab=document.getElementById('pdeAddTextBtn');
+  if(ab)ab.classList.remove('pde-add-mode');
+
+  Array.from(document.querySelectorAll('#pdeTextLayer .pde-text-hit')).forEach(function(x){
+    x.classList.remove('sel');
+  });
+
+  ids.forEach(function(i){
+    var el=document.querySelector('#pdeTextLayer .pde-text-hit[data-id="'+i+'"]');
+    if(el)el.classList.add('sel');
+  });
+
+  document.getElementById('pdeOldText').value=info.text;
+  document.getElementById('pdeNewText').value=info.text;
+
   pdeSyncStyleControls(info,false);
-  document.getElementById('pdeSelectedInfo').textContent='पूरी line selected ✓ Smart Match style पढ़ लिया गया. पीला box drag करके move कर सकते हैं.';pdeShowMoveGuide(info);
+
+  document.getElementById('pdeSelectedInfo').textContent='पूरी line selected ✓ Original font/size/style match.';
+  pdeShowMoveGuide(info);
 }
 
 function pdeSelectText(id){
+  if(pdeLivePdfDraftDirty)pdeRenderCommittedPdfEdits();
   var info=pdeEditState.textItems[id];if(!info)return;pdeRememberOriginalBox(info);pdeEditState.lineBox=null;pdeEditState.addMode=false;pdeEditState.rowMode=false;pdeEditState.rowBox=null;var rg=document.getElementById('pdeRowGuide');if(rg)rg.remove();var ab=document.getElementById('pdeAddTextBtn');if(ab)ab.classList.remove('pde-add-mode');pdeEditState.selected=id;
   Array.from(document.querySelectorAll('#pdeTextLayer .pde-text-hit')).forEach(function(x){x.classList.remove('sel')});
   var el=document.querySelector('#pdeTextLayer .pde-text-hit[data-id="'+id+'"]');if(el)el.classList.add('sel');
   document.getElementById('pdeOldText').value=info.text;document.getElementById('pdeNewText').value=info.text;
   pdeSyncStyleControls(info,false);
+  var aas=document.getElementById('pdeAutoApplyState');
+  if(aas)aas.textContent='TYPE करें • AUTO APPLY ON';
   document.getElementById('pdeSelectedInfo').textContent='Selected: "'+info.text+'" — Smart Match style पढ़ लिया गया. पीला box drag करके move कर सकते हैं.';pdeShowMoveGuide(info);
 }
 
@@ -8973,8 +11503,15 @@ function pdeApplyTextEdit(){
   if(!m||!info){alert('पहले existing word/line पर tap करें');return}
 
   var txt=document.getElementById('pdeNewText').value,
-      fs=parseFloat(document.getElementById('pdeFontSize').value)||Number(info.fontSizePt)||12,
-      mode=(document.getElementById('pdeFontMode')||{}).value||'auto';
+      fsEl=document.getElementById('pdeFontSize'),
+      rawFs=parseFloat(fsEl&&fsEl.value),
+      mode=(document.getElementById('pdeFontMode')||{}).value||'auto',
+      autoExact=Number(fsEl&&fsEl.dataset&&fsEl.dataset.pdeAutoExact),
+      autoShown=String(fsEl&&fsEl.dataset&&fsEl.dataset.pdeAutoShown||''),
+      currentShown=String(fsEl&&fsEl.value||''),
+      fs=(mode==='auto'&&isFinite(autoExact)&&currentShown===autoShown)
+        ?autoExact
+        :(isFinite(rawFs)?rawFs:(Number(info.originalFontSizePt||info.fontSizePt)||12));
 
   if(!isFinite(fs)||fs<=0){alert('Font size सही भरें');return}
 
@@ -8989,10 +11526,29 @@ function pdeApplyTextEdit(){
       align=(document.getElementById('pdeAlign')||{}).value||'auto',
       lineSpacing=parseFloat((document.getElementById('pdeLineSpacing')||{}).value)||1.05,
       letterSpacing=parseFloat((document.getElementById('pdeLetterSpacing')||{}).value)||0,
-      widthMode=(document.getElementById('pdeWidthMode')||{}).value||'smart',
+      widthMode=(document.getElementById('pdeWidthMode')||{}).value||'natural',
       fitWidth=!!((document.getElementById('pdeFitWidth')||{}).checked),
       bg=(document.getElementById('pdeBgColor')||{}).value||'#ffffff',
       color=(document.getElementById('pdeTextColor')||{}).value||'#000000';
+
+  if(!isNew){
+    try{
+      color=info._pdeDetectedColor || pdeAutoTextColorForInfo(pdeOriginalInfo(info),bg) || color;
+      var tcEl=document.getElementById('pdeTextColor');
+      if(tcEl)tcEl.value=color;
+    }catch(_e){}
+  }
+
+  var smartAlign=info._pdeSmartAlign || pdeSmartAlignForInfo(info),
+      fsManual=fsEl&&fsEl.dataset&&fsEl.dataset.pdeAutoShown==='__manual__',
+      smartFit=pdeSmartFitDecision(info,txt,fs);
+
+  if(mode==='auto' && !fsManual && smartFit.fit){
+    fs=smartFit.size;
+    fitWidth=true;
+  }
+
+  pdeRestoreLivePdfBase();
 
   var coverInfo=isNew?info:pdeOriginalInfo(info),
       safeCover=isNew?coverInfo:pdeSafeCoverBox(coverInfo,bg),
@@ -9000,21 +11556,41 @@ function pdeApplyTextEdit(){
 
   if(!isFinite(br))br=.92;
 
+  var soloAnchor=pdeSoloWordAnchor(info,m);
+
   var edit={
     itemKey:info.itemKey,oldText:info.text||'',text:txt,
     xRatio:info.x/vp.width,yRatio:info.y/vp.height,wRatio:info.w/vp.width,hRatio:info.h/vp.height,
     coverXRatio:safeCover.x/vp.width,coverYRatio:safeCover.y/vp.height,
     coverWRatio:safeCover.w/vp.width,coverHRatio:safeCover.h/vp.height,
-    fontSizePt:fs,family:fam,fontName:info.fontName||'',
-    bold:bold,italic:italic,baselineOffsetRatio:br,
+    fontSizePt:fs,
+    family:fam,
+    cssFamily:mode==='auto'?(info.cssFamily||info.loadedName||info.nativeFamily||info.family||fam):fam,
+    loadedName:mode==='auto'?(info.loadedName||''):'',
+    nativeFamily:mode==='auto'?(info.nativeFamily||info.family||fam):fam,
+    fontName:info.fontName||'',
+    pdfJsFontName:info.pdfJsFontName||'',
+    fontCacheKey:info.fontCacheKey||'',
+    hasEmbeddedFont:!!info.hasEmbeddedFont,
+    fontWeight:Number(info.fontWeight)||(bold?700:400),
+    bold:bold,
+    italic:italic,
+    boldLevel:isFinite(Number(info._pdeBoldLevel))?Number(info._pdeBoldLevel):0,
+    originalBold:info.originalBold!==undefined?info.originalBold:autoBold,
+    originalItalic:info.originalItalic!==undefined?info.originalItalic:autoItalic,
+    originalFontSizePt:Number(info.originalFontSizePt||info.fontSizePt)||fs,
+    pdfScaleX:isFinite(Number(info.pdfScaleX))?Number(info.pdfScaleX):1,
+    baselineOffsetRatio:br,
     autoMatch:mode==='auto',color:color,bg:bg,
     fitWidth:fitWidth||widthMode==='fit',
-    matchWidth:widthMode==='smart',
+    matchWidth:false,
+    smartAlign:smartAlign,
+    soloAnchor:soloAnchor,
     align:align,isNew:isNew,lineSpacing:lineSpacing,letterSpacing:letterSpacing
   };
   m.textEdits=(m.textEdits||[]).filter(function(e){return e.itemKey!==edit.itemKey});m.textEdits.push(edit);
   pdeEditState.manualMode=false;pdeEditState.manualBox=null;pdeEditState.addMode=false;pdeEditState.addBox=null;pdeEditState.rowMode=false;pdeEditState.rowBox=null;pdeEditState.moveBox=null;pdeRemoveMoveGuide();var ab=document.getElementById('pdeAddTextBtn');if(ab)ab.classList.remove('pde-add-mode');var rb=document.getElementById('pdeAddRowBtn');if(rb)rb.classList.remove('pde-add-mode');var rg=document.getElementById('pdeRowGuide');if(rg)rg.remove();
-  document.getElementById('pdeEditStatus').textContent=isNew?'New text added ✓ PDF में vector text रहेगा.':'Text change applied ✓ Download PDF करने तक edit इस page पर रहेगा.';
+  document.getElementById('pdeEditStatus').textContent=isNew?'New text added ✓ Vector text.':'Text change applied ✓ पुराना text/punctuation clean cover के साथ replace हुआ.';
   pdeRender();pdeRenderTextEditorPage();
 }
 function pdeDeleteSelected(){
@@ -9046,9 +11622,75 @@ document.addEventListener('change',function(e){
 
 function pdeCanvasBlob(canvas,type,quality){return new Promise(function(resolve,reject){canvas.toBlob(function(b){b?resolve(b):reject(new Error('Canvas export failed'))},type||'image/png',quality==null?1:quality)})}
 
+function pdeEffectiveBold(e){
+  e=e||{};
+
+  var level=Number(e.boldLevel);
+  if(isFinite(level)){
+    if(level<=-1)return false;
+    if(level>=1)return true;
+  }
+
+  if(e.bold===true || e.originalBold===true)return true;
+  if(Number(e.fontWeight)>=600)return true;
+
+  var sig=(
+    String(e.fontName||'')+' '+
+    String(e.pdfJsFontName||'')+' '+
+    String(e.family||'')+' '+
+    String(e.nativeFamily||'')+' '+
+    String(e.cssFamily||'')
+  ).toLowerCase();
+
+  return /bold|semibold|demibold|demi|black|heavy|extrabold|ultrabold/.test(sig);
+}
+
+function pdeEffectiveItalic(e){
+  e=e||{};
+  if(e.italic===true || e.originalItalic===true)return true;
+
+  var sig=(
+    String(e.fontName||'')+' '+
+    String(e.pdfJsFontName||'')+' '+
+    String(e.family||'')+' '+
+    String(e.nativeFamily||'')+' '+
+    String(e.cssFamily||'')
+  ).toLowerCase();
+
+  return /italic|oblique/.test(sig);
+}
+
+function pdeFallbackFontFamily(e){
+  e=e||{};
+
+  var sig=(
+    String(e.family||'')+' '+
+    String(e.nativeFamily||'')+' '+
+    String(e.fontName||'')+' '+
+    String(e.pdfJsFontName||'')
+  ).toLowerCase();
+
+  if(/courier|mono|consolas|monospace/.test(sig))return 'Courier New';
+  if(/times|serif|roman|georgia|cambria/.test(sig))return 'Times New Roman';
+  return 'Helvetica';
+}
+
+function pdeCanvasFallbackFamily(e){
+  var fam=pdeFallbackFontFamily(e);
+  if(fam==='Helvetica')return 'Arial';
+  return fam;
+}
+
 function pdePdfFontKey(e){
-  var f=String(e.family||'').toLowerCase(),base=(f.indexOf('courier')>=0||f.indexOf('mono')>=0)?'courier':((f.indexOf('times')>=0||f.indexOf('serif')>=0||f.indexOf('roman')>=0)?'times':'helvetica');
-  return base+(e.bold?'_bold':'')+(e.italic?'_italic':'');
+  e=e||{};
+
+  var fam=pdeFallbackFontFamily(e).toLowerCase(),
+      base=(fam.indexOf('courier')>=0)?'courier':
+           ((fam.indexOf('times')>=0)?'times':'helvetica'),
+      bold=pdeEffectiveBold(e),
+      italic=pdeEffectiveItalic(e);
+
+  return base+(bold?'_bold':'')+(italic?'_italic':'');
 }
 async function pdeGetPdfFont(out,cache,e){
   var key=pdePdfFontKey(e);if(cache[key])return cache[key];
@@ -9059,38 +11701,23 @@ async function pdeGetPdfFont(out,cache,e){
   cache[key]=await out.embedFont(name);return cache[key];
 }
 async function pdeGetAutoMatchedPdfFont(out,cache,e,targetW,size){
-  if(!e.autoMatch)return pdeGetPdfFont(out,cache,e);
-  var old=String(e.oldText||'');
-  if(!old)return pdeGetPdfFont(out,cache,e);
+  e=e||{};
 
-  var detected=(String(e.family||'')+' '+String(e.fontName||'')).toLowerCase(),
-      candidates=[];
+  var request={
+    family:pdeFallbackFontFamily(e),
+    bold:pdeEffectiveBold(e),
+    italic:pdeEffectiveItalic(e),
+    boldLevel:Number(e.boldLevel),
+    originalBold:e.originalBold,
+    originalItalic:e.originalItalic,
+    fontWeight:e.fontWeight,
+    fontName:e.fontName,
+    pdfJsFontName:e.pdfJsFontName,
+    nativeFamily:e.nativeFamily,
+    cssFamily:e.cssFamily
+  };
 
-  ['Helvetica','Times New Roman','Courier New'].forEach(function(fam){
-    [false,true].forEach(function(b){
-      [false,true].forEach(function(it){
-        candidates.push({family:fam,bold:b,italic:it});
-      });
-    });
-  });
-
-  var best=null,bestScore=1e9;
-  for(var i=0;i<candidates.length;i++){
-    var c=candidates[i],
-        font=await pdeGetPdfFont(out,cache,c),
-        w=pdePdfTextWidth(font,old,size,Number(e.letterSpacing)||0),
-        score=Math.abs(Math.log(Math.max(.01,w)/Math.max(.01,targetW))),
-        cf=c.family.toLowerCase();
-
-    if((detected.indexOf('times')>=0||detected.indexOf('serif')>=0||detected.indexOf('roman')>=0)&&cf.indexOf('times')>=0)score-=0.16;
-    if((detected.indexOf('courier')>=0||detected.indexOf('mono')>=0)&&cf.indexOf('courier')>=0)score-=0.16;
-    if((detected.indexOf('arial')>=0||detected.indexOf('helvetica')>=0||detected.indexOf('sans')>=0)&&cf.indexOf('helvetica')>=0)score-=0.13;
-    if(c.bold===!!e.bold)score-=0.07;
-    if(c.italic===!!e.italic)score-=0.05;
-
-    if(score<bestScore){bestScore=score;best=font;}
-  }
-  return best||pdeGetPdfFont(out,cache,e);
+  return pdeGetPdfFont(out,cache,request);
 }
 function pdePdfRectFromDisplay(vp,x,y,w,h){
   var a=vp.convertToPdfPoint(x,y),b=vp.convertToPdfPoint(x+w,y+h);
@@ -9099,86 +11726,428 @@ function pdePdfRectFromDisplay(vp,x,y,w,h){
 function pdePdfPointFromDisplay(vp,x,y){var p=vp.convertToPdfPoint(x,y);return {x:p[0],y:p[1]};}
 async function pdeDrawVectorTextEdits(out,pg,jpage,m,fontCache){
   if(!m.textEdits||!m.textEdits.length)return;
-  var rot=((jpage.rotate||0)+m.rotation)%360,vp=jpage.getViewport({scale:1,rotation:rot});
-  for(var i=0;i<m.textEdits.length;i++){
-    var e=m.textEdits[i],dx=e.xRatio*vp.width,dy=e.yRatio*vp.height,dw=e.wRatio*vp.width,dh=e.hRatio*vp.height;
-    var size=Math.max(4,Number(e.fontSizePt)||12),
-        spacing=Number(e.letterSpacing)||0,
-        font=await pdeGetAutoMatchedPdfFont(out,fontCache,e,dw,size),
-        lines=String(e.text||'').split(/\r?\n/);
 
-    var widths=lines.map(function(t){return pdePdfTextWidth(font,t,size,spacing)}),
-        maxW=Math.max.apply(null,widths.concat([.1]));
+  var rot=((jpage.rotate||0)+m.rotation)%360,
+      vp=jpage.getViewport({scale:1,rotation:rot}),
+      edits=m.textEdits.slice().sort(function(a,b){
+        var ay=(Number(a.yRatio)||0)*vp.height,
+            by=(Number(b.yRatio)||0)*vp.height;
 
-    if(e.matchWidth && lines.length===1 && maxW>0 && dw>0){
-      var mr=Math.max(.86,Math.min(1.14,dw/maxW));
-      size=Math.max(4,size*mr);spacing*=mr;
-      widths=lines.map(function(t){return pdePdfTextWidth(font,t,size,spacing)});
-      maxW=Math.max.apply(null,widths.concat([.1]));
+        if(Math.abs(ay-by)>1.5)return ay-by;
+        return ((Number(a.xRatio)||0)-(Number(b.xRatio)||0))*vp.width;
+      });
+
+  // Pass 1: cover every old word first.
+  // This avoids a later word's cleanup box erasing a replacement that has
+  // shifted closer because of Smart Word Spacing.
+  for(var ci=0;ci<edits.length;ci++){
+    var ce=edits[ci];
+    if(ce.isNew)continue;
+
+    var cdx=(isFinite(ce.coverXRatio)?ce.coverXRatio:ce.xRatio)*vp.width,
+        cdy=(isFinite(ce.coverYRatio)?ce.coverYRatio:ce.yRatio)*vp.height,
+        cdw=(isFinite(ce.coverWRatio)?ce.coverWRatio:ce.wRatio)*vp.width,
+        cdh=(isFinite(ce.coverHRatio)?ce.coverHRatio:ce.hRatio)*vp.height,
+        rr=pdePdfRectFromDisplay(
+          vp,
+          cdx,
+          cdy,
+          cdw,
+          cdh
+        ),
+        bg=pdeHexToRgb(ce.bg||'#ffffff');
+
+    pg.drawRectangle({
+      x:rr.x,y:rr.y,width:rr.w,height:rr.h,
+      color:PDFLib.rgb(bg.r/255,bg.g/255,bg.b/255),
+      borderWidth:0
+    });
+  }
+
+  var flowRows=[];
+
+  for(var i=0;i<edits.length;i++){
+    var e=edits[i],
+        dx=e.xRatio*vp.width,
+        dy=e.yRatio*vp.height,
+        dw=e.wRatio*vp.width,
+        dh=e.hRatio*vp.height,
+        size=Math.max(4,Number(e.fontSizePt)||12),
+        spacing=0,
+        lines=String(e.text||'').split(/\r?\n/),
+        align=pdeResolveAlign(e),
+        tc=pdeHexToRgb(e.color||'#000000');
+
+    // First try the exact original embedded PDF font.
+    // If any replacement glyph is missing, use a safe full vector fallback.
+    var font=null,
+        usedOriginalFont=false;
+
+    if(e.autoMatch && Number(e.boldLevel)!==-1){
+      font=await pdeGetOriginalEmbeddedPdfFont(
+        out,jpage,e,fontCache
+      );
+
+      if(!font){
+        font=await pdeGetMatchingPageEmbeddedFont(
+          out,jpage,e,fontCache
+        );
+      }
+
+      usedOriginalFont=!!font;
     }
 
-    if(e.fitWidth && maxW>dw){
+    if(!font){
+      font=await pdeGetAutoMatchedPdfFont(
+        out,fontCache,e,dw,size
+      );
+    }
+
+    var needsSyntheticBold=
+      !!pdeEffectiveBold(e) &&
+      !(font&&font._pdeSourceBold);
+
+    var lineSpacing=Math.max(.8,Math.min(3,Number(e.lineSpacing)||1.05)),
+        lineStep=size*lineSpacing,
+        br=Number(e.baselineOffsetRatio);
+
+    if(!isFinite(br))br=.92;
+    br=Math.max(.55,Math.min(1.25,br));
+
+    function metrics(text){
+      text=String(text||'');
+      var natural=font.widthOfTextAtSize(text,size);
+      return {width:natural,spacing:0};
+    }
+
+    var mets=lines.map(metrics),
+        maxW=Math.max.apply(null,mets.map(function(x){return x.width}).concat([.1]));
+
+    // Keep preview/original size. Shrink only if the text really overflows.
+    if(e.fitWidth && maxW>dw*1.02){
       var fr=dw/maxW;
-      size=Math.max(4,size*fr);spacing*=fr;
-      widths=lines.map(function(t){return pdePdfTextWidth(font,t,size,spacing)});
-      maxW=Math.max.apply(null,widths.concat([.1]));
+      size=Math.max(4,size*fr);
+      lineStep=size*lineSpacing;
+      mets=lines.map(metrics);
+      maxW=Math.max.apply(null,mets.map(function(x){return x.width}).concat([.1]));
     }
+for(var li=0;li<lines.length;li++){
+      if(!lines[li])continue;
 
-    var align=pdeResolveAlign(e),lineSpacing=Math.max(.8,Math.min(3,Number(e.lineSpacing)||1.05)),lineStep=size*lineSpacing,tc=pdeHexToRgb(e.color||'#000000');
-    if(!e.isNew){var cdx=(isFinite(e.coverXRatio)?e.coverXRatio:e.xRatio)*vp.width,cdy=(isFinite(e.coverYRatio)?e.coverYRatio:e.yRatio)*vp.height,cdw=(isFinite(e.coverWRatio)?e.coverWRatio:e.wRatio)*vp.width,cdh=(isFinite(e.coverHRatio)?e.coverHRatio:e.hRatio)*vp.height;var rr=pdePdfRectFromDisplay(vp,cdx,cdy,cdw,cdh),bg=pdeHexToRgb(e.bg||'#ffffff');pg.drawRectangle({x:rr.x,y:rr.y,width:rr.w,height:rr.h,color:PDFLib.rgb(bg.r/255,bg.g/255,bg.b/255),borderWidth:0});}
-    var br=Number(e.baselineOffsetRatio);if(!isFinite(br))br=.92;br=Math.max(.55,Math.min(1.25,br));
-    for(var li=0;li<lines.length;li++){if(!lines[li])continue;var tw=widths[li],tx=dx;if(align==='right')tx=dx+dw-tw;else if(align==='center')tx=dx+(dw-tw)/2;var baseline=dy+dh*br+li*lineStep,p0=pdePdfPointFromDisplay(vp,tx,baseline),pdfColor=PDFLib.rgb(tc.r/255,tc.g/255,tc.b/255);pdePdfDrawSpacedText(pg,font,lines[li],p0.x,p0.y,size,pdfColor,rot,spacing);}
+      var tw=mets[li].width,
+          tx=dx,
+          flowHit=null;
 
+      // Smart Word Spacing applies only to separately edited PDF words.
+      if(li===0 && lines.length===1 && pdeSmartWordFlowEligible(e)){
+        flowHit=pdeFindPreviousWordFlowRow(
+          flowRows,dx,dy,dw,dh,size
+        );
+      }
+
+      if(flowHit){
+        tx=flowHit.row.finalRight+
+           pdeSmartWordGap(flowHit.originalGap,size);
+      }else if(e.soloAnchor==='right'){
+        tx=dx+dw-tw;
+      }else{
+        if(align==='right')tx=dx+dw-tw;
+        else if(align==='center')tx=dx+(dw-tw)/2;
+      }
+
+      var baseline=dy+dh*br,
+          p0=pdePdfPointFromDisplay(vp,tx,baseline+li*lineStep),
+          pdfColor=PDFLib.rgb(tc.r/255,tc.g/255,tc.b/255);
+
+      pdePdfDrawSpacedText(
+        pg,font,lines[li],
+        p0.x,p0.y,
+        size,pdfColor,rot,
+        mets[li].spacing
+      );
+
+      // Chromium/Skia can store bold Roboto as Type3 outlines.
+      // When no reusable bold font exists, keep the same Roboto glyph
+      // shape and add one tiny vector pass instead of changing families.
+      if(needsSyntheticBold){
+        var boldOff=Math.max(.07,Math.min(.16,size*.010));
+        pdePdfDrawSpacedText(
+          pg,font,lines[li],
+          p0.x+boldOff,p0.y,
+          size,pdfColor,rot,
+          mets[li].spacing
+        );
+      }
+
+      // BOLD uses the actual bold vector font selected above.
+      // EXTRA adds only one tiny vector pass so the letters stay clean.
+      var boldLevel=Number(e.boldLevel)||0;
+
+      if(boldLevel>=2){
+        var off2=Math.max(.04,Math.min(.10,size*.006));
+        pdePdfDrawSpacedText(
+          pg,font,lines[li],
+          p0.x+off2,p0.y,
+          size,pdfColor,rot,
+          mets[li].spacing
+        );
+      }
+
+      if(li===0 && lines.length===1 && pdeSmartWordFlowEligible(e)){
+        flowRows.push({
+          cy:dy+dh/2,
+          origX:dx,
+          origRight:dx+dw,
+          finalX:tx,
+          finalRight:tx+tw,
+          h:dh,
+          itemKey:e.itemKey
+        });
+      }
+    }
   }
 }
+async function pdeCanvasToJpegBytes(canvas,quality){
+  quality=isFinite(Number(quality))?Number(quality):.94;
+
+  return await new Promise(function(resolve,reject){
+    try{
+      canvas.toBlob(function(blob){
+        if(!blob){
+          reject(new Error('Page image नहीं बनी'));
+          return;
+        }
+
+        var fr=new FileReader();
+        fr.onload=function(){
+          try{
+            resolve(new Uint8Array(fr.result));
+          }catch(e){
+            reject(e);
+          }
+        };
+        fr.onerror=function(){
+          reject(new Error('Page image read failed'));
+        };
+        fr.readAsArrayBuffer(blob);
+      },'image/jpeg',quality);
+    }catch(e){
+      reject(e);
+    }
+  });
+}
+
+
+
+
+
+
+async function pdePrepareVectorSaveBuffers(st){
+  var saveBuffers=pdeBuffers.map(function(b){
+    return b.slice(0);
+  });
+
+  var protectedIndexes=[];
+
+  for(var i=0;i<saveBuffers.length;i++){
+    if(pdeProtectedFlags[i])protectedIndexes.push(i);
+  }
+
+  if(!protectedIndexes.length)return saveBuffers;
+
+  if(typeof window.vcQpdfDecryptBytes!=='function'){
+    throw new Error('Original PDF unlock engine उपलब्ध नहीं है। Internet ON करके फिर कोशिश करें।');
+  }
+
+  for(var k=0;k<protectedIndexes.length;k++){
+    var fi=protectedIndexes[k],
+        pw=String(pdePasswords[fi]||'');
+
+    if(st){
+      st.textContent='Original vector PDF unlock '+(k+1)+' / '+protectedIndexes.length+'…';
+    }
+
+    try{
+      saveBuffers[fi]=await window.vcQpdfDecryptBytes(
+        saveBuffers[fi],
+        pw
+      );
+    }catch(err){
+      var detail=(err&&err.message)?err.message:String(err||'Unknown qpdf error');
+      throw new Error('Original PDF unlock failed: '+detail);
+    }
+  }
+
+  return saveBuffers;
+}
+
 async function pdeSave(){
   if(!pdeModel.length){alert('पहले PDF pages load करें');return}
   if(!window.PDFLib){alert('PDF Editor library load नहीं हुई. Internet connection check करें.');return}
-  var keep=pdeModel.filter(function(x){return !x.deleted}),st=document.getElementById('pdeStatus'),btn=document.getElementById('pdeSaveBtn');
-  if(!keep.length){alert('कम से कम एक page रखें');return}
-  btn.disabled=true;btn.textContent='SAVING ORIGINAL PDF…';
-  try{
-    var PDFDocument=PDFLib.PDFDocument,degrees=PDFLib.degrees;
-    var jsCache={},fontCache={};
 
-    // TRUE PDF MODE: when editing a single PDF without page deletion/reordering,
-    // load the original PDF itself and draw vector edits directly on its pages.
-    var direct=(pdeBuffers.length===1 && keep.length===pdeModel.length && pdeModel.every(function(m,i){return m.fileIndex===0 && !m.deleted && m.pageIndex===i}));
+  var keep=pdeModel.filter(function(x){return !x.deleted}),
+      st=document.getElementById('pdeStatus'),
+      btn=document.getElementById('pdeSaveBtn');
+
+  if(!keep.length){alert('कम से कम एक page रखें');return}
+
+  btn.disabled=true;
+  btn.textContent='SAVING ORIGINAL PDF…';
+
+  try{
+    var PDFDocument=PDFLib.PDFDocument,
+        degrees=PDFLib.degrees,
+        jsCache={},
+        fontCache={},
+        hasProtected=keep.some(function(m){
+          return !!m.protectedPdf || !!pdeProtectedFlags[m.fileIndex];
+        });
+
+    // Password PDFs are first decrypted with qpdf WASM.
+    // No page screenshot, JPEG or PNG conversion is used.
+    var saveBuffers=await pdePrepareVectorSaveBuffers(st);
+
+    var direct=(
+      saveBuffers.length===1 &&
+      keep.length===pdeModel.length &&
+      pdeModel.every(function(m,i){
+        return m.fileIndex===0 && !m.deleted && m.pageIndex===i;
+      })
+    );
+
     var out;
+
     if(direct){
-      st.textContent='True PDF Mode: original PDF structure load हो रही है…';
-      out=await PDFDocument.load(pdeBuffers[0].slice(0),{updateMetadata:false});
-      jsCache[0]=await window.pdfjsLib.getDocument({data:new Uint8Array(pdeBuffers[0].slice(0))}).promise;
+      st.textContent=hasProtected
+        ?'Original password PDF structure load हो रही है…'
+        :'True PDF Mode: original PDF structure load हो रही है…';
+
+      out=await PDFDocument.load(
+        saveBuffers[0].slice(0),
+        {updateMetadata:false}
+      );
+
+      jsCache[0]=await pdeOpenPdfJsDocument(
+        saveBuffers[0].slice(0),
+        0,
+        (keep[0]&&keep[0].name)||'PDF',
+        {fontExtraProperties:true,password:''}
+      );
+
       for(var k=0;k<keep.length;k++){
-        st.textContent='Original PDF page '+(k+1)+' / '+keep.length+' edit हो रही है…';
-        var m=keep[k],pg=out.getPage(m.pageIndex),jpage=await jsCache[0].getPage(m.pageIndex+1);
-        var base=0;try{base=pg.getRotation().angle||0}catch(e){}
-        if(m.rotation)pg.setRotation(degrees((base+m.rotation)%360));
-        if(m.textEdits&&m.textEdits.length)await pdeDrawVectorTextEdits(out,pg,jpage,m,fontCache);
-      }
-    }else{
-      // Merge/reorder/delete path: still copies native PDF pages, never page screenshots.
-      st.textContent='Vector PDF pages prepare हो रही हैं…';
-      var src=[];for(var i=0;i<pdeBuffers.length;i++)src.push(await PDFDocument.load(pdeBuffers[i].slice(0),{updateMetadata:false}));
-      out=await PDFDocument.create();
-      for(var k=0;k<keep.length;k++){
-        st.textContent='Vector page '+(k+1)+' / '+keep.length+'…';
-        var m=keep[k],pages=await out.copyPages(src[m.fileIndex],[m.pageIndex]),pg=pages[0];
-        var base=0;try{base=pg.getRotation().angle||0}catch(e){}
-        pg.setRotation(degrees((base+m.rotation)%360));out.addPage(pg);
+        st.textContent='Original vector PDF page '+(k+1)+' / '+keep.length+' edit हो रही है…';
+
+        var m=keep[k],
+            pg=out.getPage(m.pageIndex),
+            jpage=await jsCache[0].getPage(m.pageIndex+1);
+
+        var base=0;
+        try{base=pg.getRotation().angle||0}catch(e){}
+
+        if(m.rotation){
+          pg.setRotation(degrees((base+m.rotation)%360));
+        }
+
         if(m.textEdits&&m.textEdits.length){
-          if(!jsCache[m.fileIndex])jsCache[m.fileIndex]=await window.pdfjsLib.getDocument({data:new Uint8Array(pdeBuffers[m.fileIndex].slice(0))}).promise;
-          var jpage=await jsCache[m.fileIndex].getPage(m.pageIndex+1);
-          await pdeDrawVectorTextEdits(out,pg,jpage,m,fontCache);
+          await pdeDrawVectorTextEdits(
+            out,pg,jpage,m,fontCache
+          );
+        }
+      }
+
+    }else{
+      st.textContent='Original vector PDF pages prepare हो रही हैं…';
+
+      var src=[];
+
+      for(var i=0;i<saveBuffers.length;i++){
+        src.push(
+          await PDFDocument.load(
+            saveBuffers[i].slice(0),
+            {updateMetadata:false}
+          )
+        );
+      }
+
+      out=await PDFDocument.create();
+
+      for(var k=0;k<keep.length;k++){
+        st.textContent='Original vector page '+(k+1)+' / '+keep.length+'…';
+
+        var m=keep[k],
+            pages=await out.copyPages(
+              src[m.fileIndex],
+              [m.pageIndex]
+            ),
+            pg=pages[0];
+
+        var base=0;
+        try{base=pg.getRotation().angle||0}catch(e){}
+
+        pg.setRotation(
+          degrees((base+m.rotation)%360)
+        );
+
+        out.addPage(pg);
+
+        if(m.textEdits&&m.textEdits.length){
+          if(!jsCache[m.fileIndex]){
+            jsCache[m.fileIndex]=await pdeOpenPdfJsDocument(
+              saveBuffers[m.fileIndex].slice(0),
+              m.fileIndex,
+              m.name,
+              {fontExtraProperties:true,password:''}
+            );
+          }
+
+          var jpage=await jsCache[m.fileIndex].getPage(
+            m.pageIndex+1
+          );
+
+          await pdeDrawVectorTextEdits(
+            out,pg,jpage,m,fontCache
+          );
         }
       }
     }
-    var bytes=await out.save({useObjectStreams:true,addDefaultPage:false});
-    var outName=direct?'Edited_Original_PDF.pdf':'Edited_Vector_PDF.pdf';
-    if(!vcSafeSaveBytes(bytes,outName,'application/pdf'))throw new Error('PDF save failed');
-    st.textContent=direct?'Edited original PDF Downloads में save ✓ No page-image conversion':'Edited vector PDF Downloads में save ✓ No page-image conversion';
-  }catch(e){console.error(e);st.textContent='Error: '+(e.message||e);alert('Edited PDF नहीं बन पाई')}
-  finally{btn.disabled=false;btn.textContent='CREATE & DOWNLOAD EDITED PDF'}
+
+    var bytes=await out.save({
+      useObjectStreams:true,
+      addDefaultPage:false
+    });
+
+    var outName=direct
+      ?'Edited_Original_PDF.pdf'
+      :'Edited_Vector_PDF.pdf';
+
+    if(!vcSafeSaveBytes(
+      bytes,
+      outName,
+      'application/pdf'
+    )){
+      throw new Error('PDF save failed');
+    }
+
+    st.textContent=hasProtected
+      ?'Edited original vector PDF Downloads में save ✓ No PNG/JPEG conversion'
+      :(direct
+        ?'Edited original PDF Downloads में save ✓ No page-image conversion'
+        :'Edited vector PDF Downloads में save ✓ No page-image conversion');
+
+  }catch(e){
+    console.error(e);
+
+    var msg=(e&&e.message)
+      ?e.message
+      :String(e||'Unknown error');
+
+    st.textContent='PDF save error: '+msg;
+    alert('Edited PDF नहीं बन पाई\n'+msg);
+
+  }finally{
+    btn.disabled=false;
+    btn.textContent='DOWNLOAD PDF';
+  }
 }
 
 
@@ -16436,8 +19405,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 <script id="pprRuntime">
 /* PDF Password Remover - local PDF processing, qpdf WASM engine */
 (function(){
-  var QPDF_JS='https://cdn.jsdelivr.net/npm/qpdf-run@0.2.3/vendor/qpdf/lib/qpdf.js';
-  var QPDF_WASM='https://cdn.jsdelivr.net/npm/qpdf-run@0.2.3/vendor/qpdf/lib/qpdf.wasm';
+  var QPDF_JS='https://cdn.jsdelivr.net/npm/qpdf-run@0.2.1/vendor/qpdf/lib/qpdf.js';
+  var QPDF_WASM='https://cdn.jsdelivr.net/npm/qpdf-run@0.2.1/vendor/qpdf/lib/qpdf.wasm';
   var selectedFile=null, worker=null, objectUrl=null, msgId=1, pending=new Map(), initialized=false;
 
   function el(id){return document.getElementById(id)}
@@ -16465,19 +19434,43 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     if(worker)return worker;
     var blob=new Blob([workerSource],{type:'text/javascript'}),blobUrl=URL.createObjectURL(blob);
     worker=new Worker(blobUrl);URL.revokeObjectURL(blobUrl);
-    worker.onmessage=function(e){var m=e.data||{},p=pending.get(m.id);if(!p)return;pending.delete(m.id);clearTimeout(p.timer);m.ok?p.resolve(m):p.reject(m)};
+    worker.onmessage=function(e){var m=e.data||{},p=pending.get(m.id);if(!p)return;pending.delete(m.id);clearTimeout(p.timer);if(m.ok){p.resolve(m)}else{var detail=m.message||'PDF engine failed';if(m.stderr&&m.stderr.length)detail+=' | '+m.stderr.join(' ');p.reject(new Error(detail))}};
     worker.onerror=function(e){pending.forEach(function(p){clearTimeout(p.timer);p.reject({message:e.message||'PDF engine failed'})});pending.clear();initialized=false};
     return worker;
   }
   function send(msg,transfer,timeout){var w=createWorker(),id=String(msgId++);msg.id=id;return new Promise(function(resolve,reject){var timer=setTimeout(function(){pending.delete(id);reject({message:'PDF engine timed out'})},timeout||45000);pending.set(id,{resolve:resolve,reject:reject,timer:timer});w.postMessage(msg,transfer||[])})}
   async function ensureEngine(){if(initialized)return;setStatus('info','PDF engine load हो रहा है…');await send({type:'init',qpdfJsUrl:QPDF_JS,wasmUrl:QPDF_WASM},[],60000);initialized=true}
+  window.vcQpdfDecryptBytes=async function(inputBytes,password){
+    await ensureEngine();
+
+    var bytes=inputBytes instanceof Uint8Array
+      ? new Uint8Array(inputBytes)
+      : new Uint8Array(inputBytes||[]);
+
+    var result=await send({
+      type:'run',
+      qpdfJsUrl:QPDF_JS,
+      wasmUrl:QPDF_WASM,
+      bytes:bytes,
+      args:[
+        '--password='+String(password||''),
+        '--decrypt',
+        '--',
+        'input.pdf',
+        'output.pdf'
+      ]
+    },[bytes.buffer],120000);
+
+    return new Uint8Array(result.bytes);
+  };
+
   function errorText(err){var parts=[];if(err&&Array.isArray(err.stderr))parts.push(err.stderr.join(' '));if(err&&err.message)parts.push(err.message);var t=parts.join(' ').toLowerCase();if(/invalid password|password is incorrect|incorrect password/.test(t))return 'Password गलत है। सही PDF password डालें।';if(/encrypted|password/.test(t))return 'PDF unlock नहीं हुई। Password जाँचकर फिर कोशिश करें।';if(/failed to fetch|network|importscripts|script error/.test(t))return 'PDF engine load नहीं हुआ। Internet चालू करके फिर कोशिश करें।';return 'इस PDF से password नहीं हट सका।'}
   async function unlockPdf(){
     if(!selectedFile){setStatus('err','पहले PDF चुनें।');return}
     clearDownload();var btn=el('pprUnlockBtn');btn.disabled=true;btn.innerHTML='<span class="ppr-loader"></span>REMOVING PASSWORD…';
     try{
       await ensureEngine();var buf=await selectedFile.arrayBuffer(),pw=el('pprPassword').value||'',bytes=new Uint8Array(buf);
-      var result=await send({type:'run',qpdfJsUrl:QPDF_JS,wasmUrl:QPDF_WASM,bytes:bytes,args:['--password='+pw,'--decrypt','input.pdf','output.pdf']},[bytes.buffer],90000);
+      var result=await send({type:'run',qpdfJsUrl:QPDF_JS,wasmUrl:QPDF_WASM,bytes:bytes,args:['--password='+pw,'--decrypt','--','input.pdf','output.pdf']},[bytes.buffer],90000);
       var out=new Uint8Array(result.bytes);
       var d=el('pprDownloadBtn'),base=selectedFile.name.replace(/\.pdf$/i,''),outName=base+'_unlocked.pdf';
       d.href='#';d.classList.add('show');d.onclick=function(ev){if(ev)ev.preventDefault();if(!vcSafeSaveBytes(out,outName,'application/pdf'))alert('PDF download नहीं हो पाई');return false;};
@@ -19088,7 +22081,7 @@ window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.
     two:'2026-10-10-two-03',
     slab:'2026-10-10-slab-01',
     gsbQty:'2026-10-10-gsbQty-01',
-    pdfEditor:'2026-10-10-pdfEditor-05',
+    pdfEditor:'2026-10-12-pdfEditor-12',
     price:'2026-10-10-price-01',
     photoTool:'2026-10-10-photoTool-04',
     units:'2026-10-10-units-02'
