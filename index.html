@@ -1655,7 +1655,8 @@ function vcBrowserSaveBlob(blob,fileName){
     a.href=url;a.download=fileName||'download';
     a.style.display='none';
     document.body.appendChild(a);a.click();a.remove();
-    setTimeout(function(){try{URL.revokeObjectURL(url)}catch(e){}},2500);
+
+    setTimeout(function(){try{URL.revokeObjectURL(url)}catch(e){}},60000);
     return true;
   }catch(e){
     console.error('Browser save failed',e);
@@ -1668,6 +1669,7 @@ function vcSafeSaveBytes(bytes,fileName,mime){
     mime=mime||'application/octet-stream';
     if(window.AndroidBridge&&typeof window.AndroidBridge.saveBase64==='function'){
       window.AndroidBridge.saveBase64(fileName,mime,vcDownloadBytesToBase64(u8));
+
       return true;
     }
     return vcBrowserSaveBlob(new Blob([u8],{type:mime}),fileName);
@@ -7788,7 +7790,7 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
       <small>फ़ाइल और पासवर्ड आपके ब्राउज़र में उपयोग होंगे। पहली बार लॉक PDF खोलने के लिए PDF Engine डाउनलोड करने हेतु इंटरनेट लग सकता है।</small>
     </div>
     <div class="vce-work hidden" id="vceWork">
-      <div class="vce-document-row"><div class="vce-file-name" id="vceFilename"></div><button type="button" class="vce-plain-btn" onclick="document.getElementById('vceFile').click()">बदलें</button></div>
+      <div class="vce-document-row"><div class="vce-file-name" id="vceFilename"></div><div class="vce-file-actions"><button type="button" class="vce-plain-btn" onclick="vceChangePdf()" aria-label="दूसरी PDF चुनें">Change PDF</button><button type="button" class="vce-plain-btn vce-clear-pdf" onclick="vceClearPdf()" aria-label="अभी खुली PDF हटाएँ">Clear PDF</button></div></div>
       <div class="vce-toolbar">
         <button type="button" aria-label="Previous page" onclick="vceGo(-1)">‹</button><span id="vcePageNum">1 / 1</span><button type="button" aria-label="Next page" onclick="vceGo(1)">›</button>
         <span class="vce-divider"></span>
@@ -7820,10 +7822,10 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
           <label class="vce-inline-font" for="vceFamily"><span>FONT</span><select id="vceFamily" aria-label="Font" onchange="vceLive()"><option value="Helvetica">Arial</option><option value="Times">Times</option><option value="Courier">Courier</option></select></label>
         </div>
         <div class="vce-length-note" id="vceSizeHint" hidden aria-live="polite"></div>
-        <div class="vce-quick-edit-row" role="group" aria-label="टेक्स्ट बदलें और लागू करें">
-          <label class="vce-old-cell">पहले का टेक्स्ट<input id="vceOld" type="text" readonly aria-label="पहले का टेक्स्ट"></label>
-          <label class="vce-new-cell">नया टेक्स्ट<input id="vceNew" type="text" placeholder="नया लिखें" oninput="vceLive();vceReplaceStarted()" aria-label="नया टेक्स्ट यहाँ बदलें" autocomplete="off" spellcheck="false"></label>
-          <button type="button" class="vce-apply vce-apply-quick" id="vceApply" onclick="vceApply()">✓ Apply</button>
+        <div class="vce-quick-edit-row" role="group" aria-label="टेक्स्ट बदलें, ऑटो सेव चालू है">
+          <label class="vce-old-cell">Old Text<input id="vceOld" type="text" readonly aria-label="Old Text"></label>
+          <label class="vce-new-cell">New Text<input id="vceNew" type="text" placeholder="नया लिखें" oninput="vceLive();vceReplaceStarted()" aria-label="New Text" autocomplete="off" spellcheck="false"></label>
+          <button type="button" class="vce-apply vce-apply-quick" id="vceApply" onclick="vceApply()" aria-label="चयन पूरा करें; बदलाव अपने आप सेव हैं" title="बदलाव अपने आप सेव हैं">✓ Done</button>
         </div>
       </div>
       <div class="vce-scroller" id="vceScroller" aria-label="PDF का ज़ूम और स्क्रॉल वाला प्रीव्यू"><div class="vce-stage" id="vceStage"><canvas id="vcePageCanvas"></canvas><canvas id="vceCoverCanvas"></canvas><div id="vceHitLayer"></div><div id="vceLiveLayer"></div></div></div>
@@ -22594,7 +22596,7 @@ window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.
     two:'2026-10-10-two-03',
     slab:'2026-10-10-slab-01',
     gsbQty:'2026-10-10-gsbQty-01',
-    pdfEditor:'2026-10-12-pdfEditor-12',
+    pdfEditor:'2026-10-14-pdfEditor-preview-export-clear-01',
     price:'2026-10-10-price-01',
     photoTool:'2026-10-10-photoTool-04',
     units:'2026-10-10-units-02'
@@ -22651,7 +22653,7 @@ window.pdrlLoadPdf=loadPdf;window.pdrlMode=mode;window.pdrlAddRow=addRow;window.
     if(!btn.querySelector('.vc-new-tool-badge')){
       var badge=document.createElement('span');
       badge.className='vc-new-tool-badge';
-      badge.textContent='NEW';
+      badge.textContent=toolId==='pdfEditor'?'NEW UPDATE':'NEW';
       btn.appendChild(badge);
     }
   }
@@ -23453,7 +23455,7 @@ function pdfPasswordError(err){return !!(err&&(err.name==='PasswordException'||/
 async function activatePdf(doc,bytes,filename,seq){
  if(seq!==loadSequence){try{await doc.destroy()}catch(_){}return;}
  S.pdf=doc;S.bytes=bytes;S.name=filename;S.count=doc.numPages;S.page=1;
- S.edits=[];S.draft=null;S.selectedKey='';S.selectedEdit=null;S.history=[];
+ S.edits=[];S.draft=null;S.selectedKey='';S.selectedEdit=null;S.history=[];S.autoSessionStarted=false;S.autoHadOriginalEdit=false;
  S.pageRemoved=new Set();S.pageRotation={};S.zoom=1;S.ruleCache={};S.fontMeta={};S.rules=[];
  el('vceFilename').textContent=filename;el('vceWork').classList.remove('hidden');
  try{const sn=el('vceSaveName');if(sn)sn.value=String(filename||'').replace(/\.pdf$/i,'');}catch(_){}
@@ -23483,6 +23485,40 @@ window.vceOpenFile=async function(file){
   }
  }catch(err){console.error('Editor open failed',err);tell('PDF नहीं खुली: '+(err.message||err),true)}
  finally{upload.style.opacity='1'}
+};
+// File actions: Change opens the picker; Clear removes the loaded document.
+window.vceChangePdf=function(){
+ const modified=S.edits.length>0||!!(S.draft&&vceDraftChanged(S.draft,S.draftAtSelection))||
+   S.pageRemoved.size>0||Object.values(S.pageRotation).some(a=>(Number(a)||0)%360!==0);
+ if(modified&&!window.confirm('पुराने बदलाव अभी PDF में डाउनलोड नहीं हुए हों तो खो सकते हैं। दूसरी PDF चुनें?'))return;
+ const file=el('vceFile');if(!file)return;
+ file.value='';file.click(); // Selecting the same filename must work too.
+};
+window.vceClearPdf=async function(){
+ const modified=S.edits.length>0||!!(S.draft&&vceDraftChanged(S.draft,S.draftAtSelection))||
+   S.pageRemoved.size>0||Object.values(S.pageRotation).some(a=>(Number(a)||0)%360!==0);
+ if(modified&&!window.confirm('बिना डाउनलोड किए यह PDF और इसके बदलाव हट जाएँगे। Clear PDF करें?'))return;
+ ++loadSequence;++S.stateId;
+ if(S.paintTask){try{S.paintTask.cancel()}catch(_){}}
+ const old=S.pdf;
+ S.pdf=null;S.bytes=null;S.name='';S.page=1;S.count=0;S.zoom=1;S.mode='pick';
+ S.hits=[];S.edits=[];S.draft=null;S.draftAtSelection=null;S.selectedKey='';S.selectedEdit=null;
+ S.autoSessionStarted=false;S.autoHadOriginalEdit=false;
+ S.history=[];S.pageRemoved=new Set();S.pageRotation={};S.snapshot=null;S.fontMeta={};S.ruleCache={};S.rules=[];
+ lockedFile=null;lockedUI(false);
+ const input=el('vceFile');if(input)input.value='';
+ for(const id of ['vceNew','vceOld','vceSaveName','vceFilename','vcePassword']){const x=el(id);if(x)x.value='';}
+ const filename=el('vceFilename');if(filename)filename.textContent='';
+ for(const id of ['vcePageCanvas','vceCoverCanvas']){const c=el(id);if(c){c.width=1;c.height=1;}}
+ for(const id of ['vceLiveLayer','vceHitLayer']){const layer=el(id);if(layer)layer.replaceChildren();}
+ const sw=el('vceSelectedWord');if(sw)sw.hidden=true;
+ const editor=el('vceEditor');if(editor)editor.classList.add('hidden');
+ const controls=el('vcePreviewControls');if(controls)controls.classList.add('hidden');
+ const work=el('vceWork');if(work)work.classList.add('hidden');
+ const upload=el('vceUpload');if(upload){upload.style.display='';upload.style.opacity='1';}
+ if(typeof vceUpdateControls==='function')vceUpdateControls();
+ tell('PDF हट गई। नई PDF चुन सकते हैं।');
+ if(old&&typeof old.destroy==='function'){try{await old.destroy()}catch(_){}}
 };
 window.vceTogglePassword=function(){const f=el('vcePassword');f.type=f.type==='password'?'text':'password';el('vcePasswordEye').textContent=f.type==='password'?'👁':'🙈';};
 window.vceCancelPassword=function(){++loadSequence;lockedFile=null;el('vcePassword').value='';lockedUI(false);tell('पासवर्ड प्रवेश रद्द किया।');};
@@ -23657,24 +23693,40 @@ async function vceReadVectorLines(page,pageNo,extra){
   S.ruleCache[key]=results;return results;
  }catch(err){console.warn('PDF vector paths cannot be analyzed',err);S.ruleCache[key]=[];return []}
 }
-function vceRuleClips(edits,rules){
+function vceRuleClips(edits,rules,wordHits){
+ // Rebuild each masked table rule only once. Two adjacent edited words can
+ // overlap the same dashed rule; double-painting used to make stray dots.
  const kept=[];
- for(const e of edits){if(e.isNew||e.erase==='none')continue;
-  const x0=e.bx,y0=e.by,x1=x0+e.bw,y1=y0+e.bh;
-  for(const r of rules){
-   const isH=Math.abs(r.y1-r.y2)<.4,isV=Math.abs(r.x1-r.x2)<.4;
-   if(!isH&&!isV)continue;
+ for(const r of rules){
+  const isH=Math.abs(r.y1-r.y2)<.4,isV=Math.abs(r.x1-r.x2)<.4;
+  if(!isH&&!isV)continue;
+  const fixed=isH?r.y1:r.x1;
+  const start=isH?r.x1:r.y1,end=isH?r.x2:r.y2;
+  const d=Math.sign(end-start)||1,length=Math.abs(end-start);
+  if(length<=.25)continue;
+  const intervals=[];
+  for(const e of edits){
+   if(e.isNew||e.erase==='none')continue;
+   const area=vceSafeCoverBounds(e,wordHits);
+   const x0=area.x,y0=area.y,x1=x0+area.w,y1=y0+area.h;
    const lo=isH?x0:y0,hi=isH?x1:y1;
-   const fixed=isH?r.y1:r.x1, minFixed=isH?y0:x0,maxFixed=isH?y1:x1;
+   const minFixed=isH?y0:x0,maxFixed=isH?y1:x1;
    if(fixed<minFixed-r.width*.4||fixed>maxFixed+r.width*.4)continue;
-   const start=isH?r.x1:r.y1,end=isH?r.x2:r.y2;
-   const d=Math.sign(end-start)||1;
-   const c0=d>0?Math.max(start,lo):Math.min(start,hi);
-   const c1=d>0?Math.min(end,hi):Math.max(end,lo);
-   if(d*(c1-c0)<.25)continue;
-   const consumed=Math.abs(c0-start);
+   const a=Math.max(0,Math.min(d*(lo-start),d*(hi-start)));
+   const b=Math.min(length,Math.max(d*(lo-start),d*(hi-start)));
+   if(b-a>.25)intervals.push([a,b]);
+  }
+  intervals.sort((a,b)=>a[0]-b[0]);
+  const joined=[];
+  for(const interval of intervals){
+   const last=joined[joined.length-1];
+   if(last&&interval[0]<=last[1]+.01)last[1]=Math.max(last[1],interval[1]);
+   else joined.push(interval.slice());
+  }
+  for(const [a,b] of joined){
+   const c0=start+d*a,c1=start+d*b;
    kept.push({x1:isH?c0:fixed,y1:isH?fixed:c0,x2:isH?c1:fixed,y2:isH?fixed:c1,
-     width:r.width,color:r.color,dash:r.dash,phase:(r.phase||0)+consumed});
+     width:r.width,color:r.color,dash:r.dash,phase:(r.phase||0)+a});
   }
  }
  return kept;
@@ -23896,6 +23948,27 @@ function vceSampleColors(hit){
 // V27 small-scope repair: PDF.js text-run boxes can miss edge glyphs.
 // Give a selected word enough cover for antialiased serif overhangs while
 // stopping before neighbouring words on the same printed line.
+// Keep the visual cover inside its original word; neighbouring original words
+// remain untouched, even if an oversized PDF text box intersects their glyphs.
+function vceSafeCoverBounds(e, wordHits){
+ let x=Number(e.bx)||0,y=Number(e.by)||0,w=Math.max(0,Number(e.bw)||0),h=Math.max(0,Number(e.bh)||0);
+ if(!w||!h||e.isNew)return {x,y,w,h};
+ let left=x,right=x+w;
+ const oldY=y,oldBottom=y+h;
+ for(const n of wordHits||[]){
+  if(!n||n.key===e.hitKey||!Number.isFinite(n.x)||!Number.isFinite(n.w)||n.w<=0)continue;
+  const nTop=Number(n.y)||0,nBottom=nTop+(Number(n.h)||0);
+  const overlap=Math.min(oldBottom,nBottom)-Math.max(oldY,nTop);
+  if(overlap<=.60*Math.min(h,Math.max(1,nBottom-nTop)))continue;
+  const nx=n.x,nRight=n.x+n.w;
+  // Other word starts inside the intended cover: stop before its first glyph.
+  if(nx>left && nx<right && nx>=Number(e.bx)+w*.32){right=Math.min(right,nx-.4);}
+  // Other word ends inside the cover: do not cover its last glyph.
+  if(nRight>left && nRight<right && nRight<=Number(e.bx)+w*.68){left=Math.max(left,nRight+.4);}
+ }
+ if(right<=left+.75)return {x,y,w,h};
+ return {x:left,y,w:right-left,h};
+}
 function vceAccurateCover(hit){
  const em=Math.max(5,Number(hit.h)||Number(hit.size)||12);
  const side=Math.min(8,Math.max(1.7,em*.19));
@@ -23937,7 +24010,7 @@ function vceFocusReplaceOnSelection(){
 function chooseHit(hit){
   if(S.mode==='copy'){
     if(!S.draft){tell('पहले बदलने वाला टेक्स्ट चुनें।',true);window.vceMode('pick');return}
-    S.draft.family=hit.family;S.draft.bold=hit.bold;S.draft.italic=hit.italic;S.draft.size=hit.size;S.draft.originalSize=hit.size;changeForm(S.draft);window.vceMode('pick');refresh();tell('दूसरे टेक्स्ट से Font Style कॉपी किया ✓');return;
+    S.draft.family=hit.family;S.draft.bold=hit.bold;S.draft.italic=hit.italic;S.draft.size=hit.size;S.draft.originalSize=hit.size;changeForm(S.draft);vceAutoSaveDraft();window.vceMode('pick');refresh();tell('दूसरे टेक्स्ट से Font Style कॉपी किया ✓ और अपने-आप सेव हुआ।');return;
   }
   S.selectedKey=hit.key;
   const status=el('vceSelectedWord');status.hidden=false;el('vceSelectedLabel').textContent=hit.text;el('vceEditorSelectionText').textContent=hit.text;
@@ -23949,50 +24022,70 @@ function chooseHit(hit){
   S.draft=old?{...old}:{id:Date.now()+Math.random(),page:S.page,hitKey:hit.key,old:hit.text,value:hit.text,x:hit.x,y:hit.y,w:hit.w,h:hit.h,...accurate,size:hit.size,originalSize:hit.size,baselineOffset:(Number.isFinite(hit.baseY)?hit.baseY-hit.y:hit.size*.9),family:hit.family,bold:hit.bold,italic:hit.italic,color:sampled.ink,ink:sampled.ink,bg:sampled.bg,erase:'smart',fit:false,isNew:false};
   // Do not create an overlay if the word was only tapped and Apply was pressed.
   S.draftAtSelection={...S.draft};
+  S.autoSessionStarted=false;S.autoHadOriginalEdit=!!old;
   changeForm(S.draft);window.vceMode('pick');mountHits();refresh();
   vceFocusReplaceOnSelection();
   // Preserve the preview while the user adjusts position/size in the upper toolbar.
   if(window.innerWidth<600){try{el('vcePreviewControls').scrollIntoView({behavior:'smooth',block:'nearest'})}catch(e){}}
 }
-function deselect(){S.draftAtSelection=null;S.draft=null;S.selectedKey='';S.selectedEdit=null;el('vceSelectedWord').hidden=true;el('vceSelectedLabel').textContent='';el('vceEditorSelectionText').textContent='—';el('vceEditor').classList.add('hidden');vceUpdateControls();mountHits();refresh();}
+// Auto Save: the FIRST actual change to a selected word takes one Undo snapshot.
+// Subsequent keystrokes, font changes and position adjustments replace that
+// same edit record immediately. Switching words or exporting needs no Apply.
+const vceTrackFields=['value','x','y','size','family','bold','italic','color','erase','bg','fit'];
+function vceDraftChanged(e,original){
+ if(!original)return !!(e.isNew && String(e.value||'').trim());
+ return vceTrackFields.some(k=>String(e[k])!==String(original[k]));
+}
+function vceAutoSaveDraft(){
+ const e=S.draft;if(!e)return false;
+ const changed=vceDraftChanged(e,S.draftAtSelection);
+ const index=S.edits.findIndex(item=>item.id===e.id);
+ const hasText=!(e.isNew && !String(e.value||'').trim());
+ // A newly selected, untouched word should not be saved or duplicated.
+ if(!changed&&!S.autoSessionStarted)return false;
+ if(!S.autoSessionStarted && changed && hasText){snapshot();S.autoSessionStarted=true;}
+ // An empty added text, or a fresh original word reverted to its exact
+ // original style/position, must remove the no-longer-needed overlay.
+ if(!hasText || (!changed && !S.autoHadOriginalEdit)){
+   if(index>=0)S.edits.splice(index,1);
+   return false;
+ }
+ if(index>=0)S.edits[index]={...e};else S.edits.push({...e});
+ return true;
+}
+function deselect(){S.draftAtSelection=null;S.autoSessionStarted=false;S.autoHadOriginalEdit=false;S.draft=null;S.selectedKey='';S.selectedEdit=null;el('vceSelectedWord').hidden=true;el('vceSelectedLabel').textContent='';el('vceEditorSelectionText').textContent='—';el('vceEditor').classList.add('hidden');vceUpdateControls();mountHits();refresh();}
 window.vceDeselect=deselect;
 window.vceLive=function(){if(!S.draft)return;
- Object.assign(S.draft,{value:el('vceNew').value,size:clamp(Number(el('vceSize').value)||12,4,120),family:el('vceFamily').value,color:el('vceColor').value,erase:el('vceErase').value,bg:el('vceBg').value,fit:el('vceAutoFit').checked});refresh();vceUpdateControls();};
-window.vceToggle=function(n){if(!S.draft)return;S.draft[n]=!S.draft[n];toggleButtons(S.draft);refresh();vceUpdateControls();};
-window.vceMove=function(dx,dy){if(!S.draft)return;S.draft.x=clamp(S.draft.x+dx,0,S.snapshot.width-1);S.draft.y=clamp(S.draft.y+dy,0,S.snapshot.height-1);refresh();};
-window.vceApply=function(){if(!S.draft)return;window.vceLive();
- const e=S.draft,at=S.draftAtSelection;
- const unchanged=at&&!e.isNew&&!S.edits.some(item=>item.id===e.id)&&
-  ['value','x','y','size','family','bold','italic','color','erase','bg','fit'].every(key=>String(e[key])===String(at[key]));
- if(unchanged){deselect();tell('टेक्स्ट पहले जैसा है — मूल अक्षर ही रखे गए, कोई डबल टेक्स्ट नहीं जोड़ा गया।');return;}
- snapshot();const idx=S.edits.findIndex(item=>item.id===e.id);if(idx>=0)S.edits[idx]={...e};else S.edits.push({...e});deselect();info('✓ बदलाव सेव हो गया। बॉक्स/हाइलाइट हट गया है। अगला शब्द चुनें।');tell('टेक्स्ट Apply हो गया ✓ PDF डाउनलोड में भी रहेगा।');};
+ Object.assign(S.draft,{value:el('vceNew').value,size:clamp(Number(el('vceSize').value)||12,4,120),family:el('vceFamily').value,color:el('vceColor').value,erase:el('vceErase').value,bg:el('vceBg').value,fit:el('vceAutoFit').checked});
+ vceAutoSaveDraft();refresh();vceUpdateControls();};
+window.vceToggle=function(n){if(!S.draft)return;S.draft[n]=!S.draft[n];vceAutoSaveDraft();toggleButtons(S.draft);refresh();vceUpdateControls();};
+window.vceMove=function(dx,dy){if(!S.draft)return;S.draft.x=clamp(S.draft.x+dx,0,S.snapshot.width-1);S.draft.y=clamp(S.draft.y+dy,0,S.snapshot.height-1);vceAutoSaveDraft();refresh();};
+// Done only closes the editor. Save has already happened automatically.
+window.vceApply=function(){if(!S.draft)return;window.vceLive();deselect();info('✓ बदलाव अपने-आप सेव हैं। अगला शब्द चुनें।');tell('✓ Auto Saved — PDF डाउनलोड कर सकते हैं।');};
 window.vceUndo=function(){const last=S.history.pop();if(!last){tell('Undo के लिए कोई बदलाव नहीं है।');return;}S.edits=last.edits;S.pageRemoved=new Set(last.removed);S.pageRotation=last.rotate;deselect();render();tell('पिछला बदलाव वापस किया ✓');};
 window.vceDeleteSelected=function(){if(!S.draft){tell('पहले बदला हुआ टेक्स्ट चुनें।',true);return;}const idx=S.edits.findIndex(e=>e.id===S.draft.id);if(idx<0){deselect();return;}snapshot();S.edits.splice(idx,1);deselect();tell('चुना हुआ Edit हट गया।');};
 window.vceRotate=function(){if(!S.pdf)return;if(S.edits.some(e=>e.page===S.page)){tell('जिस पेज पर टेक्स्ट बदला है, उसे अभी Rotate नहीं कर सकते। पहले Edit हटाएँ।',true);return;}snapshot();S.pageRotation[S.page]=((S.pageRotation[S.page]||0)+90)%360;deselect();render();};
 window.vceRemovePage=function(){if(!S.pdf)return;snapshot();if(S.pageRemoved.has(S.page))S.pageRemoved.delete(S.page);else S.pageRemoved.add(S.page);render();};
 function getVisible(){let arr=S.edits.filter(e=>e.page===S.page).map(e=>({...e}));
- if(S.draft&&S.draft.page===S.page){arr=arr.filter(e=>e.id!==S.draft.id);arr.push(S.draft);}return arr;}
+ if(S.draft&&S.draft.page===S.page){arr=arr.filter(e=>e.id!==S.draft.id);
+  if(S.autoHadOriginalEdit || vceDraftChanged(S.draft,S.draftAtSelection))
+   if(!S.draft.isNew || String(S.draft.value||'').trim())arr.push(S.draft);
+ }return arr;}
 function refresh(){if(!S.pdf||!S.snapshot)return;
  const original=el('vcePageCanvas'),over=el('vceCoverCanvas');if(!original.width||over.width!==original.width)return;
  const ctx=over.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,over.width,over.height);
  const frac=over.width/S.snapshot.width, list=getVisible();
- list.forEach(e=>{if(e.isNew||e.erase==='none')return;let x=e.bx*frac,y=e.by*frac,w=e.bw*frac,h=e.bh*frac;
-  ctx.fillStyle=e.bg||'#ffffff';ctx.fillRect(x,y,w,h);});
+ list.forEach(e=>{if(e.isNew||e.erase==='none')return;
+  const b=vceSafeCoverBounds(e,S.hits);
+  ctx.fillStyle=e.bg||'#ffffff';ctx.fillRect(b.x*frac,b.y*frac,b.w*frac,b.h*frac);});
  // SVG uses the same alphabetic baseline formula as pdf-lib in vceExport.
  // It is vector in the preview too; no CSS line-height/descender drift.
  const live=el('vceLiveLayer');live.innerHTML='';
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
  svg.setAttribute('viewBox','0 0 '+S.snapshot.width+' '+S.snapshot.height);
  svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');
- list.forEach(e=>{if(!e.value)return;const f=textStyle(e),sz=effectiveSize(e);
- const t=document.createElementNS('http://www.w3.org/2000/svg','text');
- t.setAttribute('x',e.x);t.setAttribute('y',e.y+(Number.isFinite(e.baselineOffset)?e.baselineOffset:sz*.86));
- t.setAttribute('font-family',f.family);t.setAttribute('font-size',sz);
- t.setAttribute('font-weight',f.weight);t.setAttribute('font-style',f.style);
- t.setAttribute('fill',e.color||'#000');t.setAttribute('dominant-baseline','alphabetic');
- t.textContent=e.value;svg.appendChild(t);});
- // Last layer: restore only the clipped portions of original vector rules.
- for(const r of vceRuleClips(list,S.rules||[])){
+ // Restore vector rules behind the replacement glyphs, not on top of them.
+ for(const r of vceRuleClips(list,S.rules||[],S.hits)){
   const line=document.createElementNS('http://www.w3.org/2000/svg','line');
   line.setAttribute('x1',r.x1);line.setAttribute('y1',r.y1);
   line.setAttribute('x2',r.x2);line.setAttribute('y2',r.y2);
@@ -24001,6 +24094,13 @@ function refresh(){if(!S.pdf||!S.snapshot)return;
   if(r.dash&&r.dash.length){line.setAttribute('stroke-dasharray',r.dash.join(' '));line.setAttribute('stroke-dashoffset',r.phase);}
   svg.appendChild(line);
  }
+ list.forEach(e=>{if(!e.value)return;const f=textStyle(e),sz=effectiveSize(e);
+ const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+ t.setAttribute('x',e.x);t.setAttribute('y',e.y+(Number.isFinite(e.baselineOffset)?e.baselineOffset:sz*.86));
+ t.setAttribute('font-family',f.family);t.setAttribute('font-size',sz);
+ t.setAttribute('font-weight',f.weight);t.setAttribute('font-style',f.style);
+ t.setAttribute('fill',e.color||'#000');t.setAttribute('dominant-baseline','alphabetic');
+ t.textContent=e.value;svg.appendChild(t);});
  live.appendChild(svg);
 }
 function effectiveSize(e){let size=clamp(Number(e.size)||12,4,120);if(!e.fit||e.isNew||!(e.w||e.bw))return size;
@@ -24101,6 +24201,7 @@ function vceSelectiveCover(ctx,e,cx,cy,cw,ch,reference){
 el('vceStage').addEventListener('click',function(ev){if(S.mode!=='add'||!S.pdf)return;
  const rc=el('vceStage').getBoundingClientRect(),x=clamp((ev.clientX-rc.left)/S.zoom,0,S.snapshot.width-10),y=clamp((ev.clientY-rc.top)/S.zoom,0,S.snapshot.height-10);
  S.selectedKey='';S.selectedEdit=null;S.draft={id:Date.now()+Math.random(),page:S.page,hitKey:'new:'+Date.now(),old:'',value:'',x,y,w:150,h:18,bx:x,by:y,bw:0,bh:0,size:12,originalSize:12,baselineOffset:12*.86,family:'Helvetica',bold:false,italic:false,color:'#000000',ink:'#000000',erase:'none',bg:'#ffffff',fit:false,isNew:true};
+ S.draftAtSelection={...S.draft};S.autoSessionStarted=false;S.autoHadOriginalEdit=false;
  changeForm(S.draft);mountHits();refresh();window.vceMode('pick');el('vceNew').focus();
 });
 async function transparentPageMask(out,jpage,edits,rotation){
@@ -24116,6 +24217,7 @@ async function transparentPageMask(out,jpage,edits,rotation){
  const png=target.toDataURL('image/png');target.width=1;target.height=1;reference.width=1;reference.height=1;
  return out.embedPng(png);
 }
+
 const fontName=e=>{const S=PDFLib.StandardFonts;if(e.family==='Courier')return e.bold?(e.italic?S.CourierBoldOblique:S.CourierBold):(e.italic?S.CourierOblique:S.Courier);
  if(e.family==='Times')return e.bold?(e.italic?S.TimesRomanBoldItalic:S.TimesRomanBold):(e.italic?S.TimesRomanItalic:S.TimesRoman);
  return e.bold?(e.italic?S.HelveticaBoldOblique:S.HelveticaBold):(e.italic?S.HelveticaOblique:S.Helvetica);};
@@ -24173,38 +24275,58 @@ async function vceIsFinancialDocument(){
 }
 window.vceExport=async function(){
  if(!S.pdf||!S.bytes)return;
- if(S.draft&&S.draft.value!==undefined){const stored=S.edits.find(e=>e.id===S.draft.id);
-  if(!stored||JSON.stringify(stored)!==JSON.stringify(S.draft)){tell('पहले APPLY दबाकर टेक्स्ट सेव करें।',true);return;}}
+ const btn=el('vceDownload');
+ if(!btn||btn.disabled)return;
+ // Only change the PDF Editor button label, not the actual download flow.
+ btn.disabled=true;
+ btn.textContent='Download Start';
+ let downloadStarted=false;
+ const finishDownloadButton=()=>{
+  // No in-app Done/Open. Android/Chrome owns the external download completion UI.
+  btn.disabled=false;
+  btn.textContent='⬇ DOWNLOAD PDF';
+ };
+ if(S.draft)window.vceLive(); // Auto-save current form even if still selected.
  // V27: a truly untouched PDF is downloaded byte-for-byte. Do not open it in
  // pdf-lib, rewrite metadata, add a stamp, or change its document structure.
  const pageChanged=S.pageRemoved.size>0||Object.values(S.pageRotation).some(a=>((Number(a)||0)%360+360)%360!==0);
- const hasChanges=S.edits.length>0||pageChanged;
+ const hasChanges=S.edits.length>0||pageChanged||(S.draft&&getVisible().some(e=>e.id===S.draft.id));
  if(!hasChanges){
    try{
      const originalName=/\.pdf$/i.test(S.name)?S.name:'Original.pdf';
      if(!linkSave(S.bytes.slice(),originalName))throw new Error('PDF सेव नहीं हो सकी।');
-     tell('मूल PDF बिना बदलाव और बिना नया Watermark जोड़े डाउनलोड हो गई ✓');
+     downloadStarted=true;
+     tell('मूल PDF बिना बदलाव और बिना नया Watermark जोड़े डाउनलोड शुरू हो गई ✓');
    }catch(err){console.error(err);tell('डाउनलोड में समस्या: '+(err.message||err),true);}
+   finally{finishDownloadButton();}
    return;
  }
- if(!window.PDFLib){tell('PDF लाइब्रेरी उपलब्ध नहीं है। एक बार Internet ON करके फिर प्रयास करें।',true);return;}
- const btn=el('vceDownload');btn.disabled=true;btn.textContent='PDF बन रही है…';
+ if(!window.PDFLib){tell('PDF लाइब्रेरी उपलब्ध नहीं है। एक बार Internet ON करके फिर प्रयास करें।',true);finishDownloadButton();return;}
  try{
   const out=await PDFLib.PDFDocument.load(S.bytes.slice(),{updateMetadata:false});
   const cache={};
   const getFont=async e=>{const key=fontName(e);if(!cache[key])cache[key]=await out.embedFont(key);return cache[key];};
-  const editsToExport=S.edits.filter(e=>!S.pageRemoved.has(e.page));
+  // Export exactly the same edit objects used to draw the visible preview.
+  // Other pages still use their auto-saved edits.
+  const editsToExport=S.edits.filter(e=>!S.pageRemoved.has(e.page)&&e.page!==S.page)
+    .concat(getVisible().filter(e=>!S.pageRemoved.has(e.page)));
   for(let n=1;n<=S.count;n++){
    if(S.pageRemoved.has(n))continue;
    const edits=editsToExport.filter(e=>e.page===n);
    const rotation=S.pageRotation[n]||0, pg=out.getPage(n-1);
    const jpage=await S.pdf.getPage(n);
    const vp=jpage.getViewport({scale:1,rotation:jpage.rotate+rotation});
+   // Original word boundaries protect the first/last letters of nearby words.
+   let pageHits=[];
+   if(edits.some(e=>!e.isNew&&e.erase!=='none')){
+    try{pageHits=makeHits(await jpage.getTextContent(),vp,n)}catch(_){pageHits=[];}
+   }
+   // Pass 1: cover the original glyphs before drawing ANY replacement text.
    for(const e of edits){
     // Draw a PDF-native vector mask on flat backgrounds, NEVER an image.
     // This is a visual cover, not cryptographic redaction of source streams.
     if(!e.isNew&&e.erase!=='none'){
-     const x1=e.bx, y1=e.by, x2=e.bx+e.bw, y2=e.by+e.bh;
+     const b=vceSafeCoverBounds(e,pageHits),x1=b.x,y1=b.y,x2=b.x+b.w,y2=b.y+b.h;
      const corners=[[x1,y1],[x2,y1],[x1,y2],[x2,y2]].map(([x,y])=>vp.convertToPdfPoint(x,y));
      const xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);
      const left=Math.min(...xs),bottom=Math.min(...ys),width=Math.max(...xs)-left,height=Math.max(...ys)-bottom;
@@ -24213,6 +24335,21 @@ window.vceExport=async function(){
       pg.drawRectangle({x:left,y:bottom,width,height,color:PDFLib.rgb(bg.r/255,bg.g/255,bg.b/255),borderWidth:0});
      }
     }
+   }
+   // Pass 2: rebuild line fragments AFTER covering and BEFORE text, so a
+   // cover cannot break them. Source paths remain vector; no PNG is introduced.
+   if(edits.length){
+    const rules=await vceReadVectorLines(jpage,n,rotation);
+    for(const r of vceRuleClips(edits,rules,pageHits)){
+      const start=vp.convertToPdfPoint(r.x1,r.y1),end=vp.convertToPdfPoint(r.x2,r.y2);
+      const props={start:{x:start[0],y:start[1]},end:{x:end[0],y:end[1]},
+       thickness:r.width,color:PDFLib.rgb(...r.color)};
+      if(r.dash&&r.dash.length){props.dashArray=r.dash;props.dashPhase=r.phase;}
+      pg.drawLine(props);
+    }
+   }
+   // Pass 3: paint ALL new text last; later masks must not cut an earlier word.
+   for(const e of edits){
     if(!e.value)continue;
     const font=await getFont(e);let size=clamp(Number(e.size)||12,4,120);
     if(e.fit&&!e.isNew&&(e.w||e.bw)){const maxTextWidth=Math.max(1,(e.w||e.bw)*.96);const tw=font.widthOfTextAtSize(e.value,size);if(tw>maxTextWidth)size=Math.max(4,size*maxTextWidth/tw);}
@@ -24220,18 +24357,6 @@ window.vceExport=async function(){
     try{
      pg.drawText(e.value,{x:pos[0],y:pos[1],font,size,color:PDFLib.rgb(c.r/255,c.g/255,c.b/255),rotate:PDFLib.degrees((jpage.rotate+rotation)%360)});
     }catch(err){if(/WinAnsi|encoding|glyph/i.test(String(err)))throw new Error('इस Font में ऐसे अक्षर नहीं हैं। फिलहाल English/Numbers का उपयोग करें।');throw err;}
-   }
-   // Original dashed/solid table-rule fragments are drawn AFTER text, so a
-   // cover cannot break them. Source paths remain vector; no PNG is introduced.
-   if(edits.length){
-    const rules=await vceReadVectorLines(jpage,n,rotation);
-    for(const r of vceRuleClips(edits,rules)){
-      const start=vp.convertToPdfPoint(r.x1,r.y1),end=vp.convertToPdfPoint(r.x2,r.y2);
-      const props={start:{x:start[0],y:start[1]},end:{x:end[0],y:end[1]},
-       thickness:r.width,color:PDFLib.rgb(...r.color)};
-      if(r.dash&&r.dash.length){props.dashArray=r.dash;props.dashPhase=r.phase;}
-      pg.drawLine(props);
-    }
    }
    if(rotation)pg.setRotation(PDFLib.degrees((pg.getRotation().angle+rotation)%360));
   }
@@ -24244,9 +24369,10 @@ window.vceExport=async function(){
   base=base.replace(/[\\/:*?"<>|]+/g,'_').replace(/\.pdf$/i,'');
   const name=base+'.pdf';
   if(!linkSave(bytes,name))throw new Error('PDF सेव नहीं हो सकी।');
-  tell('PDF डाउनलोड ✓ नया टेक्स्ट उसी पेज पर Vector है। मूल डेटा पूरी तरह मिटा नहीं है।');
+  downloadStarted=true;
+  tell('PDF डाउनलोड शुरू ✓ नया टेक्स्ट उसी पेज पर Vector है। मूल डेटा पूरी तरह मिटा नहीं है।');
  }catch(err){console.error('V16 same-page vector export',err);tell('Download Error: '+(err.message||err),true);}
- finally{btn.disabled=false;btn.textContent='⬇ DOWNLOAD PDF';}
+ finally{finishDownloadButton();}
 };
 })();
 
@@ -24303,4 +24429,16 @@ window.vceExport=async function(){
  #pdfEditor .vce-quick-edit-row.vce-replace-ready .vce-new-cell::after{animation:none!important}
 }
 </style>
+
+<style id="vceChangeClearCompactUi">
+#pdfEditor .vce-file-name{min-width:0;flex:1;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+#pdfEditor .vce-file-actions{display:flex;gap:4px;align-items:center;flex:none;}
+#pdfEditor .vce-file-actions .vce-plain-btn{white-space:nowrap;min-height:33px;padding:6px 8px;font-size:10px;font-weight:850;}
+#pdfEditor .vce-file-actions .vce-clear-pdf{color:#ab253b;background:#fff1f2;border:1px solid #ffe0e4;}
+@media(max-width:380px){#pdfEditor .vce-document-row{gap:4px;padding:7px 6px;}#pdfEditor .vce-file-actions{gap:3px;}#pdfEditor .vce-file-actions .vce-plain-btn{padding:6px 5px;font-size:9px;}#pdfEditor .vce-file-name{font-size:10px;}}
+.toolGroup .nav button.vc-new-tool:has(.vc-new-tool-badge){overflow:visible!important;}
+.vc-new-tool-badge{width:auto;max-width:none;white-space:nowrap;}
+</style>
+
+
 </body></html>
