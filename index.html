@@ -23,7 +23,7 @@
 
 <meta name="google-site-verification" content="x6wfoXLjrnWnorOg4jXPe0fhLEmoY8xc3IbvAD1KNH4">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=overlays-content">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="theme-color" content="#173453">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="Virendra Calculator">
@@ -1626,6 +1626,18 @@ body:not(.tool-open) .toolGroup .nav button:only-child{
   pointer-events:none;
 }
 
+
+/* Helpful caption next to RL PDF Viewer in the tool menu. */
+body:not(.tool-open) .toolGroup .nav button .toolLabel .rlPdfViewerHint{
+  display:block;
+  margin-top:5px;
+  color:#415a75;
+  font-size:10px;
+  line-height:1.25;
+  font-weight:700;
+  letter-spacing:0;
+  text-shadow:none;
+}
 </style>
 
 <!-- Image/PDF Converter libraries -->
@@ -1740,6 +1752,15 @@ body.tool-open .vc-dev-footer{display:none}
 
 <style>
 /* Soil Cut / Fill Quantity */
+#earthwork .ew-range{background:#f5f9ff;border:1px solid #d4e1ef;border-radius:15px;padding:12px;margin:0 0 12px}
+#earthwork .ew-range-title{display:flex;align-items:center;justify-content:space-between;color:#173453;font-size:17px;font-weight:900;margin-bottom:9px}
+#earthwork .ew-range-title span{font-size:12px;color:#667f98;font-weight:800}
+#earthwork .ew-range-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px;align-items:end}
+#earthwork .ew-range-grid label{min-width:0;font-size:13px;color:#173453;font-weight:850;display:block}
+#earthwork .ew-range-grid input{width:100%;height:42px;min-width:0;box-sizing:border-box;margin-top:5px;padding:0 10px;border-radius:10px;border:1.5px solid #b9cbdf;background:#fff;color:#173453;font-size:17px;font-weight:750}
+#earthwork .ew-range-generate{height:42px;font-size:14px;white-space:nowrap}
+#earthwork .ew-range-message{font-size:12px;color:#50657b;font-weight:750;margin-top:9px;line-height:1.4;min-height:17px}
+#earthwork .ew-range-message.error{color:#ab2732}
 .ew-top{display:grid;grid-template-columns:1fr;gap:10px}
 .ew-box{background:#f8fafc;border:1px solid #dbe4ee;border-radius:16px;padding:11px}
 .ew-check{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;margin-bottom:8px}
@@ -1821,7 +1842,13 @@ body.tool-open .vc-dev-footer{display:none}
 .ew-rl-table input{width:62px;height:38px;border:1px solid #cfd8e3;border-radius:8px;padding:0 4px;font-size:13px;text-align:center;background:#fff}
 .ew-rl-table .ew-offset-entry{width:62px;height:36px;border:1px solid #9fb3c7;border-radius:8px;padding:0 4px;font-size:13px;text-align:center;background:#fff}
 .ew-rl-table-wrap{grid-column:1/-1;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #d9e2ec;border-radius:11px;background:#fff}
-
+#earthwork .ew-camber-entry{display:flex;align-items:center;gap:10px;max-width:350px;margin:8px 0 10px}
+#earthwork .ew-camber-entry label{font-weight:900;font-size:15px;white-space:nowrap}
+#earthwork .ew-camber-entry input{width:114px;height:42px;min-width:0;box-sizing:border-box;background:#fff;border:1.5px solid #b8c8d7;border-radius:11px;padding:0 9px;font-size:16px}
+#earthwork .ew-camber-help{font-size:12px;line-height:1.4;color:#50657b;margin-bottom:12px;font-weight:750}
+#earthwork .ew-row-camber{margin:5px 0 2px;display:none}
+#earthwork .ew-row-camber .ew-camber-entry{margin:0}
+#earthwork .ew-auto-camber{background:#e8f5ed!important;color:#14532d!important}
 
 .ew-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:0 0 10px}
 .ew-tab{height:42px;border:1px solid #b9c8d8;border-radius:11px;background:#eef3f8;color:#173453;font-size:14px;font-weight:900;cursor:pointer}
@@ -4039,6 +4066,13 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 
 
 <style id="vcEarthworkCompactDarkBold">
+/* Swipe/scroll the whole list of ready-to-fill Chainage boxes. */
+#earthwork .ew-box-count{
+  margin:8px 1px 12px;
+  color:#526b81;
+  font-size:14px;
+  font-weight:700;
+}
 /* Whole Chainage block like Toe: dark border, compact card */
 #earthwork .ew-section{
   position:relative!important;
@@ -4436,7 +4470,7 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 }
 #price .price-smart-tabs{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:7px;
   margin-bottom:10px;
 }
@@ -4446,8 +4480,9 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
   border-radius:12px;
   background:#eef4fa;
   color:#173453;
-  font-size:14px;
+  font-size:12px;
   font-weight:950;
+  padding:4px 2px;
   cursor:pointer;
 }
 #price .price-smart-tab.active{
@@ -4509,6 +4544,28 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
 #price .price-weight-input select{
   padding:0 3px;
 }
+#price .price-output-unit{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+  font-size:12px;
+  font-weight:900;
+  color:#173453;
+}
+#price .price-output-unit select{
+  width:min(200px,65%);
+  height:37px;
+  padding:0 8px;
+  border:1px solid #b9c9d8;
+  border-radius:9px;
+  background:#fff;
+  color:#173453;
+  font-size:13px;
+  font-weight:850;
+}
+
 #price .price-quick-title{
   margin:10px 0 5px;
   color:#64748b;
@@ -4614,6 +4671,37 @@ body:not(.tool-open) #generalUtilityGroup .nav button{
   #price .price-quick{gap:4px}
   #price .price-quick button{font-size:9.5px}
   #price .price-result-hero strong{font-size:28px}
+}
+
+/* Price Calculator - bulk deal from total cost and total weight */
+#price .price-bulk-hint{font-size:12px;color:#4c6478;text-align:center;line-height:1.5;margin:0 0 10px;font-weight:700}
+#price .price-bulk-rate{margin:10px 0 13px;padding:9px;border-radius:10px;background:#e9f2fd;text-align:center;color:#173453;font-size:12px;font-weight:900}
+#price .price-bulk-rate strong{font-size:18px;margin-left:6px;color:#155b37}
+#price .price-bulk-task-title{font-size:13px;font-weight:950;color:#173453;margin:12px 0 7px}
+#price .price-bulk-task{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+#price .price-bulk-answer{min-width:0;border:1.5px solid #b8d0c2;background:#eaf6ef;border-radius:12px;padding:9px 5px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#price .price-bulk-answer span{font-size:11px;color:#537062;font-weight:900}
+#price .price-bulk-answer strong{font-size:clamp(19px,5vw,26px);line-height:1.2;color:#155b37;overflow-wrap:anywhere;margin-top:5px}
+#price .price-bulk-answer small{font-size:10px;color:#526b82;margin-top:5px;font-weight:700;line-height:1.3}
+#price .price-bulk-answer select{font-size:12px;margin-top:7px;max-width:100%;height:30px;padding:1px 3px;border:1px solid #bdd5cb;background:#fff;border-radius:7px;color:#173453}
+#price .price-bulk-error{text-align:center;color:#b91c1c;font-size:11px;margin:8px 0 0;font-weight:800}
+#price .price-bulk-error:empty{display:none}
+#price .price-bulk-hint{font-size:13px;line-height:1.55;margin-bottom:5px}
+#price .price-bulk-hint b{font-weight:850}
+#price .price-bulk-input-tip{margin:0 0 11px;text-align:center;color:#5a6c7e;font-size:10.5px;line-height:1.5}
+body.vc-keyboard-open.tool-open main.wrap > section#price.card:not(.hidden){padding-bottom:190px!important;scroll-padding-bottom:160px!important;}
+#price input[type=number]:focus{scroll-margin-top:74px;scroll-margin-bottom:150px}
+@media(max-width:390px){
+  #price .price-bulk-hint{font-size:12px}
+  #price .price-bulk-task-title{font-size:12px}
+  #price .price-bulk-task .price-smart-field{padding:6px}
+  #price .price-bulk-task .price-smart-field input{font-size:16px}
+  #price .price-bulk-task .price-weight-input{grid-template-columns:minmax(0,1fr) 52px}
+}
+@media(max-width:390px){
+  #price .price-smart-tab{font-size:10.5px;min-height:44px}
+  #price .price-bulk-answer strong{font-size:21px}
+  #price .price-bulk-task{gap:6px}
 }
 </style>
 
@@ -5721,7 +5809,7 @@ body:not(.tool-open) #pdfPhotoDocumentGroup .toolGroupTitle .groupWords small{
 #pdfEditor .vce-passactions button:disabled{opacity:.5}
 #pdfEditor .vce-password small{display:block;font-size:11px;line-height:1.45;color:#49627a}
 </style>
-<meta name="vc-pdf-editor-fix" content="vector-text-selective-cover-v6"/><style>
+<meta name="vc-pdf-editor-fix" content="vector-text-selective-cover-v6"><style>
 /* PDF Editor completely rebuilt — V7 */
 #pdfEditor{padding:14px 10px 22px;background:#edf4fa;border-radius:20px;color:#203149}#pdfEditor .vce-app{font-family:Arial,Helvetica,sans-serif;color:#1c304b}#pdfEditor .vce-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:10px 6px 16px}#pdfEditor .vce-kicker{color:#74869f;font-size:10px;font-weight:900;letter-spacing:1.1px}#pdfEditor .vce-title h2{margin:3px 0 2px;font-size:26px;text-align:left}#pdfEditor .vce-title h2 span{font-size:10px;color:white;background:#0f997e;border-radius:25px;padding:4px 7px;vertical-align:middle}#pdfEditor .vce-title p{font-size:12px;color:#687d95;margin:0}#pdfEditor .vce-logo{flex:none;display:grid;place-items:center;font-size:15px;font-weight:900;width:48px;height:53px;border-radius:14px;background:#e5fcf4;color:#06715b;box-shadow:0 3px 6px #0001}#pdfEditor .vce-upload{border:2px dashed #9cbcd0;border-radius:17px;background:white;padding:20px 10px;text-align:center}#pdfEditor .vce-file-label{display:flex;align-items:center;flex-direction:column;gap:5px;font-weight:800;font-size:15px;cursor:pointer}#pdfEditor .vce-file-label small{font-size:12px;color:#64748b;font-weight:400}#pdfEditor .vce-upload-ico{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#e8f6ff;color:#1664b5;font-size:28px}#pdfEditor #vceFile{display:none}#pdfEditor .vce-privacy{font-size:11px;color:#588178;margin:12px 0 0}#pdfEditor .vce-work{display:block}#pdfEditor .vce-work.hidden,#pdfEditor .vce-editor.hidden{display:none}#pdfEditor .vce-document-row{display:flex;gap:8px;justify-content:space-between;align-items:center;background:white;border:1px solid #e2e9f1;border-radius:12px;padding:8px 12px;margin:0 0 9px}#pdfEditor .vce-file-name{font-size:13px;font-weight:700;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}#pdfEditor button{cursor:pointer;touch-action:manipulation}#pdfEditor .vce-plain-btn{flex:none;border:0;background:#ecf3ff;color:#155a98;border-radius:8px;padding:9px 11px;font-weight:700}#pdfEditor .vce-toolbar{display:flex;align-items:center;justify-content:center;gap:5px;background:white;border:1px solid #e2e9f1;border-radius:12px;padding:9px 6px;margin-bottom:8px;font-size:13px;font-weight:800}#pdfEditor .vce-toolbar button{background:#eef4fb;border:0;color:#22486e;border-radius:8px;min-width:33px;min-height:34px;font-size:20px}#pdfEditor .vce-toolbar .vce-fit{font-size:10px;min-width:34px}#pdfEditor .vce-toolbar span{min-width:40px;text-align:center}#pdfEditor .vce-toolbar .vce-divider{background:#dce5f0;min-width:1px;width:1px;height:23px;margin:0 3px}#pdfEditor .vce-modebar{display:flex;gap:5px;align-items:stretch;background:#dae6f2;padding:5px;border-radius:14px;margin-bottom:8px}#pdfEditor .vce-modebar button{flex:1;border:0;border-radius:10px;background:transparent;color:#496681;font-size:11px;min-height:43px;font-weight:800;padding:5px 3px}#pdfEditor .vce-modebar button.active{background:white;color:#164f85;box-shadow:0 2px 7px #17345318}#pdfEditor .vce-hint{font-size:12px;color:#47647c;text-align:center;margin:6px 0 10px}#pdfEditor .vce-scroller{background:#d4dfe9;border-radius:12px;max-height:70vh;min-height:200px;overflow:auto;overscroll-behavior-x:contain;overscroll-behavior-y:auto;touch-action:pan-x pan-y;box-shadow:inset 0 2px 8px #17345320;padding:13px}#pdfEditor .vce-stage{position:relative;margin:0 auto;background:white;box-shadow:0 4px 14px #20314925;overflow:hidden;isolation:isolate}#pdfEditor #vcePageCanvas{width:100%;height:100%;display:block}#pdfEditor #vceCoverCanvas,#pdfEditor #vceHitLayer,#pdfEditor #vceLiveLayer{position:absolute;inset:0;width:100%;height:100%}#pdfEditor #vceCoverCanvas{pointer-events:none}#pdfEditor #vceHitLayer{pointer-events:none}#pdfEditor .vce-hit{position:absolute;pointer-events:auto;border:0!important;background:transparent!important;cursor:text;margin:0;padding:0;min-width:5px;min-height:9px;outline:0!important;box-shadow:none!important;-webkit-appearance:none!important;appearance:none!important;border-radius:0!important;tap-highlight-color:transparent;-webkit-tap-highlight-color:transparent}#pdfEditor .vce-hit::-moz-focus-inner{border:0;padding:0}#pdfEditor .vce-hit:focus,#pdfEditor .vce-hit:active,#pdfEditor .vce-hit:focus-visible{outline:0!important;border:0!important;box-shadow:none!important;background:transparent!important}#pdfEditor .vce-hit.active{background:linear-gradient(to top, rgba(0,171,230,.14) 0 26%, transparent 26% 100%)!important;box-shadow:inset 0 -2.5px 0 #0e90c5!important}#pdfEditor #vceLiveLayer{pointer-events:none}#pdfEditor .vce-live-text{position:absolute;white-space:pre;line-height:1;pointer-events:none;transform-origin:top left}#pdfEditor .vce-editor{margin-top:12px;background:#fff;border:1px solid #dce5ed;border-radius:15px;padding:14px 11px;box-shadow:0 6px 18px #0000000c}#pdfEditor .vce-editor-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:16px}#pdfEditor .vce-close{border:none;background:#f0f3f8;color:#4b6075;width:30px;height:30px;border-radius:8px}#pdfEditor label{font-size:12px;font-weight:800;color:#37516b;min-width:0}#pdfEditor .vce-formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}#pdfEditor .vce-formatrow{display:grid;grid-template-columns:minmax(0,1fr) 85px 52px;gap:8px;margin-top:10px}#pdfEditor .vce-editor input:not([type=checkbox]),#pdfEditor .vce-editor select{display:block;width:100%;border:1px solid #cfdae6;border-radius:9px;height:43px;margin-top:5px;padding:0 9px;background:#f9fbfd;font-size:14px;color:#173453;min-width:0}#pdfEditor .vce-editor input[readonly]{background:#eef3f7;color:#72879c}#pdfEditor .vce-editor input[type=color]{padding:4px 5px}#pdfEditor .vce-toggles{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:12px 0 8px}#pdfEditor .vce-toggles button{border:1px solid #cddbea;border-radius:8px;padding:10px 12px;background:#f3f7fc;color:#244b71;font-size:12px}#pdfEditor .vce-toggles button.active{background:#1c5387;color:white;border-color:#1c5387}#pdfEditor .vce-fit-check{display:inline-flex;align-items:center;gap:4px;font-size:11px}#pdfEditor .vce-fit-check input{height:16px;width:16px}#pdfEditor .vce-advanced{font-size:12px;color:#477086}#pdfEditor .vce-advanced summary{cursor:pointer;padding:10px 0}#pdfEditor .vce-advanced-inner{display:grid;grid-template-columns:1fr 95px;gap:9px;margin-bottom:7px}#pdfEditor .vce-move{display:flex;gap:5px;align-items:center;justify-content:space-between;margin:13px 0 12px}#pdfEditor .vce-move span{color:#597087;font-size:11px;font-weight:700}#pdfEditor .vce-move button{border:1px solid #d3deea;background:#f3f7fc;border-radius:9px;min-width:32px;height:32px;font-size:17px}#pdfEditor .vce-apply{width:100%;height:48px;background:#0b8c71;color:white;border:0;border-radius:12px;font-size:15px;font-weight:900}#pdfEditor .vce-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:12px}#pdfEditor .vce-actions button{font-size:10px;font-weight:800;color:#405b72;background:white;border:1px solid #d8e4ef;border-radius:9px;min-height:40px;padding:4px 2px}#pdfEditor .vce-export{background:#fff;border:1px solid #d8e5ed;border-radius:15px;padding:12px;margin-top:13px;text-align:center}#pdfEditor #vceDownload{background:#194f87;width:100%;border:0;border-radius:11px;min-height:50px;color:white;font-size:13px;font-weight:900}#pdfEditor .vce-export p{font-size:11px;color:#657d8d;line-height:1.45;margin:8px 2px 0}#pdfEditor .vce-fontextra{background:#edf5fc;border-radius:12px;padding:10px;margin-top:12px}#pdfEditor .vce-fontextra label{font-size:12px;display:block}#pdfEditor .vce-fontextra input{width:100%;height:auto;font-size:10px;margin-top:6px}#pdfEditor .vce-fontextra small{font-size:10px;color:#64778c;line-height:1.35;display:block;margin-top:6px}#pdfEditor .vce-status{font-size:12px;text-align:center;color:#1e6a6e;font-weight:700;padding:11px 4px 0;min-height:18px}#pdfEditor button:disabled{opacity:.5;cursor:wait}@media(min-width:600px){#pdfEditor{padding:24px}#pdfEditor .vce-app{max-width:790px;margin:auto}#pdfEditor .vce-modebar button{font-size:13px}}
 
@@ -5763,6 +5851,41 @@ body.tool-open #pdfEditor.card:not(.hidden){
 #pdfEditor .vce-hit{font-size:0!important;color:transparent!important;appearance:none;-webkit-appearance:none}
 </style>
 <meta name="vc-pdf-editor-fix" content="edge-scroll-chain-v11">
+<style id="vcKeyboardScrollStyle">
+/* Make every active full-screen tool genuinely scroll in the reduced keyboard viewport. */
+body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basicCalc){
+  touch-action:pan-y!important;
+  overflow-y:scroll!important;
+  overscroll-behavior-y:auto!important;
+  padding-bottom:max(220px,33vh)!important;
+  scroll-padding-bottom:115px!important;
+}
+body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basicCalc) input:focus,
+body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basicCalc) textarea:focus{
+  scroll-margin-top:90px!important;
+  scroll-margin-bottom:110px!important;
+}
+</style>
+<style id="vcPegHIControlsV1">
+/* Keep Camber, Deep and HI together on the top row even on narrow phones. */
+#pegLevel .peg-top-settings{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+#pegLevel .peg-top-settings>div{min-width:0}
+#pegLevel .peg-top-settings label{font-size:13px!important;white-space:nowrap}
+#pegLevel .peg-top-settings input{min-width:0!important;width:100%!important;box-sizing:border-box!important;font-size:17px!important;padding:0 8px!important}
+#pegLevel .peg-toggle-line{display:flex;align-items:center;flex-wrap:wrap;gap:7px 16px;margin-top:10px}
+#pegLevel .peg-toggle-line .peg-same-opt{margin:0!important}
+#pegLevel .peg-hi-change-panel{margin-top:12px;border:1px solid #d6e3ef;border-radius:12px;background:#f5f9fe;padding:10px}
+#pegLevel .peg-hi-change-toggle{margin:0!important}
+#pegLevel .peg-hi-change-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+#pegLevel .peg-hi-change-fields[hidden]{display:none!important}
+#pegLevel .peg-hi-change-fields>div{min-width:0}
+#pegLevel .peg-hi-change-fields label{font-size:13px!important;line-height:1.4!important;min-height:36px}
+#pegLevel .peg-hi-change-fields input{min-width:0!important;width:100%!important;box-sizing:border-box!important;height:48px!important;font-size:16px!important;padding:0 9px!important;margin-top:6px}
+#pegLevel .peg-hi-change-status{font-size:12px;line-height:1.5;color:#516b82;margin-top:7px;font-weight:750}
+#pegLevel .peg-hi-change-status.error{color:#b42318}
+#pegLevel.peg-hi-same-mode .peg-tableWrap tbody td[data-label="HI (Manual)"]{display:none!important}
+@media(max-width:360px){#pegLevel .peg-top-settings{gap:6px!important}#pegLevel .peg-top-settings label{font-size:12px!important}#pegLevel .peg-hi-change-fields{gap:7px}}
+</style>
 </head>
 <body class="">
 
@@ -5835,9 +5958,26 @@ body.tool-open #pdfEditor.card:not(.hidden){
   <button id="ewTabHi" class="ew-tab" type="button" onclick="ewSwitchMode('hi')">With HI</button>
 </div>
 
+<div class="ew-range" aria-label="Chainage range generator">
+  <div class="ew-range-title">Chainage Range <span>From → To</span></div>
+  <div class="ew-range-grid">
+    <label>Chainage From
+      <input id="ewRangeFrom" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600">
+    </label>
+    <label>Chainage To
+      <input id="ewRangeTo" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+650">
+    </label>
+    <label>Interval (m)
+      <input id="ewRangeStep" type="number" step="any" min="0.001" inputmode="decimal" enterkeyhint="done" value="10">
+    </label>
+    <button type="button" class="ew-btn green ew-range-generate" onclick="ewGenerateChainageRange()">Generate Boxes</button>
+  </div>
+  <div id="ewRangeMessage" class="ew-range-message" role="status" aria-live="polite">From और To भरें; 10 m के अंतर पर उतने ही Chainage बॉक्स बनेंगे।</div>
+</div>
+
 <div id="ewGlobalHiBox" class="ew-global-hi" style="display: none;">
   <label>HI</label>
-  <input id="ewGlobalHI" type="number" step="any" inputmode="decimal" oninput="ewGlobalHiChanged()">
+  <input id="ewGlobalHI" type="number" step="any" inputmode="decimal" enterkeyhint="next" oninput="ewGlobalHiChanged()">
 </div>
 
 <div class="ew-top">
@@ -5846,6 +5986,15 @@ body.tool-open #pdfEditor.card:not(.hidden){
       <input id="ewSameOffsets" type="checkbox" onchange="ewToggleOffsets();ewSaveDraft()">
       Same Offset for All Chainage
     </label>
+    <label class="ew-check">
+      <input id="ewSameCamber" type="checkbox" checked onchange="ewToggleCamberMode()">
+      Same Camber (%) for All Chainage
+    </label>
+    <div id="ewGlobalCamberBox" class="ew-camber-entry">
+      <label for="ewGlobalCamber">Camber (%)</label>
+      <input id="ewGlobalCamber" type="number" inputmode="decimal" enterkeyhint="next" step="any" placeholder="e.g. 2.5" oninput="ewCamberChanged()">
+    </div>
+    <div class="ew-camber-help">किसी भी Offset पर <b>DRL (Design RL)</b> भरें। Camber और Offset के अनुसार बाकी <b>DRL</b> अपने-आप भरेंगे। <b>RL (Actual/Bed Level)</b> हर Offset पर अलग भरें; With HI में अलग-अलग IS से RL निकलेगा। उदाहरण: 0 m पर DRL 15.200 और Camber −2% हो तो −2 m पर DRL 15.240 तथा +2 m पर 15.160 होगा।</div>
 
     <div class="ew-setup">
       <div class="ew-field" id="ewCommonBox">
@@ -5871,6 +6020,7 @@ body.tool-open #pdfEditor.card:not(.hidden){
   </div>
 </div>
 
+<div id="ewBoxCount" class="ew-box-count" aria-live="polite"></div>
 <div id="ewChainages" class="ew-sections"><div class="ew-section"><div class="ew-section-head"><button type="button" class="ew-del">×</button></div><div class="ew-grid"><div class="ew-top-fields single"><div class="ew-chain-line"><div class="ew-chain-label">Chainage</div><div class="ew-field ew-chain-wrap"><input class="ew-ch" type="text" inputmode="text" autocomplete="off" enterkeyhint="next" placeholder="12+600"><button type="button" class="ew-ch-suggestion hidden"></button></div></div></div><input class="ew-offs" type="hidden" value=""><input class="ew-is" type="hidden" value=""><input class="ew-eg" type="hidden" value=",,"><input class="ew-dg" type="hidden" value=",,"><div class="ew-point-list ew-rl-table-wrap"><table class="ew-rl-table"><tbody><tr><td class="ew-sticky">Offset (m)</td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td></tr><tr><td class="ew-sticky">RL</td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td></tr><tr><td class="ew-sticky">DRL</td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td></tr></tbody></table></div></div></div><div class="ew-section"><div class="ew-section-head"><button type="button" class="ew-del">×</button></div><div class="ew-grid"><div class="ew-top-fields single"><div class="ew-chain-line"><div class="ew-chain-label">Chainage</div><div class="ew-field ew-chain-wrap"><input class="ew-ch" type="text" inputmode="text" autocomplete="off" enterkeyhint="next" placeholder="12+600"><button type="button" class="ew-ch-suggestion hidden"></button></div></div></div><input class="ew-offs" type="hidden" value=""><input class="ew-is" type="hidden" value=""><input class="ew-eg" type="hidden" value=",,"><input class="ew-dg" type="hidden" value=",,"><div class="ew-point-list ew-rl-table-wrap"><table class="ew-rl-table"><tbody><tr><td class="ew-sticky">Offset (m)</td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td></tr><tr><td class="ew-sticky">RL</td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td></tr><tr><td class="ew-sticky">DRL</td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td></tr></tbody></table></div></div></div><div class="ew-section"><div class="ew-section-head"><button type="button" class="ew-del">×</button></div><div class="ew-grid"><div class="ew-top-fields single"><div class="ew-chain-line"><div class="ew-chain-label">Chainage</div><div class="ew-field ew-chain-wrap"><input class="ew-ch" type="text" inputmode="text" autocomplete="off" enterkeyhint="next" placeholder="12+600"><button type="button" class="ew-ch-suggestion hidden"></button></div></div></div><input class="ew-offs" type="hidden" value=""><input class="ew-is" type="hidden" value=""><input class="ew-eg" type="hidden" value=",,"><input class="ew-dg" type="hidden" value=",,"><div class="ew-point-list ew-rl-table-wrap"><table class="ew-rl-table"><tbody><tr><td class="ew-sticky">Offset (m)</td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-offset-entry" type="number" step="any" inputmode="decimal" value=""></td></tr><tr><td class="ew-sticky">RL</td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value=""></td></tr><tr><td class="ew-sticky">DRL</td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td><td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value=""></td></tr></tbody></table></div></div></div></div>
 
 <div class="ew-actions">
@@ -6228,6 +6378,7 @@ body.tool-open #pdfEditor.card:not(.hidden){
 <div class="price-smart-tabs">
   <button id="findPriceTab" class="price-smart-tab active" type="button" onclick="priceMode('price')">₹ Find Price</button>
   <button id="findWeightTab" class="price-smart-tab" type="button" onclick="priceMode('weight')">⚖ Find Weight</button>
+  <button id="bulkPriceTab" class="price-smart-tab" type="button" onclick="priceMode('bulk')">📦 कुल रेट</button>
 </div>
 
 <div id="findPriceBox" class="price-smart-panel">
@@ -6243,6 +6394,8 @@ body.tool-open #pdfEditor.card:not(.hidden){
         <select id="priceWeightUnit" onchange="calcFindPrice()" data-vc-live-bound="1">
           <option value="g" selected="">g</option>
           <option value="kg">kg</option>
+          <option value="quintal">Qtl</option>
+          <option value="ton">Ton</option>
         </select>
       </div>
     </div>
@@ -6259,14 +6412,14 @@ body.tool-open #pdfEditor.card:not(.hidden){
 
   <div class="price-result-hero">
     <span>Total Price</span>
-    <strong id="priceResult">₹5</strong>
-    <small id="priceFormula">₹100/kg × 50 g</small>
+    <strong id="priceResult">₹5,250</strong>
+    <small id="priceFormula">₹15/kg × 3,50,000 g</small>
   </div>
 
   <div class="price-mini-results">
-    <div><span>100 g Price</span><strong id="price100g">₹10</strong></div>
-    <div><span>500 g Price</span><strong id="price500g">₹50</strong></div>
-    <div><span>1 kg Price</span><strong id="price1kg">₹100</strong></div>
+    <div><span>100 g Price</span><strong id="price100g">₹1.5</strong></div>
+    <div><span>500 g Price</span><strong id="price500g">₹7.5</strong></div>
+    <div><span>1 kg Price</span><strong id="price1kg">₹15</strong></div>
   </div>
 </div>
 
@@ -6291,6 +6444,16 @@ body.tool-open #pdfEditor.card:not(.hidden){
     <button type="button" onclick="setAmount(500)">₹500</button>
   </div>
 
+  <div class="price-output-unit">
+    <label for="weightOutputUnit">Result Unit</label>
+    <select id="weightOutputUnit" onchange="calcFindWeight()" aria-label="Select weight result unit">
+      <option value="auto">Auto (g / kg)</option>
+      <option value="g">Gram (g)</option>
+      <option value="kg">Kilogram (kg)</option>
+      <option value="quintal">Quintal (Qtl)</option>
+      <option value="ton">Ton</option>
+    </select>
+  </div>
   <div class="price-result-hero">
     <span>Weight</span>
     <strong id="weightResult">200 g</strong>
@@ -6301,6 +6464,60 @@ body.tool-open #pdfEditor.card:not(.hidden){
     <div><span>Gram</span><strong id="weightGramResult">200 g</strong></div>
     <div><span>Kilogram</span><strong id="weightKgResult">0.2 kg</strong></div>
   </div>
+</div>
+
+<div id="bulkPriceBox" class="price-smart-panel hidden">
+  <p class="price-bulk-hint">उदाहरण: <b>₹<span id="bulkExamplePrice">360</span> में <span id="bulkExampleWeight">50 kg</span> सामान मिलता है, तो ₹<span id="bulkExampleMoney">50</span> में कितना सामान मिलेगा या <span id="bulkExampleWanted">5 kg</span> का कितना दाम होगा?</b></p>
+  <p class="price-bulk-input-tip">किसी संख्या पर टैप करके बदलें।</p>
+  <div class="price-smart-grid">
+    <div class="price-smart-field">
+      <label for="bulkBasePrice">कुल कीमत (₹)</label>
+      <input id="bulkBasePrice" type="number" min="0" step="any" inputmode="decimal" enterkeyhint="done" value="360" placeholder="रुपये" oninput="calcBulkPrice()">
+    </div>
+    <div class="price-smart-field">
+      <label for="bulkBaseWeight">कुल वजन</label>
+      <div class="price-weight-input">
+        <input id="bulkBaseWeight" type="number" min="0" step="any" inputmode="decimal" enterkeyhint="done" value="50" placeholder="वजन" oninput="calcBulkPrice()">
+        <select id="bulkBaseUnit" onchange="calcBulkPrice()" aria-label="कुल वजन की यूनिट">
+          <option value="g">g</option><option value="kg" selected>kg</option><option value="quintal">Qtl</option><option value="ton">Ton</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="price-bulk-rate">1 kg का भाव <strong id="bulkUnitRate">₹7.20/kg</strong></div>
+
+  <div class="price-bulk-task-title">1. <span id="bulkQuestionWanted">5 kg</span> का कितना पैसा लगेगा?</div>
+  <div class="price-bulk-task">
+    <div class="price-smart-field">
+      <label for="bulkWantedWeight">खरीदने का वजन</label>
+      <div class="price-weight-input">
+        <input id="bulkWantedWeight" type="number" min="0" step="any" inputmode="decimal" enterkeyhint="done" value="5" placeholder="वजन" oninput="calcBulkPrice()">
+        <select id="bulkWantedUnit" onchange="calcBulkPrice()" aria-label="खरीदने के वजन की यूनिट">
+          <option value="g">g</option><option value="kg" selected>kg</option><option value="quintal">Qtl</option><option value="ton">Ton</option>
+        </select>
+      </div>
+    </div>
+    <div class="price-bulk-answer" aria-live="polite">
+      <span>कुल दाम</span><strong id="bulkCostResult">₹36</strong>
+      <small id="bulkCostFormula">5 kg का दाम</small>
+    </div>
+  </div>
+
+  <div class="price-bulk-task-title">2. ₹<span id="bulkQuestionMoney">50</span> में कितना सामान मिलेगा?</div>
+  <div class="price-bulk-task">
+    <div class="price-smart-field">
+      <label for="bulkSpendMoney">खर्च करने के रुपये (₹)</label>
+      <input id="bulkSpendMoney" type="number" min="0" step="any" inputmode="decimal" value="50" placeholder="रुपये" enterkeyhint="done" oninput="calcBulkPrice()">
+    </div>
+    <div class="price-bulk-answer" aria-live="polite">
+      <span>कितना वजन मिलेगा</span><strong id="bulkWeightResult">6.944 kg</strong>
+      <select id="bulkOutputUnit" onchange="calcBulkPrice()" aria-label="परिणाम की वजन यूनिट">
+        <option value="g">Gram (g)</option><option value="kg" selected>Kilogram (kg)</option><option value="quintal">Quintal (Qtl)</option><option value="ton">Ton</option>
+      </select>
+      <small id="bulkWeightFormula">लगभग 6 kg 944.44 g</small>
+    </div>
+  </div>
+  <p id="bulkPriceError" class="price-bulk-error" role="status"></p>
 </div>
 
 <button class="clear" onclick="clearPrice()">Clear</button>
@@ -6532,6 +6749,23 @@ body.tool-open #pdfEditor.card:not(.hidden){
 <h2>Subgrade / GSB Peg Level</h2>
 <p class="peg-sub">Manual Chainage • Manual Offset • PCL RL, Camber, Deep और HI से result</p>
 
+<div class="peg-range" aria-label="Chainage range generator">
+  <div class="peg-range-title">Chainage Range <span>From → To</span></div>
+  <div class="peg-range-grid">
+    <label for="pegRangeFrom">Chainage From
+      <input id="pegRangeFrom" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="37+200">
+    </label>
+    <label for="pegRangeTo">Chainage To
+      <input id="pegRangeTo" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="37+250">
+    </label>
+    <label for="pegRangeStep">Interval (m)
+      <input id="pegRangeStep" type="number" step="any" min="0.001" inputmode="decimal" enterkeyhint="done" value="10">
+    </label>
+    <button class="peg-btn green peg-range-generate" type="button" onclick="pegGenerateChainageRange()">Generate Boxes</button>
+  </div>
+  <div id="pegRangeMessage" class="peg-range-message" role="status" aria-live="polite">From और To भरें; Interval के अनुसार Chainage बॉक्स बनेंगे।</div>
+</div>
+
 <div class="peg-example">
   <div class="peg-ex-title">Example</div>
   <b>Chainage 37+200</b> • PCL RL <b>12.500</b> • Offsets <b>2, 4, 6</b> • Camber <b>-2.5%</b> • Deep <b>220 mm</b> • HI <b>14.000</b><br>
@@ -6540,13 +6774,24 @@ body.tool-open #pdfEditor.card:not(.hidden){
 </div>
 
 <div class="peg-panel">
-  <div class="peg-grid2">
-    <div><label>Camber (%)</label><input id="pegCamber" type="number" step="any" value="-2.5" style="opacity: 1;"></div>
-    <div><label>Deep (mm)</label><input id="pegDepth" type="number" step="any" value="220"></div>
+  <div class="peg-grid3 peg-top-settings">
+    <div><label for="pegCamber">Camber (%)</label><input id="pegCamber" type="number" inputmode="decimal" step="any" value="-2.5"></div>
+    <div><label for="pegDepth">Deep (mm)</label><input id="pegDepth" type="number" inputmode="decimal" step="any" value="220"></div>
+    <div><label for="pegHI">HI (m)</label><input id="pegHI" type="number" inputmode="decimal" step="any" placeholder="14.000"></div>
   </div>
-  <div class="peg-help" style="margin-top:10px"><b>Camber:</b> Same Camber ON हो तो ऊपर वाला Camber सभी Chainage पर लगेगा। OFF करने पर हर row में अलग Camber डालें।<br><b>Offsets:</b> हर row में manual डालें। एक या multiple offset ऐसे डाल सकते हैं: <b>2</b> या <b>2, 4, 6</b>.</div>
-  <label class="peg-same-opt"><input id="pegSameCamber" type="checkbox" checked=""> <span>Same Camber</span></label>
-<label class="peg-same-opt"><input id="pegSameOffset" type="checkbox" checked=""> <span>Same Offset</span></label>
+  <div class="peg-toggle-line">
+    <label class="peg-same-opt"><input id="pegSameCamber" type="checkbox" checked> <span>Same Camber</span></label>
+    <label class="peg-same-opt"><input id="pegSameOffset" type="checkbox" checked> <span>Same Offset</span></label>
+  </div>
+  <div class="peg-hi-change-panel">
+    <label class="peg-same-opt peg-hi-change-toggle"><input id="pegHIChangeEnabled" type="checkbox"><span>HI Change</span></label>
+    <div id="pegHIChangeFields" class="peg-hi-change-fields" hidden>
+      <div><label for="pegHIChangeFrom">HI Change From Chainage</label><input id="pegHIChangeFrom" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="37+250"></div>
+      <div><label for="pegHIChangeValue">New HI (m)</label><input id="pegHIChangeValue" type="number" inputmode="decimal" step="any" placeholder="14.350"></div>
+    </div>
+    <div id="pegHIChangeStatus" class="peg-hi-change-status" aria-live="polite">HI Change ON करने पर दिए गए Chainage से नया HI लगेगा।</div>
+  </div>
+  <div class="peg-help" style="margin-top:10px"><b>Camber:</b> Same Camber ON हो तो ऊपर वाला Camber सभी Chainage पर लगेगा। OFF करने पर हर row में अलग Camber डालें।<br><b>HI:</b> ऊपर भरा HI सभी Chainage पर लागू होगा। HI Change चालू करके Chainage और नया HI भरने पर उसी Chainage से आगे नया HI लागू होगा।<br><b>Offsets:</b> 3 बॉक्स हमेशा रहेंगे। और Offset चाहिए तो <b>+</b> दबाएँ; गलती से जोड़ा गया Offset <b>×</b> से हटाएँ।</div>
   <div class="peg-actions" style="grid-template-columns:1fr">
     <button class="peg-btn gray" onclick="pegClearValues()">CLEAR VALUES</button>
   </div>
@@ -6555,8 +6800,8 @@ body.tool-open #pdfEditor.card:not(.hidden){
 <div class="peg-panel">
   <div class="peg-tableWrap">
     <table>
-      <thead><tr><th>Chainage</th><th>PCL RL</th><th>Camber (%)</th><th>Offset(s)</th><th>HI</th><th></th></tr></thead>
-      <tbody id="pegRows"><tr data-peg-id="1"><td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="" placeholder="37+200"><button type="button" class="peg-ch-suggestion hidden" onclick="pegUseChainageSuggestion(this)"></button></div></td><td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td><td><input class="peg-cam same" type="number" step="any" placeholder="-2.5" value="-2.5" readonly="" title="Same Camber"></td><td><input class="peg-off" type="text" inputmode="decimal" placeholder="2 or 2, 4, 6" value="" style="background: rgb(248, 250, 252);"></td><td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td><td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td></tr><tr data-peg-id="2"><td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="" placeholder="37+200"><button type="button" class="peg-ch-suggestion hidden" onclick="pegUseChainageSuggestion(this)"></button></div></td><td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td><td><input class="peg-cam same" type="number" step="any" placeholder="-2.5" value="-2.5" readonly="" title="Same Camber"></td><td><input class="peg-off" type="text" inputmode="decimal" placeholder="2 or 2, 4, 6" value="" style="background: rgb(248, 250, 252);"></td><td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td><td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td></tr><tr data-peg-id="3"><td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="" placeholder="37+200"><button type="button" class="peg-ch-suggestion hidden" onclick="pegUseChainageSuggestion(this)"></button></div></td><td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td><td><input class="peg-cam same" type="number" step="any" placeholder="-2.5" value="-2.5" readonly="" title="Same Camber"></td><td><input class="peg-off" type="text" inputmode="decimal" placeholder="2 or 2, 4, 6" value="" style="background: rgb(248, 250, 252);"></td><td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td><td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td></tr></tbody>
+      <thead><tr><th>Chainage</th><th>PCL RL</th><th>Camber (%)</th><th>Offset(s)</th><th>HI (Manual)</th><th></th></tr></thead>
+      <tbody id="pegRows"></tbody>
     </table>
   </div>
 </div>
@@ -6568,9 +6813,9 @@ body.tool-open #pdfEditor.card:not(.hidden){
 
   <div id="pegBottomStaffSummary" class="peg-bottom-summary">
     <div class="peg-bottom-title">LEVEL SUMMARY</div>
-    <div class="peg-summary-tick-help">Reading पर tap करें → ✓ Level Done</div>
+    <div class="peg-summary-tick-help">Peg Reading पर tap करें → ✓ Level Done</div>
     <div class="peg-bottom-scroll">
-      <div id="pegBottomStaffRows"><div class="peg-bottom-empty">Staff Reading आने पर एक Chainage की सभी Offset readings यहाँ साफ़ दिखाई देंगी।</div></div>
+      <div id="pegBottomStaffRows"><div class="peg-bottom-empty">Peg Reading आने पर हर Chainage की सभी Offset readings यहाँ दिखेंगी।</div></div>
   <div id="pegSummary" class="peg-summary">Chainage, PCL RL, Camber, Offset और HI डालते ही result automatic आएगा.</div>
   <div class="peg-actions peg-pdf-bottom" style="grid-template-columns:1fr">
     <button class="peg-btn" onclick="pegDownloadPDF()">DOWNLOAD PDF</button>
@@ -7802,7 +8047,7 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
         <button type="button" id="vceModeAdd" onclick="vceMode('add')">＋ नया टेक्स्ट</button>
         <button type="button" id="vceModeCopy" onclick="vceMode('copy')">◎ Font Match</button>
       </div>
-      <p class="vce-hint" id="vceHint">PDF पर जिस शब्द को बदलना है, उसे टैप करें।</p><div class="vce-selected-word" id="vceSelectedWord" role="status" aria-live="polite" hidden><span class="vce-selected-icon">✓</span><span>चुना गया पूरा शब्द: <strong id="vceSelectedLabel"></strong></span><button type="button" onclick="vceDeselect()" aria-label="चयन हटाएँ">✕</button></div><p class="vce-zoomtip">PDF बॉक्स में Zoom/Scroll करें · आखिरी किनारे पर स्वाइप करने से ऊपर-नीचे के विकल्प दिखेंगे</p>
+      <p class="vce-hint" id="vceHint">PDF पर जिस शब्द को बदलना है, उसे टैप करें।</p><div class="vce-selected-word" id="vceSelectedWord" role="status" aria-live="polite" hidden=""><span class="vce-selected-icon">✓</span><span>चुना गया पूरा शब्द: <strong id="vceSelectedLabel"></strong></span><button type="button" onclick="vceDeselect()" aria-label="चयन हटाएँ">✕</button></div><p class="vce-zoomtip">PDF बॉक्स में Zoom/Scroll करें · आखिरी किनारे पर स्वाइप करने से ऊपर-नीचे के विकल्प दिखेंगे</p>
       <div class="vce-preview-controls hidden" id="vcePreviewControls" aria-label="चुने टेक्स्ट के लिए Preview Controls">
         <div class="vce-toprow"><span class="vce-toplabel">MOVE</span><div class="vce-arrowpad" role="group" aria-label="Text position arrows">
           <button type="button" onclick="vceMove(-1,0)" aria-label="बाएँ">←</button>
@@ -7821,23 +8066,23 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
           <button type="button" class="vce-reset-size" onclick="vceResetOriginalSize()">Original</button>
           <label class="vce-inline-font" for="vceFamily"><span>FONT</span><select id="vceFamily" aria-label="Font" onchange="vceLive()"><option value="Helvetica">Arial</option><option value="Times">Times</option><option value="Courier">Courier</option></select></label>
         </div>
-        <div class="vce-length-note" id="vceSizeHint" hidden aria-live="polite"></div>
+        <div class="vce-length-note" id="vceSizeHint" hidden="" aria-live="polite"></div>
         <div class="vce-quick-edit-row" role="group" aria-label="टेक्स्ट बदलें, ऑटो सेव चालू है">
-          <label class="vce-old-cell">Old Text<input id="vceOld" type="text" readonly aria-label="Old Text"></label>
+          <label class="vce-old-cell">Old Text<input id="vceOld" type="text" readonly="" aria-label="Old Text"></label>
           <label class="vce-new-cell">New Text<input id="vceNew" type="text" placeholder="नया लिखें" oninput="vceLive();vceReplaceStarted()" aria-label="New Text" autocomplete="off" spellcheck="false"></label>
           <button type="button" class="vce-apply vce-apply-quick" id="vceApply" onclick="vceApply()" aria-label="चयन पूरा करें; बदलाव अपने आप सेव हैं" title="बदलाव अपने आप सेव हैं">✓ Done</button>
         </div>
       </div>
       <div class="vce-scroller" id="vceScroller" aria-label="PDF का ज़ूम और स्क्रॉल वाला प्रीव्यू"><div class="vce-stage" id="vceStage"><canvas id="vcePageCanvas"></canvas><canvas id="vceCoverCanvas"></canvas><div id="vceHitLayer"></div><div id="vceLiveLayer"></div></div></div>
       <div class="vce-editor hidden" id="vceEditor">
-        <span id="vceEditorSelectionText" hidden>—</span>
+        <span id="vceEditorSelectionText" hidden="">—</span>
         <details class="vce-more-settings"><summary>⚙ रंग / Manual Size / Fit / Background</summary>
           <div class="vce-formatrow">
             <label>साइज़ (pt)<input type="number" id="vceSize" min="4" max="120" step="0.5" oninput="vceLive()"></label>
             <label>रंग<input type="color" id="vceColor" value="#000000" oninput="vceLive()"></label>
           </div>
           <div class="vce-toggles"><label class="vce-fit-check"><input id="vceAutoFit" type="checkbox" onchange="vceLive()"> Fit करें (चालू करने पर फ़ॉन्ट छोटा हो सकता है)</label></div>
-          <div class="vce-advanced"><details><summary>अतिरिक्त विकल्प (Line, Background)</summary><div class="vce-advanced-inner"><label>पुराने टेक्स्ट को हटाने का तरीका<select id="vceErase" onchange="vceLive()"><option value="smart" selected>Smart Erase — अक्षर साफ़ करें, लाइन बचाएँ</option><option value="none">पुराना टेक्स्ट न हटाएँ</option><option value="solid">Solid background (साधारण पेज)</option></select></label><label>Background रंग<input type="color" value="#ffffff" id="vceBg" onchange="vceLive()"></label></div></details></div>
+          <div class="vce-advanced"><details><summary>अतिरिक्त विकल्प (Line, Background)</summary><div class="vce-advanced-inner"><label>पुराने टेक्स्ट को हटाने का तरीका<select id="vceErase" onchange="vceLive()"><option value="smart" selected="">Smart Erase — अक्षर साफ़ करें, लाइन बचाएँ</option><option value="none">पुराना टेक्स्ट न हटाएँ</option><option value="solid">Solid background (साधारण पेज)</option></select></label><label>Background रंग<input type="color" value="#ffffff" id="vceBg" onchange="vceLive()"></label></div></details></div>
         </details>
       </div>
       <div class="vce-actions" id="vceActions"><button type="button" class="vce-mini-undo" id="vceUndoCompact" onclick="vceUndo()" aria-label="Undo" title="Undo">↶</button><button type="button" onclick="vceDeleteSelected()">⌫ Delete Edit</button><button type="button" onclick="vceRotate()">↻ Rotate</button><button type="button" onclick="vceRemovePage()">✕ Page</button></div>
@@ -8167,7 +8412,7 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
     </div>
   </div>
 
-  <div id="toeRows" class="toe-cards"><div class="toe-card toe-diff-mode" data-toe-id="1"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">—</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">—</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="2"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">—</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">—</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="3"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">—</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">—</strong></div></div></div></div>
+  <div id="toeRows" class="toe-cards"><div class="toe-card toe-diff-mode" data-toe-id="1"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">2.482</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">26.483</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="2"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">5.982</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">29.982</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="3"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">3.833</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">27.832</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="4"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">3.498</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">27.498</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="5"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">2.032</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">26.032</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="6"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">1.983</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">25.983</strong></div></div></div><div class="toe-card toe-diff-mode" data-toe-id="7"><div class="toe-card-top"><div class="toe-chain-wrap"><label class="toe-top-label">Chainage</label><input class="toe-chain-input" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" placeholder="12+600"><button type="button" class="toe-chain-suggestion toe-hidden"></button></div><div class="toe-top-diff toe-height-mode"><label>Diff. (DRL-ARL)</label><input class="toe-diff" type="number" step="any" placeholder="1.554"></div><button type="button" class="toe-x" aria-label="Delete row">×</button></div><div class="toe-input-area"><div class="toe-level-mode toe-hidden"><div class="toe-grid2"><div class="toe-row"><label>DRL</label><input class="toe-drl" type="number" step="any" placeholder="100.000"></div><div class="toe-row"><label>ARL</label><input class="toe-arl" type="number" step="any" placeholder="98.446"></div></div></div></div><div class="toe-result-grid toe-result-grid-2"><div class="toe-result-box"><span>Edge to Toe</span><strong class="toe-out-edge">2.734</strong></div><div class="toe-result-box"><span>Center to Toe</span><strong class="toe-out-center">26.735</strong></div></div></div></div>
 
   <div class="toe-actions">
     <button type="button" class="toe-btn" onclick="toeAddRow()">+ ADD CHAINAGE</button>
@@ -8177,9 +8422,9 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
   <div class="toe-summary">
     <div class="toe-summary-title">TOE SUMMARY</div>
     <div class="toe-summary-side" id="toeSummarySide">Side: LHS</div>
-    <div class="toe-summary-count" id="toeCount">0 calculated · 3 rows</div>
+    <div class="toe-summary-count" id="toeCount">7 calculated · 7 rows</div>
     <div class="toe-summary-tick-help">Summary पर tap करें → ✓</div>
-    <div class="toe-summary-list" id="toeSummaryList"><div class="toe-empty">Chainage और level भरने पर result यहाँ दिखेगा।</div></div>
+    <div class="toe-summary-list" id="toeSummaryList"><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="1" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+200</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>2.482</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>26.483</strong></div></div></div><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="2" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+210</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>5.982</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>29.982</strong></div></div></div><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="3" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+220</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>3.833</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>27.832</strong></div></div></div><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="4" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+230</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>3.498</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>27.498</strong></div></div></div><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="5" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+240</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>2.032</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>26.032</strong></div></div></div><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="6" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+250</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>1.983</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>25.983</strong></div></div></div><div class="toe-summary-card" role="button" tabindex="0" aria-pressed="false" data-summary-key="7" onpointerdown="toeToggleSummaryDone(this,event)" onkeydown="toeSummaryDoneKeyPress(this,event)"><span class="toe-summary-done">✓</span><div class="toe-summary-values"><div class="toe-summary-value"><span>Chainage</span><strong>44+260</strong></div><div class="toe-summary-value"><span>Edge to Toe</span><strong>2.734</strong></div><div class="toe-summary-value"><span>Center to Toe</span><strong>26.735</strong></div></div></div></div>
   </div>
 
   <div class="toe-bottom">
@@ -8878,8 +9123,8 @@ body.day .sound-toggle{
 <div class="toolGroup">
   <div class="toolGroupTitle"><span class="groupIcon">📐</span><span class="groupWords"><b>Survey &amp; Level Work</b><small>Survey Calculation Tools for Field Work</small></span></div>
   <nav class="nav">
-    <button onclick="show('two')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="43" width="50" height="8" rx="4" fill="#8d6e63"></rect><path d="M10 43l14-15 8 8 10-14 12 21z" fill="#69a84f"></path><path d="M32 8c-7 0-12 5-12 12 0 9 12 20 12 20s12-11 12-20c0-7-5-12-12-12z" fill="#e53935"></path><circle cx="32" cy="20" r="5" fill="#fff"></circle></svg></span><span class="toolLabel">Offset RL Calculator</span></button>
     <button onclick="show('single')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><g transform="rotate(-18 32 32)"><rect x="8" y="24" width="48" height="17" rx="4" fill="#f6c344" stroke="#8d6e00" stroke-width="2"></rect><path d="M16 24v7M24 24v5M32 24v7M40 24v5M48 24v7" stroke="#4e3b00" stroke-width="2"></path></g></svg></span><span class="toolLabel">RL Calculator</span></button>
+    <button onclick="show('two')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="43" width="50" height="8" rx="4" fill="#8d6e63"></rect><path d="M10 43l14-15 8 8 10-14 12 21z" fill="#69a84f"></path><path d="M32 8c-7 0-12 5-12 12 0 9 12 20 12 20s12-11 12-20c0-7-5-12-12-12z" fill="#e53935"></path><circle cx="32" cy="20" r="5" fill="#fff"></circle></svg></span><span class="toolLabel">Offset RL Calculator</span></button>
     <button onclick="show('pegLevel')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M4 55L24 15h16l20 40z" fill="#51555d"></path><path d="M29 19h6l2 8h-10zM25 32h14l3 11H22z" fill="#fff"></path><path d="M8 55h48" stroke="#91c95d" stroke-width="5"></path><rect x="9" y="8" width="5" height="36" rx="2" fill="#f5ae21"></rect></svg></span><span class="toolLabel">Subgrade / GSB Peg Level</span></button>
     <button onclick="show('toeCalc')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M10 52h44L10 13z" fill="#e9f4ff" stroke="#173453" stroke-width="4" stroke-linejoin="round"></path><path d="M10 41h11v11" fill="none" stroke="#ef6c00" stroke-width="4"></path><path d="M18 45l25-22" stroke="#1976d2" stroke-width="3" stroke-dasharray="4 3"></path></svg></span><span class="toolLabel">Toe Calculator</span></button>
     <button onclick="show('slab')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="17" width="48" height="11" rx="3" fill="#9ea7ad"></rect><rect x="13" y="31" width="38" height="20" fill="#c7cdd1"></rect><path d="M18 31v20M31 31v20M44 31v20" stroke="#7a858d" stroke-width="3"></path><path d="M8 14h48" stroke="#f39c12" stroke-width="4"></path></svg></span><span class="toolLabel">Slab RL Calculator</span></button>
@@ -8897,7 +9142,7 @@ body.day .sound-toggle{
     <button onclick="show('brickQty')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="13" width="50" height="38" rx="3" fill="#f2d1a0" stroke="#8d5f32" stroke-width="2"></rect><path d="M7 25h50M7 38h50M20 13v12M43 13v12M14 25v13M34 25v13M50 25v13M23 38v13M45 38v13" stroke="#b56b37" stroke-width="3"></path><path d="M9 53h46" stroke="#64748b" stroke-width="3"></path></svg></span><span class="toolLabel">Brick Quantity Calculator</span></button>
     <button onclick="show('machineryHour')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="8" y="29" width="38" height="18" rx="3" fill="#f4b942" stroke="#7a5a12" stroke-width="2"></rect><path d="M17 29l7-10h14l6 10" fill="#ffd66b" stroke="#7a5a12" stroke-width="2"></path><circle cx="18" cy="49" r="7" fill="#37474f"></circle><circle cx="43" cy="49" r="7" fill="#37474f"></circle><circle cx="18" cy="49" r="3" fill="#cfd8dc"></circle><circle cx="43" cy="49" r="3" fill="#cfd8dc"></circle><circle cx="50" cy="17" r="9" fill="#fff" stroke="#173453" stroke-width="3"></circle><path d="M50 12v6l4 2" fill="none" stroke="#173453" stroke-width="2.5" stroke-linecap="round"></path></svg></span><span class="toolLabel">Machinery Hour Register</span></button>
     
-    <button onclick="show('price')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="52" rx="8" fill="#173453"></rect><rect x="16" y="12" width="32" height="11" rx="3" fill="#eaf5ff"></rect><text x="32" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#0d2d56">₹</text><g fill="#fff"><rect x="17" y="29" width="7" height="7" rx="2"></rect><rect x="28" y="29" width="7" height="7" rx="2"></rect><rect x="39" y="29" width="7" height="7" rx="2"></rect><rect x="17" y="40" width="7" height="7" rx="2"></rect><rect x="28" y="40" width="7" height="7" rx="2"></rect></g><rect x="39" y="40" width="7" height="15" rx="2" fill="#f59e0b"></rect><rect x="17" y="51" width="18" height="4" rx="2" fill="#fff"></rect></svg></span><span class="toolLabel">Price Calculator</span></button>
+    <button onclick="show('price')" class=""><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="10" y="6" width="44" height="52" rx="8" fill="#173453"></rect><rect x="16" y="12" width="32" height="11" rx="3" fill="#eaf5ff"></rect><text x="32" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#0d2d56">₹</text><g fill="#fff"><rect x="17" y="29" width="7" height="7" rx="2"></rect><rect x="28" y="29" width="7" height="7" rx="2"></rect><rect x="39" y="29" width="7" height="7" rx="2"></rect><rect x="17" y="40" width="7" height="7" rx="2"></rect><rect x="28" y="40" width="7" height="7" rx="2"></rect></g><rect x="39" y="40" width="7" height="15" rx="2" fill="#f59e0b"></rect><rect x="17" y="51" width="18" height="4" rx="2" fill="#fff"></rect></svg></span><span class="toolLabel">Price Calculator</span></button>
   </nav>
 </div>
 
@@ -8906,7 +9151,7 @@ body.day .sound-toggle{
   <nav class="nav">
     <button onclick="show('photoTool')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="12" width="50" height="39" rx="6" fill="#edf6ff" stroke="#173453" stroke-width="3"></rect><circle cx="24" cy="27" r="7" fill="#ffc107"></circle><path d="M12 46l13-13 8 8 7-7 12 12z" fill="#55a95a"></path><path d="M38 55c8-5 14-5 19-1" fill="none" stroke="#263238" stroke-width="3" stroke-linecap="round"></path></svg></span><span class="toolLabel">Photo &amp; Signature Tool</span></button>
     <button onclick="show('pdfConverter')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><rect x="7" y="13" width="24" height="32" rx="4" fill="#e8f4ff" stroke="#1976d2" stroke-width="2"></rect><circle cx="16" cy="23" r="4" fill="#fbc02d"></circle><path d="M10 39l7-8 5 5 6-7v10z" fill="#66bb6a"></path><path d="M29 31h9" stroke="#173453" stroke-width="4"></path><path d="M35 26l5 5-5 5" fill="none" stroke="#173453" stroke-width="4"></path><rect x="39" y="17" width="18" height="31" rx="3" fill="#d32f2f"></rect><text x="48" y="36" text-anchor="middle" font-size="10" font-weight="900" fill="#fff">PDF</text></svg></span><span class="toolLabel">Image ↔ PDF Converter</span></button>
-    <button onclick="show('pdfFreezeViewer')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 7h29l9 9v39H14z" fill="#fff" stroke="#b71c1c" stroke-width="3"></path><path d="M43 7v10h9" fill="#ffcdd2"></path><text x="31" y="37" text-anchor="middle" font-size="11" font-weight="900" fill="#c62828">RL</text><path d="M46 31c-7 0-12 5-12 12 0 7 12 14 12 14s12-7 12-14c0-7-5-12-12-12z" fill="#1565c0"></path><circle cx="46" cy="43" r="4" fill="#fff"></circle></svg></span><span class="toolLabel">RL PDF Viewer</span></button>
+    <button onclick="show('pdfFreezeViewer')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M14 7h29l9 9v39H14z" fill="#fff" stroke="#b71c1c" stroke-width="3"></path><path d="M43 7v10h9" fill="#ffcdd2"></path><text x="31" y="37" text-anchor="middle" font-size="11" font-weight="900" fill="#c62828">RL</text><path d="M46 31c-7 0-12 5-12 12 0 7 12 14 12 14s12-7 12-14c0-7-5-12-12-12z" fill="#1565c0"></path><circle cx="46" cy="43" r="4" fill="#fff"></circle></svg></span><span class="toolLabel">RL PDF Viewer<small class="rlPdfViewerHint">RL देखने और पढ़ने की आसान सुविधा</small></span></button>
     <button onclick="show('pdfEditor')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M12 7h31l9 9v39H12z" fill="#fff" stroke="#c62828" stroke-width="3"></path><path d="M43 7v10h9" fill="#ffcdd2"></path><text x="29" y="34" text-anchor="middle" font-size="10" font-weight="900" fill="#c62828">PDF</text><path d="M34 47l15-15 6 6-15 15-8 2z" fill="#f6b73c" stroke="#5d4037" stroke-width="2"></path></svg></span><span class="toolLabel">PDF Editor</span></button>
     <button onclick="show('pdfPasswordRemover')"><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M11 8h29l9 9v37H11z" fill="#fff" stroke="#c62828" stroke-width="3"></path><text x="28" y="35" text-anchor="middle" font-size="9" font-weight="900" fill="#c62828">PDF</text><path d="M37 41v-6a8 8 0 0 1 16 0" fill="none" stroke="#173453" stroke-width="5" stroke-linecap="round"></path><rect x="34" y="40" width="23" height="17" rx="4" fill="#f59e0b"></rect><circle cx="46" cy="48" r="2.5" fill="#173453"></circle></svg></span><span class="toolLabel">PDF Password Remover</span></button>
     <button onclick="show('docScanner')" class=""><span class="toolIcon vcRealToolIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M13 18V9h9M42 9h9v9M13 46v9h9M42 55h9v-9" fill="none" stroke="#1976d2" stroke-width="4" stroke-linecap="round"></path><rect x="20" y="16" width="25" height="32" rx="3" fill="#fff" stroke="#6d7b88" stroke-width="2"></rect><path d="M24 25h17M24 31h17M24 37h12" stroke="#90a4ae" stroke-width="3" stroke-linecap="round"></path><path d="M9 41h46" stroke="#e53935" stroke-width="2"></path></svg></span><span class="toolLabel">Document Scanner</span></button>
@@ -9028,7 +9273,7 @@ body.day .sound-toggle{
         </div>
       </div>
       <div id="vcDevUnlockedStatus" class="vc-dev-status" style="color: rgb(45, 106, 79);"></div>
-      <div id="vcDevBackupInfo" class="vc-dev-note">Auto-backup updated ✓ · 13/10/2026, 2:15:42 pm</div>
+      <div id="vcDevBackupInfo" class="vc-dev-note">Auto-backup updated ✓ · 16/10/2026, 8:28:36 am</div>
       <div class="vc-dev-note">यह in-app protection है. Password के बिना app के अंदर से HTML file नहीं खुलेगी.</div>
     </div>
   </div>
@@ -16339,7 +16584,23 @@ function downloadCalculatorPDF(type){
   }else if(type==='price'){
     title='Price Calculator';filename='Price_Calculator.pdf';
     var priceModeActive=!document.getElementById('findPriceBox').classList.contains('hidden');
-    if(priceModeActive){calcFindPrice();var pp=document.getElementById('pricePerKg').value.trim(),wg=document.getElementById('weightG').value.trim();if(!pp||!wg){alert('PDF के लिए value भरें');return}sections=[{heading:'Find Price',rows:[['Price per kg','Rs. '+pp],['Weight',wg+' g'],['Total Price',document.getElementById('priceResult').textContent]]}];}
+    var bulkModeActive=!document.getElementById('bulkPriceBox').classList.contains('hidden');
+    if(priceModeActive){calcFindPrice();var pp=document.getElementById('pricePerKg').value.trim(),wg=document.getElementById('weightG').value.trim();if(!pp||!wg){alert('PDF के लिए value भरें');return}sections=[{heading:'Find Price',rows:[['Price per kg','Rs. '+pp],['Weight',wg+' '+({g:'g',kg:'kg',quintal:'Quintal',ton:'Ton'}[document.getElementById('priceWeightUnit').value]||'g')],['Total Price',document.getElementById('priceResult').textContent]]}];}
+    else if(bulkModeActive){
+      calcBulkPrice();
+      var bulkBasePrice=document.getElementById('bulkBasePrice').value.trim();
+      var bulkBaseWeight=document.getElementById('bulkBaseWeight').value.trim();
+      if(!bulkBasePrice||!bulkBaseWeight||Number(bulkBasePrice)<=0||Number(bulkBaseWeight)<=0){alert('PDF के लिए सही कीमत और वजन भरें');return;}
+      sections=[{heading:'Bulk Deal',rows:[
+        ['Total Amount','Rs. '+bulkBasePrice],
+        ['Total Weight',bulkBaseWeight+' '+document.getElementById('bulkBaseUnit').value],
+        ['Rate per kg',document.getElementById('bulkUnitRate').textContent],
+        ['Wanted Weight',document.getElementById('bulkWantedWeight').value+' '+document.getElementById('bulkWantedUnit').value],
+        ['Amount to Pay',document.getElementById('bulkCostResult').textContent],
+        ['Your Budget','Rs. '+document.getElementById('bulkSpendMoney').value],
+        ['Weight for Budget',document.getElementById('bulkWeightResult').textContent]
+      ]}];
+    }
     else{calcFindWeight();var p2=document.getElementById('priceKg2').value.trim(),amt=document.getElementById('totalPrice').value.trim();if(!p2||!amt){alert('PDF के लिए value भरें');return}sections=[{heading:'Find Weight',rows:[['Price per kg','Rs. '+p2],['Amount','Rs. '+amt],['Weight',document.getElementById('weightResult').textContent]]}];}
   }else{return}
   calcPdfDownloadBlob(calcBuildReportPDF(title,sections),filename);
@@ -17297,12 +17558,17 @@ function priceNum(v,digits){
   return Number(v).toLocaleString('en-IN',{maximumFractionDigits:digits==null?3:digits});
 }
 function priceMode(mode){
-  PRICE_MODE=(mode==='weight')?'weight':'price';
+  priceHideKeyboard();
+  PRICE_MODE=(mode==='weight'||mode==='bulk')?mode:'price';
   document.getElementById('findPriceBox').classList.toggle('hidden',PRICE_MODE!=='price');
   document.getElementById('findWeightBox').classList.toggle('hidden',PRICE_MODE!=='weight');
+  document.getElementById('bulkPriceBox').classList.toggle('hidden',PRICE_MODE!=='bulk');
   document.getElementById('findPriceTab').classList.toggle('active',PRICE_MODE==='price');
   document.getElementById('findWeightTab').classList.toggle('active',PRICE_MODE==='weight');
-  if(PRICE_MODE==='price')calcFindPrice();else calcFindWeight();
+  document.getElementById('bulkPriceTab').classList.toggle('active',PRICE_MODE==='bulk');
+  if(PRICE_MODE==='price')calcFindPrice();
+  else if(PRICE_MODE==='weight')calcFindWeight();
+  else calcBulkPrice();
 }
 function setWeight(g){
   var input=document.getElementById('weightG'),
@@ -17320,14 +17586,17 @@ function calcFindPrice(){
   var p=Number(document.getElementById('pricePerKg').value),
       raw=Number(document.getElementById('weightG').value),
       unit=(document.getElementById('priceWeightUnit')||{}).value||'g',
-      g=unit==='kg'?raw*1000:raw,
+      kgPerUnit={g:0.001,kg:1,quintal:100,ton:1000},
+      kg=raw*(kgPerUnit[unit]||0),
       result=document.getElementById('priceResult'),
       formula=document.getElementById('priceFormula');
 
-  if(Number.isFinite(p)&&Number.isFinite(g)&&p>=0&&g>=0){
-    var total=p*g/1000;
+  if(Number.isFinite(p)&&Number.isFinite(kg)&&p>=0&&kg>=0&&Object.prototype.hasOwnProperty.call(kgPerUnit,unit)){
+    var total=p*kg;
     result.textContent=priceMoney(total);
-    formula.textContent=priceMoney(p)+'/kg × '+priceNum(g,3)+' g';
+    var shownUnit={g:'g',kg:'kg',quintal:'Quintal',ton:'Ton'}[unit];
+    formula.textContent=priceMoney(p)+'/kg × '+priceNum(raw,3)+' '+shownUnit+
+      ((unit==='quintal'||unit==='ton')?' ('+priceNum(kg,3)+' kg)':'');
 
     var p100=document.getElementById('price100g'),
         p500=document.getElementById('price500g'),
@@ -17353,7 +17622,12 @@ function calcFindWeight(){
     var g=total/p*1000,
         kg=g/1000;
 
-    result.textContent=g>=1000?priceNum(kg,3)+' kg':priceNum(g,2)+' g';
+    var outputUnit=(document.getElementById('weightOutputUnit')||{}).value||'auto';
+    var displayUnit=outputUnit==='auto'?(g>=1000?'kg':'g'):outputUnit;
+    var kgPerUnit={g:0.001,kg:1,quintal:100,ton:1000};
+    var resultValue=kg/kgPerUnit[displayUnit];
+    var resultLabel={g:'g',kg:'kg',quintal:'Quintal',ton:'Ton'}[displayUnit];
+    result.textContent=priceNum(resultValue,displayUnit==='g'?2:6)+' '+resultLabel;
     formula.textContent=priceMoney(total)+' at '+priceMoney(p)+'/kg';
 
     var gr=document.getElementById('weightGramResult'),
@@ -17373,14 +17647,87 @@ function setAmount(v){
   document.getElementById('totalPrice').value=v;
   calcFindWeight();
 }
+function priceHideKeyboard(){
+  var active=document.activeElement;
+  if(active && typeof active.blur==='function' && active.closest && active.closest('#price'))active.blur();
+}
+// Help Android users replace the example number without first deleting its digits.
+(function(){
+  ['bulkBasePrice','bulkBaseWeight','bulkWantedWeight','bulkSpendMoney'].forEach(function(id){
+    var input=document.getElementById(id);
+    if(!input)return;
+    input.addEventListener('focus',function(){
+      setTimeout(function(){try{if(document.activeElement===input)input.select();}catch(e){}},70);
+    });
+    input.addEventListener('keydown',function(event){
+      if(event.key==='Enter'){event.preventDefault();input.blur();}
+    });
+  });
+})();
+function calcBulkPrice(){
+  var kgPerUnit={g:0.001,kg:1,quintal:100,ton:1000};
+  var labels={g:'g',kg:'kg',quintal:'Qtl',ton:'Ton'};
+  var get=function(id){return document.getElementById(id)};
+  var exampleItems={
+    bulkExamplePrice:get('bulkBasePrice').value.trim()||'…',
+    bulkExampleWeight:(get('bulkBaseWeight').value.trim()||'…')+' '+labels[get('bulkBaseUnit').value],
+    bulkExampleMoney:get('bulkSpendMoney').value.trim()||'…',
+    bulkExampleWanted:(get('bulkWantedWeight').value.trim()||'…')+' '+labels[get('bulkWantedUnit').value]
+  };
+  Object.keys(exampleItems).forEach(function(id){get(id).textContent=exampleItems[id]});
+  get('bulkQuestionWanted').textContent=exampleItems.bulkExampleWanted;
+  get('bulkQuestionMoney').textContent=exampleItems.bulkExampleMoney;
+  var basePriceText=get('bulkBasePrice').value.trim(),baseWeightText=get('bulkBaseWeight').value.trim();
+  var baseUnit=get('bulkBaseUnit').value;
+  var basePrice=Number(basePriceText),baseKg=Number(baseWeightText)*kgPerUnit[baseUnit];
+  var ok=basePriceText!==''&&baseWeightText!==''&&Number.isFinite(basePrice)&&basePrice>0&&Number.isFinite(baseKg)&&baseKg>0;
+  var costEl=get('bulkCostResult'),weightEl=get('bulkWeightResult');
+  var rateEl=get('bulkUnitRate'),costFormula=get('bulkCostFormula'),weightFormula=get('bulkWeightFormula');
+  var error=get('bulkPriceError');
+  rateEl.textContent='—';costEl.textContent='—';weightEl.textContent='—';
+  costFormula.textContent='';weightFormula.textContent='';
+  error.textContent='';
+  if(!ok){error.textContent='कुल कीमत और कुल वजन 0 से अधिक भरें।';return;}
+  var ratePerKg=basePrice/baseKg;
+  rateEl.textContent='₹'+priceNum(ratePerKg,ratePerKg<0.01?6:4)+'/kg';
+
+  var wantWeightText=get('bulkWantedWeight').value.trim(),wantUnit=get('bulkWantedUnit').value;
+  var wantWeight=Number(wantWeightText),wantKg=wantWeight*kgPerUnit[wantUnit];
+  if(wantWeightText!==''&&Number.isFinite(wantKg)&&wantKg>=0){
+    var wantCost=basePrice*(wantKg/baseKg);
+    costEl.textContent=priceMoney(wantCost);
+    costFormula.textContent=priceNum(wantWeight,4)+' '+labels[wantUnit]+' का दाम';
+  }
+
+  var moneyText=get('bulkSpendMoney').value.trim(),money=Number(moneyText);
+  if(moneyText!==''&&Number.isFinite(money)&&money>=0){
+    var resultKg=(money/basePrice)*baseKg;
+    var outUnit=get('bulkOutputUnit').value;
+    var outputValue=resultKg/kgPerUnit[outUnit];
+    weightEl.textContent=priceNum(outputValue,outUnit==='g'?2:(outUnit==='kg'?3:6))+' '+labels[outUnit];
+    if(resultKg>=1){
+      var fullKg=Math.floor(resultKg+1e-10);
+      var remainingG=Math.round((resultKg-fullKg)*1000*100)/100;
+      if(remainingG>=1000){fullKg+=1;remainingG=0;}
+      weightFormula.textContent='लगभग '+fullKg+' kg'+(remainingG?' '+priceNum(remainingG,2)+' g':'');
+    }else{
+      weightFormula.textContent='लगभग '+priceNum(resultKg*1000,2)+' g';
+    }
+  }
+}
+
 function clearPrice(){
   document.getElementById('pricePerKg').value='';
   document.getElementById('weightG').value='';
   document.getElementById('priceKg2').value='';
   document.getElementById('totalPrice').value='';
   var u=document.getElementById('priceWeightUnit');if(u)u.value='g';
+  var wu=document.getElementById('weightOutputUnit');if(wu)wu.value='auto';
+  ['bulkBasePrice','bulkBaseWeight','bulkWantedWeight','bulkSpendMoney'].forEach(function(id){document.getElementById(id).value='';});
+  ['bulkBaseUnit','bulkWantedUnit','bulkOutputUnit'].forEach(function(id){document.getElementById(id).value='kg';});
   calcFindPrice();
   calcFindWeight();
+  calcBulkPrice();
 }
 ['pricePerKg','weightG'].forEach(function(id){
   var el=document.getElementById(id);if(el)el.addEventListener('input',calcFindPrice);
@@ -17391,6 +17738,7 @@ var pwu=document.getElementById('priceWeightUnit');if(pwu)pwu.addEventListener('
 });
 calcFindPrice();
 calcFindWeight();
+calcBulkPrice();
 
 function vcRebindLiveCalculators(){
   function bind(ids,fn){ids.forEach(function(id){var el=document.getElementById(id);if(el&&!el.dataset.vcLiveBound){el.addEventListener('input',fn);el.dataset.vcLiveBound='1'}})}
@@ -17453,7 +17801,7 @@ function pegRenderBottomStaffSummary(items){
   if(!box)return;
 
   if(!items||!items.length){
-    box.innerHTML='<div class="peg-bottom-empty">Staff Reading आने पर एक Chainage की सभी Offset readings यहाँ साफ़ दिखाई देंगी।</div>';
+    box.innerHTML='<div class="peg-bottom-empty">Peg Reading आने पर हर Chainage की सभी Offset readings यहाँ दिखेंगी।</div>';
     return;
   }
 
@@ -17466,6 +17814,7 @@ function pegRenderBottomStaffSummary(items){
       rowMap[rowKey]={
         rowId:x.rowId,
         chainage:x.chainage||'—',
+        pcl:x.pcl,
         values:[]
       };
       rows.push(rowMap[rowKey]);
@@ -17490,11 +17839,11 @@ function pegRenderBottomStaffSummary(items){
         '<div class="peg-summary-offset-label">'+pegEscHtml(pegOffsetLabel(v.off))+'</div>'+
         '<div class="peg-summary-values">'+
           '<div class="peg-summary-rl">'+
-            '<span class="peg-summary-mini-label">RL</span>'+
+            '<span class="peg-summary-mini-label">Peg RL</span>'+
             '<strong>'+Number(v.peg).toFixed(3)+'</strong>'+
           '</div>'+
           '<button type="button" class="peg-summary-reading'+(done?' done':'')+'" data-summary-key="'+pegEscHtml(doneKey)+'" aria-pressed="'+(done?'true':'false')+'" onpointerdown="pegToggleSummaryDone(this,event)" onkeydown="pegSummaryDoneKeyPress(this,event)">'+
-            '<span class="peg-summary-mini-label">Reading</span>'+
+            '<span class="peg-summary-mini-label">Peg Reading</span>'+
             '<strong>'+Number(v.staff).toFixed(3)+'</strong>'+
             '<span class="peg-summary-check">✓</span>'+
           '</button>'+
@@ -17505,6 +17854,7 @@ function pegRenderBottomStaffSummary(items){
     return '<div class="peg-summary-card">'+
       '<div class="peg-summary-chainage">'+
         '<strong class="peg-summary-chainage-value">'+pegEscHtml(row.chainage)+'</strong>'+
+        '<span class="peg-summary-pcl">PCL RL <b>'+pegEscHtml(isFinite(row.pcl)?Number(row.pcl).toFixed(3):'—')+'</b></span>'+
       '</div>'+
       '<div class="peg-summary-offset-grid">'+cells+'</div>'+
     '</div>';
@@ -17596,7 +17946,7 @@ function pegUpdateChainageSuggestions(){
   });
 }
 
-function pegMakeRow(chainage){
+function pegMakeRow(chainage,skipSync){
   pegRowSeq++;var tr=document.createElement('tr');tr.dataset.pegId=pegRowSeq;
   var pegBody=document.getElementById('pegRows');
   var sameOff=document.getElementById('pegSameOffset');
@@ -17607,12 +17957,14 @@ function pegMakeRow(chainage){
   var globalCam=document.getElementById('pegCamber');
   var inheritedCam=(sameCam&&sameCam.checked&&globalCam)?globalCam.value:'';
 
-  tr.innerHTML='<td><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="'+(chainage||'')+'" placeholder="37+200"><button type="button" class="peg-ch-suggestion hidden" onclick="pegUseChainageSuggestion(this)"></button></div></td>'+
-    '<td><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td>'+
-    '<td><input class="peg-cam" type="number" step="any" placeholder="-2.5" value="'+String(inheritedCam).replace(/"/g,'&quot;')+'"></td>'+
-    '<td><input class="peg-off" type="text" inputmode="decimal" placeholder="2, 4, 6" value="'+String(inheritedOff).replace(/"/g,'&quot;')+'"></td>'+
-    '<td><div class="peg-hiwrap"><input class="peg-hi" type="number" step="any"><div class="peg-hi-label"></div></div></td>'+
-    '<td><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td>';
+  tr.innerHTML='<td data-label="Chainage"><div class="peg-chwrap"><input class="peg-ch" type="text" inputmode="text" enterkeyhint="next" autocomplete="off" value="'+pegEscHtml(chainage||'')+'" placeholder="37+200"><button type="button" class="peg-ch-suggestion hidden" onclick="pegUseChainageSuggestion(this)"></button></div></td>'+
+    '<td data-label="PCL RL"><input class="peg-pcl" type="number" step="any" placeholder="12.500"></td>'+
+    '<td data-label="Camber (%)"><input class="peg-cam" type="number" step="any" placeholder="-2.5" value="'+String(inheritedCam).replace(/"/g,'&quot;')+'"></td>'+
+    '<td data-label="Offset(s) (m)"><input class="peg-off" type="hidden" value="'+String(inheritedOff).replace(/"/g,'&quot;')+'"><div class="peg-offset-entry"><div class="peg-offset-list"></div><button class="peg-offset-plus" type="button" aria-label="Add another offset" title="Add Offset" onclick="pegAddOffsetBox(this)">+</button></div></td>'+
+    '<td data-label="HI (Manual)"><div class="peg-hiwrap"><input class="peg-hi" type="number" inputmode="decimal" step="any" placeholder="नया HI"><div class="peg-hi-label"></div></div></td>'+
+    '<td class="peg-delete-cell"><button class="peg-del" onclick="pegDeleteRow(this)">×</button></td>';
+
+  pegSetOffsetBoxes(tr,pegParseOffsets(inheritedOff));
 
   var chInp=tr.querySelector('.peg-ch');
   chInp.addEventListener('input',function(){pegRecalc();pegUpdateChainageSuggestions()});
@@ -17632,11 +17984,93 @@ function pegMakeRow(chainage){
   tr.querySelectorAll('.peg-pcl,.peg-cam,.peg-off,.peg-hi').forEach(function(inp){inp.addEventListener('input',pegRecalc)});
 
   document.getElementById('pegRows').appendChild(tr);
-  pegSyncCambers(false);
-  pegSyncOffsets(false);
-  pegUpdateChainageSuggestions();
+  if(!skipSync){
+    pegSyncCambers(false);
+    pegSyncOffsets(false);
+    pegUpdateChainageSuggestions();
+  }
   return tr;
 }
+// Peg Level: generate the precise From–To chainage range as mobile cards.
+// Keep measurements and completed staff tick marks on matching existing rows.
+function pegGenerateChainageRange(){
+  var fromEl=document.getElementById('pegRangeFrom'),toEl=document.getElementById('pegRangeTo'),
+      stepEl=document.getElementById('pegRangeStep'),msg=document.getElementById('pegRangeMessage'),
+      body=document.getElementById('pegRows');
+  if(!fromEl||!toEl||!stepEl||!msg||!body)return;
+  function showMessage(txt,error){msg.textContent=txt;msg.classList.toggle('error',!!error)}
+  var f=String(fromEl.value||'').trim(),t=String(toEl.value||'').trim();
+  if(!f||!t){showMessage('Chainage From और To दोनों भरें।',true);return}
+  var valid=/^(?:\d+\+\d+(?:\.\d+)?|\d+(?:\.\d+)?)$/;
+  if(!valid.test(f)||!valid.test(t)){showMessage('Chainage इस तरह लिखें: 37+200 या 37200',true);return}
+  var from=pegParseChainage(f),to=pegParseChainage(t),interval=Number(stepEl.value);
+  if(!isFinite(from)||!isFinite(to)||from<0||to<0){showMessage('सही Chainage डालें।',true);return}
+  if(to<from){showMessage('Chainage To, From से छोटा नहीं होना चाहिए।',true);return}
+  if(String(stepEl.value).trim()===''||!isFinite(interval)||interval<=0){showMessage('Interval (m) में 0 से बड़ा नंबर डालें।',true);return}
+  // Work in millimetres so 0.5 / 2.5 metre intervals have no rounding drift.
+  var startMm=Math.round(from*1000),endMm=Math.round(to*1000),stepMm=Math.round(interval*1000);
+  if(stepMm<1||Math.abs(from-startMm/1000)>0.000001||
+     Math.abs(to-endMm/1000)>0.000001||Math.abs(interval-stepMm/1000)>0.000001){
+    showMessage('Chainage और Interval में अधिकतम 3 दशमलव अंक डालें।',true);return;
+  }
+  var count=Math.floor((endMm-startMm)/stepMm)+1;
+  if(count>300){showMessage('300 से ज्यादा बॉक्स होंगे। Interval बढ़ाएँ।',true);return}
+  var values=[];
+  for(var i=0;i<count;i++)values.push(startMm+i*stepMm);
+  if(values[values.length-1]!==endMm)values.push(endMm);
+  if(values.length>300){showMessage('एक बार में अधिकतम 300 Chainage बॉक्स बनाएँ।',true);return}
+  var existing=Array.from(body.querySelectorAll('tr')),byKey=new Map(),wanted=new Set(values);
+  var firstOffsetRow=body.querySelector('tr');
+  var firstOff=firstOffsetRow&&firstOffsetRow.querySelector('.peg-off');
+  var sharedOff=firstOff?firstOff.value:'';
+  var sharedOffsetBoxes=firstOffsetRow?pegOffsetBoxValues(firstOffsetRow):['','',''];
+  existing.forEach(function(tr){
+    var ch=tr.querySelector('.peg-ch'),n=ch?pegParseChainage(ch.value):NaN;
+    if(isFinite(n)){
+      var mm=Math.round(n*1000);
+      if(!byKey.has(mm))byKey.set(mm,tr);
+    }
+  });
+  var losingData=existing.some(function(tr){
+    var ch=tr.querySelector('.peg-ch'),n=ch?pegParseChainage(ch.value):NaN;
+    if(isFinite(n)&&wanted.has(Math.round(n*1000))&&byKey.get(Math.round(n*1000))===tr)return false;
+    var pcl=tr.querySelector('.peg-pcl'),off=tr.querySelector('.peg-off'),hi=tr.querySelector('.peg-hi');
+    var cam=tr.querySelector('.peg-cam'),same=document.getElementById('pegSameCamber');
+    return !!((ch&&ch.value.trim())||(pcl&&pcl.value.trim())||
+      (off&&off.value.trim())||(hi&&hi.value.trim())||
+      (cam&&!(same&&same.checked)&&cam.value.trim()));
+  });
+  if(losingData&&!confirm('रेंज से बाहर के भरे हुए Chainage का डेटा हटेगा। क्या जारी रखें?'))return;
+  var fragment=document.createDocumentFragment();
+  var preservedIds=new Set();
+  // Build new rows with a single final refresh rather than re-rendering after every row.
+  values.forEach(function(mm){
+    var tr=byKey.get(mm);
+    if(tr){preservedIds.add(tr.dataset.pegId);}
+    else tr=pegMakeRow(pegFormatChainage(mm/1000),true);
+    var ch=tr.querySelector('.peg-ch');if(ch)ch.value=pegFormatChainage(mm/1000);
+    fragment.appendChild(tr);
+  });
+  existing.forEach(function(tr){
+    if(!preservedIds.has(tr.dataset.pegId)){
+      var prefix=String(tr.dataset.pegId)+'|';
+      Array.from(pegSummaryDone).forEach(function(k){if(k.indexOf(prefix)===0)pegSummaryDone.delete(k)});
+    }
+  });
+  body.replaceChildren(fragment);
+  var sameOff=document.getElementById('pegSameOffset');
+  if(sameOff&&sameOff.checked){
+    Array.from(body.querySelectorAll('tr')).forEach(function(tr){
+      pegSetOffsetBoxes(tr,sharedOffsetBoxes);
+    });
+  }
+  pegSyncCambers(false);pegSyncOffsets(false);pegSyncHI(false);pegRecalc();pegUpdateChainageSuggestions();
+  fromEl.value=pegFormatChainage(startMm/1000);
+  toEl.value=pegFormatChainage(endMm/1000);
+  showMessage(values.length+' Chainage बॉक्स बने: '+fromEl.value+' से '+toEl.value+' ('+interval+' m Interval)',false);
+  if(document.activeElement&&typeof document.activeElement.blur==='function')document.activeElement.blur();
+}
+
 function pegBuild50FromFirst(){
   var body=document.getElementById('pegRows'),rows=Array.from(body.querySelectorAll('tr'));
   if(!rows.length){pegMakeRow('');rows=Array.from(body.querySelectorAll('tr'))}
@@ -17667,6 +18101,8 @@ function pegSyncCambers(doRecalc){
   var same=document.getElementById('pegSameCamber');
   var globalCam=document.getElementById('pegCamber');
   var useSame=!!(same&&same.checked);
+  var section=document.getElementById('pegLevel');
+  if(section)section.classList.toggle('peg-camber-same-mode',useSame);
 
   document.querySelectorAll('#pegRows .peg-cam').forEach(function(inp){
     if(useSame&&globalCam){
@@ -17703,96 +18139,216 @@ function pegToggleSameCamber(){
   else pegRecalc();
 }
 
-function pegApplySameOffset(){
+// Each Chainage has three separate offset inputs; extra inputs appear only on +.
+// Keep the legacy .peg-off (hidden) CSV as the single source used by
+// existing live calculation and PDF export, so old calculation rules stay intact.
+function pegOffsetBoxValues(tr){
+  return Array.from(tr.querySelectorAll('.peg-offset-value')).map(function(inp){return inp.value});
+}
+function pegCommitOffsetBoxes(tr){
+  var field=tr&&tr.querySelector('.peg-off');
+  if(!field)return;
+  field.value=pegOffsetBoxValues(tr).map(function(x){return String(x).trim()}).filter(Boolean).join(',');
+}
+function pegMakeOffsetInput(value,index){
+  var input=document.createElement('input');
+  input.className='peg-offset-value';
+  input.type='text';
+  input.inputMode='decimal';
+  input.autocomplete='off';
+  input.setAttribute('enterkeyhint','next');
+  input.setAttribute('aria-label','Offset '+(index+1)+' in metres');
+  input.placeholder='Off '+(index+1);
+  input.value=value==null?'':String(value);
+  input.addEventListener('input',function(){
+    var tr=input.closest('tr');
+    if(!tr)return;
+    pegCommitOffsetBoxes(tr);
+    if(document.getElementById('pegSameOffset').checked)pegApplySameOffset(tr);
+    else pegRecalc();
+  });
+  return input;
+}
+function pegMakeOffsetCell(value,index){
+  var cell=document.createElement('div');
+  cell.className='peg-offset-cell';
+  cell.appendChild(pegMakeOffsetInput(value,index));
+  if(index>=3){
+    var remove=document.createElement('button');
+    remove.type='button';
+    remove.className='peg-offset-remove';
+    remove.textContent='×';
+    remove.title='Remove Offset '+(index+1);
+    remove.setAttribute('aria-label','Remove Offset '+(index+1));
+    remove.addEventListener('click',function(){pegRemoveOffsetBox(this)});
+    cell.appendChild(remove);
+  }
+  return cell;
+}
+function pegRenumberOffsetBoxes(list){
+  Array.from(list.children).forEach(function(cell,index){
+    var input=cell.querySelector('.peg-offset-value');
+    if(!input)return;
+    input.placeholder='Off '+(index+1);
+    input.setAttribute('aria-label','Offset '+(index+1)+' in metres');
+    var remove=cell.querySelector('.peg-offset-remove');
+    if(remove){
+      remove.title='Remove Offset '+(index+1);
+      remove.setAttribute('aria-label','Remove Offset '+(index+1));
+    }
+  });
+}
+function pegSetOffsetBoxes(tr,values){
+  var list=tr&&tr.querySelector('.peg-offset-list');
+  if(!list)return;
+  values=Array.isArray(values)?values:[];
+  var count=Math.max(3,Math.min(50,values.length));
+  // Reuse existing boxes so that entering an offset never steals keyboard focus.
+  while(list.children.length>count)list.lastElementChild.remove();
+  while(list.children.length<count)list.appendChild(pegMakeOffsetCell('',list.children.length));
+  Array.from(list.querySelectorAll('.peg-offset-value')).forEach(function(inp,i){
+    var next=values[i]==null?'':String(values[i]);
+    if(inp.value!==next)inp.value=next;
+  });
+  pegRenumberOffsetBoxes(list);
+  pegCommitOffsetBoxes(tr);
+  var plus=tr.querySelector('.peg-offset-plus');
+  if(plus)plus.disabled=count>=50;
+}
+function pegAddOffsetBox(btn){
+  var tr=btn&&btn.closest('tr'),list=tr&&tr.querySelector('.peg-offset-list');
+  if(!list)return;
+  var count=list.querySelectorAll('.peg-offset-value').length;
+  if(count>=50)return;
+  var cell=pegMakeOffsetCell('',count);
+  list.appendChild(cell);
+  pegCommitOffsetBoxes(tr);
+  if(document.getElementById('pegSameOffset').checked)pegApplySameOffset(tr);
+  btn.disabled=count+1>=50;
+  pegRecalc();
+  var inp=cell.querySelector('.peg-offset-value');
+  if(inp)inp.focus();
+}
+function pegRemoveOffsetBox(btn){
+  var cell=btn&&btn.closest('.peg-offset-cell');
+  var list=cell&&cell.parentElement;
+  var tr=cell&&cell.closest('tr');
+  if(!list||!tr)return;
+  var index=Array.from(list.children).indexOf(cell);
+  if(index<3)return; // First three boxes never have a close button.
+  var inp=cell.querySelector('.peg-offset-value');
+  var value=inp?String(inp.value||'').trim():'';
+  if(value&&!confirm('Offset '+value+' m हटाना है?'))return;
+  cell.remove();
+  pegRenumberOffsetBoxes(list);
+  pegCommitOffsetBoxes(tr);
+  var plus=tr.querySelector('.peg-offset-plus');
+  if(plus)plus.disabled=false;
+  if(document.getElementById('pegSameOffset').checked)pegApplySameOffset(tr);
+  else pegRecalc();
+}
+function pegApplySameOffset(sourceRow){
   var same=document.getElementById('pegSameOffset');
   if(!same||!same.checked)return;
-  var offs=document.querySelectorAll('#pegRows .peg-off');
-  if(!offs.length)return;
-  var v=offs[0].value;
-  for(var i=1;i<offs.length;i++)offs[i].value=v;
+  var rows=Array.from(document.querySelectorAll('#pegRows tr'));
+  if(!rows.length)return;
+  var src=sourceRow&&rows.indexOf(sourceRow)>=0?sourceRow:rows[0];
+  pegCommitOffsetBoxes(src);
+  var values=pegOffsetBoxValues(src);
+  rows.forEach(function(tr){if(tr!==src)pegSetOffsetBoxes(tr,values)});
   pegRecalc();
 }
 (function setupPegSameOffset(){
   var same=document.getElementById('pegSameOffset');
-  var body=document.getElementById('pegRows');
   if(same)same.addEventListener('change',function(){if(this.checked)pegApplySameOffset()});
-  if(body)body.addEventListener('input',function(ev){
-    if(!same||!same.checked)return;
-    var offs=body.querySelectorAll('.peg-off');
-    if(offs.length&&ev.target===offs[0])pegApplySameOffset();
-  });
 })();
 function pegAddRow(){
-  pegMakeRow('');pegRecalc();pegUpdateChainageSuggestions();
+  pegMakeRow('');pegSyncHI(false);pegRecalc();pegUpdateChainageSuggestions();
 }
 function pegDeleteRow(btn){var tr=btn.closest('tr');if(tr)tr.remove();pegRecalc();pegUpdateChainageSuggestions()}
 function pegSyncOffsets(doRecalc){
-  document.querySelectorAll('#pegRows .peg-off').forEach(function(i){
-    i.readOnly=false;
-    i.style.background='#f8fafc';
-    i.placeholder='2 or 2, 4, 6';
-    i.inputMode='decimal';
+  document.querySelectorAll('#pegRows tr').forEach(function(tr){
+    var list=tr.querySelector('.peg-offset-list');
+    if(!list)return;
+    if(!list.querySelector('.peg-offset-value')){
+      var field=tr.querySelector('.peg-off');
+      pegSetOffsetBoxes(tr,pegParseOffsets(field?field.value:''));
+    }
+    pegCommitOffsetBoxes(tr);
   });
   if(doRecalc!==false)pegRecalc();
 }
 
 function pegFormatMultiResult(items,key){if(!items.length)return '—';return items.map(function(x){return '<div>'+x.off+'m: '+x[key].toFixed(3)+'</div>'}).join('')}
+// The starting HI applies to all chainages until a valid HI Change boundary.
+// Both the on-screen staff readings and exported PDF use this effective HI.
+function pegEffectiveHIValues(rows){
+  var globalEl=document.getElementById('pegHI'),
+      enabled=document.getElementById('pegHIChangeEnabled'),fromEl=document.getElementById('pegHIChangeFrom'),
+      changeEl=document.getElementById('pegHIChangeValue'),status=document.getElementById('pegHIChangeStatus');
+  var globalRaw=globalEl?String(globalEl.value||'').trim():'',
+      base=globalRaw!==''&&isFinite(Number(globalRaw))?Number(globalRaw):NaN,
+      changing=!!(enabled&&enabled.checked),
+      fromRaw=fromEl?String(fromEl.value||'').trim():'',
+      newRaw=changeEl?String(changeEl.value||'').trim():'',
+      validFrom=/^(?:\d+\+\d+(?:\.\d+)?|\d+(?:\.\d+)?)$/.test(fromRaw),
+      boundary=changing&&validFrom?pegParseChainage(fromRaw):NaN,
+      newHI=newRaw!==''&&isFinite(Number(newRaw))?Number(newRaw):NaN,
+      activeChange=changing&&isFinite(boundary)&&isFinite(newHI);
+  if(status){
+    if(!changing){status.textContent='HI Change ON करने पर दिए गए Chainage से नया HI लगेगा।';status.classList.remove('error')}
+    else if(!activeChange){status.textContent='HI Change के लिए सही Chainage और New HI दोनों भरें।';status.classList.add('error')}
+    else{status.textContent=pegFormatChainage(boundary)+' से आगे HI '+newHI.toFixed(3)+' m होगा।';status.classList.remove('error')}
+  }
+  return rows.map(function(tr){
+    var chainEl=tr.querySelector('.peg-ch'),chain=chainEl?pegParseChainage(chainEl.value):NaN;
+    return activeChange&&isFinite(chain)&&chain>=boundary?newHI:base;
+  });
+}
+function pegSyncHI(doRecalc){
+  var section=document.getElementById('pegLevel'),
+      change=document.getElementById('pegHIChangeEnabled'),fields=document.getElementById('pegHIChangeFields');
+  // HI is controlled only by the starting HI and optional HI Change From Chainage.
+  if(section)section.classList.add('peg-hi-same-mode');
+  if(fields)fields.hidden=!(change&&change.checked);
+  document.querySelectorAll('#pegRows .peg-hi').forEach(function(inp){inp.disabled=true});
+  if(doRecalc!==false)pegRecalc();
+}
 function pegRecalc(){
-  var deep=Number(document.getElementById('pegDepth').value),
+  var deepRaw=String(document.getElementById('pegDepth').value||'').trim(),
+      deep=deepRaw!==''?Number(deepRaw):NaN,
       rows=Array.from(document.querySelectorAll('#pegRows tr')),
       sameCam=document.getElementById('pegSameCamber'),
       sameCamber=!!(sameCam&&sameCam.checked),
-      currentHI=NaN,ok=0,hiCount=0,
-      bottomStaffItems=[];
+      hiValues=pegEffectiveHIValues(rows),
+      ok=0,bottomStaffItems=[];
 
-  rows.forEach(function(tr){
-    var pcl=Number(tr.querySelector('.peg-pcl').value),
-        camInput=tr.querySelector('.peg-cam'),
-        camber=camInput?Number(camInput.value):NaN,
+  rows.forEach(function(tr,index){
+    var pclRaw=String(tr.querySelector('.peg-pcl').value||'').trim(),
+        pcl=pclRaw!==''?Number(pclRaw):NaN,
+        camInput=tr.querySelector('.peg-cam'),camRaw=camInput?String(camInput.value||'').trim():'',
+        camber=camRaw!==''?Number(camRaw):NaN,
         offs=pegParseOffsets(tr.querySelector('.peg-off').value),
-        hiInput=tr.querySelector('.peg-hi'),
-        hiText=hiInput.value.trim(),
-        hiLabel=tr.querySelector('.peg-hi-label');
-
-    if(hiLabel){hiLabel.textContent='';hiLabel.classList.remove('new')}
-
-    if(hiText!==''&&isFinite(Number(hiText))){
-      currentHI=Number(hiText);hiCount++;
-      if(hiLabel){
-        hiLabel.textContent=hiCount===1?'HI':'New HI';
-        if(hiCount>1)hiLabel.classList.add('new');
-      }
-    }
-
-    var results=[];
+        effectiveHI=hiValues[index];
     if(isFinite(pcl)&&offs.length&&isFinite(deep)&&isFinite(camber)){
       offs.forEach(function(off){
         var pr=pcl+(off*camber/100)+(deep/1000),
-            sr=isFinite(currentHI)?currentHI-pr:NaN;
-        results.push({off:off,peg:pr,staff:sr});
-        if(isFinite(sr))ok++;
+            sr=isFinite(effectiveHI)?effectiveHI-pr:NaN;
+        if(isFinite(sr)){
+          ok++;
+          bottomStaffItems.push({
+            rowId:tr.dataset.pegId,
+            chainage:tr.querySelector('.peg-ch').value||'—',
+            pcl:pcl,off:off,peg:pr,staff:sr
+          });
+        }
       });
     }
-
-    var staffResults=results.filter(function(x){return isFinite(x.staff)});
-
-    var chainageValue=tr.querySelector('.peg-ch').value||'—';
-    staffResults.forEach(function(x){
-      bottomStaffItems.push({
-        rowId:tr.dataset.pegId,
-        chainage:chainageValue,
-        off:x.off,
-        peg:x.peg,
-        staff:x.staff
-      });
-    });
   });
-
   pegRenderBottomStaffSummary(bottomStaffItems);
-
   document.getElementById('pegSummary').textContent=ok
-    ? ok+' result(s) calculated • '+(sameCamber?'Same Camber':'Manual Camber')+' • Manual Offset • Deep '+(isFinite(deep)?deep:'—')+' mm same • HI जहाँ बदले वहीं डालें'
-    : 'Chainage, PCL RL, Camber, Offset और HI डालते ही result automatic आएगा.';
+    ? ok+' result(s) calculated • '+(sameCamber?'Same Camber':'Manual Camber')+' • Manual Offset • Deep '+(isFinite(deep)?deep:'—')+' mm • HI / HI Change'
+    : 'PCL RL, Camber, Offset, Deep और HI भरने पर Staff Reading निकलेगी।';
 }
 function pegClearValues(){
   var body=document.getElementById('pegRows');
@@ -17806,8 +18362,17 @@ function pegClearValues(){
 
   var sameCam=document.getElementById('pegSameCamber');
   if(sameCam)sameCam.checked=true;
+  var globalHI=document.getElementById('pegHI');
+  if(globalHI)globalHI.value='';
+  var changeToggle=document.getElementById('pegHIChangeEnabled');
+  if(changeToggle)changeToggle.checked=false;
+  var changeFrom=document.getElementById('pegHIChangeFrom');
+  if(changeFrom)changeFrom.value='';
+  var changedHI=document.getElementById('pegHIChangeValue');
+  if(changedHI)changedHI.value='';
 
   for(var i=0;i<3;i++)pegMakeRow('');
+  pegSyncHI(false);
   pegSyncCambers(false);
   pegSyncOffsets(false);
   pegApplySameOffset();
@@ -17831,18 +18396,20 @@ function pegDownloadPDF(){
       useSameOff=!!(sameOff&&sameOff.checked),
       globalCam=globalCamEl?globalCamEl.value:'';
 
-  var groups=[],currentHI=NaN,totalLevels=0,doneLevels=0;
+  var groups=[],totalLevels=0,doneLevels=0,
+      hiValues=pegEffectiveHIValues(rows);
 
-  rows.forEach(function(tr){
+  rows.forEach(function(tr,rowIndex){
     var ch=String((tr.querySelector('.peg-ch')||{}).value||'').trim(),
         pclRaw=String((tr.querySelector('.peg-pcl')||{}).value||'').trim(),
         camRaw=String((tr.querySelector('.peg-cam')||{}).value||'').trim(),
         offRaw=String((tr.querySelector('.peg-off')||{}).value||'').trim(),
         hiRaw=String((tr.querySelector('.peg-hi')||{}).value||'').trim();
 
-    if(hiRaw!==''&&isFinite(Number(hiRaw)))currentHI=Number(hiRaw);
-
-    var pcl=Number(pclRaw),cam=Number(camRaw),offs=pegParseOffsets(offRaw);
+    var effectiveHI=hiValues[rowIndex];
+    var pcl=pclRaw!==''?Number(pclRaw):NaN,
+        cam=camRaw!==''?Number(camRaw):NaN,
+        offs=pegParseOffsets(offRaw);
     if(!ch&&!pclRaw&&!camRaw&&!offRaw&&!hiRaw)return;
 
     var group={
@@ -17850,7 +18417,7 @@ function pegDownloadPDF(){
       chainage:ch||'-',
       pcl:isFinite(pcl)?pcl:null,
       camber:isFinite(cam)?cam:null,
-      hi:isFinite(currentHI)?currentHI:null,
+      hi:isFinite(effectiveHI)?effectiveHI:null,
       items:[]
     };
 
@@ -17858,7 +18425,7 @@ function pegDownloadPDF(){
       var peg=null,staff=null;
       if(isFinite(pcl)&&isFinite(cam)&&isFinite(off)&&isFinite(deep)){
         peg=pcl+(off*cam/100)+(deep/1000);
-        if(isFinite(currentHI))staff=currentHI-peg;
+        if(isFinite(effectiveHI))staff=effectiveHI-peg;
       }
 
       var done=false;
@@ -17965,7 +18532,7 @@ function pegDownloadPDF(){
     y+=12;
 
     var widths=[34,46,56,50];
-    var headers=['Offset','Peg RL','Staff Reading','Status'];
+    var headers=['Offset','Peg RL','Peg Reading','Status'];
     var x=left;
 
     doc.setFillColor(navy[0],navy[1],navy[2]);
@@ -18072,7 +18639,11 @@ function pegInit(){
   var c=document.getElementById('pegCamber'),
       d=document.getElementById('pegDepth'),
       body=document.getElementById('pegRows'),
-      sameCam=document.getElementById('pegSameCamber');
+      sameCam=document.getElementById('pegSameCamber'),
+      hi=document.getElementById('pegHI'),
+      changeHI=document.getElementById('pegHIChangeEnabled'),
+      changeFrom=document.getElementById('pegHIChangeFrom'),
+      changeValue=document.getElementById('pegHIChangeValue');
 
   if(!c||!d||!body)return;
 
@@ -18082,6 +18653,19 @@ function pegInit(){
   });
 
   d.addEventListener('input',pegRecalc);
+  if(hi)hi.addEventListener('input',pegRecalc);
+  if(changeHI)changeHI.addEventListener('change',function(){pegSyncHI(true)});
+  if(changeFrom){
+    changeFrom.addEventListener('input',pegRecalc);
+    changeFrom.addEventListener('blur',function(){
+      var raw=String(changeFrom.value||'').trim();
+      if(!raw)return;
+      if(!/^(?:\d+\+\d+(?:\.\d+)?|\d+(?:\.\d+)?)$/.test(raw))return;
+      var v=pegParseChainage(raw);if(isFinite(v))changeFrom.value=pegFormatChainage(v);
+      pegRecalc();
+    });
+  }
+  if(changeValue)changeValue.addEventListener('input',pegRecalc);
 
   if(sameCam){
     sameCam.addEventListener('change',pegToggleSameCamber);
@@ -18095,6 +18679,7 @@ function pegInit(){
 
   pegSyncCambers(false);
   pegSyncOffsets(false);
+  pegSyncHI(false);
   pegApplySameOffset();
   pegRecalc();
   pegUpdateChainageSuggestions();
@@ -18757,7 +19342,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 
   // FINAL migration version.
   // आगे HTML/tool updates के लिए इसे बदलने की जरूरत नहीं है.
-  var VC_APP_VERSION='1.1.89';
+  var VC_APP_VERSION='1.1.91';
 
   var VC_FILE_API='https://api.github.com/repos/javavp91-gif/Virendra-Calculator/contents/index.html?ref=main';
   var VC_HTML_URL='https://raw.githubusercontent.com/javavp91-gif/Virendra-Calculator/main/index.html';
@@ -18877,6 +19462,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 <script>
 (function(){
   var EW_MODE='rl';
+  var EW_DEFAULT_BOXES=20;
+  var ewRangeGenerated=false;
   var EW_KEYS={
     hi:'earthworkCalcV3_hi',
     rl:'earthworkCalcV3_rl'
@@ -18975,6 +19562,21 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     var s=n.toFixed(d==null?3:d);
     return s.replace(/\.?0+$/,'');
   }
+  // RL and Design RL are always displayed to the nearest millimetre.
+  // Only apply to a completed field, not while a user types its digits.
+  function ewFormatRL(value){
+    var str=String(value==null?'':value).trim();
+    if(str==='' || str==='-' || str==='.' || str==='-.')return '';
+    var n=Number(str);
+    return Number.isFinite(n)?n.toFixed(3):str;
+  }
+  function ewCommitRL(inp,sec){
+    if(!inp || !inp.isConnected)return;
+    var displayed=ewFormatRL(inp.value);
+    if(displayed!==inp.value)inp.value=displayed;
+    ewSyncHidden(sec);
+    ewSaveDraft(false);
+  }
   function esc(s){
     return String(s==null?'':s).replace(/[&<>"']/g,function(c){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
@@ -19038,6 +19640,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       '</div>'+
       '<div class="ew-grid">'+
         topFields+
+        '<div class="ew-row-camber"><div class="ew-camber-entry"><label>Camber (%)</label><input class="ew-camber-row" type="number" step="any" inputmode="decimal" enterkeyhint="next" placeholder="e.g. 2.5"></div></div>'+
         '<input class="ew-offs" type="hidden">'+
         '<input class="ew-is" type="hidden">'+
         '<input class="ew-eg" type="hidden">'+
@@ -19051,6 +19654,13 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     sec.querySelector('.ew-is').value=data.is||'';
     sec.querySelector('.ew-eg').value=data.eg||'';
     sec.querySelector('.ew-dg').value=data.dg||'';
+    sec.querySelector('.ew-camber-row').value=data.camber==null?'':data.camber;
+    sec.dataset.ewCamberAnchor=data.camberAnchor==null?'':String(data.camberAnchor);
+    sec.querySelector('.ew-camber-row').addEventListener('input',function(){
+      ewCamberRecalcAll(true,sec);
+      ewSaveDraft(false);
+    });
+    ewSetRowCamberVisibility(sec);
 
     sec.querySelector('.ew-del').onclick=function(){
       sec.remove();
@@ -19097,6 +19707,84 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   window.ewAdd5Chainages=function(){
     for(var i=0;i<5;i++)ewAddSection();
     ewUpdateChainageSuggestions();
+    ewSaveDraft(false);
+  };
+
+  // Generates only the requested inclusive chainage interval, retaining
+  // data at matching chainages. Do not erase unrelated filled rows silently.
+  window.ewGenerateChainageRange=function(){
+    var fromInput=byId('ewRangeFrom'),toInput=byId('ewRangeTo'),stepInput=byId('ewRangeStep');
+    var status=byId('ewRangeMessage'),wrap=byId('ewChainages');
+    if(!fromInput||!toInput||!stepInput||!status||!wrap)return;
+    function message(msg,isError){
+      status.textContent=msg;
+      status.classList.toggle('error',!!isError);
+    }
+    var fromRaw=String(fromInput.value||'').trim(),toRaw=String(toInput.value||'').trim();
+    if(!fromRaw||!toRaw){message('From और To दोनों Chainage भरें।',true);return}
+    // The formatter accepts both 12+600 and metres (12600), never blanks.
+    var syntax=/^(?:\d+\+\d+(?:\.\d+)?|\d+(?:\.\d+)?)$/;
+    if(!syntax.test(fromRaw)||!syntax.test(toRaw)){
+      message('Chainage ऐसे डालें: 12+600 या 12600',true);return;
+    }
+    var from=chainToM(fromRaw),to=chainToM(toRaw),interval=Number(stepInput.value);
+    if(!Number.isFinite(from)||!Number.isFinite(to)||from<0||to<0){
+      message('सही Chainage डालें।',true);return;
+    }
+    if(to<from){message('To Chainage, From से छोटा नहीं हो सकता।',true);return}
+    if(String(stepInput.value).trim()===''||!Number.isFinite(interval)||interval<=0){
+      message('Interval (m) में 0 से बड़ा नंबर डालें।',true);return;
+    }
+    // Use millimetres to avoid floating-point duplicates and enforce precision.
+    var startMm=Math.round(from*1000),endMm=Math.round(to*1000),stepMm=Math.round(interval*1000);
+    if(stepMm<1 || Math.abs(startMm/1000-from)>0.000001 ||
+       Math.abs(endMm/1000-to)>0.000001 || Math.abs(stepMm/1000-interval)>0.000001){
+      message('Chainage और Interval में अधिकतम 3 दशमलव अंक डालें।',true);return;
+    }
+    var range=[startMm];
+    for(var m=startMm+stepMm;m<endMm;m+=stepMm){
+      range.push(m);
+      if(range.length>300){message('300 से अधिक Chainage होंगे। Interval बढ़ाएँ या छोटी रेंज चुनें।',true);return}
+    }
+    if(endMm!==startMm)range.push(endMm);
+    if(range.length>300){message('अधिकतम 300 Chainage एक बार में बनाएँ।',true);return}
+
+    // Preserve matching existing chainage entries (RL/DRL/IS and Camber).
+    var previous=serialize().rows,existing={};
+    previous.forEach(function(row){
+      var key=chainToM(row.ch||'');
+      if(String(row.ch||'').trim()!=='' && Number.isFinite(key)){
+        var mm=Math.round(key*1000);
+        if(!existing[mm])existing[mm]=row;
+      }
+    });
+    var wanted={};range.forEach(function(mm){wanted[mm]=true});
+    var removingData=previous.some(function(row){
+      var str=String(row.ch||'').trim(),mm=Math.round(chainToM(str)*1000);
+      var meaningful=String(row.offs||'').replace(/,/g,'').trim()||
+              String(row.is||'').replace(/,/g,'').trim()||
+              String(row.eg||'').replace(/,/g,'').trim()||
+              String(row.dg||'').replace(/,/g,'').trim()||
+              String(row.camber||'').trim()||
+              String(row.camberAnchor||'').trim();
+      return !!meaningful && (!str || !wanted[mm]);
+    });
+    if(removingData&&!confirm('रेंज से बाहर के भरे हुए Chainage/डेटा हटेंगे। क्या नए बॉक्स बनाना है?'))return;
+
+    wrap.innerHTML='';
+    range.forEach(function(mm){
+      var row=existing[mm] ? Object.assign({},existing[mm]) : {};
+      row.ch=ewFormatChainage(mm/1000);
+      ewAddSection(row);
+    });
+    ewRangeGenerated=true;
+    ewUpdateChainageSuggestions();
+    ewSaveDraft(false);
+    hideResults();
+    fromInput.value=ewFormatChainage(startMm/1000);
+    toInput.value=ewFormatChainage(endMm/1000);
+    message(range.length+' Chainage बॉक्स बने: '+fromInput.value+' से '+toInput.value+' ('+interval+' m Interval)।',false);
+    if(document.activeElement && typeof document.activeElement.blur==='function')document.activeElement.blur();
   };
 
   window.ewRenumber=function(){
@@ -19113,6 +19801,89 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       .map(function(v){return v.trim()})
       .filter(function(v){return v!==''});
   }
+
+  function ewSetRowCamberVisibility(sec){
+    if(!sec)return;
+    var box=sec.querySelector('.ew-row-camber');
+    if(box)box.style.display=byId('ewSameCamber').checked?'none':'block';
+  }
+
+  function ewCamberPercent(sec){
+    var same=!!byId('ewSameCamber').checked;
+    var inp=same?byId('ewGlobalCamber'):sec.querySelector('.ew-camber-row');
+    var raw=inp?String(inp.value).trim():'';
+    if(raw==='')return NaN;
+    var n=Number(raw);
+    return Number.isFinite(n)?n:NaN;
+  }
+
+  // Soil Cut / Fill: apply the signed camber ONLY to Design RL (DRL).
+  // DRL(target) = DRL(anchor) + (targetOffset - anchorOffset) * camber / 100.
+  // Measured bed/actual RL must stay independent for each offset; in HI mode
+  // the actual RL is separately calculated from its own IS (HI - IS).
+  function ewApplyCamber(sec,requestedIndex){
+    if(!sec)return false;
+    var camber=ewCamberPercent(sec);
+    if(!Number.isFinite(camber))return false;
+    var offsetInputs=[].slice.call(sec.querySelectorAll('.ew-offset-entry'));
+    var drlInputs=[].slice.call(sec.querySelectorAll('.ew-point-dg'));
+    if(!drlInputs.length)return false;
+    var anchor=Number.isInteger(requestedIndex)?requestedIndex:Number(sec.dataset.ewCamberAnchor);
+    if(!Number.isInteger(anchor)||anchor<0||anchor>=drlInputs.length||
+       (String(sec.dataset.ewCamberAnchor||'')===''&&requestedIndex==null)){
+      anchor=drlInputs.findIndex(function(x,i){
+        return offsetInputs[i]&&offsetInputs[i].value.trim()!==''&&x.value.trim()!=='';
+      });
+    }
+    if(anchor<0||!offsetInputs[anchor]||!drlInputs[anchor]||drlInputs[anchor].value.trim()==='')return false;
+    var baseOffsetRaw=offsetInputs[anchor].value.trim();
+    if(baseOffsetRaw==='')return false;
+    var baseOffset=Number(baseOffsetRaw),baseDrl=Number(drlInputs[anchor].value);
+    if(!Number.isFinite(baseOffset)||!Number.isFinite(baseDrl))return false;
+    sec.dataset.ewCamberAnchor=String(anchor);
+    offsetInputs.forEach(function(off,i){
+      var target=drlInputs[i],raw=off.value.trim();
+      if(!target)return;
+      var offset=Number(raw);
+      if(raw===''||!Number.isFinite(offset)){
+        if(i!==anchor){target.value='';target.classList.remove('ew-auto-camber');}
+        return;
+      }
+      if(i!==anchor){
+        var drl=baseDrl+(offset-baseOffset)*camber/100;
+        target.value=drl.toFixed(3);
+        target.classList.add('ew-auto-camber');
+      }else{
+        target.classList.remove('ew-auto-camber');
+      }
+    });
+    ewSyncHidden(sec);
+    return true;
+  }
+
+  function ewCamberRecalcAll(useFallback,oneSection){
+    var sections=oneSection?[oneSection]:[].slice.call(document.querySelectorAll('#ewChainages .ew-section'));
+    sections.forEach(function(sec){
+      if(useFallback||String(sec.dataset.ewCamberAnchor||'')!=='')ewApplyCamber(sec);
+    });
+  }
+
+  window.ewCamberChanged=function(){
+    ewCamberRecalcAll(true);
+    ewSaveDraft(false);
+  };
+
+  function ewToggleCamberDisplayOnly(){
+    var same=byId('ewSameCamber').checked;
+    byId('ewGlobalCamberBox').style.display=same?'flex':'none';
+    document.querySelectorAll('#ewChainages .ew-section').forEach(ewSetRowCamberVisibility);
+  }
+
+  window.ewToggleCamberMode=function(){
+    ewToggleCamberDisplayOnly();
+    ewCamberRecalcAll(true);
+    ewSaveDraft(false);
+  };
 
   function ewSyncHidden(sec){
     if(!sec)return;
@@ -19154,13 +19925,16 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     if(EW_MODE!=='hi')return;
     document.querySelectorAll('#ewChainages .ew-section').forEach(function(sec){
       ewCalcRlFromHiIs(sec);
+      if(String(sec.dataset.ewCamberAnchor||'')!=='')ewApplyCamber(sec);
     });
     ewSaveDraft(false);
   };
 
   window.ewCalcRlFromHiIs=function(sec){
     if(EW_MODE!=='hi' || !sec)return;
-    var hi=Number(byId('ewGlobalHI').value);
+    // An empty HI is NOT zero. Never calculate or display actual RL until HI is supplied.
+    var hiRaw=String(byId('ewGlobalHI').value||'').trim();
+    var hi=hiRaw===''?NaN:Number(hiRaw);
     var isInputs=[].slice.call(sec.querySelectorAll('.ew-point-is'));
     var rlInputs=[].slice.call(sec.querySelectorAll('.ew-point-eg'));
 
@@ -19176,6 +19950,29 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     });
     ewSyncHidden(sec);
   };
+
+  // The Android IME Next key moves to the next editable table cell,
+  // rather than closing the keyboard or jumping to the last Offset.
+  function ewFocusNextEntry(inp){
+    if(!inp)return;
+    var sec=inp.closest('.ew-section');
+    if(!sec)return;
+    var table=sec.querySelector('.ew-rl-table');
+    var inputs=table?[].slice.call(table.querySelectorAll('input:not([readonly]):not([disabled])')):[];
+    var at=inputs.indexOf(inp);
+    var next=at>=0?inputs[at+1]:null;
+    if(!next){
+      var following=sec.nextElementSibling;
+      while(following && !following.classList.contains('ew-section'))following=following.nextElementSibling;
+      next=following&&(following.querySelector('.ew-ch')||following.querySelector('.ew-offset-entry'));
+    }
+    if(next){
+      next.focus({preventScroll:true});
+      next.scrollIntoView({block:'nearest',inline:'nearest'});
+    }else if(document.activeElement===inp){
+      inp.blur();
+    }
+  }
 
   window.ewRenderPoints=function(sec){
     if(!sec)return;
@@ -19212,14 +20009,14 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       html+='<tr><td class="ew-sticky">RL</td>';
       cols.forEach(function(off,i){
         var v=(i<rawEg.length&&rawEg[i]!==undefined)?rawEg[i].trim():'';
-        html+='<td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value="'+esc(v)+'" readonly></td>';
+        html+='<td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value="'+esc(ewFormatRL(v))+'" readonly></td>';
       });
       html+='</tr>';
     }else{
       html+='<tr><td class="ew-sticky">RL</td>';
       cols.forEach(function(off,i){
         var v=(i<rawEg.length&&rawEg[i]!==undefined)?rawEg[i].trim():'';
-        html+='<td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value="'+esc(v)+'"></td>';
+        html+='<td><input class="ew-point-eg" type="number" step="any" inputmode="decimal" value="'+esc(ewFormatRL(v))+'"></td>';
       });
       html+='</tr>';
     }
@@ -19227,11 +20024,15 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     html+='<tr><td class="ew-sticky">DRL</td>';
     cols.forEach(function(off,i){
       var v=(i<rawDg.length&&rawDg[i]!==undefined)?rawDg[i].trim():'';
-      html+='<td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value="'+esc(v)+'"></td>';
+      html+='<td><input class="ew-point-dg" type="number" step="any" inputmode="decimal" value="'+esc(ewFormatRL(v))+'"></td>';
     });
     html+='</tr></tbody></table>';
 
     holder.innerHTML=html;
+    holder.querySelectorAll('input:not([readonly])').forEach(function(inp){
+      inp.setAttribute('enterkeyhint','next');
+      inp.setAttribute('autocomplete','off');
+    });
 
     var offsetInputs=[].slice.call(holder.querySelectorAll('.ew-offset-entry'));
 
@@ -19250,37 +20051,87 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
         ewSaveDraft(false);
       }
 
-      function finishOffset(){
+      // Never rebuild an existing Offset field during editing. Rebuilding the
+      // whole table used to throw the user into the last auto-added column.
+      // Only extend the table when the *last, empty* Offset has been filled.
+      function finishOffset(advance){
         saveOffsetsOnly();
-
-        if(same){
-          ewRenderAllPoints();
-          requestAnimationFrame(function(){
-            var target=sec&&sec.querySelector('.ew-point-list');
-            if(target)target.scrollTo({left:target.scrollWidth,behavior:'smooth'});
-          });
-        }else{
-          ewRenderPoints(sec);
-          requestAnimationFrame(function(){
-            holder.scrollTo({left:holder.scrollWidth,behavior:'smooth'});
-          });
+        var index=offsetInputs.indexOf(inp);
+        if(index!==offsetInputs.length-1 || inp.value.trim()===''){
+          if(advance)ewFocusNextEntry(inp);
+          return;
+        }
+        var sections=[].slice.call(document.querySelectorAll('#ewChainages .ew-section'));
+        var positions=sections.map(function(s){
+          var el=s.querySelector('.ew-point-list');
+          return el?el.scrollLeft:0;
+        });
+        var active=document.activeElement;
+        var focusInfo=null;
+        if(active && active!==inp){
+          var focusSection=active.closest&&active.closest('.ew-section');
+          if(focusSection){
+            var focusSectionIndex=sections.indexOf(focusSection);
+            var fieldClass=['ew-offset-entry','ew-point-is','ew-point-eg','ew-point-dg','ew-ch','ew-camber-row'].find(function(c){return active.classList.contains(c)});
+            if(focusSectionIndex>=0&&fieldClass){
+              var fields=focusSection.querySelectorAll('.'+fieldClass);
+              focusInfo={section:focusSectionIndex,cls:fieldClass,index:[].indexOf.call(fields,active)};
+            }
+          }
+        }
+        if(same)ewRenderAllPoints();
+        else ewRenderPoints(sec);
+        sections.forEach(function(s,i){
+          var el=s.querySelector('.ew-point-list');
+          if(el)el.scrollLeft=positions[i];
+        });
+        if(advance){
+          var updated=sec.querySelectorAll('.ew-offset-entry');
+          var next=updated[index+1];
+          if(next){
+            next.focus({preventScroll:true});
+            next.scrollIntoView({block:'nearest',inline:'nearest'});
+          }
+        }else if(focusInfo){
+          var fs=sections[focusInfo.section];
+          var restored=fs&&fs.querySelectorAll('.'+focusInfo.cls)[focusInfo.index];
+          if(restored)restored.focus({preventScroll:true});
         }
       }
 
-      inp.addEventListener('input',saveOffsetsOnly);
-      inp.addEventListener('change',finishOffset);
+      // Update DRL as each signed offset is typed, without rebuilding this
+      // table or dropping the mobile keyboard focus. Measured RL is untouched.
+      inp.addEventListener('input',function(){
+        saveOffsetsOnly();
+        if(same){
+          var index=offsetInputs.indexOf(inp);
+          document.querySelectorAll('#ewChainages .ew-section').forEach(function(other){
+            if(other===sec)return;
+            var otherOffset=other.querySelectorAll('.ew-offset-entry')[index];
+            if(otherOffset){
+              otherOffset.value=inp.value;
+              // Retain each chainage's own design RL anchor and recalculate immediately.
+              if(String(other.dataset.ewCamberAnchor||'')!=='')ewApplyCamber(other);
+              else ewSyncHidden(other);
+            }
+          });
+        }
+        if(String(sec.dataset.ewCamberAnchor||'')!=='')ewApplyCamber(sec);
+        else ewSyncHidden(sec);
+        ewSaveDraft(false);
+      });
+      // Blur only extends a newly filled final Offset column; editing an
+      // existing Offset no longer resets horizontal scroll or keyboard focus.
+      inp.addEventListener('blur',function(){
+        if(offsetInputs.indexOf(inp)!==offsetInputs.length-1 || !inp.value.trim())return;
+        setTimeout(function(){
+          if(inp.isConnected)finishOffset(false);
+        },0);
+      });
       inp.addEventListener('keydown',function(e){
         if(e.key==='Enter'){
           e.preventDefault();
-          var currentValue=inp.value.trim();
-          finishOffset();
-          requestAnimationFrame(function(){
-            var target=same?firstSection():sec;
-            var all=target?target.querySelectorAll('.ew-offset-entry'):[];
-            if(all.length&&currentValue!==''){
-              all[all.length-1].focus();
-            }
-          });
+          finishOffset(true);
         }
       });
     });
@@ -19288,6 +20139,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     if(EW_MODE==='hi'){
       holder.querySelectorAll('.ew-point-is').forEach(function(inp){
         inp.addEventListener('input',function(){
+          // Every staff reading represents its own measured bed level.
           ewCalcRlFromHiIs(sec);
           ewSaveDraft(false);
         });
@@ -19295,6 +20147,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     }else{
       holder.querySelectorAll('.ew-point-eg').forEach(function(inp){
         inp.addEventListener('input',function(){
+          // Actual/bed RL stays exactly as the user enters for each offset.
           ewSyncHidden(sec);
           ewSaveDraft(false);
         });
@@ -19303,13 +20156,38 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 
     holder.querySelectorAll('.ew-point-dg').forEach(function(inp){
       inp.addEventListener('input',function(){
+        var index=[].indexOf.call(holder.querySelectorAll('.ew-point-dg'),inp);
+        sec.dataset.ewCamberAnchor=String(index);
+        ewApplyCamber(sec,index);
         ewSyncHidden(sec);
         ewSaveDraft(false);
       });
     });
 
+    // Keep the display at 3 decimal places after leaving an RL or DRL cell.
+    // Do not alter an active field during each keystroke: that would move
+    // the cursor and break Android IME Next / decimal input.
+    holder.querySelectorAll('.ew-point-eg:not([readonly]),.ew-point-dg').forEach(function(inp){
+      inp.addEventListener('blur',function(){ewCommitRL(inp,sec)});
+      inp.setAttribute('step','0.001');
+    });
+    holder.querySelectorAll('.ew-point-eg[readonly]').forEach(function(inp){
+      inp.setAttribute('step','0.001');
+    });
+
+    // Native keyboard Next: Offset -> IS/RL -> DRL -> next Chainage.
+    holder.querySelectorAll('.ew-point-is,.ew-point-eg:not([readonly]),.ew-point-dg').forEach(function(inp){
+      inp.addEventListener('keydown',function(e){
+        if(e.key==='Enter'){
+          e.preventDefault();
+          ewFocusNextEntry(inp);
+        }
+      });
+    });
+
     if(EW_MODE==='hi')ewCalcRlFromHiIs(sec);
     else ewSyncHidden(sec);
+    if(String(sec.dataset.ewCamberAnchor||'')!=='')ewApplyCamber(sec);
   };
 
   window.ewRenderAllPoints=function(){
@@ -19324,7 +20202,12 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     ewSaveDraft(false);
   };
 
-  window.ewUpdateCounts=function(){};
+  window.ewUpdateCounts=function(){
+    var label=byId('ewBoxCount'),wrap=byId('ewChainages');
+    if(!label||!wrap)return;
+    var count=wrap.querySelectorAll('.ew-section').length;
+    label.textContent=count+' Chainage बॉक्स — नीचे स्क्रॉल करके भरें';
+  };
 
   function sectionArea(offsets,existing,design){
     var pts=offsets.map(function(x,i){
@@ -19394,7 +20277,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 
       if(EW_MODE==='hi'){
         var isv=list(sec.querySelector('.ew-is').value);
-        var hi=Number(byId('ewGlobalHI').value);
+        var hiRaw=String(byId('ewGlobalHI').value||'').trim();
+        var hi=hiRaw===''?NaN:Number(hiRaw);
         if(!Number.isFinite(hi)){error='HI डालें';return}
         if(isv.length!==offsets.length){error='Row '+(index+1)+': सभी IS डालें';return}
       }
@@ -19576,7 +20460,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       doc.setFontSize(9);
       var meta='Mode: '+(EW_MODE==='hi'?'With HI':'With RL')+'   Density: '+fmt(density,3)+' t/m3';
       if(EW_MODE==='hi'){
-        var hv=Number(byId('ewGlobalHI').value);
+        var hvRaw=String(byId('ewGlobalHI').value||'').trim();
+        var hv=hvRaw===''?NaN:Number(hvRaw);
         if(Number.isFinite(hv))meta+='   HI: '+fmt(hv,3);
       }
       doc.text(meta,margin,y+6);
@@ -19659,7 +20544,9 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
         offs:sec.querySelector('.ew-offs').value,
         is:sec.querySelector('.ew-is').value,
         eg:sec.querySelector('.ew-eg').value,
-        dg:sec.querySelector('.ew-dg').value
+        dg:sec.querySelector('.ew-dg').value,
+        camber:sec.querySelector('.ew-camber-row').value,
+        camberAnchor:sec.dataset.ewCamberAnchor||''
       });
     });
 
@@ -19667,9 +20554,15 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       mode:EW_MODE,
       hi:byId('ewGlobalHI')?byId('ewGlobalHI').value:'',
       same:!!byId('ewSameOffsets').checked,
+      sameCamber:!!byId('ewSameCamber').checked,
+      globalCamber:byId('ewGlobalCamber').value,
       common:byId('ewCommonOffsets').value,
       density:byId('ewDensity').value,
       densityCustom:byId('ewDensityCustom').value,
+      rangeFrom:byId('ewRangeFrom').value,
+      rangeTo:byId('ewRangeTo').value,
+      rangeStep:byId('ewRangeStep').value,
+      rangeGenerated:ewRangeGenerated,
       rows:rows
     };
   }
@@ -19719,15 +20612,31 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     var wrap=byId('ewChainages');if(!wrap)return;
 
     wrap.innerHTML='';
+    ewRangeGenerated=false;
     byId('ewCommonOffsets').value='';
     byId('ewGlobalHI').value='';
     byId('ewSameOffsets').checked=false;
+    byId('ewSameCamber').checked=true;
+    byId('ewGlobalCamber').value='';
     byId('ewDensity').value='1.8';
     byId('ewDensityCustom').value='';
+    byId('ewRangeFrom').value='';
+    byId('ewRangeTo').value='';
+    byId('ewRangeStep').value='10';
+    byId('ewRangeMessage').textContent='From और To भरें; 10 m के अंतर पर उतने ही Chainage बॉक्स बनेंगे।';
+    byId('ewRangeMessage').classList.remove('error');
 
     if(saved){
       byId('ewSameOffsets').checked=saved.same!==false;
+      byId('ewSameCamber').checked=saved.sameCamber!==false;
+      byId('ewGlobalCamber').value=saved.globalCamber==null?'':saved.globalCamber;
       byId('ewCommonOffsets').value=saved.common||'';
+      byId('ewRangeFrom').value=saved.rangeFrom||'';
+      byId('ewRangeTo').value=saved.rangeTo||'';
+      byId('ewRangeStep').value=saved.rangeStep||'10';
+      // Older range-generated saves predate the explicit flag; preserve their exact range.
+      ewRangeGenerated=saved.rangeGenerated===true ||
+        (saved.rangeGenerated==null && !!saved.rangeFrom && !!saved.rangeTo);
       byId('ewGlobalHI').value=saved.hi || ((saved.rows&&saved.rows[0]&&saved.rows[0].hi) ? saved.rows[0].hi : '');
 
       var sd=String(saved.density||'1.8');
@@ -19744,12 +20653,16 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       (saved.rows||[]).forEach(function(r){ewAddSection(r)});
     }
 
-    if(!document.querySelector('#ewChainages .ew-section')){
-      ewAddSection();
-      ewAddSection();
+    // Default to 20 ready-to-edit Chainage cards; keep every saved card/data.
+    // An explicitly generated From–To range must keep its precise row count.
+    if(!ewRangeGenerated){
+      var existingCount=wrap.querySelectorAll('.ew-section').length;
+      for(var i=existingCount;i<EW_DEFAULT_BOXES;i++)ewAddSection();
     }
+    ewUpdateCounts();
 
     ewDensityMode();
+    ewToggleCamberDisplayOnly();
     ewRenderAllPoints();
     ewUpdateChainageSuggestions();
     setTabs();
@@ -19765,13 +20678,21 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     byId('ewDensity').value='1.8';
     byId('ewDensityCustom').value='';
     byId('ewSameOffsets').checked=false;
+    byId('ewSameCamber').checked=true;
+    byId('ewGlobalCamber').value='';
+    byId('ewRangeFrom').value='';
+    byId('ewRangeTo').value='';
+    byId('ewRangeStep').value='10';
+    byId('ewRangeMessage').textContent='From और To भरें; 10 m के अंतर पर उतने ही Chainage बॉक्स बनेंगे।';
+    byId('ewRangeMessage').classList.remove('error');
     byId('ewChainages').innerHTML='';
+    ewRangeGenerated=false;
 
-    ewAddSection();
-    ewAddSection();
+    for(var i=0;i<EW_DEFAULT_BOXES;i++)ewAddSection();
     ewUpdateChainageSuggestions();
     hideResults();
     ewDensityMode();
+    ewToggleCamberDisplayOnly();
 
     // Save a clean state so old-version data is not re-imported.
     ewSaveDraft(false);
@@ -19789,6 +20710,10 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     setTabs();
     loadSaved();
     var root=byId('earthwork');
+    ['ewRangeFrom','ewRangeTo','ewRangeStep'].forEach(function(id){
+      var field=byId(id);
+      if(field)field.addEventListener('input',function(){ewSaveDraft(false)});
+    });
     if(root&&!root.dataset.ewLiveBound){
       root.addEventListener('input',ewScheduleLive,true);
       root.addEventListener('change',ewScheduleLive,true);
@@ -20410,106 +21335,141 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 
 
 <script id="vcKeyboardScrollFixScript">
+/* Shared mobile keyboard helpers for editable fields in every tool. */
 (function(){
   if(window.__vcKeyboardScrollFixInstalled)return;
   window.__vcKeyboardScrollFixInstalled=true;
-
   var root=document.documentElement;
   var vv=window.visualViewport;
+  var current=null;
 
   function isKeyboardField(el){
-    if(!el || el.disabled || el.readOnly)return false;
+    if(!el || el.disabled || el.readOnly || !el.isConnected)return false;
     if(el.tagName==='TEXTAREA')return true;
     if(el.isContentEditable)return true;
     if(el.tagName!=='INPUT')return false;
     var t=(el.type||'text').toLowerCase();
-    return ['text','number','tel','email','url','password','search',
-            'date','time','datetime-local','month','week'].indexOf(t)!==-1;
+    return ['text','number','tel','email','url','password','search'].indexOf(t)!==-1;
   }
-
-  function setVisibleViewport(){
-    var h=vv ? vv.height : window.innerHeight;
-    var top=vv ? vv.offsetTop : 0;
-    if(!isFinite(h) || h<250)h=window.innerHeight;
-    if(!isFinite(top) || top<0)top=0;
-    root.style.setProperty('--vc-visible-height',Math.round(h)+'px');
-    root.style.setProperty('--vc-viewport-top',Math.round(top)+'px');
+  function viewport(){
+    var h=vv?vv.height:window.innerHeight;
+    var y=vv?vv.offsetTop:0;
+    if(!Number.isFinite(h)||h<160)h=window.innerHeight;
+    if(!Number.isFinite(y)||y<0)y=0;
+    return {height:h,top:y,bottom:y+h};
   }
-
-  function reveal(el,delay){
-    setTimeout(function(){
-      if(!el || document.activeElement!==el)return;
-      setVisibleViewport();
-      try{
-        el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});
-      }catch(e){
-        try{el.scrollIntoView(false)}catch(_){}
+  function updateViewport(){
+    var v=viewport();
+    root.style.setProperty('--vc-visible-height',Math.round(v.height)+'px');
+    root.style.setProperty('--vc-viewport-top',Math.round(v.top)+'px');
+  }
+  function fieldScroller(el){
+    var section=el.closest('main.wrap > section.card');
+    if(section && section.scrollHeight>section.clientHeight+4)return section;
+    var parent=el.parentElement;
+    while(parent && parent!==document.body){
+      var sty=getComputedStyle(parent);
+      if(/auto|scroll/.test(sty.overflowY) && parent.scrollHeight>parent.clientHeight+4)return parent;
+      parent=parent.parentElement;
+    }
+    return document.scrollingElement||document.documentElement;
+  }
+  function revealField(el){
+    if(!el || !el.isConnected || document.activeElement!==el)return;
+    updateViewport();
+    var sc=fieldScroller(el), v=viewport(),rect=el.getBoundingClientRect();
+    // The visible viewport sits above the software keyboard.
+    var top=v.top+(document.body.classList.contains('tool-open')?74:20);
+    var bottom=v.bottom-53;
+    if(bottom<top+55)bottom=top+55;
+    var diff=0;
+    if(rect.bottom>bottom) diff=rect.bottom-bottom+8;
+    else if(rect.top<top) diff=rect.top-top-8;
+    if(diff){
+      if(sc===document.scrollingElement||sc===document.documentElement||sc===document.body){
+        window.scrollBy(0,diff);
+      }else{
+        sc.scrollTop+=diff;
       }
-
-      /* A second tiny correction helps number keyboards whose suggestion bar
-         appears a moment after the keyboard itself. */
-      setTimeout(function(){
-        if(document.activeElement!==el)return;
-        var r=el.getBoundingClientRect();
-        var visibleH=vv ? vv.height : window.innerHeight;
-        var safeTop=74, safeBottom=Math.max(120,visibleH-105);
-        if(r.bottom>safeBottom){
-          var scroller=el.closest('section.card');
-          var dy=r.bottom-safeBottom+55;
-          if(scroller && scroller.scrollHeight>scroller.clientHeight){
-            scroller.scrollBy({top:dy,behavior:'smooth'});
-          }else{
-            window.scrollBy({top:dy,behavior:'smooth'});
-          }
-        }else if(r.top<safeTop){
-          var scroller2=el.closest('section.card');
-          var dy2=r.top-safeTop-25;
-          if(scroller2 && scroller2.scrollHeight>scroller2.clientHeight){
-            scroller2.scrollBy({top:dy2,behavior:'smooth'});
-          }else{
-            window.scrollBy({top:dy2,behavior:'smooth'});
-          }
-        }
-      },140);
-    },delay||0);
-  }
-
-  document.addEventListener('focusin',function(e){
-    if(!isKeyboardField(e.target))return;
-    document.body.classList.add('vc-keyboard-open');
-    setVisibleViewport();
-    reveal(e.target,80);
-    reveal(e.target,300);
-  },true);
-
-  document.addEventListener('focusout',function(){
-    setTimeout(function(){
-      if(!isKeyboardField(document.activeElement)){
-        document.body.classList.remove('vc-keyboard-open');
-        root.style.setProperty('--vc-visible-height','100dvh');
-        root.style.setProperty('--vc-viewport-top','0px');
-      }
-    },180);
-  },true);
-
-  function onViewportChange(){
-    setVisibleViewport();
-    var el=document.activeElement;
-    if(document.body.classList.contains('vc-keyboard-open') && isKeyboardField(el)){
-      reveal(el,30);
     }
   }
-
-  if(vv){
-    vv.addEventListener('resize',onViewportChange);
-    vv.addEventListener('scroll',onViewportChange);
+  function closeKeyboard(){
+    var el=current||document.activeElement;
+    // Blurring the active field closes the software keyboard without changing its value.
+    try{if(el && typeof el.blur==='function')el.blur()}catch(e){}
+    current=null;
+    document.body.classList.remove('vc-keyboard-open');
+    root.style.setProperty('--vc-visible-height','100dvh');
+    root.style.setProperty('--vc-viewport-top','0px');
   }
-  window.addEventListener('resize',onViewportChange);
-  window.addEventListener('orientationchange',function(){
-    setTimeout(onViewportChange,250);
-  });
+  window.vcCloseFieldKeyboard=closeKeyboard;
 
-  setVisibleViewport();
+  var timers=[];
+  function stopTimers(){while(timers.length)clearTimeout(timers.pop());}
+  function delayedReveal(el){
+    stopTimers();
+    [30,160,360,650].forEach(function(ms){
+      timers.push(setTimeout(function(){revealField(el)},ms));
+    });
+  }
+  document.addEventListener('focusin',function(e){
+    var el=e.target;
+    if(!isKeyboardField(el))return;
+    current=el;
+    document.body.classList.add('vc-keyboard-open');
+    updateViewport();
+    delayedReveal(el);
+  },true);
+  document.addEventListener('focusout',function(e){
+    if(e.target!==current)return;
+    stopTimers();
+    timers.push(setTimeout(function(){
+      if(isKeyboardField(document.activeElement))return;
+      current=null;
+      document.body.classList.remove('vc-keyboard-open');
+      root.style.setProperty('--vc-visible-height','100dvh');
+      root.style.setProperty('--vc-viewport-top','0px');
+    },120));
+  },true);
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Enter' || e.isComposing || document.activeElement!==current || !current || current.tagName!=='INPUT')return;
+    // Don't consume an Android "Next" press before its field can navigate.
+    if(current.getAttribute('enterkeyhint')==='next')return;
+    e.preventDefault();closeKeyboard();
+  },true);
+  // Fall back to next visible input for tools with no special Enter listener.
+  // Existing tool-specific handlers run first and can preventDefault().
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Enter' || e.defaultPrevented || e.isComposing)return;
+    var field=e.target;
+    if(!isKeyboardField(field) || field.getAttribute('enterkeyhint')!=='next')return;
+    var scope=field.closest('section.card');
+    if(!scope)return;
+    var fields=[].slice.call(scope.querySelectorAll('input,textarea')).filter(function(inp){
+      if(!isKeyboardField(inp))return false;
+      var r=inp.getClientRects();
+      return !!(r && r.length);
+    });
+    var i=fields.indexOf(field);
+    if(i<0)return;
+    e.preventDefault();
+    if(fields[i+1]){
+      fields[i+1].focus({preventScroll:true});
+      fields[i+1].scrollIntoView({block:'nearest',inline:'nearest'});
+    }else{
+      closeKeyboard();
+    }
+  },false);
+  function onViewportChange(){
+    updateViewport();
+    if(current && document.activeElement===current){
+      delayedReveal(current);
+    }
+  }
+  if(vv){vv.addEventListener('resize',onViewportChange);vv.addEventListener('scroll',onViewportChange)}
+  window.addEventListener('resize',onViewportChange);
+  window.addEventListener('orientationchange',function(){timers.push(setTimeout(onViewportChange,260))});
+  updateViewport();
 })();
 </script>
 
@@ -24441,4 +25401,81 @@ window.vceExport=async function(){
 </style>
 
 
+
+
+<style id="vcPegCardAndRangeLayout">
+/* Subgrade / GSB Peg Level: Soil Cut / Fill-style cards with labels ABOVE fields. */
+#pegLevel .peg-range{background:#f5f9ff;border:1px solid #d4e1ef;border-radius:16px;padding:12px;margin:0 0 13px}
+#pegLevel .peg-range-title{display:flex;justify-content:space-between;align-items:center;font-size:17px;color:#173453;font-weight:900;margin-bottom:11px}
+#pegLevel .peg-range-title span{font-size:12px;color:#617991;font-weight:800}
+#pegLevel .peg-range-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;align-items:end}
+#pegLevel .peg-range-grid label{font-size:13px;color:#173453;min-width:0;line-height:1.5;margin:0;font-weight:900}
+#pegLevel .peg-range-grid input{display:block;min-width:0;width:100%;box-sizing:border-box;margin-top:5px;height:48px;border-radius:12px;font-size:17px;padding:0 10px;background:#fff;border:1.5px solid #b8cadb}
+#pegLevel .peg-range-generate{height:48px;min-width:0;width:100%;box-sizing:border-box;font-size:14px;white-space:normal;padding:7px}
+#pegLevel .peg-range-message{margin-top:9px;min-height:16px;font-size:12px;font-weight:750;line-height:1.45;color:#526b80}
+#pegLevel .peg-range-message.error{color:#b42318}
+#pegLevel .peg-tableWrap{overflow:visible!important;border:0!important;margin-top:0!important;background:transparent!important}
+#pegLevel .peg-tableWrap table{display:block!important;min-width:0!important;width:100%!important;border:0!important;border-collapse:separate!important}
+#pegLevel .peg-tableWrap thead{display:none!important}
+#pegLevel .peg-tableWrap tbody{display:flex!important;flex-direction:column!important;gap:11px!important;width:100%!important}
+#pegLevel .peg-tableWrap tbody tr{display:grid!important;position:relative;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important;padding:12px!important;border:2px solid #173453;border-radius:20px;background:#fff;box-shadow:0 1px 4px #17345312;width:100%!important;min-width:0!important;box-sizing:border-box}
+#pegLevel .peg-tableWrap tbody td{display:flex!important;flex-direction:column!important;justify-content:start;align-items:stretch!important;gap:5px;min-width:0!important;width:100%!important;padding:0!important;border:0!important;text-align:left!important;vertical-align:top!important}
+#pegLevel .peg-tableWrap tbody td::before{content:attr(data-label);display:block;font-size:14px;font-weight:900!important;color:#173453;line-height:1.25;min-height:18px}
+#pegLevel .peg-tableWrap tbody td:first-child{grid-column:1/-1;padding-right:44px!important}
+#pegLevel .peg-tableWrap tbody .peg-delete-cell{display:block!important;width:40px!important;position:absolute;right:12px;top:12px;padding:0!important}
+#pegLevel .peg-tableWrap tbody .peg-delete-cell::before{display:none!important}
+#pegLevel .peg-tableWrap tbody .peg-del{height:40px;width:40px;border-radius:12px;font-size:25px;background:#fee2e2;color:#a51d27}
+#pegLevel .peg-tableWrap tbody .peg-chwrap{min-width:0!important;width:100%!important}
+#pegLevel .peg-tableWrap tbody input{height:48px!important;min-width:0!important;width:100%!important;box-sizing:border-box;border-radius:12px!important;border:1.5px solid #b9cce0!important;background:#fff;padding:0 10px!important;font-size:18px!important;font-weight:850!important;text-align:center!important}
+#pegLevel .peg-tableWrap tbody .peg-cam.same{background:#eef2f7!important;color:#526173!important}
+#pegLevel .peg-tableWrap tbody .peg-hiwrap{min-width:0!important;width:100%!important}
+#pegLevel .peg-tableWrap tbody .peg-hi-label{min-height:16px;font-size:11px;margin-top:4px}
+#pegLevel .peg-panel:has(.peg-tableWrap){background:transparent;border:none;padding:0;margin-bottom:9px}
+@media(max-width:360px){#pegLevel .peg-tableWrap tbody tr{gap:8px!important;padding:10px!important}#pegLevel .peg-tableWrap tbody input{font-size:16px!important;padding:0 6px!important}#pegLevel .peg-range-grid{gap:7px}}
+</style>
+
+<style id="vcPegCompactSameCamberPCLSummaryV2">
+/* Same Camber: keep values for every chainage but hide duplicate Camber boxes. */
+#pegLevel.peg-camber-same-mode .peg-tableWrap tbody td[data-label="Camber (%)"]{display:none!important}
+/* Put Chainage and PCL RL on the same row, with delete control clear of values. */
+#pegLevel .peg-tableWrap tbody td:first-child{grid-column:1!important;padding-right:0!important}
+#pegLevel .peg-tableWrap tbody td[data-label="PCL RL"]{grid-column:2!important;padding-right:34px!important}
+#pegLevel .peg-tableWrap tbody .peg-delete-cell{right:9px!important;top:35px!important;width:27px!important;height:33px!important}
+#pegLevel .peg-tableWrap tbody .peg-del{width:27px!important;height:33px!important;border-radius:8px!important;font-size:20px!important}
+/* Offsets can use available width when Camber is shared. */
+#pegLevel.peg-camber-same-mode .peg-tableWrap tbody td[data-label="Offset(s) (m)"]{grid-column:1/-1!important}
+/* Level summary: two pieces of useful information on one compact line. */
+#pegLevel .peg-summary-chainage{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:8px!important;padding:9px 12px!important;text-align:left!important}
+#pegLevel .peg-summary-chainage-value{display:inline-block!important;text-align:left!important;font-size:18px!important;white-space:nowrap!important;flex-shrink:0}
+#pegLevel .peg-summary-pcl{display:inline-flex;align-items:center;justify-content:flex-end;gap:6px;font-size:13px;font-weight:800;color:#425c75;white-space:nowrap}
+#pegLevel .peg-summary-pcl b{font-size:17px;color:#173453;font-weight:950}
+#pegLevel .peg-summary-mini-label{font-size:11px!important;white-space:nowrap!important}
+@media(max-width:380px){
+ #pegLevel .peg-tableWrap tbody tr{gap:7px!important}
+ #pegLevel .peg-tableWrap tbody td[data-label="PCL RL"]{padding-right:29px!important}
+ #pegLevel .peg-tableWrap tbody .peg-delete-cell{right:7px!important;width:25px!important}
+ #pegLevel .peg-tableWrap tbody .peg-del{width:25px!important}
+ #pegLevel .peg-summary-chainage{padding:9px 8px!important;gap:5px!important}
+ #pegLevel .peg-summary-chainage-value{font-size:16px!important}
+ #pegLevel .peg-summary-pcl{font-size:11px!important;gap:4px}
+ #pegLevel .peg-summary-pcl b{font-size:15px}
+ #pegLevel .peg-summary-mini-label{font-size:10px!important}
+}
+</style>
+
+<style id="vcPegSeparateOffsetBoxes">
+/* Peg Level: three visible Offset inputs + one small add control. */
+#pegLevel .peg-tableWrap tbody td[data-label="Offset(s) (m)"]{grid-column:1/-1!important}
+#pegLevel .peg-offset-entry{display:flex;align-items:flex-start;gap:7px;min-width:0;width:100%}
+#pegLevel .peg-offset-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;flex:1;min-width:0}
+#pegLevel .peg-offset-cell{position:relative;min-width:0}
+#pegLevel .peg-offset-remove{position:absolute;right:2px;top:2px;z-index:1;border:0;border-radius:50%;background:#fee2e2;color:#9f1239;width:23px;height:23px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;line-height:1;cursor:pointer;touch-action:manipulation;padding:0}
+#pegLevel .peg-offset-cell:has(.peg-offset-remove) input.peg-offset-value{padding-right:20px!important}
+#pegLevel .peg-offset-remove:focus-visible{outline:2px solid #173453;outline-offset:1px}
+#pegLevel .peg-tableWrap tbody input.peg-offset-value{min-width:0!important;width:100%!important;height:46px!important;padding:0 4px!important;font-size:17px!important;text-align:center!important}
+#pegLevel .peg-tableWrap tbody input.peg-offset-value::placeholder{font-size:10px!important;font-weight:600!important;letter-spacing:0}
+#pegLevel .peg-offset-plus{flex:0 0 42px;width:42px;height:46px;border:0;border-radius:11px;background:#173453;color:#fff;font-size:29px;font-weight:900;line-height:1;cursor:pointer;touch-action:manipulation}
+#pegLevel .peg-offset-plus:disabled{opacity:.4;cursor:default}
+@media(max-width:380px){#pegLevel .peg-offset-entry{gap:5px}#pegLevel .peg-offset-list{gap:5px}#pegLevel .peg-offset-plus{width:36px;flex-basis:36px}#pegLevel .peg-tableWrap tbody input.peg-offset-value{font-size:15px!important;padding:0 3px!important}}
+</style>
 </body></html>
