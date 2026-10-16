@@ -1822,9 +1822,35 @@ body.tool-open .vc-dev-footer{display:none}
 .ew-results th:first-child,.ew-results td:first-child{position:sticky;left:0;background:#fff;z-index:1;font-weight:900}
 .ew-results th:first-child{background:#173453;color:#fff;z-index:3}
 .ew-summary{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-.ew-sum{border-radius:14px;padding:10px 6px;text-align:center;background:#fff0c9}
+.ew-sum{border-radius:14px;padding:10px 6px;text-align:center;background:#fff0c9;border:1.5px solid #dfe7f2;box-shadow:0 2px 8px rgba(23,52,83,.05)}
 .ew-sum .k{font-size:11px;font-weight:900;color:#173453}
 .ew-sum .v{font-size:18px;font-weight:900;color:#173453;margin-top:4px;line-height:1.2}
+.ew-sum.ew-cut{background:#ffe4e1;border-color:#f3c3bd}
+.ew-sum.ew-fill{background:#e6f0ff;border-color:#c5d8ff}
+.ew-sum.ew-diff{background:#fff1c9;border-color:#ecd898}
+.ew-sum.ew-required{background:#dcf6df;border-color:#9dd6a5}
+.ew-sum.ew-required .v{color:#16753d}
+.ew-sum.ew-count-card{background:#efe8ff;border-color:#d2c1ff}
+/* Soil transport trips: choose vehicle; capacity is an indicative full-load value. */
+#earthwork .ew-vehicle-panel{margin:12px 0 14px;padding:15px 13px;background:#f4f9ff;border:1.5px solid #cadeef;border-radius:16px;color:#173453}
+#earthwork .ew-vehicle-panel h3{font-size:19px;font-weight:900;margin:0 0 7px}
+#earthwork .ew-vehicle-total{font-size:15px;font-weight:900;margin:0 0 11px;color:#166534}
+#earthwork .ew-vehicle-picker{display:block;margin-bottom:11px}
+#earthwork .ew-vehicle-picker label{display:block;font-size:15px;font-weight:900;margin-bottom:6px}
+#earthwork #ewVehicleSelect{height:53px;width:100%;max-width:100%;border:1.5px solid #b9cfe0;border-radius:12px;background:white;color:#173453;padding:0 12px;font-size:17px;font-weight:900}
+#earthwork .ew-vehicle-result{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#earthwork .ew-vehicle-result-box{padding:12px 8px;text-align:center;background:#fff;border:1px solid #d8e5f1;border-radius:12px;min-width:0}
+#earthwork .ew-vehicle-result-box .ew-vehicle-label{font-size:13px;font-weight:800;color:#52677d;line-height:1.5}
+#earthwork .ew-vehicle-result-box strong{display:block;margin-top:3px;font-size:23px;font-weight:900;color:#173453;overflow-wrap:anywhere}
+#earthwork .ew-vehicle-cap-edit{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:5px}
+#earthwork #ewVehicleCapacity{width:100%;min-width:0;max-width:116px;height:44px;border:1.5px solid #a6bfd5;border-radius:10px;background:#fff;color:#173453;text-align:center;padding:3px 7px;font-size:22px;font-weight:900;box-sizing:border-box}
+#earthwork #ewVehicleCapacity:focus{border-color:#246998;outline:2px solid #bfdcf1;outline-offset:1px}
+#earthwork .ew-vehicle-ton{font-size:15px;font-weight:900;color:#173453}
+#earthwork .ew-vehicle-cap-hint{display:block;font-size:11px;color:#627387;margin-top:3px;font-weight:700}
+#earthwork .ew-vehicle-result-box.ew-trips{background:#e2f5e7;border-color:#a6dcb1}
+#earthwork .ew-vehicle-result-box.ew-trips strong{color:#136436;font-size:30px}
+#earthwork .ew-vehicle-note{font-size:12px;color:#52677d;line-height:1.5;margin:11px 2px 0}
+@media(max-width:355px){#earthwork .ew-vehicle-result-box strong{font-size:19px}#earthwork .ew-vehicle-result-box.ew-trips strong{font-size:26px}}
 .ew-saved{height:19px;text-align:center;font-size:13px;font-weight:800;color:#2d6a4f;margin-top:7px}
 .ew-mini{font-size:11px;color:#64748b;font-weight:700}
 .ew-type-cut{font-weight:900;color:#b42318}
@@ -1880,7 +1906,7 @@ body.tool-open .vc-dev-footer{display:none}
 #pdfPasswordRemover .ppr-drop .ppr-icon{font-size:44px;line-height:1;margin-bottom:9px}
 #pdfPasswordRemover .ppr-drop .ppr-title{font-weight:850;font-size:18px}
 #pdfPasswordRemover .ppr-drop .ppr-sub{font-size:12px;color:var(--ppr-muted);margin-top:5px}
-#pdfPasswordRemover #pprFile{display:none}
+#pdfPasswordRemover #pprFile{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;overflow:hidden!important;pointer-events:none!important;clip-path:inset(50%)}
 #pdfPasswordRemover .ppr-filebox{display:none;margin-top:13px;padding:12px 13px;border-radius:13px;background:#eef6fd;border:1px solid #d4e5f3}
 #pdfPasswordRemover .ppr-filebox strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
 #pdfPasswordRemover .ppr-filebox span{font-size:12px;color:var(--ppr-muted)}
@@ -5045,6 +5071,82 @@ body.vc-keyboard-open.tool-open main.wrap > section#price.card:not(.hidden){padd
 }
 </style>
 
+<style id="vcUnitConverterAllResults">
+/* Bigger primary conversion and an always-visible, compact all-units summary. */
+#units .uc-to input{
+  height:62px;
+  font-size:clamp(24px,4.5vw,34px)!important;
+  font-weight:950;
+  color:#125a39;
+}
+#units .uc-formula{
+  margin:14px 0 13px;
+  padding:15px 10px;
+  font-size:clamp(20px,4.4vw,27px)!important;
+  line-height:1.4;
+  font-weight:950;
+  color:#173453;
+  border:1.5px solid #c6d9ea;
+  background:#edf5fc;
+  border-radius:16px;
+  overflow-wrap:anywhere;
+}
+#units .uc-all-results{
+  border:1.4px solid #cfdeeb;
+  background:#f8fbff;
+  border-radius:17px;
+  padding:12px;
+  margin:0 0 13px;
+}
+#units .uc-all-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:7px;
+}
+#units .uc-all-item{
+  min-width:0;
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:10px;
+  border:1px solid #d5e1eb;
+  border-radius:12px;
+  background:#fff;
+  padding:12px 10px;
+  text-align:center;
+}
+#units .uc-all-item.uc-all-selected{
+  background:#e8f5ee;
+  border-color:#abcdbb;
+}
+#units .uc-all-value{
+  display:block;
+  color:#193653;
+  font-size:clamp(19px,5vw,24px);
+  line-height:1.3;
+  font-weight:900;
+  overflow-wrap:anywhere;
+  font-variant-numeric:tabular-nums;
+}
+#units .uc-all-unit{
+  display:inline;
+  margin-top:0;
+  color:#50687e;
+  font-size:clamp(18px,4.7vw,23px);
+  line-height:1.3;
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+#units .uc-all-selected .uc-all-value{color:#125a39}
+@media(max-width:390px){
+  #units .uc-to input{height:54px;font-size:clamp(21px,6vw,27px)!important}
+  #units .uc-all-results{padding:10px}
+  #units .uc-all-grid{gap:7px}
+  #units .uc-all-item{padding:11px 8px}
+}
+@media(max-width:320px){#units .uc-all-grid{grid-template-columns:1fr}}
+</style>
+
 
 <style id="vcPdfEditorManualSizeCleanCover">
 #pdfEditor .pde-font-size-box{
@@ -6054,13 +6156,55 @@ body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basic
 </div>
 
 <div id="ewSummary" class="ew-summary" style="display:none">
-  <div class="ew-sum"><div class="k">Total Cutting</div><div class="v" id="ewTotalCut">0 m³<br>0 t</div></div>
-  <div class="ew-sum"><div class="k">Total Filling</div><div class="v" id="ewTotalFill">0 m³<br>0 t</div></div>
-  <div class="ew-sum"><div class="k">Difference</div><div class="v" id="ewBalance">0 m³<br>0 t</div></div>
-  <div class="ew-sum"><div class="k">Required Soil</div><div class="v" id="ewRequiredSoil">0 m³<br>0 t</div></div>
-  <div class="ew-sum"><div class="k">Chainages</div><div class="v" id="ewSectionCount">0</div></div>
+  <div class="ew-sum ew-cut"><div class="k">Total Cutting</div><div class="v" id="ewTotalCut">0 m³<br>0 t</div></div>
+  <div class="ew-sum ew-fill"><div class="k">Total Filling</div><div class="v" id="ewTotalFill">0 m³<br>0 t</div></div>
+  <div class="ew-sum ew-diff"><div class="k">Difference</div><div class="v" id="ewBalance">0 m³<br>0 t</div></div>
+  <div class="ew-sum ew-required"><div class="k">Required Soil</div><div class="v" id="ewRequiredSoil">0 m³<br>0 t</div></div>
+  <div class="ew-sum ew-count-card"><div class="k">Chainages</div><div class="v" id="ewSectionCount">0</div></div>
 </div>
 
+<div id="ewVehiclePanel" class="ew-vehicle-panel" style="display:none" aria-live="polite">
+  <h3>Vehicle-wise Soil Trips</h3>
+  <div id="ewVehicleTotal" class="ew-vehicle-total">Required Soil: 0 Ton</div>
+  <div class="ew-vehicle-picker">
+    <label for="ewVehicleSelect">गाड़ी का नाम चुनें</label>
+    <select id="ewVehicleSelect" onchange="ewVehicleSelectionChanged()">
+      <option value="tractor" data-cap="6">Tractor Trolley</option>
+      <option value="tipper6" data-cap="10">6 Wheeler Tipper</option>
+      <option value="hyva10" data-cap="18" selected>10 Wheeler Hyva</option>
+      <option value="hyva12" data-cap="23">12 Wheeler Hyva</option>
+      <option value="hyva14" data-cap="28">14 Wheeler Hyva</option>
+    </select>
+  </div>
+  <div class="ew-vehicle-result">
+    <div class="ew-vehicle-result-box"><label class="ew-vehicle-label" for="ewVehicleCapacity">अनुमानित क्षमता</label><div class="ew-vehicle-cap-edit"><input id="ewVehicleCapacity" type="number" min="0.01" step="any" inputmode="decimal" value="18" oninput="ewVehicleCapacityChanged()" aria-label="अनुमानित क्षमता टन में बदलें"><span class="ew-vehicle-ton">Ton</span></div><span class="ew-vehicle-cap-hint">क्षमता बदल सकते हैं</span></div>
+    <div class="ew-vehicle-result-box ew-trips"><span class="ew-vehicle-label">Total Trips</span><strong id="ewVehicleTrips">—</strong></div>
+  </div>
+  <p class="ew-vehicle-note">Trips = Required Soil (Ton) ÷ अनुमानित प्रति-ट्रिप क्षमता। परिणाम ऊपर की पूर्ण संख्या में होगा। गाड़ी की वास्तविक अनुमत लोड क्षमता मॉडल के अनुसार अलग हो सकती है।</p>
+</div>
+
+<style id="vcSoilChainageSummaryStyle">
+#earthwork .ew-chainage-summary{background:#f6faff;border:1px solid #cddfea;border-radius:14px;padding:11px;margin:12px 0}
+#earthwork .ew-chainage-summary h3{color:#173453;font-size:17px;margin:0 0 9px}
+#earthwork .ew-peaks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0 0 10px}
+#earthwork .ew-peak-box{background:#fff;border-radius:10px;border:1px solid #d6e2ee;padding:9px 6px}
+#earthwork .ew-peak-box b{display:block;color:#173453;font-size:13px}
+#earthwork .ew-peak-box small{display:block;font-size:11px;color:#64748b;line-height:1.5}
+#earthwork .ew-chainage-summary-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:9px}
+#earthwork .ew-chainage-summary table{border-collapse:collapse;width:100%;min-width:460px;font-size:12px}
+#earthwork .ew-chainage-summary th,#earthwork .ew-chainage-summary td{border:1px solid #d8e4ef;padding:7px 6px;text-align:center;white-space:nowrap}
+#earthwork .ew-chainage-summary th{background:#173453;color:#fff}
+#earthwork .ew-chainage-summary td{background:#fff}
+</style>
+<div id="ewChainageSummary" class="ew-chainage-summary" style="display:none" aria-live="polite">
+ <h3>Chainage-wise Cut / Fill Summary</h3>
+ <div id="ewPeakDepths" class="ew-peaks"></div>
+ <div class="ew-mini">Cut / Fill Offset की संख्या हर Chainage पर वास्तविक RL और DRL के अंतर से निकाली गई है।</div>
+ <div class="ew-chainage-summary-scroll"><table>
+   <thead><tr><th>Chainage</th><th>Cut Offsets</th><th>Fill Offsets</th><th>Max Cut (m)</th><th>Max Fill (m)</th></tr></thead>
+   <tbody id="ewChainageSummaryRows"></tbody>
+ </table></div>
+</div>
 <button class="pdfBtn" onclick="ewDownloadPDF()">DOWNLOAD PDF</button>
 
 <div class="ew-actions">
@@ -6172,6 +6316,18 @@ body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basic
 </div>
 <div class="cc-ratio" id="ccMixRatio">1 : 1.5 : 3</div>
 
+<style id="vcConcreteWasteStyle">
+#material .cc-waste-row{border:1px solid #d8e5ef;border-radius:12px;background:#f8fbff;padding:10px;margin:10px 0}
+#material .cc-waste-row label{display:block;font-size:14px;font-weight:850;margin-bottom:6px;color:#173453}
+#material .cc-waste-row input{width:120px;max-width:100%;height:43px;font-size:19px;font-weight:750;padding:0 10px;border-radius:10px}
+#material .cc-waste-row #ccWastageHelp{font-size:12px;color:#60748a;margin-top:6px}
+#material .cc-waste-note{text-align:center;font-size:12px;line-height:1.4;font-weight:850;color:#166534;margin:4px 0 8px}
+</style>
+<div class="cc-waste-row">
+  <label for="ccWastage">Wastage (%)</label>
+  <input id="ccWastage" type="number" min="0" max="100" step="any" value="0" inputmode="decimal" oninput="ccCalc()" aria-describedby="ccWastageHelp">
+  <div id="ccWastageHelp">0% = पुराना हिसाब • जरूरत हो तो 2%, 3% या 5% डालें</div>
+</div>
 <div class="cc-densityTitle">Density (kg/m³)</div>
 <div class="cc-grid3 cc-densityGrid">
   <div class="cc-row"><label>Cement</label><input id="ccCementDensity" type="number" step="any" inputmode="decimal" value="1440" oninput="ccCalc()"></div>
@@ -6181,6 +6337,7 @@ body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basic
 
 <div class="cc-result">
   <div class="cc-volume" id="ccWetVolume">0.000 m³</div><div class="cc-volumeFt" id="ccWetVolumeFt">0.000 ft³</div>
+  <div class="cc-waste-note" id="ccWastageResult">Wastage: 0% • Material quantities without extra allowance</div>
   <div class="cc-rgrid">
     <div class="cc-rbox"><b>Cement</b><span id="ccCementResult">0.00 Bag / 0.0 kg</span></div>
     <div class="cc-rbox"><b>Sand</b><span id="ccSandResult">0.0 kg</span></div>
@@ -6363,6 +6520,10 @@ body.vc-keyboard-open.tool-open main.wrap > section.card:not(.hidden):not(#basic
 </div>
 
 <div id="unitFormula" class="uc-formula">1 m = 3.2808 ft</div>
+
+<div id="unitAllResults" class="uc-all-results" aria-label="Other unit conversions">
+  <div id="unitAllGrid" class="uc-all-grid" role="list"></div>
+</div>
 
 <div class="uc-actions uc-actions-single">
   <button type="button" class="uc-clear" onclick="clearUnitConverter()">CLEAR</button>
@@ -7909,11 +8070,11 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
   <div class="ppr-wrap">
     <div class="ppr-intro"><b>🔓 PDF Password Remover</b><br>जिस PDF का सही password आपको पता है, उसका password हटाकर नई unlocked PDF बनाएं। आपकी PDF कहीं upload नहीं होगी।</div>
     <div class="ppr-card">
-      <div id="pprDrop" class="ppr-drop" role="button" tabindex="0" aria-label="Choose PDF file" data-bound="1">
+      <label id="pprDrop" class="ppr-drop" for="pprFile" role="button" tabindex="0" aria-label="Choose PDF file" style="display:block">
         <div class="ppr-icon">📄</div>
         <div class="ppr-title">PDF चुनें</div>
         <div class="ppr-sub">यहाँ tap करें और password-protected PDF चुनें</div>
-      </div>
+      </label>
       <input id="pprFile" type="file" accept="application/pdf,.pdf">
       <div id="pprFilebox" class="ppr-filebox"><strong id="pprFilename"></strong><span id="pprFilesize"></span></div>
 
@@ -9234,6 +9395,7 @@ body.day .sound-toggle{
   };
 })();
 </script>
+
 
 <div id="vcDevModal" class="vc-dev-modal hidden" aria-hidden="false">
   <div class="vc-dev-box">
@@ -17475,17 +17637,19 @@ function unitFormatNumber(n){
   if(!Number.isFinite(n))return '';
   if(n===0)return '0';
 
-  var abs=Math.abs(n);
-
-  // Very small/very large values: short scientific form.
-  if(abs>=1e9 || abs<0.0001){
-    return n.toExponential(4).replace(/\.?0+e/,'e');
+  const abs=Math.abs(n);
+  // Smart Decimal: show useful small values instead of turning them into "0".
+  // Exceptionally tiny or huge results use readable scientific notation.
+  if(abs<1e-12 || abs>=1e15){
+    return n.toExponential(6).replace(/(\.\d*?[1-9])0+e/, '$1e').replace(/\.0+e/, 'e');
   }
 
-  // Normal values: maximum 4 decimal digits, trailing zero automatically removed.
+  // Keep the familiar 4 decimal places for ordinary measurements; for
+  // fractions below 1, add enough places to retain about 7 significant digits.
+  const digits=abs>=1 ? 4 : Math.min(16,Math.max(4,6-Math.floor(Math.log10(abs))));
   return n.toLocaleString('en-IN',{
     minimumFractionDigits:0,
-    maximumFractionDigits:4
+    maximumFractionDigits:digits
   });
 }
 
@@ -17493,25 +17657,50 @@ function convertUnit(){
  const cat=document.getElementById('unitCat').value;
  const from=document.getElementById('unitFrom').value;
  const to=document.getElementById('unitTo').value;
- const v=+document.getElementById('unitValue').value;
+ const input=document.getElementById('unitValue');
+ const raw=input.value.trim();
+ const v=raw===''?NaN:Number(raw);
  const out=document.getElementById('unitResultValue');
  const formula=document.getElementById('unitFormula');
+ const allGrid=document.getElementById('unitAllGrid');
 
  UNIT_LAST_BY_CAT[cat]={from:from,to:to};
 
  if(!Number.isFinite(v)){
    out.value='';
    if(formula)formula.textContent='Value भरें';
+   if(allGrid)allGrid.replaceChildren();
    return;
  }
 
- let result=cat==='temperature'?convertTemperature(v,from,to):v*unitData[cat][from]/unitData[cat][to];
+ const calculate=function(target){
+   return cat==='temperature'?convertTemperature(v,from,target):v*unitData[cat][from]/unitData[cat][target];
+ };
+ const result=calculate(to);
  out.value=unitFormatNumber(result);
 
  if(formula){
    formula.textContent=unitFormatNumber(v)+' '+from+' = '+unitFormatNumber(result)+' '+to;
  }
 
+ if(allGrid){
+   const cards=document.createDocumentFragment();
+   // FROM and TO already appear in the main converter; don't repeat them below.
+   unitLabels[cat].filter(function(unit){return unit!==from && unit!==to;}).forEach(function(unit){
+     const item=document.createElement('div');
+     item.className='uc-all-item';
+     item.setAttribute('role','listitem');
+     const value=document.createElement('span');
+     value.className='uc-all-value';
+     value.textContent=unitFormatNumber(calculate(unit));
+     const unitLabel=document.createElement('span');
+     unitLabel.className='uc-all-unit';
+     unitLabel.textContent=unit;
+     item.append(value,unitLabel);
+     cards.appendChild(item);
+   });
+   allGrid.replaceChildren(cards);
+ }
 }
 
 function swapUnits(){
@@ -19562,6 +19751,71 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     var s=n.toFixed(d==null?3:d);
     return s.replace(/\.?0+$/,'');
   }
+  // Capacity defaults are estimates. The user may override each vehicle's
+  // Ton-per-load without changing any other Soil Cut / Fill calculations.
+  var ewLegacyVehicleCaps=null;
+  var ewVehicleCapacityOverrides={};
+  function ewVehicleRestore(savedCaps,selectedVehicle,savedOverrides){
+    ewLegacyVehicleCaps=Array.isArray(savedCaps)?savedCaps.slice():null;
+    ewVehicleCapacityOverrides={};
+    if(savedOverrides && typeof savedOverrides==='object' && !Array.isArray(savedOverrides)){
+      Object.keys(savedOverrides).forEach(function(key){
+        var cap=Number(savedOverrides[key]);
+        if(Number.isFinite(cap) && cap>0)ewVehicleCapacityOverrides[key]=cap;
+      });
+    }
+    var sel=byId('ewVehicleSelect'),inp=byId('ewVehicleCapacity');
+    if(!sel)return;
+    var requested=String(selectedVehicle||'hyva10');
+    sel.value=Array.from(sel.options).some(function(opt){return opt.value===requested;}) ? requested : 'hyva10';
+    if(inp)inp.dataset.vehicleKey='';
+  }
+  function ewVehicleShowTrips(requiredTons){
+    var inp=byId('ewVehicleCapacity'),out=byId('ewVehicleTrips');
+    if(!inp||!out)return;
+    var cap=inp.value.trim()===''?NaN:Number(inp.value);
+    out.textContent=Number.isFinite(cap)&&cap>0 && Number.isFinite(requiredTons)
+      ?Math.ceil(Math.max(0,requiredTons)/cap-1e-10).toLocaleString('en-IN')
+      :'—';
+  }
+  function ewVehicleDraw(requiredTons){
+    var panel=byId('ewVehiclePanel'),sel=byId('ewVehicleSelect'),inp=byId('ewVehicleCapacity');
+    if(!panel||!sel||!inp)return;
+    panel.style.display='block';
+    panel.dataset.requiredTons=String(requiredTons);
+    byId('ewVehicleTotal').textContent='Required Soil: '+fmt(requiredTons,3)+' Ton';
+    var chosen=sel.options[sel.selectedIndex];
+    var vehicleKey=chosen?chosen.value:'';
+    // Do not reset the input/cursor during live calculation while typing.
+    if(inp.dataset.vehicleKey!==vehicleKey){
+      var custom=ewVehicleCapacityOverrides[vehicleKey];
+      var cap=Number.isFinite(custom)?custom:(chosen?Number(chosen.dataset.cap):NaN);
+      inp.value=Number.isFinite(cap)&&cap>0?String(cap):'';
+      inp.dataset.vehicleKey=vehicleKey;
+    }
+    ewVehicleShowTrips(requiredTons);
+  }
+  window.ewVehicleCapacityChanged=function(){
+    var sel=byId('ewVehicleSelect'),inp=byId('ewVehicleCapacity'),panel=byId('ewVehiclePanel');
+    if(!sel||!inp||!panel)return;
+    var vehicleKey=sel.value;
+    var cap=inp.value.trim()===''?NaN:Number(inp.value);
+    if(Number.isFinite(cap)&&cap>0){
+      ewVehicleCapacityOverrides[vehicleKey]=cap;
+    }else{
+      delete ewVehicleCapacityOverrides[vehicleKey];
+    }
+    ewVehicleShowTrips(Number(panel.dataset.requiredTons));
+    ewSaveDraft(false);
+  };
+  window.ewVehicleSelectionChanged=function(){
+    var panel=byId('ewVehiclePanel'),inp=byId('ewVehicleCapacity');
+    if(inp)inp.dataset.vehicleKey='';
+    if(panel && panel.style.display!=='none'){
+      ewVehicleDraw(Number(panel.dataset.requiredTons));
+    }
+    ewSaveDraft(false);
+  };
   // RL and Design RL are always displayed to the nearest millimetre.
   // Only apply to a completed field, not while a user types its digits.
   function ewFormatRL(value){
@@ -19613,10 +19867,12 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   };
 
   function hideResults(){
-    var e=byId('ewError'),r=byId('ewResults'),s=byId('ewSummary');
+    var e=byId('ewError'),r=byId('ewResults'),s=byId('ewSummary'),cs=byId('ewChainageSummary'),vp=byId('ewVehiclePanel');
     if(e)e.textContent='';
     if(r)r.style.display='none';
     if(s)s.style.display='none';
+    if(cs)cs.style.display='none';
+    if(vp)vp.style.display='none';
   }
 
   window.ewAddSection=function(data){
@@ -20318,6 +20574,35 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     return {rows:rows};
   }
 
+  function ewBuildOffsetSummary(rows){
+    var peakCut={value:0,ch:'—',offset:null},peakFill={value:0,ch:'—',offset:null};
+    var summary=rows.map(function(r){
+      var cutCount=0,fillCount=0,maxCut=0,maxFill=0;
+      r.offsets.forEach(function(off,i){
+        var diff=r.dg[i]-r.eg[i];
+        if(diff < -0.0000001){
+          var depth=-diff;cutCount++;maxCut=Math.max(maxCut,depth);
+          if(depth>peakCut.value){peakCut={value:depth,ch:r.ch,offset:off}}
+        }else if(diff>0.0000001){
+          fillCount++;maxFill=Math.max(maxFill,diff);
+          if(diff>peakFill.value){peakFill={value:diff,ch:r.ch,offset:off}}
+        }
+      });
+      return {ch:r.ch,cutCount:cutCount,fillCount:fillCount,maxCut:maxCut,maxFill:maxFill};
+    });
+    return {items:summary,peakCut:peakCut,peakFill:peakFill};
+  }
+
+  function ewDrawOffsetSummary(rows){
+    var el=byId('ewChainageSummary'),tbody=byId('ewChainageSummaryRows'),peaks=byId('ewPeakDepths');
+    if(!el||!tbody||!peaks)return;
+    var sum=ewBuildOffsetSummary(rows);
+    tbody.innerHTML=sum.items.map(function(r){return '<tr><td>'+esc(r.ch)+'</td><td>'+r.cutCount+'</td><td>'+r.fillCount+'</td><td>'+fmt(r.maxCut,3)+'</td><td>'+fmt(r.maxFill,3)+'</td></tr>'}).join('');
+    function peak(title,p){return '<div class="ew-peak-box"><b>'+title+': '+fmt(p.value,3)+' m</b><small>Chainage '+esc(p.ch)+(p.offset===null?'':' • Offset '+esc(p.offset)+' m')+'</small></div>'}
+    peaks.innerHTML=peak('Maximum Cut Depth',sum.peakCut)+peak('Maximum Fill Depth',sum.peakFill);
+    el.style.display='block';
+  }
+
   function typeHtml(type){
     if(type==='CUT')return '<span class="ew-type-cut">CUT</span>';
     if(type==='FILL')return '<span class="ew-type-fill">FILL</span>';
@@ -20348,6 +20633,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       if(err)err.textContent=data.error;
       if(box)box.style.display='none';
       if(sum)sum.style.display='none';
+      if(byId('ewChainageSummary'))byId('ewChainageSummary').style.display='none';
+      if(byId('ewVehiclePanel'))byId('ewVehiclePanel').style.display='none';
       return;
     }
 
@@ -20356,6 +20643,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       if(err)err.textContent='Density';
       if(box)box.style.display='none';
       if(sum)sum.style.display='none';
+      if(byId('ewChainageSummary'))byId('ewChainageSummary').style.display='none';
+      if(byId('ewVehiclePanel'))byId('ewVehiclePanel').style.display='none';
       return;
     }
 
@@ -20398,6 +20687,8 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     byId('ewBalance').innerHTML=fmt(balance,3)+' m³<br>'+fmt(balance*density,3)+' t';
     byId('ewRequiredSoil').innerHTML=fmt(requiredSoil,3)+' m³<br>'+fmt(requiredSoil*density,3)+' t';
     byId('ewSectionCount').textContent=String(rows.length);
+    ewVehicleDraw(requiredSoil*density);
+    ewDrawOffsetSummary(rows);
 
     ewSaveDraft(false);
   };
@@ -20533,6 +20824,35 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     y+=6;
     doc.text('Chainages: '+rows.length,margin,y);
 
+    var offsetSummary=ewBuildOffsetSummary(rows);
+    doc.addPage('a4','landscape');
+    y=12;
+    function offsetPageHeader(){
+      doc.setFont('helvetica','bold');doc.setFontSize(14);
+      doc.text('Chainage-wise Cut / Fill Offset Summary',margin,y);
+      y+=8;
+      doc.setFontSize(9);
+      doc.text('Cut/Fill count = sampled offsets. Maximum depths in metres.',margin,y);
+      y+=8;
+      doc.setFillColor(235,240,246);doc.rect(margin,y,220,8,'F');
+      doc.setFontSize(9);doc.setFont('helvetica','bold');
+      var heads=['Chainage','Cut Offsets','Fill Offsets','Max Cut (m)','Max Fill (m)'];
+      for(var k=0;k<heads.length;k++)doc.text(heads[k],margin+2+k*44,y+5.5);
+      y+=8;doc.setFont('helvetica','normal');
+    }
+    offsetPageHeader();
+    offsetSummary.items.forEach(function(r){
+      if(y+7>ph-12){doc.addPage('a4','landscape');y=12;offsetPageHeader()}
+      var values=[r.ch,String(r.cutCount),String(r.fillCount),fmt(r.maxCut,3),fmt(r.maxFill,3)];
+      for(var k=0;k<values.length;k++){doc.rect(margin+k*44,y,44,7);doc.text(values[k],margin+2+k*44,y+4.8)}
+      y+=7;
+    });
+    if(y+24>ph-12){doc.addPage('a4','landscape');y=12}
+    y+=6;doc.setFont('helvetica','bold');doc.setFontSize(10);
+    var pc=offsetSummary.peakCut,pf=offsetSummary.peakFill;
+    doc.text('Highest Cut Depth: '+fmt(pc.value,3)+' m | '+pc.ch+(pc.offset===null?'':' | Offset '+pc.offset+' m'),margin,y);y+=7;
+    doc.text('Highest Fill Depth: '+fmt(pf.value,3)+' m | '+pf.ch+(pf.offset===null?'':' | Offset '+pf.offset+' m'),margin,y);
+
     if(!vcSafeSaveJsPdf(doc,'Soil_Cut_Fill_Quantity.pdf'))alert('PDF download नहीं हो पाई');
   };
 
@@ -20559,6 +20879,9 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
       common:byId('ewCommonOffsets').value,
       density:byId('ewDensity').value,
       densityCustom:byId('ewDensityCustom').value,
+      vehicleCaps:ewLegacyVehicleCaps ? ewLegacyVehicleCaps.slice() : undefined,
+      vehicleSelected:byId('ewVehicleSelect') ? byId('ewVehicleSelect').value : 'hyva10',
+      vehicleCapacityOverrides:Object.assign({},ewVehicleCapacityOverrides),
       rangeFrom:byId('ewRangeFrom').value,
       rangeTo:byId('ewRangeTo').value,
       rangeStep:byId('ewRangeStep').value,
@@ -20620,6 +20943,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     byId('ewGlobalCamber').value='';
     byId('ewDensity').value='1.8';
     byId('ewDensityCustom').value='';
+    ewVehicleRestore(saved&&saved.vehicleCaps,saved&&saved.vehicleSelected,saved&&saved.vehicleCapacityOverrides);
     byId('ewRangeFrom').value='';
     byId('ewRangeTo').value='';
     byId('ewRangeStep').value='10';
@@ -20677,6 +21001,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
     byId('ewGlobalHI').value='';
     byId('ewDensity').value='1.8';
     byId('ewDensityCustom').value='';
+    ewVehicleRestore(null,null,null);
     byId('ewSameOffsets').checked=false;
     byId('ewSameCamber').checked=true;
     byId('ewGlobalCamber').value='';
@@ -20919,7 +21244,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   }
   function bind(){
     var drop=el('pprDrop'),file=el('pprFile'),eye=el('pprEye'),unlock=el('pprUnlockBtn'),reset=el('pprResetBtn');if(!drop||drop.dataset.bound)return;drop.dataset.bound='1';
-    drop.addEventListener('click',function(){file.click()});drop.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}});file.addEventListener('change',function(){setFile(file.files[0])});
+    drop.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}});file.addEventListener('change',function(){setFile(file.files&&file.files.length?file.files[0]:null)});
     ['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('ppr-drag')})});['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('ppr-drag')})});drop.addEventListener('drop',function(e){setFile(e.dataTransfer.files[0])});
     eye.addEventListener('click',function(){var pass=el('pprPassword'),show=pass.type==='password';pass.type=show?'text':'password';eye.textContent=show?'🙈':'👁'});unlock.addEventListener('click',unlockPdf);reset.addEventListener('click',function(){setFile(null);el('pprPassword').value='';clearDownload();var s=el('pprStatus');s.className='ppr-status';s.textContent=''});
   }
@@ -21801,14 +22126,27 @@ window.ccCalc=function(){
   if(!ccEl('ccUnit'))return;
   var L=ccDimM('Length'),W=ccDimM('Width'),D=ccDimM('Depth'),cr=ccNum('ccCementRatio'),sr=ccNum('ccSandRatio'),ar=ccNum('ccAggRatio'),sum=cr+sr+ar;
   ccEl('ccMixRatio').textContent=ccRatioFmt(cr)+' : '+ccRatioFmt(sr)+' : '+ccRatioFmt(ar);
-  if(L<=0||W<=0||D<=0||cr<=0||sr<0||ar<0||sum<=0){ccRender(0,0,0,0);return}
+  if(L<=0||W<=0||D<=0||cr<=0||sr<0||ar<0||sum<=0){
+    var n=ccEl('ccWastageResult');if(n){n.textContent='Wastage चुनें • मात्रा डालने पर हिसाब दिखेगा';n.style.color='#64748b'}
+    ccRender(0,0,0,0);return;
+  }
+  var wasteRaw=ccEl('ccWastage')?String(ccEl('ccWastage').value).trim():'';
+  var wasteVal=wasteRaw===''?0:Number(wasteRaw);
+  if(!Number.isFinite(wasteVal)||wasteVal<0||wasteVal>100){
+    var note=ccEl('ccWastageResult');if(note){note.textContent='Wastage 0 से 100% के बीच भरें';note.style.color='#b42318'}
+    ccRender(0,0,0,0);return;
+  }
+  var multiplier=1+wasteVal/100;
   var wet=L*W*D,dry=wet*(ccNum('ccDryFactor')||1.54),cv=dry*cr/sum,sv=dry*sr/sum,av=dry*ar/sum;
+  var note=ccEl('ccWastageResult');
+  if(note){note.textContent=wasteVal===0?'Wastage: 0% • पुरानी सामग्री मात्रा':'Wastage: '+ccRatioFmt(wasteVal)+'% • Cement, Sand और Aggregate में शामिल';note.style.color='#166534'}
   var cDensity=ccNum('ccCementDensity')||1440,sDensity=ccNum('ccSandDensity')||1600,aDensity=ccNum('ccAggDensity')||1500;
-  ccRender(wet,cv*cDensity,sv*sDensity,av*aDensity);
+  ccRender(wet,cv*cDensity*multiplier,sv*sDensity*multiplier,av*aDensity*multiplier);
 };
 window.ccGradeChange=function(){var g=ccEl('ccGrade').value,p=ccPresets[g];if(p){ccEl('ccCementRatio').value=p[0];ccEl('ccSandRatio').value=p[1];ccEl('ccAggRatio').value=p[2]}ccCalc()};
 window.ccClear=function(){
   if(!ccEl('ccUnit'))return;ccEl('ccUnit').value='m';['ccLength','ccWidth','ccDepth','ccLengthFt','ccLengthIn','ccWidthFt','ccWidthIn','ccDepthFt','ccDepthIn','ccCementTasla','ccSandTasla','ccAggTasla'].forEach(function(id){var e=ccEl(id);if(e)e.value=''});
+  if(ccEl('ccWastage'))ccEl('ccWastage').value='0';
   ccEl('ccGrade').value='M20';ccEl('ccCementRatio').value='1';ccEl('ccSandRatio').value='1.5';ccEl('ccAggRatio').value='3';ccEl('ccDryFactor').value='1.54';ccEl('ccCementDensity').value='1440';ccEl('ccSandDensity').value='1600';ccEl('ccAggDensity').value='1500';ccUpdateUnit();ccCalc();
 };
 
