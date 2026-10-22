@@ -6002,6 +6002,26 @@ body.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidd
 #autoLevelSheet #levelSheetMenuButton{display:flex!important;visibility:visible!important;opacity:1!important;position:absolute!important;top:8px!important;right:12px!important;left:auto!important;width:82px!important;height:38px!important;margin:0!important;align-items:center!important;justify-content:center!important;background:#08aeea!important;color:#fff!important;border:0!important;border-radius:24px!important;font:800 14px system-ui!important;pointer-events:auto!important}
 #autoLevelSheet #autoLevelSheetFrame{flex:1 1 0%!important;display:block!important;width:100%!important;height:0!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important}
 </style>
+<style id="levelSheetSafeViewport">
+body.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidden){top:var(--level-sheet-top,0px)!important;height:var(--level-sheet-height,100dvh)!important;box-sizing:border-box!important;padding-bottom:env(safe-area-inset-bottom,0px)!important}
+#autoLevelSheet #levelSheetHeader{height:calc(56px + 0px)!important;min-height:calc(56px + 0px)!important;flex-basis:calc(56px + 0px)!important}
+#autoLevelSheet #levelSheetMenuButton{top:8px!important;right:110px!important}
+
+</style>
+<script>
+(function(){
+ let scheduled=false;
+ function sync(){scheduled=false;const vv=window.visualViewport;
+  document.documentElement.style.setProperty('--level-sheet-height',Math.max(0,vv?vv.height:window.innerHeight)+'px');
+  document.documentElement.style.setProperty('--level-sheet-top',Math.max(0,vv?vv.offsetTop:0)+'px');
+ }
+ function queue(){if(!scheduled){scheduled=true;requestAnimationFrame(sync)}}
+ window.vcSyncLevelSheetViewport=sync;
+ window.addEventListener('resize',queue);
+ if(window.visualViewport){window.visualViewport.addEventListener('resize',queue);window.visualViewport.addEventListener('scroll',queue)}
+ document.addEventListener('DOMContentLoaded',sync);sync();
+})();
+</script>
 </head>
 <body class="">
 
@@ -8353,10 +8373,30 @@ function commitCamberInput(){const input=$(&#x27;camberPercent&#x27;),raw=limitD
  const wrap=document.querySelector(&#x27;.wrap&#x27;);if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0}
  window.scrollTo(0,0);
 };
-$(&#x27;workDate&#x27;).value=todayISO();updatePrintWorkTitle();render();syncCamberEditor()}};function visibleSheetViewport(){const vv=window.visualViewport;let height=vv&amp;&amp;Number.isFinite(vv.height)?vv.height:window.innerHeight;let top=vv&amp;&amp;Number.isFinite(vv.offsetTop)?vv.offsetTop:0;if(height&lt;160)height=window.innerHeight;document.documentElement.style.setProperty(&#x27;--sheet-visible-height&#x27;,Math.max(160,Math.round(height))+&#x27;px&#x27;);return{top,height,bottom:top+height}}
-function revealFocusedSheetCell(el){if(sheetUserScrolling||!el||!el.isConnected||document.activeElement!==el)return;const horizontal=document.querySelector(&#x27;.tablebox&#x27;),vertical=document.querySelector(&#x27;.wrap&#x27;);if(!vertical||!horizontal)return;const vp=visibleSheetViewport(),rect=el.getBoundingClientRect(),safeTop=vp.top+8,safeBottom=vp.bottom-18;let dy=0,dx=0;if(rect.bottom&gt;safeBottom)dy=rect.bottom-safeBottom+10;else if(rect.top&lt;safeTop)dy=rect.top-safeTop-10;if(rect.right&gt;window.innerWidth-8)dx=rect.right-window.innerWidth+18;else if(rect.left&lt;8)dx=rect.left-8-18;if(dy)vertical.scrollTop+=dy;if(dx)horizontal.scrollLeft+=dx}
+$(&#x27;workDate&#x27;).value=todayISO();updatePrintWorkTitle();render();syncCamberEditor()}};function visibleSheetViewport(){
+ const height=Math.max(0,document.documentElement.clientHeight||window.innerHeight);
+ document.documentElement.style.setProperty(&#x27;--sheet-visible-height&#x27;,height+&#x27;px&#x27;);
+ return {top:0,height,bottom:height};
+}
+function revealFocusedSheetCell(el){
+ if(sheetUserScrolling||!el||!el.isConnected||document.activeElement!==el)return;
+ const box=document.querySelector(&#x27;.tablebox&#x27;),wrap=document.querySelector(&#x27;.wrap&#x27;);
+ if(!box||!wrap)return;
+ const editingTable=document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;)&amp;&amp;el.matches(&#x27;[data-k]&#x27;);
+ const scroller=editingTable?box:wrap;
+ const vp=visibleSheetViewport(),sr=scroller.getBoundingClientRect(),r=el.getBoundingClientRect();
+ const head=editingTable?document.querySelector(&#x27;#book thead&#x27;).getBoundingClientRect().height:0;
+ const top=Math.max(0,sr.top)+head+5,bottom=Math.min(vp.bottom,sr.bottom)-6;
+ if(r.bottom&gt;bottom)scroller.scrollTop+=r.bottom-bottom;
+ else if(r.top&lt;top)scroller.scrollTop+=r.top-top;
+ if(el.matches(&#x27;[data-k]&#x27;)){
+  const br=box.getBoundingClientRect();
+  if(r.right&gt;br.right-6)box.scrollLeft+=r.right-br.right+6;
+  else if(r.left&lt;br.left+6)box.scrollLeft+=r.left-br.left-6;
+ }
+}
 let sheetFocusTimers=[],sheetUserScrolling=false,suppressSheetReveal=false,suppressRestoreFocusedRow=false,lastFocusedSheetRow=0;function stopSheetAutoScroll(){sheetUserScrolling=true;sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[]}function queueRevealFocusedSheetCell(el){sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[260].map(ms=&gt;setTimeout(()=&gt;revealFocusedSheetCell(el),ms))}function restoreLastFocusedSheetRow(){requestAnimationFrame(()=&gt;{const wrap=document.querySelector(&#x27;.wrap&#x27;),row=document.querySelectorAll(&#x27;#rows tr&#x27;)[lastFocusedSheetRow];if(!wrap||!row)return;const wr=wrap.getBoundingClientRect(),rr=row.getBoundingClientRect(),vh=window.visualViewport?.height||window.innerHeight,targetTop=wr.top+Math.min(120,Math.max(48,vh*.16)),targetBottom=Math.min(wr.bottom,window.visualViewport?.offsetTop+vh||vh)-12;if(rr.top&lt;targetTop||rr.bottom&gt;targetBottom)wrap.scrollTop+=rr.top-targetTop})}
-document.addEventListener(&#x27;focusin&#x27;,e=&gt;{if(e.target.matches(&#x27;[data-k]&#x27;)){document.body.classList.remove(&#x27;camber-editing&#x27;);suppressRestoreFocusedRow=false;lastFocusedSheetRow=Number(e.target.dataset.i)||0;document.body.classList.add(&#x27;sheet-keyboard-open&#x27;);sheetUserScrolling=false}if(!suppressSheetReveal&amp;&amp;e.target.matches(&#x27;input,textarea,select&#x27;))queueRevealFocusedSheetCell(e.target)},true);document.addEventListener(&#x27;focusout&#x27;,e=&gt;{if(!e.target.matches(&#x27;[data-k]&#x27;))return;lastFocusedSheetRow=Number(e.target.dataset.i)||lastFocusedSheetRow;setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);sheetUserScrolling=false;if(!suppressRestoreFocusedRow)setTimeout(()=&gt;{if(document.activeElement?.id!==&#x27;camberPercent&#x27;)restoreLastFocusedSheetRow()},220)}},180)},true);
+document.addEventListener(&#x27;focusin&#x27;,e=&gt;{if(e.target.matches(&#x27;[data-k]&#x27;)){document.body.classList.remove(&#x27;camber-editing&#x27;);suppressRestoreFocusedRow=false;lastFocusedSheetRow=Number(e.target.dataset.i)||0;document.body.classList.add(&#x27;sheet-keyboard-open&#x27;);document.querySelector(&#x27;.wrap&#x27;).scrollTop=0;sheetUserScrolling=false;try{window.parent.vcSyncLevelSheetViewport?.()}catch(_){}}if(!suppressSheetReveal&amp;&amp;e.target.matches(&#x27;input,textarea,select&#x27;))queueRevealFocusedSheetCell(e.target)},true);document.addEventListener(&#x27;focusout&#x27;,e=&gt;{if(!e.target.matches(&#x27;[data-k]&#x27;))return;lastFocusedSheetRow=Number(e.target.dataset.i)||lastFocusedSheetRow;setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);sheetUserScrolling=false;if(!suppressRestoreFocusedRow)setTimeout(()=&gt;{if(document.activeElement?.id!==&#x27;camberPercent&#x27;)restoreLastFocusedSheetRow()},220)}},180)},true);
 const sheetViewport=window.visualViewport;if(sheetViewport)sheetViewport.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);window.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
 $(&#x27;download&#x27;).onclick=()=&gt;{updatePrintWorkTitle();preparePrintRows();window.print()};$(&#x27;handwritingPdf&#x27;).onclick=async()=&gt;{updatePrintWorkTitle();preparePrintRows();document.body.classList.add(&#x27;handwriting-print&#x27;);try{if(document.fonts){await document.fonts.load(&#x27;8px KalamHand&#x27;);await document.fonts.ready}}catch(_){}window.print()};window.addEventListener(&#x27;beforeprint&#x27;,preparePrintRows);window.addEventListener(&#x27;afterprint&#x27;,()=&gt;{restorePrintRows();document.body.classList.remove(&#x27;handwriting-print&#x27;)});
 if($(&#x27;csv&#x27;))$(&#x27;csv&#x27;).onclick=()=&gt;{calculate();const out=[[&#x27;SL.NO&#x27;,&#x27;CHAINAGE&#x27;,&#x27;SIDE&#x27;,&#x27;OFFSET&#x27;,&#x27;BS&#x27;,&#x27;IS&#x27;,&#x27;FS&#x27;,&#x27;HI&#x27;,&#x27;A.RL&#x27;,&#x27;D.RL&#x27;,&#x27;Diff.&#x27;,&#x27;REMARKS&#x27;],...rows.filter(hasData).map((r,n)=&gt;[n+1,r.chainage,r.side,r.offset,r.bs,r.is,r.fs,fmt(r.hi),fmt(r.arl),fmt(num(r.drlCalc)),r.closed?&#x27;Closed&#x27;:(isManualText(r)?r.diffManual:(r.diff===null?&#x27;&#x27;:formatDiff(r.diff))),[r.remarks,r.averageDiff===null||r.averageDiff===undefined?&#x27;&#x27;:`Average ${formatDiff(r.averageDiff)}`].filter(Boolean).join(&#x27; | &#x27;)])];const csv=out.map(a=&gt;a.map(v=&gt;&#x27;&quot;&#x27;+String(v??&#x27;&#x27;).replace(/&quot;/g,&#x27;&quot;&quot;&#x27;)+&#x27;&quot;&#x27;).join(&#x27;,&#x27;)).join(&#x27;\r\n&#x27;);const a=document.createElement(&#x27;a&#x27;);a.href=URL.createObjectURL(new Blob([&#x27;\ufeff&#x27;+csv],{type:&#x27;text/csv;charset=utf-8&#x27;}));a.download=&#x27;Level_Checking_Field_Book.csv&#x27;;a.click();setTimeout(()=&gt;URL.revokeObjectURL(a.href),1000)};
