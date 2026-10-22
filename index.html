@@ -6022,6 +6022,18 @@ body.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidd
  document.addEventListener('DOMContentLoaded',sync);sync();
 })();
 </script>
+
+<style id="vcLevelSheetCompactWebHeader20261022">
+@media screen {
+ body.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidden) #levelSheetHeader {
+   flex:0 0 42px!important;height:42px!important;min-height:42px!important;max-height:42px!important;
+ }
+ body.tool-open #autoLevelSheet #levelSheetMenuButton {
+   top:4px!important;height:34px!important;min-height:34px!important;
+   line-height:34px!important;
+ }
+}
+</style>
 </head>
 <body class="">
 
@@ -8249,19 +8261,126 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
  #book tbody tr:focus-within &gt; td select:focus {background-color:#fff!important;border-color:#70afe4!important}
 }
 &lt;/style&gt;
+
+&lt;style id=&quot;vcSmallViewHeaderCellFit20261022&quot;&gt;
+/* Level Sheet: Larger labels, still fully fitted inside Small View columns only. */
+@media screen {
+  #book.compact thead th {
+    font-size:13px!important;
+    font-weight:800!important;
+    letter-spacing:-0.3px!important;
+    line-height:1.15!important;
+    padding:2px 1px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:clip!important;
+    vertical-align:middle!important;
+    text-align:center!important;
+  }
+  #book.compact tbody td.sno {
+    font-size:16px!important;
+    font-weight:800!important;
+    line-height:1.2!important;
+  }
+  #book tbody input:focus, #book tbody select:focus,
+  #book tbody tr:focus-within, #book tbody td:focus-within {
+    transform:none!important;
+    transition:none!important;
+  }
+}
+@media screen and (orientation:landscape) and (max-height:600px) {
+  #book.compact thead th {font-size:11.8px!important;}
+}
+&lt;/style&gt;
+
+&lt;style id=&quot;vcLevelSheetToolbarFit20261022&quot;&gt;
+/* Metrics always take the very first full-width row of the toolbar. */
+@media screen {
+  .toolbar .sheet-stats-row {
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:6px;width:100%;flex:1 0 100%;min-width:0;
+  }
+  .toolbar .sheet-stats-row .all-avg {
+    min-width:0;min-height:37px;padding:4px 5px;
+  }
+  .toolbar .sheet-stats-row .all-avg span {
+    font-size:14px!important;line-height:1.15!important;
+    font-weight:850;white-space:nowrap;
+  }
+  .toolbar .sheet-stats-row .all-avg strong {
+    font-size:18px!important;line-height:1.15!important;
+    font-weight:900;
+  }
+  .toolbar .sheet-auto-hint {
+    width:100%;flex:1 0 100%;min-width:0;
+    white-space:normal!important;overflow-wrap:break-word;
+    padding:2px 3px;margin:0;
+    font-size:12.5px!important;line-height:1.3!important;
+    color:#31536b;
+  }
+  /* Dedicated three-button row, including narrow mobile screens. */
+  .toolbar .sheet-export-actions {
+    width:100%;flex:1 0 100%;min-width:0;
+    display:grid!important;
+    grid-template-columns:minmax(0,.65fr) minmax(0,1.12fr) minmax(0,1.36fr);
+    gap:5px;
+  }
+  .toolbar .sheet-export-actions .btn {
+    display:block;width:100%;min-width:0;
+    min-height:32px;padding:5px 3px!important;
+    font-size:13px!important;font-weight:800;
+    white-space:nowrap!important;overflow:hidden;
+  }
+  /* Camber and Same Camber labels should be clear, without widening the grid. */
+  .toolbar .camber-settings #camberLabel,
+  .toolbar .camber-settings #sameCamberControl {
+    font-size:15px!important;font-weight:850!important;
+  }
+  .toolbar .camber-settings .camber-entry input {font-size:16px!important;}
+}
+@media screen and (max-width:380px) {
+  .toolbar .sheet-stats-row {gap:4px;}
+  .toolbar .sheet-stats-row .all-avg span {font-size:12.5px!important;}
+  .toolbar .sheet-stats-row .all-avg strong {font-size:17px!important;}
+  .toolbar .sheet-export-actions {gap:3px;}
+  .toolbar .sheet-export-actions .btn {font-size:11px!important;padding:4px 2px!important;}
+  .toolbar .sheet-auto-hint {font-size:12px!important;}
+}
+&lt;/style&gt;
+
+&lt;style id=&quot;vcLevelSheetRaiseToolbar20261022&quot;&gt;
+@media screen {
+  /* This is the control area at the top of the WebView and Chrome file preview. */
+  .wrap {padding-top:3px!important;}
+  .toolbar {margin-top:0!important;padding-top:3px!important;padding-bottom:3px!important;margin-bottom:4px!important;row-gap:4px!important;}
+  .toolbar .sheet-stats-row .all-avg {padding-top:3px!important;padding-bottom:3px!important;}
+  .toolbar .sheet-auto-hint {padding-top:1px!important;padding-bottom:1px!important;}
+  .work-entry {margin-top:0!important;margin-bottom:4px!important;padding:5px!important;gap:5px!important;}
+  .work-entry input {height:34px!important;}
+  .toolbar .camber-settings {margin-top:0!important;}
+}
+@media screen and (max-width:650px){
+  .work-entry {row-gap:5px!important;}
+  .work-entry .work-name,.work-entry .work-date {min-height:34px!important;}
+}
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;form class=&quot;level-sheet-form&quot; id=&quot;levelSheetForm&quot; name=&quot;levelSheetNoAutofill&quot; autocomplete=&quot;off&quot; autocapitalize=&quot;off&quot; autocorrect=&quot;off&quot; spellcheck=&quot;false&quot; onsubmit=&quot;return false&quot;&gt;
 &lt;main class=&quot;wrap&quot;&gt;
 &lt;div class=&quot;toolbar&quot;&gt;
-&lt;div class=&quot;camber&quot;&gt;DRL auto calculation: एक ही chainage के दो DRL भरने पर&lt;/div&gt;
-&lt;div class=&quot;all-avg&quot;&gt;&lt;span&gt;Overall Average&lt;/span&gt;&lt;strong id=&quot;allChainageAverage&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
-&lt;div class=&quot;all-avg camber-display&quot;&gt;&lt;span&gt;DRL Camber %&lt;/span&gt;&lt;strong id=&quot;drlCamberValue&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
-
-&lt;button type=&quot;button&quot; class=&quot;btn green&quot; id=&quot;save&quot;&gt;Save&lt;/button&gt;
+&lt;div class=&quot;sheet-stats-row&quot;&gt;
+  &lt;div class=&quot;all-avg camber-display&quot;&gt;&lt;span&gt;DRL Camber %&lt;/span&gt;&lt;strong id=&quot;drlCamberValue&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
+  &lt;div class=&quot;all-avg&quot;&gt;&lt;span&gt;Overall Average&lt;/span&gt;&lt;strong id=&quot;allChainageAverage&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;camber sheet-auto-hint&quot;&gt;DRL auto calculation: एक ही chainage के दो DRL भरने पर या एक DRL भरके Camber % में camber डालने पर।&lt;/div&gt;
+&lt;div class=&quot;sheet-export-actions&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn green&quot; id=&quot;save&quot;&gt;Save&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn soft&quot; id=&quot;download&quot;&gt;PDF Download&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn soft&quot; id=&quot;handwritingPdf&quot;&gt;Handwriting PDF&lt;/button&gt;
+&lt;/div&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn soft&quot; id=&quot;load&quot;&gt;Open Save Data&lt;/button&gt;&lt;input id=&quot;backupFile&quot; type=&quot;file&quot; accept=&quot;.json,.csv,application/json,text/csv&quot; hidden&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn soft&quot; id=&quot;download&quot;&gt;PDF Download&lt;/button&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn soft&quot; id=&quot;handwritingPdf&quot;&gt;Handwriting PDF&lt;/button&gt;
 &lt;label class=&quot;compact-toggle size-control&quot;&gt;&lt;input id=&quot;compactToggle&quot; type=&quot;checkbox&quot; checked&gt;Size: &lt;span id=&quot;rowSizeLabel&quot;&gt;Small&lt;/span&gt;&lt;/label&gt;
 &lt;div class=&quot;camber-settings&quot;&gt;&lt;label class=&quot;camber-entry&quot; id=&quot;camberControl&quot;&gt;&lt;span id=&quot;camberLabel&quot;&gt;Camber (%)&lt;/span&gt;&lt;input id=&quot;camberPercent&quot; name=&quot;sheetCamberPercent&quot; type=&quot;text&quot; inputmode=&quot;decimal&quot; autocomplete=&quot;off&quot; autocapitalize=&quot;off&quot; autocorrect=&quot;off&quot; spellcheck=&quot;false&quot; placeholder=&quot;&quot; aria-label=&quot;Camber percent&quot;&gt;&lt;/label&gt;&lt;label class=&quot;compact-toggle&quot; id=&quot;sameCamberControl&quot;&gt;&lt;input id=&quot;sameCamberToggle&quot; type=&quot;checkbox&quot;&gt;Same Camber&lt;/label&gt;&lt;/div&gt;
 
@@ -8272,19 +8391,16 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 &lt;div class=&quot;print-work-title&quot; id=&quot;printWorkTitle&quot;&gt;&lt;/div&gt;
 
 
-&lt;div class=&quot;tablebox&quot;&gt;&lt;table id=&quot;book&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Sl.No.&lt;/th&gt;&lt;th&gt;CHAINAGE&lt;/th&gt;&lt;th&gt;SIDE&lt;/th&gt;&lt;th&gt;OFFSET&lt;/th&gt;&lt;th&gt;BS&lt;/th&gt;&lt;th&gt;IS&lt;/th&gt;&lt;th&gt;FS&lt;/th&gt;&lt;th&gt;HI&lt;/th&gt;&lt;th&gt;A.RL&lt;/th&gt;&lt;th&gt;D.RL&lt;/th&gt;&lt;th&gt;Diff.&lt;/th&gt;&lt;th&gt;REMARKS&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;rows&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;div class=&quot;tablebox&quot;&gt;&lt;table id=&quot;book&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;span class=&quot;sno-label&quot;&gt;Sl.&lt;span&gt;No.&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;&lt;th&gt;CHAINAGE&lt;/th&gt;&lt;th&gt;SIDE&lt;/th&gt;&lt;th&gt;OFFSET&lt;/th&gt;&lt;th&gt;BS&lt;/th&gt;&lt;th&gt;IS&lt;/th&gt;&lt;th&gt;FS&lt;/th&gt;&lt;th&gt;HI&lt;/th&gt;&lt;th&gt;A.RL&lt;/th&gt;&lt;th&gt;D.RL&lt;/th&gt;&lt;th&gt;Diff.&lt;/th&gt;&lt;th&gt;REMARKS&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;rows&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/main&gt;
 &lt;/form&gt;
 &lt;script&gt;
 (()=&gt;{&#x27;use strict&#x27;;
 const $=id=&gt;document.getElementById(id),KEY=&#x27;virendraLevelCheckingFieldBookV4&#x27;,INITIAL_ROWS=500,ROW_BATCH=100;
-let rows=[],compactMode=true,manualZoom=1,pinchDistance=0,activeDrlIndex=null,drlRecalcRequested=false,sameCamber=false,sharedCamber=&quot;&quot;,camberByChainage={},camberModeEnabled=false,pendingCamberRow=null;
-function setManualZoom(value){manualZoom=Math.max(.25,Math.min(1,value));document.body.style.zoom=String(manualZoom)}
+let rows=[],compactMode=true,activeDrlIndex=null,drlRecalcRequested=false,sameCamber=false,sharedCamber=&quot;&quot;,camberByChainage={},camberModeEnabled=false,pendingCamberRow=null;
+/* Grid scaling is fixed: two-finger contact must not resize the whole
+   field book while the user is moving between rows and columns. */
 function updateRowSizeLabel(){const label=$(&#x27;rowSizeLabel&#x27;);if(label)label.textContent=compactMode?&#x27;Small&#x27;:&#x27;Large&#x27;}
-function touchGap(touches){const dx=touches[0].clientX-touches[1].clientX,dy=touches[0].clientY-touches[1].clientY;return Math.hypot(dx,dy)}
-document.addEventListener(&#x27;touchstart&#x27;,e=&gt;{if(e.touches.length===2)pinchDistance=touchGap(e.touches)},{passive:true});
-document.addEventListener(&#x27;touchmove&#x27;,e=&gt;{if(e.touches.length!==2||!pinchDistance)return;e.preventDefault();const next=touchGap(e.touches);if(next&gt;0&amp;&amp;next!==pinchDistance)setManualZoom(manualZoom*next/pinchDistance);pinchDistance=next},{passive:false});
-document.addEventListener(&#x27;touchend&#x27;,e=&gt;{if(e.touches.length&lt;2)pinchDistance=0},{passive:true});
 const emptyRow=(groupStart=false)=&gt;({chainage:&#x27;&#x27;,side:&#x27;&#x27;,sideAuto:false,offset:&#x27;&#x27;,bs:&#x27;&#x27;,is:&#x27;&#x27;,fs:&#x27;&#x27;,drlBase:&#x27;&#x27;,drlCalc:&#x27;&#x27;,drlSuppressed:false,hiManual:&#x27;&#x27;,arlManual:&#x27;&#x27;,remarks:&#x27;&#x27;,diffManual:&#x27;&#x27;,hi:null,arl:null,diff:null,diffAuto:false,averageDiff:null,closed:false,groupStart});
 rows=Array.from({length:INITIAL_ROWS},()=&gt;emptyRow());
 const num=v=&gt;{if(v==null||String(v).trim()===&#x27;&#x27;)return null;const n=Number(v);return Number.isFinite(n)?n:null};
@@ -8383,20 +8499,41 @@ function revealFocusedSheetCell(el){
  const box=document.querySelector(&#x27;.tablebox&#x27;),wrap=document.querySelector(&#x27;.wrap&#x27;);
  if(!box||!wrap)return;
  const editingTable=document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;)&amp;&amp;el.matches(&#x27;[data-k]&#x27;);
- const scroller=editingTable?box:wrap;
+ const scroller=wrap;
  const vp=visibleSheetViewport(),sr=scroller.getBoundingClientRect(),r=el.getBoundingClientRect();
  const head=editingTable?document.querySelector(&#x27;#book thead&#x27;).getBoundingClientRect().height:0;
  const top=Math.max(0,sr.top)+head+5,bottom=Math.min(vp.bottom,sr.bottom)-6;
  if(r.bottom&gt;bottom)scroller.scrollTop+=r.bottom-bottom;
  else if(r.top&lt;top)scroller.scrollTop+=r.top-top;
  if(el.matches(&#x27;[data-k]&#x27;)){
-  const br=box.getBoundingClientRect();
-  if(r.right&gt;br.right-6)box.scrollLeft+=r.right-br.right+6;
-  else if(r.left&lt;br.left+6)box.scrollLeft+=r.left-br.left-6;
+  const br=wrap.getBoundingClientRect();
+  if(r.right&gt;br.right-6)wrap.scrollLeft+=r.right-br.right+6;
+  else if(r.left&lt;br.left+6)wrap.scrollLeft+=r.left-br.left-6;
  }
 }
 let sheetFocusTimers=[],sheetUserScrolling=false,suppressSheetReveal=false,suppressRestoreFocusedRow=false,lastFocusedSheetRow=0;function stopSheetAutoScroll(){sheetUserScrolling=true;sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[]}function queueRevealFocusedSheetCell(el){sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[260].map(ms=&gt;setTimeout(()=&gt;revealFocusedSheetCell(el),ms))}function restoreLastFocusedSheetRow(){requestAnimationFrame(()=&gt;{const wrap=document.querySelector(&#x27;.wrap&#x27;),row=document.querySelectorAll(&#x27;#rows tr&#x27;)[lastFocusedSheetRow];if(!wrap||!row)return;const wr=wrap.getBoundingClientRect(),rr=row.getBoundingClientRect(),vh=window.visualViewport?.height||window.innerHeight,targetTop=wr.top+Math.min(120,Math.max(48,vh*.16)),targetBottom=Math.min(wr.bottom,window.visualViewport?.offsetTop+vh||vh)-12;if(rr.top&lt;targetTop||rr.bottom&gt;targetBottom)wrap.scrollTop+=rr.top-targetTop})}
-document.addEventListener(&#x27;focusin&#x27;,e=&gt;{if(e.target.matches(&#x27;[data-k]&#x27;)){document.body.classList.remove(&#x27;camber-editing&#x27;);suppressRestoreFocusedRow=false;lastFocusedSheetRow=Number(e.target.dataset.i)||0;document.body.classList.add(&#x27;sheet-keyboard-open&#x27;);document.querySelector(&#x27;.wrap&#x27;).scrollTop=0;sheetUserScrolling=false;try{window.parent.vcSyncLevelSheetViewport?.()}catch(_){}}if(!suppressSheetReveal&amp;&amp;e.target.matches(&#x27;input,textarea,select&#x27;))queueRevealFocusedSheetCell(e.target)},true);document.addEventListener(&#x27;focusout&#x27;,e=&gt;{if(!e.target.matches(&#x27;[data-k]&#x27;))return;lastFocusedSheetRow=Number(e.target.dataset.i)||lastFocusedSheetRow;setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);sheetUserScrolling=false;if(!suppressRestoreFocusedRow)setTimeout(()=&gt;{if(document.activeElement?.id!==&#x27;camberPercent&#x27;)restoreLastFocusedSheetRow()},220)}},180)},true);
+/* While ordinary sheet cells are edited, hide all toolbar controls as before.
+   Keep the same scroll surface; never reset scrolling when another cell gets focus. */
+document.addEventListener(&#x27;focusin&#x27;,e=&gt;{
+ if(e.target.matches(&#x27;[data-k]&#x27;)){
+  document.body.classList.remove(&#x27;camber-editing&#x27;);
+  document.body.classList.add(&#x27;sheet-keyboard-open&#x27;);
+  suppressRestoreFocusedRow=true;
+  lastFocusedSheetRow=Number(e.target.dataset.i)||0;
+  sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[];
+  sheetUserScrolling=false;
+ }
+ /* Only the specifically requested Camber editor may pop into view. */
+ if(!suppressSheetReveal&amp;&amp;e.target.matches(&#x27;input,textarea,select&#x27;)&amp;&amp;!e.target.matches(&#x27;[data-k]&#x27;))queueRevealFocusedSheetCell(e.target);
+},true);
+document.addEventListener(&#x27;focusout&#x27;,e=&gt;{
+ if(!e.target.matches(&#x27;[data-k]&#x27;))return;
+ lastFocusedSheetRow=Number(e.target.dataset.i)||lastFocusedSheetRow;
+ setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){
+  document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);
+  sheetUserScrolling=false;
+ }},180);
+},true);
 const sheetViewport=window.visualViewport;if(sheetViewport)sheetViewport.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);window.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
 $(&#x27;download&#x27;).onclick=()=&gt;{updatePrintWorkTitle();preparePrintRows();window.print()};$(&#x27;handwritingPdf&#x27;).onclick=async()=&gt;{updatePrintWorkTitle();preparePrintRows();document.body.classList.add(&#x27;handwriting-print&#x27;);try{if(document.fonts){await document.fonts.load(&#x27;8px KalamHand&#x27;);await document.fonts.ready}}catch(_){}window.print()};window.addEventListener(&#x27;beforeprint&#x27;,preparePrintRows);window.addEventListener(&#x27;afterprint&#x27;,()=&gt;{restorePrintRows();document.body.classList.remove(&#x27;handwriting-print&#x27;)});
 if($(&#x27;csv&#x27;))$(&#x27;csv&#x27;).onclick=()=&gt;{calculate();const out=[[&#x27;SL.NO&#x27;,&#x27;CHAINAGE&#x27;,&#x27;SIDE&#x27;,&#x27;OFFSET&#x27;,&#x27;BS&#x27;,&#x27;IS&#x27;,&#x27;FS&#x27;,&#x27;HI&#x27;,&#x27;A.RL&#x27;,&#x27;D.RL&#x27;,&#x27;Diff.&#x27;,&#x27;REMARKS&#x27;],...rows.filter(hasData).map((r,n)=&gt;[n+1,r.chainage,r.side,r.offset,r.bs,r.is,r.fs,fmt(r.hi),fmt(r.arl),fmt(num(r.drlCalc)),r.closed?&#x27;Closed&#x27;:(isManualText(r)?r.diffManual:(r.diff===null?&#x27;&#x27;:formatDiff(r.diff))),[r.remarks,r.averageDiff===null||r.averageDiff===undefined?&#x27;&#x27;:`Average ${formatDiff(r.averageDiff)}`].filter(Boolean).join(&#x27; | &#x27;)])];const csv=out.map(a=&gt;a.map(v=&gt;&#x27;&quot;&#x27;+String(v??&#x27;&#x27;).replace(/&quot;/g,&#x27;&quot;&quot;&#x27;)+&#x27;&quot;&#x27;).join(&#x27;,&#x27;)).join(&#x27;\r\n&#x27;);const a=document.createElement(&#x27;a&#x27;);a.href=URL.createObjectURL(new Blob([&#x27;\ufeff&#x27;+csv],{type:&#x27;text/csv;charset=utf-8&#x27;}));a.download=&#x27;Level_Checking_Field_Book.csv&#x27;;a.click();setTimeout(()=&gt;URL.revokeObjectURL(a.href),1000)};
@@ -8435,7 +8572,339 @@ body.sheet-keyboard-open .tablebox th{position:sticky!important;top:0!important;
 html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin:0!important}
 .wrap{width:100%!important;max-width:none!important;margin:0!important}
 .toolbar,.work-entry,.tablebox{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important}
-&lt;/style&gt;&lt;/body&gt;
+&lt;/style&gt;
+&lt;style id=&quot;vcLevelSheetTwoAxisNoJump20261022&quot;&gt;
+/* Tablebox remains the ONLY two-direction sheet scroller before and after
+   the Android keyboard opens. This keeps column/row panning unlocked and
+   avoids changing scroll containers when a cell receives focus. */
+@media screen {
+ .wrap,
+ body.sheet-keyboard-open .wrap,
+ body.sheet-keyboard-open:not(.camber-editing) .wrap {
+   display:flex!important;
+   flex-direction:column!important;
+   height:var(--sheet-visible-height,100%)!important;
+   max-height:var(--sheet-visible-height,100%)!important;
+   min-height:0!important;
+   overflow:hidden!important;
+ }
+ .tablebox,
+ body.sheet-keyboard-open .tablebox,
+ body.sheet-keyboard-open:not(.camber-editing) .tablebox {
+   display:block!important;
+   flex:1 1 0%!important;
+   height:0!important;
+   min-height:0!important;
+   max-height:none!important;
+   width:100%!important;
+   overflow-x:auto!important;
+   overflow-y:auto!important;
+   overscroll-behavior:contain!important;
+   -webkit-overflow-scrolling:touch!important;
+   touch-action:pan-x pan-y!important;
+ }
+ #book thead, #book th,
+ body.sheet-keyboard-open .tablebox thead,
+ body.sheet-keyboard-open .tablebox th {
+   position:sticky!important;
+   top:0!important;
+ }
+ body.sheet-keyboard-open:not(.camber-editing) .toolbar,
+ body.sheet-keyboard-open:not(.camber-editing) .work-entry,
+ body.sheet-keyboard-open:not(.camber-editing) .diff-hint {
+   display:none!important;
+ }
+}
+&lt;/style&gt;
+&lt;style id=&quot;vcLevelSheetStablePanNoScale20261022&quot;&gt;
+@media screen {
+  html, body, .level-sheet-form, .wrap, #book {
+    -webkit-text-size-adjust:100%!important;
+    text-size-adjust:100%!important;
+  }
+  html, body, .level-sheet-form {overflow:hidden!important;}
+  .wrap, body.sheet-keyboard-open .wrap {
+    overflow:hidden!important;
+    overscroll-behavior:contain!important;
+    min-width:0!important;
+  }
+  .tablebox, body.sheet-keyboard-open .tablebox {
+    overflow-x:auto!important;
+    overflow-y:auto!important;
+    touch-action:pan-x pan-y!important;
+    overscroll-behavior:contain!important;
+    scroll-behavior:auto!important;
+    min-width:0!important;
+    transform:none!important;
+  }
+  #book, #book.compact {
+    width:100%!important;
+    table-layout:fixed!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  #book.compact {min-width:860px!important;}
+  #book:not(.compact) {min-width:1050px!important;}
+  #book thead th {
+    transform:none!important;
+    transition:none!important;
+    font-size:16px!important;
+    position:sticky!important;
+    top:0!important;
+    z-index:20!important;
+  }
+  #book.compact thead th {
+    font-size:13px!important;
+    line-height:1.15!important;
+  }
+  #book tbody td.sno {
+    position:sticky!important;
+    left:0!important;
+    z-index:15!important;
+    font-size:16px!important;
+    background:#edf2f6!important;
+  }
+  #book thead th:first-child {
+    position:sticky!important;
+    top:0!important;
+    left:0!important;
+    z-index:30!important;
+    background:#eaf0f4!important;
+  }
+  #book thead th:first-child, #book tbody td.sno {
+    border-right:2px solid #9eabb5!important;
+    box-shadow:2px 0 0 #9eabb5;
+  }
+  #book tbody tr:focus-within &gt; td.sno {background:#eaf4ff!important;}
+}
+&lt;/style&gt;
+&lt;style id=&quot;vcLevelSheetSmallSerialUnfreeze20261022&quot;&gt;
+/* Only the Sl.No. column: half its former 5% width; no left-side freeze. */
+@media screen {
+  #book thead th:first-child {
+    width:2.5%!important;
+    min-width:0!important;
+    padding:1px 0!important;
+    font-size:9px!important;
+    line-height:1.08!important;
+    letter-spacing:0!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    position:sticky!important; /* like the other top header cells, not frozen on the left */
+    top:0!important;
+    left:auto!important;
+    z-index:20!important;
+    border-right:1px solid var(--line)!important;
+    box-shadow:none!important;
+  }
+  #book thead th:first-child .sno-label,
+  #book thead th:first-child .sno-label span { display:block!important; }
+  #book tbody td.sno,
+  #book.compact tbody td.sno {
+    width:auto!important;
+    min-width:0!important;
+    position:static!important;
+    left:auto!important;
+    z-index:auto!important;
+    padding:1px 0!important;
+    font-size:11px!important;
+    font-weight:750!important;
+    line-height:1.15!important;
+    border-right:1px solid var(--line)!important;
+    box-shadow:none!important;
+  }
+}
+&lt;/style&gt;
+
+&lt;style id=&quot;vcLevelSheetScrollControlsWithGrid20261022&quot;&gt;
+@media screen {
+  .wrap,
+  body.sheet-keyboard-open .wrap,
+  body.sheet-keyboard-open:not(.camber-editing) .wrap {
+    width:100%!important;min-width:0!important;
+    height:var(--sheet-visible-height,100%)!important;
+    max-height:var(--sheet-visible-height,100%)!important;
+    overflow-x:auto!important;overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    touch-action:pan-x pan-y!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  .tablebox,
+  body.sheet-keyboard-open .tablebox,
+  body.sheet-keyboard-open:not(.camber-editing) .tablebox {
+    display:block!important;flex:0 0 auto!important;
+    width:100%!important;min-width:0!important;max-width:none!important;
+    height:auto!important;min-height:0!important;max-height:none!important;
+    overflow:visible!important;
+    touch-action:pan-x pan-y!important;
+  }
+  .toolbar,.work-entry,.diff-hint {
+    align-self:flex-start!important;
+    width:100%!important;
+  }
+  #book thead,#book thead th {position:sticky!important;top:0!important;}
+}
+&lt;/style&gt;
+
+&lt;style id=&quot;vcLevelSheetRestoreHorizontalSwipe20261022&quot;&gt;
+/* Keep controller scrolling up with the sheet and make the TABLE, rather
+   than overflow spilling out of a narrow child, define horizontal range.
+   This is needed for consistent finger-swiping inside Android WebViews. */
+@media screen {
+  .wrap,
+  body.sheet-keyboard-open .wrap,
+  body.sheet-keyboard-open:not(.camber-editing) .wrap {
+    overflow-x:auto!important;
+    overflow-y:auto!important;
+    touch-action:pan-x pan-y!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  .tablebox,
+  body.sheet-keyboard-open .tablebox,
+  body.sheet-keyboard-open:not(.camber-editing) .tablebox {
+    flex:0 0 auto!important;
+    width:100%!important;
+    min-width:860px!important;
+    max-width:none!important;
+    height:auto!important;
+    overflow:visible!important;
+    touch-action:pan-x pan-y!important;
+  }
+  .tablebox:has(#book:not(.compact)) {min-width:1050px!important;}
+  /* Controller and work/date fields do not drift to the side while swiping. */
+  .toolbar,.work-entry,.diff-hint {
+    position:sticky!important;
+    left:0!important;
+    width:100%!important;
+    max-width:100%!important;
+    flex-shrink:0!important;
+  }
+  #book thead,#book thead th {position:sticky!important;top:0!important;}
+}
+&lt;/style&gt;
+
+&lt;style id=&quot;vcAndroidReliableFluidSwipe20261022&quot;&gt;
+/* On Android&#x27;s content:// local document viewer, native sideways panning of a
+   nested iframe may never start. Preserve native vertical panning and provide
+   frame-coalesced horizontal dragging on the fieldbook only. */
+@media screen {
+  .wrap,
+  body.sheet-keyboard-open .wrap,
+  body.sheet-keyboard-open:not(.camber-editing) .wrap {
+    overflow-x:auto!important;
+    overflow-y:auto!important;
+    scroll-behavior:auto!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  .tablebox,
+  .tablebox #book,
+  .tablebox thead,
+  .tablebox tbody,
+  .tablebox tr,
+  .tablebox th,
+  .tablebox td,
+  .tablebox td input,
+  .tablebox td select {
+    touch-action:pan-y!important;
+  }
+  .tablebox,
+  body.sheet-keyboard-open .tablebox {
+    overflow:visible!important;
+    min-width:860px!important;
+  }
+  .tablebox:has(#book:not(.compact)){min-width:1050px!important;}
+}
+&lt;/style&gt;
+&lt;script id=&quot;vcAndroidReliableFluidSwipeScript20261022&quot;&gt;
+(function(){
+ &#x27;use strict&#x27;;
+ const grid=document.querySelector(&#x27;.tablebox&#x27;);
+ const scroller=document.querySelector(&#x27;.wrap&#x27;);
+ if(!grid||!scroller)return;
+ let activeId=null,mode=&#x27;&#x27;,startX=0,startY=0,startScroll=0;
+ let target=0,frame=0,inertia=0;
+ let points=[],lastHorizontalRelease=0;
+ // Original-feel one-to-one finger tracking, without accelerated fling.
+ const DRAG_GAIN=1.0, FLING_GAIN=0.85;
+ const clamp=x=&gt;Math.max(0,Math.min(x,scroller.scrollWidth-scroller.clientWidth));
+ function cancelAnimation(){
+   if(frame)cancelAnimationFrame(frame);
+   if(inertia)cancelAnimationFrame(inertia);
+   frame=0;inertia=0;
+ }
+ function flush(){frame=0;scroller.scrollLeft=clamp(target);}
+ function schedule(){if(!frame)frame=requestAnimationFrame(flush);}
+ function getTouch(e){
+   for(let i=0;i&lt;e.changedTouches.length;i++){
+     if(e.changedTouches[i].identifier===activeId)return e.changedTouches[i];
+   }
+   return null;
+ }
+ grid.addEventListener(&#x27;touchstart&#x27;,function(e){
+   if(e.touches.length!==1){activeId=null;mode=&#x27;&#x27;;cancelAnimation();return;}
+   cancelAnimation();
+   const t=e.touches[0];
+   activeId=t.identifier;mode=&#x27;&#x27;;
+   startX=t.clientX;startY=t.clientY;
+   startScroll=scroller.scrollLeft;target=startScroll;
+   points=[{x:t.clientX,time:performance.now()}];
+ },{passive:true,capture:true});
+ grid.addEventListener(&#x27;touchmove&#x27;,function(e){
+   if(activeId===null||e.touches.length!==1)return;
+   const t=getTouch(e);if(!t)return;
+   const dx=t.clientX-startX,dy=t.clientY-startY;
+   if(!mode){
+     if(Math.max(Math.abs(dx),Math.abs(dy))&lt;6)return;
+     mode=Math.abs(dx)&gt;Math.abs(dy)*1.1?&#x27;horizontal&#x27;:&#x27;vertical&#x27;;
+   }
+   if(mode!==&#x27;horizontal&#x27;)return;
+   if(scroller.scrollWidth&lt;=scroller.clientWidth+1)return;
+   if(e.cancelable)e.preventDefault();
+   target=clamp(startScroll-dx*DRAG_GAIN);
+   schedule();
+   const now=performance.now();
+   points.push({x:t.clientX,time:now});
+   while(points.length&gt;2&amp;&amp;now-points[0].time&gt;105)points.shift();
+ },{passive:false,capture:true});
+ function finish(e){
+   if(activeId===null)return;
+   const t=getTouch(e);if(!t)return;
+   if(mode===&#x27;horizontal&#x27;){
+     lastHorizontalRelease=performance.now();
+     if(frame){cancelAnimationFrame(frame);frame=0;}
+     scroller.scrollLeft=clamp(target);
+     const last=points[points.length-1],first=points[0];
+     const dt=last.time-first.time;
+     let speed=dt&gt;15?((first.x-last.x)/dt)*DRAG_GAIN*FLING_GAIN:0; // px/ms
+     speed=Math.max(-1.0,Math.min(1.0,speed));
+     if(Math.abs(speed)&gt;.20){
+       let tPrev=performance.now();
+       function glide(now){
+         const dt=Math.min(32,now-tPrev);tPrev=now;
+         speed*=Math.pow(.72,dt/16);
+         const next=clamp(scroller.scrollLeft+speed*dt);
+         if(next===scroller.scrollLeft||Math.abs(speed)&lt;.09){inertia=0;return;}
+         scroller.scrollLeft=next;
+         inertia=requestAnimationFrame(glide);
+       }
+       inertia=requestAnimationFrame(glide);
+     }
+   }
+   activeId=null;mode=&#x27;&#x27;;points=[];
+ }
+ grid.addEventListener(&#x27;touchend&#x27;,finish,{passive:true,capture:true});
+ grid.addEventListener(&#x27;touchcancel&#x27;,finish,{passive:true,capture:true});
+ // A swipe ending on an input must not accidentally focus it or reset scroll.
+ grid.addEventListener(&#x27;click&#x27;,function(e){
+   if(performance.now()-lastHorizontalRelease&lt;180){
+     e.preventDefault();e.stopImmediatePropagation();
+   }
+ },true);
+})();
+&lt;/script&gt;
+&lt;/body&gt;
 &lt;/html&gt;
 "></iframe>
 </section>
