@@ -8112,7 +8112,7 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
 
 
 <section id="autoLevelSheet" class="card hidden" style="padding:0;overflow:hidden">
-<div class="vcToolFullHeader" id="levelSheetHeader"><button type="button" id="levelSheetMenuButton" class="menu-top-btn" aria-label="Menu" onclick="document.getElementById('autoLevelSheetFrame').contentWindow.showSheetMenu()">Menu</button></div>
+<div class="vcToolFullHeader" id="levelSheetHeader"><button type="button" id="levelSheetMenuButton" class="menu-top-btn" aria-label="Menu" onclick="vcShowLevelSheetController()">Menu</button></div>
 <iframe id="autoLevelSheetFrame" title="Level Sheet (Auto calculation)" style="display:block;width:100%;height:calc(100dvh - 56px);min-height:calc(100dvh - 56px);border:0;background:#f2f5f7" srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
@@ -10370,6 +10370,24 @@ function openToolMenu(fromHistory){
   }else{
     try{window.scrollTo({top:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
   }
+}
+
+// Level Sheet top Menu restores its own controller (not the app tools list).
+function vcShowLevelSheetController(){
+  var frame=document.getElementById('autoLevelSheetFrame');
+  if(!frame)return;
+  try{
+    var sheet=frame.contentWindow;
+    if(sheet && typeof sheet.showSheetMenu==='function'){
+      sheet.showSheetMenu();
+    }else if(sheet){
+      sheet.document.activeElement && sheet.document.activeElement.blur();
+      sheet.document.body.classList.remove('sheet-keyboard-open','camber-editing');
+      var wrap=sheet.document.querySelector('.wrap');
+      if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0;}
+      sheet.scrollTo(0,0);
+    }
+  }catch(e){ /* Avoid navigating away from unsaved Level Sheet data. */ }
 }
 
 function navBack(){
