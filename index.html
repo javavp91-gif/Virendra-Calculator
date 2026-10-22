@@ -8112,7 +8112,7 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
 
 
 <section id="autoLevelSheet" class="card hidden" style="padding:0;overflow:hidden">
-<div class="vcToolFullHeader" id="levelSheetHeader"><button type="button" id="levelSheetMenuButton" class="menu-top-btn" aria-label="Menu" onclick="vcShowLevelSheetController()">Menu</button></div>
+<div class="vcToolFullHeader" id="levelSheetHeader"><button type="button" id="levelSheetMenuButton" class="menu-top-btn" aria-label="Menu" ontouchstart="vcShowLevelSheetController()" onclick="vcShowLevelSheetController()">Menu</button></div>
 <iframe id="autoLevelSheetFrame" title="Level Sheet (Auto calculation)" style="display:block;width:100%;height:calc(100dvh - 56px);min-height:calc(100dvh - 56px);border:0;background:#f2f5f7" srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
@@ -8902,6 +8902,42 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
      e.preventDefault();e.stopImmediatePropagation();
    }
  },true);
+})();
+&lt;/script&gt;
+
+&lt;script id=&quot;vcLevelSheetMenuWebViewBridge20261022&quot;&gt;
+/* A reliable Controller-only Menu for Android WebView and regular browsers.
+   This works even when the outer page cannot read a srcdoc iframe directly. */
+(function(){
+  &#x27;use strict&#x27;;
+  let menuToken=0;
+  const activeEditingCell=()=&gt;{
+    const a=document.activeElement;
+    return !!(a&amp;&amp;a.matches&amp;&amp;a.matches(&#x27;[data-k],#camberPercent&#x27;));
+  };
+  function revealController(){
+    try{if(typeof window.showSheetMenu===&#x27;function&#x27;)window.showSheetMenu()}catch(_){}
+    try{
+      const a=document.activeElement;
+      if(a &amp;&amp; a!==document.body &amp;&amp; typeof a.blur===&#x27;function&#x27;)a.blur();
+    }catch(_){}
+    document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
+    const wrap=document.querySelector(&#x27;.wrap&#x27;);
+    if(wrap){wrap.scrollTop=0;}
+    try{window.scrollTo(0,0)}catch(_){}
+  }
+  window.addEventListener(&#x27;message&#x27;,function(event){
+    if(!event.data || event.data.type!==&#x27;VC_LEVEL_SHOW_CONTROLLER&#x27;)return;
+    const token=++menuToken;
+    revealController();
+    // Android&#x27;s soft keyboard can finish closing after the touch event.
+    requestAnimationFrame(()=&gt;{if(menuToken===token&amp;&amp;!activeEditingCell())revealController()});
+    setTimeout(()=&gt;{if(menuToken===token&amp;&amp;!activeEditingCell())revealController()},160);
+    setTimeout(()=&gt;{if(menuToken===token&amp;&amp;!activeEditingCell())revealController()},380);
+  },false);
+  document.addEventListener(&#x27;focusin&#x27;,function(event){
+    if(event.target.matches?.(&#x27;[data-k],#camberPercent&#x27;))++menuToken;
+  },true);
 })();
 &lt;/script&gt;
 &lt;/body&gt;
@@ -10373,21 +10409,24 @@ function openToolMenu(fromHistory){
 }
 
 // Level Sheet top Menu restores its own controller (not the app tools list).
+// The Menu button only reveals the Level Sheet controller, never the app tool list.
+// Android WebView sometimes consumes the first click when a cell/keyboard is focused.
+// Touchstart provides an earlier activation; click remains a normal mouse/keyboard fallback.
 function vcShowLevelSheetController(){
+  // WebView file:// and srcdoc frame origins can differ. postMessage works
+  // even when Android blocks direct contentDocument / contentWindow access.
   var frame=document.getElementById('autoLevelSheetFrame');
   if(!frame)return;
   try{
-    var sheet=frame.contentWindow;
-    if(sheet && typeof sheet.showSheetMenu==='function'){
-      sheet.showSheetMenu();
-    }else if(sheet){
-      sheet.document.activeElement && sheet.document.activeElement.blur();
-      sheet.document.body.classList.remove('sheet-keyboard-open','camber-editing');
-      var wrap=sheet.document.querySelector('.wrap');
-      if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0;}
-      sheet.scrollTo(0,0);
+    if(frame.contentWindow){
+      frame.contentWindow.postMessage({type:'VC_LEVEL_SHOW_CONTROLLER'},'*');
     }
-  }catch(e){ /* Avoid navigating away from unsaved Level Sheet data. */ }
+  }catch(_e){}
+  // Additional immediate path for browsers where srcdoc is same-origin.
+  try{
+    var sheet=frame.contentWindow;
+    if(sheet && typeof sheet.showSheetMenu==='function') sheet.showSheetMenu();
+  }catch(_e){}
 }
 
 function navBack(){
