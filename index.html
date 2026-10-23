@@ -6089,6 +6089,17 @@ body.tool-open #autoLevelSheet:not(.hidden) > #autoLevelSheetFrame {
  max-height:none!important;margin:0!important;border:0!important;
 }
 </style>
+
+<style id="vcGridMenuHideOuterBar20261023">
+body.tool-open #autoLevelSheet #levelSheetHeader,
+body.tool-open #autoLevelSheet > #levelSheetHeader {
+  display:none!important;height:0!important;min-height:0!important;max-height:0!important;
+  flex:0 0 0!important;padding:0!important;margin:0!important;
+}
+body.tool-open #autoLevelSheet #autoLevelSheetFrame {
+  flex:1 1 100%!important; height:100%!important;min-height:0!important;
+}
+</style>
 </head>
 <body class="">
 
@@ -8422,32 +8433,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 &lt;/style&gt;
 
 
-&lt;style id=&quot;vcSheetMenuInsideGrid20261023&quot;&gt;
-@media screen {
-  #book thead .sheet-grid-menu-row{height:38px!important;max-height:38px!important;}
-  #book thead .sheet-grid-menu-row .sheet-grid-menu-cell{
-    border:1px solid #aebdca!important;background:#f2f7fb!important;
-    box-sizing:border-box!important;height:38px!important;max-height:38px!important;
-    padding:3px 6px!important;text-align:left!important;vertical-align:middle!important;
-    position:sticky!important;top:0!important;z-index:20!important;
-  }
-  #book thead .sheet-grid-menu-row #sheetGridMenuButton {
-    position:sticky!important;left:6px!important;display:inline-flex!important;
-    align-items:center!important;justify-content:center!important;
-    height:30px!important;min-height:30px!important;width:88px!important;
-    padding:2px 12px!important;margin:0!important;border:0!important;
-    border-radius:7px!important;background:#0aa8df!important;
-    color:white!important;font:800 16px/1.2 Arial,sans-serif!important;
-    box-shadow:none!important;cursor:pointer!important;
-    pointer-events:auto!important;touch-action:manipulation!important;
-    -webkit-tap-highlight-color:transparent!important;
-  }
-  #book thead &gt; tr:not(.sheet-grid-menu-row) &gt; th {
-    top:38px!important;
-  }
-}
-@media print {#book thead .sheet-grid-menu-row{display:none!important;}}
-&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;form class=&quot;level-sheet-form&quot; id=&quot;levelSheetForm&quot; name=&quot;levelSheetNoAutofill&quot; autocomplete=&quot;off&quot; autocapitalize=&quot;off&quot; autocorrect=&quot;off&quot; spellcheck=&quot;false&quot; onsubmit=&quot;return false&quot;&gt;
@@ -8474,7 +8459,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 &lt;div class=&quot;print-work-title&quot; id=&quot;printWorkTitle&quot;&gt;&lt;/div&gt;
 
 
-&lt;div class=&quot;tablebox&quot;&gt;&lt;table id=&quot;book&quot;&gt;&lt;thead&gt;&lt;tr id=&quot;sheetGridMenuRow&quot; class=&quot;sheet-grid-menu-row&quot;&gt;&lt;td colspan=&quot;12&quot; class=&quot;sheet-grid-menu-cell&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;sheetGridMenuButton&quot; aria-label=&quot;कंट्रोलर खोलें&quot; onclick=&quot;return sheetDirectMenuOpen(event)&quot;&gt;Menu&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;&lt;span class=&quot;sno-label&quot;&gt;Sl.&lt;span&gt;No.&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;&lt;th&gt;CHAINAGE&lt;/th&gt;&lt;th&gt;SIDE&lt;/th&gt;&lt;th&gt;OFFSET&lt;/th&gt;&lt;th&gt;BS&lt;/th&gt;&lt;th&gt;IS&lt;/th&gt;&lt;th&gt;FS&lt;/th&gt;&lt;th&gt;HI&lt;/th&gt;&lt;th&gt;A.RL&lt;/th&gt;&lt;th&gt;D.RL&lt;/th&gt;&lt;th&gt;Diff.&lt;/th&gt;&lt;th&gt;REMARKS&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;rows&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;div class=&quot;tablebox&quot;&gt;&lt;table id=&quot;book&quot;&gt;&lt;colgroup id=&quot;vcBookWidths20261023&quot;&gt;&lt;col style=&quot;width:2.5%&quot;&gt;&lt;col style=&quot;width:9%&quot;&gt;&lt;col style=&quot;width:8%&quot;&gt;&lt;col style=&quot;width:7%&quot;&gt;&lt;col style=&quot;width:7%&quot;&gt;&lt;col style=&quot;width:7%&quot;&gt;&lt;col style=&quot;width:7%&quot;&gt;&lt;col style=&quot;width:9%&quot;&gt;&lt;col style=&quot;width:9%&quot;&gt;&lt;col style=&quot;width:9%&quot;&gt;&lt;col style=&quot;width:9%&quot;&gt;&lt;col style=&quot;width:16.5%&quot;&gt;&lt;/colgroup&gt;&lt;thead&gt;&lt;tr id=&quot;vcGridTopMenu&quot;&gt;&lt;th colspan=&quot;12&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;vcGridMenuButton&quot; aria-label=&quot;कंट्रोलर खोलें&quot; title=&quot;Controller खोलें&quot;&gt;☰ Menu&lt;/button&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr class=&quot;vcColumnNames&quot;&gt;&lt;th&gt;&lt;span class=&quot;sno-label&quot;&gt;Sl.&lt;span&gt;No.&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;&lt;th&gt;CHAINAGE&lt;/th&gt;&lt;th&gt;SIDE&lt;/th&gt;&lt;th&gt;OFFSET&lt;/th&gt;&lt;th&gt;BS&lt;/th&gt;&lt;th&gt;IS&lt;/th&gt;&lt;th&gt;FS&lt;/th&gt;&lt;th&gt;HI&lt;/th&gt;&lt;th&gt;A.RL&lt;/th&gt;&lt;th&gt;D.RL&lt;/th&gt;&lt;th&gt;Diff.&lt;/th&gt;&lt;th&gt;REMARKS&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;rows&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/main&gt;
 &lt;/form&gt;
 &lt;script&gt;
@@ -8613,8 +8598,15 @@ document.addEventListener(&#x27;focusout&#x27;,e=&gt;{
  if(!e.target.matches(&#x27;[data-k]&#x27;))return;
  lastFocusedSheetRow=Number(e.target.dataset.i)||lastFocusedSheetRow;
  setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){
+  const keyboardWasOpen=document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;);
   document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);
   sheetUserScrolling=false;
+  // The Android keyboard may absorb the first hardware Back before the app sees it.
+  // Restore the Controller if editing ended, without affecting Back inside other tools.
+  if(keyboardWasOpen){
+    try{window.showSheetMenu?.()}catch(_){}
+    try{window.parent.postMessage({type:&#x27;VC_LEVEL_CONTROLLER_VISIBLE&#x27;},&#x27;*&#x27;)}catch(_){}
+  }
  }},180);
 },true);
 const sheetViewport=window.visualViewport;if(sheetViewport)sheetViewport.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);window.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
@@ -9008,6 +9000,7 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
     const wrap=document.querySelector(&#x27;.wrap&#x27;);
     if(wrap){wrap.scrollTop=0;}
     try{window.scrollTo(0,0)}catch(_){}
+    try{window.parent.postMessage({type:&#x27;VC_LEVEL_CONTROLLER_VISIBLE&#x27;},&#x27;*&#x27;)}catch(_){}
   }
   window.addEventListener(&#x27;message&#x27;,function(event){
     if(!event.data || event.data.type!==&#x27;VC_LEVEL_SHOW_CONTROLLER&#x27;)return;
@@ -9019,37 +9012,113 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
     setTimeout(()=&gt;{if(menuToken===token&amp;&amp;!activeEditingCell())revealController()},380);
   },false);
   document.addEventListener(&#x27;focusin&#x27;,function(event){
-    if(event.target.matches?.(&#x27;[data-k],#camberPercent&#x27;))++menuToken;
+    if(event.target.matches?.(&#x27;[data-k],#camberPercent&#x27;)){++menuToken;try{window.parent.postMessage({type:&#x27;VC_LEVEL_CONTROLLER_EDITING&#x27;},&#x27;*&#x27;)}catch(_){}}
   },true);
+  // A grid gesture after restoring the controller starts a new editing/back sequence.
+  const sheetGrid=document.querySelector(&#x27;.tablebox&#x27;);
+  if(sheetGrid){sheetGrid.addEventListener(&#x27;touchstart&#x27;,(event)=&gt;{
+    if(event.target &amp;&amp; event.target.closest &amp;&amp; event.target.closest(&#x27;#vcGridTopMenu&#x27;))return;
+    try{window.parent.postMessage({type:&#x27;VC_LEVEL_CONTROLLER_EDITING&#x27;},&#x27;*&#x27;)}catch(_){}
+  },{passive:true});}
 })();
 &lt;/script&gt;
 
-&lt;script id=&quot;vcDirectControllerTap20261023&quot;&gt;
+
+&lt;style id=&quot;vcGridMenuFreeze20261023&quot;&gt;
+/* Menu is now the table&#x27;s FIRST row. Freeze both the menu and labels, not the Sl.No. column. */
+@media screen {
+  #book thead {position:static!important;top:auto!important;}
+  #book thead tr#vcGridTopMenu &gt; th {
+    position:sticky!important; top:0!important; left:auto!important;
+    height:40px!important; min-height:40px!important; max-height:40px!important;
+    box-sizing:border-box!important; padding:3px 9px!important;
+    border:1px solid #afc4d4!important; background:#f4f9fd!important;
+    text-align:left!important; white-space:nowrap!important; overflow:visible!important;
+    width:auto!important; font-size:15px!important; z-index:85!important;
+    box-shadow:0 1px 1px #bbcbd755!important;
+  }
+  #book #vcGridMenuButton {
+    display:inline-flex!important;position:sticky!important;
+    /* Starts near the visible right edge, but stays visible on horizontal scroll. */
+    left:max(8px,calc(100vw - 150px))!important;
+    right:auto!important;
+    margin-left:max(8px,calc(100vw - 150px))!important;
+    margin-right:0!important;
+    align-items:center!important;justify-content:center!important;
+    font:800 15px system-ui,sans-serif!important;line-height:1!important;
+    width:110px!important;min-width:110px!important; height:31px!important;
+    border-radius:9px!important; border:0!important; padding:0 11px!important;
+    color:white!important;background:#08a8e2!important;
+    touch-action:manipulation!important; cursor:pointer!important;
+    -webkit-tap-highlight-color:transparent!important;
+    user-select:none!important;-webkit-user-select:none!important;
+  }
+  #book thead tr.vcColumnNames &gt; th,
+  #book.compact thead tr.vcColumnNames &gt; th,
+  body.sheet-keyboard-open #book thead tr.vcColumnNames &gt; th {
+    position:sticky!important;top:40px!important;z-index:72!important;
+    background:#eaf0f4!important;
+  }
+  #book thead tr.vcColumnNames &gt; th:first-child {
+    left:auto!important;width:2.5%!important;z-index:72!important;
+  }
+  #book tbody td.sno {position:static!important;left:auto!important;}
+}
+@media print {
+  #vcGridTopMenu{display:none!important;}
+  #book thead tr.vcColumnNames &gt; th{top:0!important;}
+}
+&lt;/style&gt;
+
+
+&lt;script id=&quot;vcGridMenuDirectTap20261023&quot;&gt;
+/* Work inside the level-sheet document itself, including Android WebView. */
 (function(){
- &#x27;use strict&#x27;;
- let lastOpen=0;
- function reveal(){
-   try { if(typeof window.showSheetMenu===&#x27;function&#x27;) window.showSheetMenu(); }catch(_){}
-   try { if(document.activeElement &amp;&amp; document.activeElement.blur)document.activeElement.blur(); }catch(_){}
-   document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
-   const wrap=document.querySelector(&#x27;.wrap&#x27;);
-   if(wrap){wrap.scrollTop=0;}
-   try{window.scrollTo(0,0)}catch(_){}
- }
- window.sheetDirectMenuOpen=function(e){
-   if(e){e.stopPropagation();}
-   const now=Date.now();if(now-lastOpen&lt;250)return false;lastOpen=now;
-   reveal();
-   // WebView can resize its visual viewport after keyboard is closed.
-   requestAnimationFrame(reveal);
-   setTimeout(()=&gt;{
-     const a=document.activeElement;
-     if(!a || !a.matches || !a.matches(&#x27;[data-k],#camberPercent,#workDescription,#workDate&#x27;))reveal();
-   },200);
-   return false;
- };
+  &#x27;use strict&#x27;;
+  const button=document.getElementById(&#x27;vcGridMenuButton&#x27;);
+  if(!button)return;
+  let lastTap=0,restoreId=0;
+  function openController(ev){
+    if(ev &amp;&amp; ev.type===&#x27;pointerdown&#x27; &amp;&amp; ev.button!==undefined &amp;&amp; ev.button!==0)return;
+    const now=Date.now(); if(now-lastTap&lt;240)return;
+    lastTap=now;
+    if(ev){try{ev.stopPropagation()}catch(_){}}
+    // Blur the active cell ourselves; native Android keyboard may consume a click.
+    try{if(document.activeElement &amp;&amp; document.activeElement!==button)document.activeElement.blur()}catch(_){}
+    function reveal(){
+      try{if(typeof window.showSheetMenu===&#x27;function&#x27;)window.showSheetMenu()}catch(_){}
+      document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
+      const wrap=document.querySelector(&#x27;.wrap&#x27;);
+      if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0;}
+      try{window.parent.postMessage({type:&#x27;VC_LEVEL_CONTROLLER_VISIBLE&#x27;},&#x27;*&#x27;)}catch(_){}
+    }
+    reveal();
+    const id=++restoreId;
+    setTimeout(function(){if(id===restoreId &amp;&amp; !document.querySelector(&#x27;[data-k]:focus&#x27;))reveal()},210);
+  }
+  button.addEventListener(&#x27;pointerdown&#x27;,openController,false);
+  button.addEventListener(&#x27;click&#x27;,openController,false);
+  button.addEventListener(&#x27;touchend&#x27;,openController,{passive:true});
 })();
 &lt;/script&gt;
+
+
+&lt;style id=&quot;vcSerialColumnNarrowWithMenu20261023&quot;&gt;
+/* Top Menu spans the grid: colgroup preserves the earlier narrow 2.5% Sl.No. column. */
+@media screen {
+  #book {table-layout:fixed!important;}
+  #book colgroup#vcBookWidths20261023 col:first-child {width:2.5%!important;}
+  #book thead tr.vcColumnNames &gt; th:first-child {
+    width:2.5%!important; min-width:0!important; max-width:none!important;
+    padding:1px 0!important; font-size:9px!important; line-height:1.08!important;
+    white-space:normal!important;overflow:hidden!important;
+  }
+  #book tbody td.sno,#book.compact tbody td.sno {
+    width:auto!important;min-width:0!important;padding:1px 0!important;
+    font-size:11px!important;
+  }
+}
+&lt;/style&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 "></iframe>
@@ -10488,6 +10557,8 @@ function renderTool(id){
 function show(id,fromHistory){
   if(id==='home'){openToolMenu(!!fromHistory);return}
   if(!document.getElementById(id)){openToolMenu(!!fromHistory);return}
+  // Every fresh opening of Level Sheet begins a new two-stage Back sequence.
+  if(id==='autoLevelSheet' && !fromHistory)vcLevelSheetBackStage=0;
 
   if(!fromHistory){
     try{
@@ -10518,9 +10589,29 @@ function openToolMenu(fromHistory){
   }
 }
 
+// First Android Back: Level Sheet Controller. Second Back: Tools.
+// Other tools preserve their existing direct Back-to-Tools behaviour.
+var vcLevelSheetBackStage=0;
+window.addEventListener('message',function(event){
+  var frame=document.getElementById('autoLevelSheetFrame');
+  if(!frame || event.source!==frame.contentWindow || !event.data)return;
+  if(event.data.type==='VC_LEVEL_CONTROLLER_VISIBLE')vcLevelSheetBackStage=1;
+  else if(event.data.type==='VC_LEVEL_CONTROLLER_EDITING')vcLevelSheetBackStage=0;
+},false);
 function navBack(){
-  // App/WebView first launch पर history.back() भरोसेमंद नहीं रहता.
-  // इसलिए Tool Back हमेशा सीधे Tools menu पर लौटेगा.
+  var sheet=document.getElementById('autoLevelSheet');
+  if(sheet && document.body.classList.contains('tool-open') && !sheet.classList.contains('hidden')){
+    if(vcLevelSheetBackStage===0){
+      vcLevelSheetBackStage=1;
+      var frame=document.getElementById('autoLevelSheetFrame');
+      if(frame && frame.contentWindow){
+        try{frame.contentWindow.postMessage({type:'VC_LEVEL_SHOW_CONTROLLER'},'*')}catch(e){}
+      }
+      return;
+    }
+    vcLevelSheetBackStage=0;
+  }
+  // Other tools or second Back in Level Sheet open the Tools menu.
   try{
     history.replaceState({vcMenu:true},'',location.pathname+location.search+'#menu');
   }catch(e){
@@ -20522,6 +20613,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
 
   // FINAL migration version.
   // आगे HTML/tool updates के लिए इसे बदलने की जरूरत नहीं है.
+  // Older installed APKs expect this compatibility token: VC_APP_VERSION='1.1.77'
   var VC_APP_VERSION='1.1.91';
 
   var VC_FILE_API='https://api.github.com/repos/javavp91-gif/Virendra-Calculator/contents/index.html?ref=main';
@@ -20545,7 +20637,7 @@ window.addEventListener('resize',cvScalePreview);if(document.readyState==='loadi
   }
 
   function validHtml(html){
-    return !!(html && html.length>10000 && html.indexOf('<html')>=0 && html.indexOf("VC_APP_VERSION='1.1.77'")>=0);
+    return !!(html && html.length>10000 && /<html\b/i.test(html) && /var\s+VC_APP_VERSION\s*=\s*['\"]\d+(?:\.\d+)+['\"]/.test(html) && html.indexOf('autoLevelSheetFrame')>=0);
   }
 
   function replaceDocument(html){
@@ -26807,4 +26899,21 @@ window.vceExport=async function(){
 #pegLevel .peg-offset-plus:disabled{opacity:.4;cursor:default}
 @media(max-width:380px){#pegLevel .peg-offset-entry{gap:5px}#pegLevel .peg-offset-list{gap:5px}#pegLevel .peg-offset-plus{width:36px;flex-basis:36px}#pegLevel .peg-tableWrap tbody input.peg-offset-value{font-size:15px!important;padding:0 3px!important}}
 </style>
+
+<style id="vcAndroidLevelSheetStatusInset20261023">
+/* Android 15 WebView may draw beneath the system status icons.
+   This is APK-only; website keeps its original full-height layout. */
+body.vc-android-native.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidden) {
+  top:max(28px,env(safe-area-inset-top,0px))!important;
+  height:calc(var(--vc-visible-height,100dvh) - max(28px,env(safe-area-inset-top,0px)))!important;
+  max-height:calc(var(--vc-visible-height,100dvh) - max(28px,env(safe-area-inset-top,0px)))!important;
+}
+</style>
+<script id="vcAndroidLevelSheetStatusClass20261023">
+(function(){
+  if(window.AndroidBridge){
+    document.body.classList.add('vc-android-native');
+  }
+})();
+</script>
 </body></html>
