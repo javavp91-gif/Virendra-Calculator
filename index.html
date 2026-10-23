@@ -8667,7 +8667,11 @@ function revealFocusedSheetCell(el){
  if(rect.bottom&gt;bottom-10)window.scrollBy(0,rect.bottom-bottom+10);
  else if(rect.top&lt;8)window.scrollBy(0,rect.top-8);
 }
-let sheetFocusTimers=[],sheetUserScrolling=false,suppressSheetReveal=false,suppressRestoreFocusedRow=false,lastFocusedSheetRow=0;function stopSheetAutoScroll(){sheetUserScrolling=true;sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[]}function queueRevealFocusedSheetCell(el){sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[260].map(ms=&gt;setTimeout(()=&gt;revealFocusedSheetCell(el),ms))}function restoreLastFocusedSheetRow(){requestAnimationFrame(()=&gt;{const wrap=document.querySelector(&#x27;.wrap&#x27;),row=document.querySelectorAll(&#x27;#rows tr&#x27;)[lastFocusedSheetRow];if(!wrap||!row)return;const wr=wrap.getBoundingClientRect(),rr=row.getBoundingClientRect(),vh=window.visualViewport?.height||window.innerHeight,targetTop=wr.top+Math.min(120,Math.max(48,vh*.16)),targetBottom=Math.min(wr.bottom,window.visualViewport?.offsetTop+vh||vh)-12;if(rr.top&lt;targetTop||rr.bottom&gt;targetBottom)wrap.scrollTop+=rr.top-targetTop})}
+let sheetFocusTimers=[],sheetUserScrolling=false,suppressSheetReveal=false,suppressRestoreFocusedRow=false,lastFocusedSheetRow=0;function stopSheetAutoScroll(){
+ sheetUserScrolling=true;
+ sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[];
+ vcKeepRowTimers.forEach(clearTimeout);vcKeepRowTimers=[];
+}function queueRevealFocusedSheetCell(el){sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[260].map(ms=&gt;setTimeout(()=&gt;revealFocusedSheetCell(el),ms))}function restoreLastFocusedSheetRow(){requestAnimationFrame(()=&gt;{const wrap=document.querySelector(&#x27;.wrap&#x27;),row=document.querySelectorAll(&#x27;#rows tr&#x27;)[lastFocusedSheetRow];if(!wrap||!row)return;const wr=wrap.getBoundingClientRect(),rr=row.getBoundingClientRect(),vh=window.visualViewport?.height||window.innerHeight,targetTop=wr.top+Math.min(120,Math.max(48,vh*.16)),targetBottom=Math.min(wr.bottom,window.visualViewport?.offsetTop+vh||vh)-12;if(rr.top&lt;targetTop||rr.bottom&gt;targetBottom)wrap.scrollTop+=rr.top-targetTop})}
 /* While ordinary sheet cells are edited, hide all toolbar controls as before.
    Keep the same scroll surface; never reset scrolling when another cell gets focus. */
 document.addEventListener(&#x27;focusin&#x27;,e=&gt;{
@@ -8690,20 +8694,12 @@ document.addEventListener(&#x27;focusout&#x27;,e=&gt;{
  // Neither action is a Back/Menu command or a request to jump to row 1.
  if(e.target.dataset.sheetAutoBlur===&#x27;1&#x27;){
    delete e.target.dataset.sheetAutoBlur;
-   sheetUserScrolling=false;
-   scheduleSheetRowVisibility(Number(e.target.dataset.i),e.target.dataset.k);
+   // Android&#x27;s auto-blur is not a new focus and must not move the grid.
    return;
  }
- // Android WebView can temporarily blur a field as the IME commits a
- // Chainage/Side value. That is NOT a Menu/Back action. In particular,
- // showSheetMenu() deliberately scrolls to row 1 and must never be called
- // from a mere field blur. Only the frozen Menu or the explicit Back path
- // may reveal the Controller.
- setTimeout(()=&gt;{
-  if(document.activeElement?.matches?.(&#x27;[data-k],#camberPercent&#x27;))return;
-  sheetUserScrolling=false;
-  scheduleSheetRowVisibility(lastFocusedSheetRow,null);
- },180);
+ // On Android, IME blur may fire long AFTER the user began swiping.
+ // Never use blur to restore the old active row; it locks out rows 1..499.
+ // A future focusin on another input will reveal that newly chosen cell.
 },true);
 const sheetViewport=window.visualViewport;function sheetVisibleResize(){
  visibleSheetViewport();
@@ -8720,12 +8716,23 @@ if(sheetViewport){
 window.addEventListener(&#x27;resize&#x27;,sheetVisibleResize);document.addEventListener(&#x27;input&#x27;,e=&gt;{
  const el=e.target;
  if(el?.matches?.(&#x27;[data-k]&#x27;)){
-  sheetUserScrolling=false;
   lastFocusedSheetRow=Number(el.dataset.i)||0;
-  scheduleSheetRowVisibility(el.dataset.i,el.dataset.k);
+  // Typing/IME commits can arrive after a scroll gesture. Do not follow
+  // focused cell back to row 500 while the user is visiting row 1.
  }
 },true);
-const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
+const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);
+const sheetOuterWrap=document.querySelector(&#x27;.wrap&#x27;);
+// The actual vertical scroller is .wrap (including APK keyboard mode).
+// Capture genuine touch gestures on either surface and cancel pending
+// focus timers. Manual scrolling must win over keeping the focused cell visible.
+for(const surface of [sheetTableBox,sheetOuterWrap]){
+ if(!surface)continue;
+ surface.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true,capture:true});
+ surface.addEventListener(&#x27;touchmove&#x27;,stopSheetAutoScroll,{passive:true,capture:true});
+ surface.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true,capture:true});
+}
+visibleSheetViewport();
 $(&#x27;download&#x27;).onclick=()=&gt;{updatePrintWorkTitle();preparePrintRows();window.print()};$(&#x27;handwritingPdf&#x27;).onclick=async()=&gt;{updatePrintWorkTitle();preparePrintRows();document.body.classList.add(&#x27;handwriting-print&#x27;);try{if(document.fonts){await document.fonts.load(&#x27;8px KalamHand&#x27;);await document.fonts.ready}}catch(_){}window.print()};window.addEventListener(&#x27;beforeprint&#x27;,preparePrintRows);window.addEventListener(&#x27;afterprint&#x27;,()=&gt;{restorePrintRows();document.body.classList.remove(&#x27;handwriting-print&#x27;)});
 if($(&#x27;csv&#x27;))$(&#x27;csv&#x27;).onclick=()=&gt;{calculate();const out=[[&#x27;SL.NO&#x27;,&#x27;CHAINAGE&#x27;,&#x27;SIDE&#x27;,&#x27;OFFSET&#x27;,&#x27;BS&#x27;,&#x27;IS&#x27;,&#x27;FS&#x27;,&#x27;HI&#x27;,&#x27;A.RL&#x27;,&#x27;D.RL&#x27;,&#x27;Diff.&#x27;,&#x27;REMARKS&#x27;],...rows.filter(hasData).map((r,n)=&gt;[n+1,r.chainage,r.side,r.offset,r.bs,r.is,r.fs,fmt(r.hi),fmt(r.arl),fmt(num(r.drlCalc)),r.closed?&#x27;Closed&#x27;:(isManualText(r)?r.diffManual:(r.diff===null?&#x27;&#x27;:formatDiff(r.diff))),[r.remarks,r.averageDiff===null||r.averageDiff===undefined?&#x27;&#x27;:`Average ${formatDiff(r.averageDiff)}`].filter(Boolean).join(&#x27; | &#x27;)])];const csv=out.map(a=&gt;a.map(v=&gt;&#x27;&quot;&#x27;+String(v??&#x27;&#x27;).replace(/&quot;/g,&#x27;&quot;&quot;&#x27;)+&#x27;&quot;&#x27;).join(&#x27;,&#x27;)).join(&#x27;\r\n&#x27;);const a=document.createElement(&#x27;a&#x27;);a.href=URL.createObjectURL(new Blob([&#x27;\ufeff&#x27;+csv],{type:&#x27;text/csv;charset=utf-8&#x27;}));a.download=&#x27;Level_Checking_Field_Book.csv&#x27;;a.click();setTimeout(()=&gt;URL.revokeObjectURL(a.href),1000)};
 window.showSheetMenu=()=&gt;{
@@ -9247,6 +9254,12 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
     background:#fff!important;
     flex-shrink:0!important;
   }
+}
+&lt;/style&gt;
+&lt;style id=&quot;vcRow500FreePanning20261023&quot;&gt;
+@media screen {
+ html,body,.level-sheet-form,.wrap,.tablebox,#book {overflow-anchor:none!important;}
+ .wrap,.tablebox {overscroll-behavior-y:contain!important;}
 }
 &lt;/style&gt;
 &lt;/body&gt;
