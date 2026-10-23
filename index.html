@@ -6078,6 +6078,17 @@ body.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidd
   };
 })();
 </script>
+
+<style id="vcDirectMenuFrameViewport20261023">
+body.tool-open #autoLevelSheet:not(.hidden) > #levelSheetHeader {
+ display:none!important;height:0!important;min-height:0!important;flex:0 0 0!important;
+ padding:0!important;margin:0!important;pointer-events:none!important;
+}
+body.tool-open #autoLevelSheet:not(.hidden) > #autoLevelSheetFrame {
+ display:block!important;flex:1 1 0%!important;height:100%!important;min-height:0!important;
+ max-height:none!important;margin:0!important;border:0!important;
+}
+</style>
 </head>
 <body class="">
 
@@ -8409,10 +8420,42 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .work-entry .work-name,.work-entry .work-date {min-height:34px!important;}
 }
 &lt;/style&gt;
+
+&lt;style id=&quot;vcDirectSheetMenu20261023&quot;&gt;
+@media screen {
+  #sheetDirectMenu {
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    gap:9px!important;flex:0 0 43px!important;min-height:43px!important;height:43px!important;
+    position:sticky!important;top:0!important;left:0!important;z-index:110!important;
+    width:100%!important;min-width:0!important;margin:0 0 5px!important;padding:2px 7px!important;
+    background:#fff!important;border:0!important;border-bottom:1px solid #ccd9e5!important;
+    color:#22506d!important;cursor:pointer!important;touch-action:manipulation!important;
+    pointer-events:auto!important;-webkit-user-select:none!important;user-select:none!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+  #sheetDirectMenu .sheet-direct-chip {
+    display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    flex:0 0 auto!important;border-radius:24px!important;padding:8px 17px!important;
+    background:#0aa7df!important;color:#fff!important;font:bold 15px system-ui,sans-serif!important;
+  }
+  #sheetDirectMenu .sheet-direct-hint {
+    display:inline-block!important;font:bold 12px system-ui,sans-serif!important;
+    white-space:normal!important;line-height:1.2!important;text-align:left!important;
+  }
+  /* Keep the non-editable Menu visible even with the soft keyboard open. */
+  body.sheet-keyboard-open #sheetDirectMenu, body.camber-editing #sheetDirectMenu {
+    display:flex!important;visibility:visible!important;opacity:1!important;flex:0 0 43px!important;
+  }
+}
+@media print {#sheetDirectMenu{display:none!important}}
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;form class=&quot;level-sheet-form&quot; id=&quot;levelSheetForm&quot; name=&quot;levelSheetNoAutofill&quot; autocomplete=&quot;off&quot; autocapitalize=&quot;off&quot; autocorrect=&quot;off&quot; spellcheck=&quot;false&quot; onsubmit=&quot;return false&quot;&gt;
 &lt;main class=&quot;wrap&quot;&gt;
+&lt;button type=&quot;button&quot; id=&quot;sheetDirectMenu&quot; aria-label=&quot;Level Sheet कंट्रोलर खोलें&quot; title=&quot;Controller खोलने के लिए यहाँ टैप करें&quot; onclick=&quot;return sheetDirectMenuOpen(event)&quot;&gt;
+  &lt;span class=&quot;sheet-direct-chip&quot;&gt;☰ Menu&lt;/span&gt;&lt;span class=&quot;sheet-direct-hint&quot;&gt;कंट्रोलर खोलने के लिए यहाँ टैप करें &lt;span aria-hidden=&quot;true&quot;&gt;↑&lt;/span&gt;&lt;/span&gt;
+&lt;/button&gt;
 &lt;div class=&quot;toolbar&quot;&gt;
 &lt;div class=&quot;sheet-stats-row&quot;&gt;
   &lt;div class=&quot;all-avg camber-display&quot;&gt;&lt;span&gt;DRL Camber %&lt;/span&gt;&lt;strong id=&quot;drlCamberValue&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
@@ -8982,6 +9025,39 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
   document.addEventListener(&#x27;focusin&#x27;,function(event){
     if(event.target.matches?.(&#x27;[data-k],#camberPercent&#x27;))++menuToken;
   },true);
+})();
+&lt;/script&gt;
+
+&lt;script id=&quot;vcDirectControllerTap20261023&quot;&gt;
+(function(){
+ &#x27;use strict&#x27;;
+ let handledAt=0;
+ window.sheetDirectMenuOpen=function(e){
+   if(e){e.stopPropagation();}
+   const now=Date.now();
+   if(now-handledAt&lt;240)return false;
+   handledAt=now;
+   function open(){
+     try{
+       if(typeof window.showSheetMenu===&#x27;function&#x27;)window.showSheetMenu();
+       else {
+         document.activeElement?.blur();
+         document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
+         const pane=document.querySelector(&#x27;.wrap&#x27;);if(pane)pane.scrollTop=0;
+       }
+     }catch(err){
+       document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
+       const pane=document.querySelector(&#x27;.wrap&#x27;);if(pane)pane.scrollTop=0;
+     }
+   }
+   open();
+   // Android keyboard closing is asynchronous. Retry only if editing has ended.
+   setTimeout(()=&gt;{
+     const a=document.activeElement;
+     if(!a?.matches?.(&#x27;[data-k],#camberPercent,#workDescription,#workDate&#x27;))open();
+   },180);
+   return false;
+ };
 })();
 &lt;/script&gt;
 &lt;/body&gt;
