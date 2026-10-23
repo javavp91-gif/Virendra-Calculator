@@ -8421,41 +8421,37 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 }
 &lt;/style&gt;
 
-&lt;style id=&quot;vcDirectSheetMenu20261023&quot;&gt;
+
+&lt;style id=&quot;vcSheetMenuInsideGrid20261023&quot;&gt;
 @media screen {
-  #sheetDirectMenu {
-    display:flex!important;align-items:center!important;justify-content:center!important;
-    gap:9px!important;flex:0 0 43px!important;min-height:43px!important;height:43px!important;
-    position:sticky!important;top:0!important;left:0!important;z-index:110!important;
-    width:100%!important;min-width:0!important;margin:0 0 5px!important;padding:2px 7px!important;
-    background:#fff!important;border:0!important;border-bottom:1px solid #ccd9e5!important;
-    color:#22506d!important;cursor:pointer!important;touch-action:manipulation!important;
-    pointer-events:auto!important;-webkit-user-select:none!important;user-select:none!important;
+  #book thead .sheet-grid-menu-row{height:38px!important;max-height:38px!important;}
+  #book thead .sheet-grid-menu-row .sheet-grid-menu-cell{
+    border:1px solid #aebdca!important;background:#f2f7fb!important;
+    box-sizing:border-box!important;height:38px!important;max-height:38px!important;
+    padding:3px 6px!important;text-align:left!important;vertical-align:middle!important;
+    position:sticky!important;top:0!important;z-index:20!important;
+  }
+  #book thead .sheet-grid-menu-row #sheetGridMenuButton {
+    position:sticky!important;left:6px!important;display:inline-flex!important;
+    align-items:center!important;justify-content:center!important;
+    height:30px!important;min-height:30px!important;width:88px!important;
+    padding:2px 12px!important;margin:0!important;border:0!important;
+    border-radius:7px!important;background:#0aa8df!important;
+    color:white!important;font:800 16px/1.2 Arial,sans-serif!important;
+    box-shadow:none!important;cursor:pointer!important;
+    pointer-events:auto!important;touch-action:manipulation!important;
     -webkit-tap-highlight-color:transparent!important;
   }
-  #sheetDirectMenu .sheet-direct-chip {
-    display:inline-flex!important;align-items:center!important;justify-content:center!important;
-    flex:0 0 auto!important;border-radius:24px!important;padding:8px 17px!important;
-    background:#0aa7df!important;color:#fff!important;font:bold 15px system-ui,sans-serif!important;
-  }
-  #sheetDirectMenu .sheet-direct-hint {
-    display:inline-block!important;font:bold 12px system-ui,sans-serif!important;
-    white-space:normal!important;line-height:1.2!important;text-align:left!important;
-  }
-  /* Keep the non-editable Menu visible even with the soft keyboard open. */
-  body.sheet-keyboard-open #sheetDirectMenu, body.camber-editing #sheetDirectMenu {
-    display:flex!important;visibility:visible!important;opacity:1!important;flex:0 0 43px!important;
+  #book thead &gt; tr:not(.sheet-grid-menu-row) &gt; th {
+    top:38px!important;
   }
 }
-@media print {#sheetDirectMenu{display:none!important}}
+@media print {#book thead .sheet-grid-menu-row{display:none!important;}}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;form class=&quot;level-sheet-form&quot; id=&quot;levelSheetForm&quot; name=&quot;levelSheetNoAutofill&quot; autocomplete=&quot;off&quot; autocapitalize=&quot;off&quot; autocorrect=&quot;off&quot; spellcheck=&quot;false&quot; onsubmit=&quot;return false&quot;&gt;
 &lt;main class=&quot;wrap&quot;&gt;
-&lt;button type=&quot;button&quot; id=&quot;sheetDirectMenu&quot; aria-label=&quot;Level Sheet कंट्रोलर खोलें&quot; title=&quot;Controller खोलने के लिए यहाँ टैप करें&quot; onclick=&quot;return sheetDirectMenuOpen(event)&quot;&gt;
-  &lt;span class=&quot;sheet-direct-chip&quot;&gt;☰ Menu&lt;/span&gt;&lt;span class=&quot;sheet-direct-hint&quot;&gt;कंट्रोलर खोलने के लिए यहाँ टैप करें &lt;span aria-hidden=&quot;true&quot;&gt;↑&lt;/span&gt;&lt;/span&gt;
-&lt;/button&gt;
 &lt;div class=&quot;toolbar&quot;&gt;
 &lt;div class=&quot;sheet-stats-row&quot;&gt;
   &lt;div class=&quot;all-avg camber-display&quot;&gt;&lt;span&gt;DRL Camber %&lt;/span&gt;&lt;strong id=&quot;drlCamberValue&quot;&gt;—&lt;/strong&gt;&lt;/div&gt;
@@ -8478,7 +8474,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 &lt;div class=&quot;print-work-title&quot; id=&quot;printWorkTitle&quot;&gt;&lt;/div&gt;
 
 
-&lt;div class=&quot;tablebox&quot;&gt;&lt;table id=&quot;book&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;span class=&quot;sno-label&quot;&gt;Sl.&lt;span&gt;No.&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;&lt;th&gt;CHAINAGE&lt;/th&gt;&lt;th&gt;SIDE&lt;/th&gt;&lt;th&gt;OFFSET&lt;/th&gt;&lt;th&gt;BS&lt;/th&gt;&lt;th&gt;IS&lt;/th&gt;&lt;th&gt;FS&lt;/th&gt;&lt;th&gt;HI&lt;/th&gt;&lt;th&gt;A.RL&lt;/th&gt;&lt;th&gt;D.RL&lt;/th&gt;&lt;th&gt;Diff.&lt;/th&gt;&lt;th&gt;REMARKS&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;rows&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;div class=&quot;tablebox&quot;&gt;&lt;table id=&quot;book&quot;&gt;&lt;thead&gt;&lt;tr id=&quot;sheetGridMenuRow&quot; class=&quot;sheet-grid-menu-row&quot;&gt;&lt;td colspan=&quot;12&quot; class=&quot;sheet-grid-menu-cell&quot;&gt;&lt;button type=&quot;button&quot; id=&quot;sheetGridMenuButton&quot; aria-label=&quot;कंट्रोलर खोलें&quot; onclick=&quot;return sheetDirectMenuOpen(event)&quot;&gt;Menu&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;&lt;span class=&quot;sno-label&quot;&gt;Sl.&lt;span&gt;No.&lt;/span&gt;&lt;/span&gt;&lt;/th&gt;&lt;th&gt;CHAINAGE&lt;/th&gt;&lt;th&gt;SIDE&lt;/th&gt;&lt;th&gt;OFFSET&lt;/th&gt;&lt;th&gt;BS&lt;/th&gt;&lt;th&gt;IS&lt;/th&gt;&lt;th&gt;FS&lt;/th&gt;&lt;th&gt;HI&lt;/th&gt;&lt;th&gt;A.RL&lt;/th&gt;&lt;th&gt;D.RL&lt;/th&gt;&lt;th&gt;Diff.&lt;/th&gt;&lt;th&gt;REMARKS&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody id=&quot;rows&quot;&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;/main&gt;
 &lt;/form&gt;
 &lt;script&gt;
@@ -9031,31 +9027,25 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
 &lt;script id=&quot;vcDirectControllerTap20261023&quot;&gt;
 (function(){
  &#x27;use strict&#x27;;
- let handledAt=0;
+ let lastOpen=0;
+ function reveal(){
+   try { if(typeof window.showSheetMenu===&#x27;function&#x27;) window.showSheetMenu(); }catch(_){}
+   try { if(document.activeElement &amp;&amp; document.activeElement.blur)document.activeElement.blur(); }catch(_){}
+   document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
+   const wrap=document.querySelector(&#x27;.wrap&#x27;);
+   if(wrap){wrap.scrollTop=0;}
+   try{window.scrollTo(0,0)}catch(_){}
+ }
  window.sheetDirectMenuOpen=function(e){
    if(e){e.stopPropagation();}
-   const now=Date.now();
-   if(now-handledAt&lt;240)return false;
-   handledAt=now;
-   function open(){
-     try{
-       if(typeof window.showSheetMenu===&#x27;function&#x27;)window.showSheetMenu();
-       else {
-         document.activeElement?.blur();
-         document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
-         const pane=document.querySelector(&#x27;.wrap&#x27;);if(pane)pane.scrollTop=0;
-       }
-     }catch(err){
-       document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
-       const pane=document.querySelector(&#x27;.wrap&#x27;);if(pane)pane.scrollTop=0;
-     }
-   }
-   open();
-   // Android keyboard closing is asynchronous. Retry only if editing has ended.
+   const now=Date.now();if(now-lastOpen&lt;250)return false;lastOpen=now;
+   reveal();
+   // WebView can resize its visual viewport after keyboard is closed.
+   requestAnimationFrame(reveal);
    setTimeout(()=&gt;{
      const a=document.activeElement;
-     if(!a?.matches?.(&#x27;[data-k],#camberPercent,#workDescription,#workDate&#x27;))open();
-   },180);
+     if(!a || !a.matches || !a.matches(&#x27;[data-k],#camberPercent,#workDescription,#workDate&#x27;))reveal();
+   },200);
    return false;
  };
 })();
