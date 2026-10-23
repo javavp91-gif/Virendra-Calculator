@@ -8484,7 +8484,7 @@ function makeCell(i,k,type=&#x27;number&#x27;,cls=&#x27;&#x27;){const r=rows[i],
 function diffInputCell(i){const label=isManualText(rows[i]);return makeCell(i,&#x27;diffManual&#x27;,&#x27;text&#x27;,label?&#x27;manual-label&#x27;:&#x27;&#x27;)}
 function levelCell(i,k){const r=rows[i],manual=r[k+&#x27;Manual&#x27;];return r[k]!==null&amp;&amp;(manual===&#x27;&#x27;||manual==null)?`&lt;span class=&quot;calc-value&quot;&gt;${fmt(r[k])}&lt;/span&gt;`:makeCell(i,k)}
 function focusNextRow(el){if(requestCamberForDrl(el))return;document.querySelectorAll(&#x27;[data-chainage-suggestion]&#x27;).forEach(chip=&gt;chip.hidden=true);const nextIndex=Number(el.dataset.i)+1;if(nextIndex&gt;=rows.length)extendRows(Number(el.dataset.i),el.dataset.k);document.querySelector(`[data-i=&quot;${nextIndex}&quot;][data-k=&quot;${el.dataset.k}&quot;]`)?.focus()}
-function wireNextRow(el){el.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(!e.repeat&amp;&amp;(e.key===&#x27;Enter&#x27;||e.key===&#x27;Next&#x27;||e.keyCode===13||e.which===13||e.key===&#x27;ArrowDown&#x27;)){e.preventDefault();if([&#x27;chainage&#x27;,&#x27;side&#x27;,&#x27;bs&#x27;,&#x27;fs&#x27;,&#x27;hi&#x27;].includes(el.dataset.k))el.blur();else focusNextRow(el)}})}
+function wireNextRow(el){el.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(!e.repeat&amp;&amp;(e.key===&#x27;Enter&#x27;||e.key===&#x27;Next&#x27;||e.keyCode===13||e.which===13||e.key===&#x27;ArrowDown&#x27;)){e.preventDefault();if([&#x27;chainage&#x27;,&#x27;side&#x27;,&#x27;bs&#x27;,&#x27;fs&#x27;,&#x27;hi&#x27;].includes(el.dataset.k)){if(el.dataset.k===&#x27;side&#x27;||el.dataset.k===&#x27;chainage&#x27;)el.dataset.sheetAutoBlur=&#x27;1&#x27;;el.blur()}else focusNextRow(el)}})}
 function wireLevelManual(el){wireNextRow(el);el.addEventListener(&#x27;input&#x27;,()=&gt;{const i=Number(el.dataset.i),k=el.dataset.k;rows[i][k+&#x27;Manual&#x27;]=el.value;update();save()});el.addEventListener(&#x27;blur&#x27;,()=&gt;{const i=Number(el.dataset.i),k=el.dataset.k,n=num(el.value);if(n!==null){el.value=limitDecimalInput(el.value);rows[i][k+&#x27;Manual&#x27;]=el.value}update();save()})}
 function normalizeDiffManual(el){const i=Number(el.dataset.i),value=String(el.value??&#x27;&#x27;).trim();el.value=value!==&#x27;&#x27;&amp;&amp;num(value)===null?value:limitDecimalInput(value);rows[i].diffManual=el.value;update();save()}
 function wireManualDiff(el){wireNextRow(el);el.addEventListener(&#x27;input&#x27;,()=&gt;{const i=Number(el.dataset.i);rows[i].diffManual=el.value;update();ensureBufferRows(i,&#x27;diffManual&#x27;);save()});el.addEventListener(&#x27;blur&#x27;,()=&gt;normalizeDiffManual(el))}
@@ -8510,15 +8510,41 @@ function requestCamberForDrl(el){
  document.body.classList.add(&#x27;sheet-keyboard-open&#x27;,&#x27;camber-editing&#x27;);
  syncCamberEditor();
  const input=$(&#x27;camberPercent&#x27;);
+ // Keep the DRL cell on screen when showing the Camber input. Never jump
+ // to the first sheet row just because the first DRL was entered.
+ const wrap=document.querySelector(&#x27;.wrap&#x27;);
+ const previousTop=wrap?.scrollTop??0,previousLeft=wrap?.scrollLeft??0;
  const reveal=()=&gt;{
-   if(document.activeElement!==input)return;
-   const wrap=document.querySelector(&#x27;.wrap&#x27;),toolbar=document.querySelector(&#x27;.toolbar&#x27;);
-   if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0}
-   if(toolbar){toolbar.scrollTop=0;toolbar.scrollLeft=0}
-   window.scrollTo(0,0);
+   if(document.activeElement!==input||sheetUserScrolling)return;
+   if(!wrap)return;
+   const source=document.querySelector(`[data-i=&quot;${i}&quot;][data-k=&quot;drlCalc&quot;]`);
+   if(!source)return;
+   // Android may scroll to the now-focused Camber input by itself.
+   // Restore the DRL scroll position, then move only as far as necessary.
+   wrap.scrollTop=previousTop;
+   wrap.scrollLeft=previousLeft;
+   const toolbar=document.querySelector(&#x27;.toolbar&#x27;);
+   const head=document.querySelector(&#x27;#book thead&#x27;);
+   const sheet=wrap.getBoundingClientRect();
+   const toolbarBottom=toolbar?.getBoundingClientRect().bottom||sheet.top;
+   const headerHeight=head?.getBoundingClientRect().height||0;
+   const viewport=window.visualViewport;
+   const windowBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+   const availableTop=Math.max(sheet.top,toolbarBottom)+headerHeight+8;
+   const availableBottom=Math.min(sheet.bottom,windowBottom)-12;
+   const r=source.getBoundingClientRect();
+   if(availableBottom&gt;availableTop+25){
+     if(r.top&lt;availableTop)wrap.scrollTop+=r.top-availableTop;
+     else if(r.bottom&gt;availableBottom)wrap.scrollTop+=r.bottom-availableBottom;
+   }
+   // If DRL is to the right of the viewport, also keep that cell visible.
+   const shifted=source.getBoundingClientRect(),view=wrap.getBoundingClientRect();
+   if(shifted.right&gt;view.right-8)wrap.scrollLeft+=shifted.right-view.right+8;
+   else if(shifted.left&lt;view.left+8)wrap.scrollLeft+=shifted.left-view.left-8;
  };
  input.focus({preventScroll:true});reveal();
  requestAnimationFrame(()=&gt;{reveal();camberFocusPending=false});
+ setTimeout(reveal,120);setTimeout(reveal,300);
  return true;
 }
 function activeDrlSide(gs=drlGroups()){if(activeDrlIndex!==null){const active=gs.find(g=&gt;g.includes(activeDrlIndex));if(active)return drlSideKey(active)}for(let i=gs.length-1;i&gt;=0;i--){const hasAnchor=gs[i].some(j=&gt;num(rows[j].drlBase)!==null&amp;&amp;num(rows[j].offset)!==null);if(camberModeEnabled?hasAnchor&amp;&amp;storedCamberForGroup(gs[i])!==null:!!drlSeedPair(gs[i]))return drlSideKey(gs[i])}return null}
@@ -8534,7 +8560,23 @@ function calculate(){if(drlRecalcRequested){calcDrl();drlRecalcRequested=false}u
 function allAverageText(){const vals=rows.map(r=&gt;r.averageDiff).filter(v=&gt;v!==null&amp;&amp;v!==undefined);if(!vals.length)return &#x27;—&#x27;;const avg=vals.reduce((a,b)=&gt;a+b,0)/vals.length;return formatDiff(avg)}
 function averageBadge(r){if(r.averageDiff===null||r.averageDiff===undefined)return &#x27;&#x27;;return `&lt;div class=&quot;average-badge&quot;&gt;&lt;span class=&quot;average-label&quot;&gt;Average&lt;/span&gt;&lt;strong&gt;${formatDiff(r.averageDiff)}&lt;/strong&gt;&lt;/div&gt;`}
 function render(){calculate();$(&#x27;allChainageAverage&#x27;).textContent=allAverageText();const body=$(&#x27;rows&#x27;);body.innerHTML=&#x27;&#x27;;rows.forEach((r,i)=&gt;{const tr=document.createElement(&#x27;tr&#x27;);tr.innerHTML=`&lt;td class=&quot;sno&quot;&gt;${i+1}&lt;/td&gt;&lt;td&gt;&lt;div class=&quot;chain-wrap&quot;&gt;${makeCell(i,&#x27;chainage&#x27;,&#x27;text&#x27;)}&lt;button type=&quot;button&quot; class=&quot;suggestion-chip&quot; data-chainage-suggestion hidden&gt;&lt;/button&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;${makeCell(i,&#x27;side&#x27;,&#x27;text&#x27;)}&lt;/td&gt;&lt;td&gt;${makeCell(i,&#x27;offset&#x27;)}&lt;/td&gt;&lt;td&gt;${makeCell(i,&#x27;bs&#x27;)}&lt;/td&gt;&lt;td&gt;${makeCell(i,&#x27;is&#x27;)}&lt;/td&gt;&lt;td&gt;${makeCell(i,&#x27;fs&#x27;)}&lt;/td&gt;&lt;td class=&quot;out&quot;&gt;${levelCell(i,&#x27;hi&#x27;)}&lt;/td&gt;&lt;td class=&quot;out&quot;&gt;${levelCell(i,&#x27;arl&#x27;)}&lt;/td&gt;&lt;td&gt;${makeCell(i,&#x27;drlCalc&#x27;)}&lt;/td&gt;&lt;td class=&quot;out dif ${r.diff&gt;0?&#x27;pos&#x27;:r.diff&lt;0?&#x27;neg&#x27;:&#x27;&#x27;}&quot;&gt;${r.closed?&#x27;&lt;span class=&quot;closed-mark&quot;&gt;Closed&lt;/span&gt;&#x27;:(r.diffAuto?formatDiff(r.diff):diffInputCell(i))}&lt;/td&gt;&lt;td&gt;&lt;div class=&quot;remark-wrap&quot;&gt;${makeCell(i,&#x27;remarks&#x27;,&#x27;text&#x27;,&#x27;remark&#x27;)}&lt;div class=&quot;average-slot&quot;&gt;${averageBadge(r)}&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;`;body.appendChild(tr);
- tr.querySelectorAll(&#x27;[data-k]&#x27;).forEach(el=&gt;{if([&#x27;side&#x27;,&#x27;offset&#x27;,&#x27;drlCalc&#x27;].includes(el.dataset.k))el.addEventListener(&#x27;focus&#x27;,()=&gt;{pendingCamberRow=null;activeDrlIndex=Number(el.dataset.i);updateDrlCamberDisplay();syncCamberEditor()});if(el.dataset.k===&#x27;chainage&#x27;||el.dataset.k===&#x27;side&#x27;)el.addEventListener(&#x27;input&#x27;,event=&gt;{const deleting=String(event.inputType||&#x27;&#x27;).startsWith(&#x27;delete&#x27;);if(el.dataset.k===&#x27;side&#x27;){const upper=el.value.toUpperCase();if(!deleting&amp;&amp;upper===&#x27;L&#x27;)el.value=&#x27;LHS&#x27;;else if(!deleting&amp;&amp;upper===&#x27;R&#x27;)el.value=&#x27;RHS&#x27;;else if(el.value!==upper){const a=el.selectionStart,b=el.selectionEnd;el.value=upper;if(a!==null&amp;&amp;b!==null)el.setSelectionRange(a,b)}}const complete=el.dataset.k===&#x27;chainage&#x27;?/^\d+\+\d{3}$/.test(el.value.trim()):/^(LHS|RHS)$/i.test(el.value.trim());if(complete&amp;&amp;!deleting)setTimeout(()=&gt;{if(document.activeElement===el){if(el.dataset.k===&#x27;chainage&#x27;){const current=Number(el.dataset.i);el.blur();setTimeout(()=&gt;{activeDrlIndex=current;syncCamberEditor();document.querySelector(`[data-i=&quot;${current}&quot;][data-k=&quot;side&quot;]`)?.focus()},0)}else el.blur()}},0)});const ev=el.tagName===&#x27;SELECT&#x27;?&#x27;change&#x27;:(el.dataset.k===&#x27;chainage&#x27;?&#x27;change&#x27;:&#x27;input&#x27;);el.addEventListener(ev,()=&gt;{const idx=Number(el.dataset.i),row=rows[idx],k=el.dataset.k;if(k===&#x27;drlCalc&#x27;){drlRecalcRequested=true;const hadSeed=num(row.drlBase)!==null;activeDrlIndex=idx;row.drlBase=el.value;row.drlCalc=el.value;if(String(el.value).trim()!==&#x27;&#x27;)row.drlSuppressed=false;else{row.drlSuppressed=true;if(hadSeed){const group=drlGroups().find(g=&gt;g.includes(idx))||[];for(const j of group){if(j===idx||num(rows[j].drlBase)!==null)continue;rows[j].drlCalc=&#x27;&#x27;;rows[j].drlSuppressed=true}}}}else if(k===&#x27;offset&#x27;){row.offset=el.value;drlRecalcRequested=true}else if(k===&#x27;side&#x27;){row.side=el.value;row.sideAuto=false;drlRecalcRequested=true}else if(k===&#x27;hi&#x27;||k===&#x27;arl&#x27;){row[k+&#x27;Manual&#x27;]=el.value}else if(k===&#x27;chainage&#x27;){setChainageValue(idx,el.value);el.value=row.chainage;tr.querySelector(&#x27;[data-k=&quot;side&quot;]&#x27;).value=row.side;drlRecalcRequested=true}else row[k]=el.value;if(k===&#x27;chainage&#x27;)tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;).hidden=true;update();ensureBufferRows(idx,k);save()});if(el.dataset.numeric===&#x27;true&#x27;)el.addEventListener(&#x27;blur&#x27;,()=&gt;{const k=el.dataset.k,i=Number(el.dataset.i),row=rows[i];if(k===&#x27;offset&#x27;){if(String(el.value).trim()!==&#x27;&#x27;){drlRecalcRequested=true;update();save()}return}const n=num(el.value);if(n!==null){if(k===&#x27;drlCalc&#x27;){if(row.drlBase!==&#x27;&#x27;&amp;&amp;row.drlBase!=null){el.value=fmt(n);row.drlBase=el.value;row.drlCalc=n;row.drlSuppressed=false;drlRecalcRequested=true}}else{el.value=limitDecimalInput(el.value);if(k===&#x27;hi&#x27;||k===&#x27;arl&#x27;)row[k+&#x27;Manual&#x27;]=el.value;else row[k]=el.value}update();save()}else if(k===&#x27;drlCalc&#x27;||k===&#x27;hi&#x27;||k===&#x27;arl&#x27;){update();save()}if(k===&#x27;drlCalc&#x27;)requestCamberForDrl(el)});if(el.dataset.k===&#x27;diffManual&#x27;)el.addEventListener(&#x27;blur&#x27;,()=&gt;normalizeDiffManual(el));wireNextRow(el);el.addEventListener(&#x27;focus&#x27;,()=&gt;{document.querySelectorAll(&#x27;[data-chainage-suggestion]&#x27;).forEach(chip=&gt;chip.hidden=true);const idx=Number(el.dataset.i);if(el.dataset.k===&#x27;chainage&#x27;&amp;&amp;!el.value){const prior=[...rows.slice(0,idx)].reverse().find(x=&gt;x.chainage);const suggestion=prior?nextChainageValue(prior.chainage):&#x27;&#x27;;const chip=tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;);if(suggestion){chip.textContent=suggestion;chip.hidden=false}}})})
+ tr.querySelectorAll(&#x27;[data-k]&#x27;).forEach(el=&gt;{if([&#x27;side&#x27;,&#x27;offset&#x27;,&#x27;drlCalc&#x27;].includes(el.dataset.k))el.addEventListener(&#x27;focus&#x27;,()=&gt;{pendingCamberRow=null;activeDrlIndex=Number(el.dataset.i);updateDrlCamberDisplay();syncCamberEditor()});if(el.dataset.k===&#x27;chainage&#x27;||el.dataset.k===&#x27;side&#x27;)el.addEventListener(&#x27;input&#x27;,event=&gt;{const deleting=String(event.inputType||&#x27;&#x27;).startsWith(&#x27;delete&#x27;);if(el.dataset.k===&#x27;side&#x27;){const upper=el.value.toUpperCase();if(!deleting&amp;&amp;upper===&#x27;L&#x27;)el.value=&#x27;LHS&#x27;;else if(!deleting&amp;&amp;upper===&#x27;R&#x27;)el.value=&#x27;RHS&#x27;;else if(el.value!==upper){const a=el.selectionStart,b=el.selectionEnd;el.value=upper;if(a!==null&amp;&amp;b!==null)el.setSelectionRange(a,b)}}const complete=el.dataset.k===&#x27;chainage&#x27;?/^\d+\+\d{3}$/.test(el.value.trim()):/^(LHS|RHS)$/i.test(el.value.trim());if(complete&amp;&amp;!deleting)setTimeout(()=&gt;{if(document.activeElement===el){if(el.dataset.k===&#x27;chainage&#x27;){const current=Number(el.dataset.i);
+// Auto-completing a Chainage is not a user Back/Menu action.  In Android
+// WebView, its intentional blur otherwise triggers the 180ms controller
+// restoration and sends the Grid to its first row.
+el.dataset.sheetAutoBlur=&#x27;1&#x27;;
+const beforeWrap=document.querySelector(&#x27;.wrap&#x27;);
+const beforeScrollX=beforeWrap?.scrollLeft??0;
+el.blur();
+setTimeout(()=&gt;{
+ activeDrlIndex=current;syncCamberEditor();
+ const side=document.querySelector(`[data-i=&quot;${current}&quot;][data-k=&quot;side&quot;]`);
+ if(!side)return;
+ try{side.focus({preventScroll:true})}catch(_){side.focus()}
+ // The keyboard can switch scroll containers after focus transfers.
+ // Keep this exact chainage/side row in sight; never go back to row 1.
+ scheduleSheetRowVisibility(current,&#x27;side&#x27;);
+},0)}else {el.dataset.sheetAutoBlur=&#x27;1&#x27;;el.blur()}}},0)});const ev=el.tagName===&#x27;SELECT&#x27;?&#x27;change&#x27;:(el.dataset.k===&#x27;chainage&#x27;?&#x27;change&#x27;:&#x27;input&#x27;);el.addEventListener(ev,()=&gt;{const idx=Number(el.dataset.i),row=rows[idx],k=el.dataset.k;if(k===&#x27;drlCalc&#x27;){drlRecalcRequested=true;const hadSeed=num(row.drlBase)!==null;activeDrlIndex=idx;row.drlBase=el.value;row.drlCalc=el.value;if(String(el.value).trim()!==&#x27;&#x27;)row.drlSuppressed=false;else{row.drlSuppressed=true;if(hadSeed){const group=drlGroups().find(g=&gt;g.includes(idx))||[];for(const j of group){if(j===idx||num(rows[j].drlBase)!==null)continue;rows[j].drlCalc=&#x27;&#x27;;rows[j].drlSuppressed=true}}}}else if(k===&#x27;offset&#x27;){row.offset=el.value;drlRecalcRequested=true}else if(k===&#x27;side&#x27;){row.side=el.value;row.sideAuto=false;drlRecalcRequested=true}else if(k===&#x27;hi&#x27;||k===&#x27;arl&#x27;){row[k+&#x27;Manual&#x27;]=el.value}else if(k===&#x27;chainage&#x27;){setChainageValue(idx,el.value);el.value=row.chainage;tr.querySelector(&#x27;[data-k=&quot;side&quot;]&#x27;).value=row.side;drlRecalcRequested=true}else row[k]=el.value;if(k===&#x27;chainage&#x27;)tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;).hidden=true;update();ensureBufferRows(idx,k);save()});if(el.dataset.numeric===&#x27;true&#x27;)el.addEventListener(&#x27;blur&#x27;,()=&gt;{const k=el.dataset.k,i=Number(el.dataset.i),row=rows[i];if(k===&#x27;offset&#x27;){if(String(el.value).trim()!==&#x27;&#x27;){drlRecalcRequested=true;update();save()}return}const n=num(el.value);if(n!==null){if(k===&#x27;drlCalc&#x27;){if(row.drlBase!==&#x27;&#x27;&amp;&amp;row.drlBase!=null){el.value=fmt(n);row.drlBase=el.value;row.drlCalc=n;row.drlSuppressed=false;drlRecalcRequested=true}}else{el.value=limitDecimalInput(el.value);if(k===&#x27;hi&#x27;||k===&#x27;arl&#x27;)row[k+&#x27;Manual&#x27;]=el.value;else row[k]=el.value}update();save()}else if(k===&#x27;drlCalc&#x27;||k===&#x27;hi&#x27;||k===&#x27;arl&#x27;){update();save()}if(k===&#x27;drlCalc&#x27;)requestCamberForDrl(el)});if(el.dataset.k===&#x27;diffManual&#x27;)el.addEventListener(&#x27;blur&#x27;,()=&gt;normalizeDiffManual(el));wireNextRow(el);el.addEventListener(&#x27;focus&#x27;,()=&gt;{document.querySelectorAll(&#x27;[data-chainage-suggestion]&#x27;).forEach(chip=&gt;chip.hidden=true);const idx=Number(el.dataset.i);if(el.dataset.k===&#x27;chainage&#x27;&amp;&amp;!el.value){const prior=[...rows.slice(0,idx)].reverse().find(x=&gt;x.chainage);const suggestion=prior?nextChainageValue(prior.chainage):&#x27;&#x27;;const chip=tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;);if(suggestion){chip.textContent=suggestion;chip.hidden=false}}})})
  tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{const input=tr.querySelector(&#x27;[data-k=&quot;chainage&quot;]&#x27;),value=tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;).textContent;setChainageValue(i,value);tr.querySelector(&#x27;[data-k=&quot;side&quot;]&#x27;).value=rows[i].side;input.value=value;tr.querySelector(&#x27;[data-chainage-suggestion]&#x27;).hidden=true;update();save()});});$(&#x27;book&#x27;).classList.toggle(&#x27;compact&#x27;,compactMode)}
 function fitBufferRows(){let last=-1;rows.forEach((r,i)=&gt;{if(hasData(r))last=i});const used=last+1,target=Math.max(INITIAL_ROWS,INITIAL_ROWS+Math.ceil(Math.max(0,used-INITIAL_ROWS+1)/ROW_BATCH)*ROW_BATCH);if(rows.length&gt;target)rows=rows.slice(0,target);else if(rows.length&lt;target)rows.push(...Array.from({length:target-rows.length},()=&gt;emptyRow()));return rows.length===target}
 function ensureBufferRows(index,key){if(index!==rows.length-1||!hasData(rows[index]))return;const active=document.activeElement,restore=active&amp;&amp;active.dataset.i===String(index)&amp;&amp;active.dataset.k===key,start=restore&amp;&amp;typeof active.selectionStart===&#x27;number&#x27;?active.selectionStart:null,end=restore&amp;&amp;typeof active.selectionEnd===&#x27;number&#x27;?active.selectionEnd:null,box=document.querySelector(&#x27;.tablebox&#x27;),wrap=document.querySelector(&#x27;.wrap&#x27;),boxTop=box?.scrollTop??0,boxLeft=box?.scrollLeft??0,wrapTop=wrap?.scrollTop??0,wrapLeft=wrap?.scrollLeft??0;rows.push(...Array.from({length:ROW_BATCH},()=&gt;emptyRow()));render();if(restore){const fresh=document.querySelector(`[data-i=&quot;${index}&quot;][data-k=&quot;${key}&quot;]`);if(fresh){suppressSheetReveal=true;fresh.focus({preventScroll:true});if(start!==null&amp;&amp;end!==null&amp;&amp;typeof fresh.setSelectionRange===&#x27;function&#x27;){const a=Math.min(start,fresh.value.length),b=Math.min(end,fresh.value.length);fresh.setSelectionRange(a,b)}suppressSheetReveal=false}}requestAnimationFrame(()=&gt;{if(box){box.scrollTop=boxTop;box.scrollLeft=boxLeft}if(wrap){wrap.scrollTop=wrapTop;wrap.scrollLeft=wrapLeft}})}
@@ -8562,22 +8604,68 @@ $(&#x27;workDate&#x27;).value=todayISO();updatePrintWorkTitle();render();syncCam
  document.documentElement.style.setProperty(&#x27;--sheet-visible-height&#x27;,height+&#x27;px&#x27;);
  return {top:0,height,bottom:height};
 }
+/* Keep the ACTUAL edited row visible in either WebView scroll surface.
+   Normal view scrolls .wrap; with the keyboard open, .tablebox may become
+   the sole vertical scroller. Using .wrap in both modes caused row-one jumps. */
+function sheetLiveScroller(){
+ const table=document.querySelector(&#x27;.tablebox&#x27;),wrap=document.querySelector(&#x27;.wrap&#x27;);
+ const canScroll=node=&gt;node&amp;&amp;node.clientHeight&gt;50&amp;&amp;node.scrollHeight&gt;node.clientHeight+8;
+ if(document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;)&amp;&amp;canScroll(table))return table;
+ if(canScroll(wrap))return wrap;
+ if(canScroll(table))return table;
+ return wrap||table;
+}
+function keepSheetRowVisible(index,key){
+ const tr=document.querySelectorAll(&#x27;#rows tr&#x27;)[Number(index)];
+ if(!tr)return;
+ const chosen=key?tr.querySelector(`[data-k=&quot;${key}&quot;]`):null;
+ const el=chosen||tr;
+ const scroller=sheetLiveScroller();
+ if(!scroller)return;
+ const sr=scroller.getBoundingClientRect(),r=el.getBoundingClientRect();
+ const header=document.querySelector(&#x27;#book thead&#x27;);
+ const headerHeight=Math.min(105,header?.getBoundingClientRect().height||0);
+ const visual=window.visualViewport;
+ const viewportTop=visual?.offsetTop||0;
+ const viewportBottom=viewportTop+(visual?.height||window.innerHeight);
+ const top=Math.max(sr.top,viewportTop)+headerHeight+5;
+ const bottom=Math.min(sr.bottom,viewportBottom)-(document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;)?85:28);
+ if(bottom&gt;top+35){
+  if(r.top&lt;top)scroller.scrollTop+=r.top-top;
+  else if(r.bottom&gt;bottom)scroller.scrollTop+=r.bottom-bottom;
+ }
+ // Left-right is a different scroll axis; never reset it to zero.
+ const cross=(document.querySelector(&#x27;.tablebox&#x27;)?.scrollWidth||0)&gt;
+     (document.querySelector(&#x27;.tablebox&#x27;)?.clientWidth||0)+4?
+     document.querySelector(&#x27;.tablebox&#x27;):scroller;
+ if(chosen&amp;&amp;cross){
+  const cr=cross.getBoundingClientRect(),cell=chosen.getBoundingClientRect();
+  if(cell.right&gt;cr.right-6)cross.scrollLeft+=cell.right-cr.right+6;
+  else if(cell.left&lt;cr.left+6)cross.scrollLeft+=cell.left-cr.left-6;
+ }
+}
+let vcKeepRowTimers=[];
+function scheduleSheetRowVisibility(index,key){
+ vcKeepRowTimers.forEach(clearTimeout);
+ vcKeepRowTimers=[];
+ if(index==null||!Number.isFinite(Number(index)))return;
+ for(const delay of [0,65,180,400,720]){
+  vcKeepRowTimers.push(setTimeout(()=&gt;{
+   if(sheetUserScrolling)return;
+   keepSheetRowVisible(index,key);
+  },delay));
+ }
+}
 function revealFocusedSheetCell(el){
  if(sheetUserScrolling||!el||!el.isConnected||document.activeElement!==el)return;
- const box=document.querySelector(&#x27;.tablebox&#x27;),wrap=document.querySelector(&#x27;.wrap&#x27;);
- if(!box||!wrap)return;
- const editingTable=document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;)&amp;&amp;el.matches(&#x27;[data-k]&#x27;);
- const scroller=wrap;
- const vp=visibleSheetViewport(),sr=scroller.getBoundingClientRect(),r=el.getBoundingClientRect();
- const head=editingTable?document.querySelector(&#x27;#book thead&#x27;).getBoundingClientRect().height:0;
- const top=Math.max(0,sr.top)+head+5,bottom=Math.min(vp.bottom,sr.bottom)-6;
- if(r.bottom&gt;bottom)scroller.scrollTop+=r.bottom-bottom;
- else if(r.top&lt;top)scroller.scrollTop+=r.top-top;
  if(el.matches(&#x27;[data-k]&#x27;)){
-  const br=wrap.getBoundingClientRect();
-  if(r.right&gt;br.right-6)wrap.scrollLeft+=r.right-br.right+6;
-  else if(r.left&lt;br.left+6)wrap.scrollLeft+=r.left-br.left-6;
+  keepSheetRowVisible(Number(el.dataset.i),el.dataset.k);
+  return;
  }
+ const rect=el.getBoundingClientRect(),viewport=window.visualViewport;
+ const bottom=(viewport?.offsetTop||0)+(viewport?.height||window.innerHeight);
+ if(rect.bottom&gt;bottom-10)window.scrollBy(0,rect.bottom-bottom+10);
+ else if(rect.top&lt;8)window.scrollBy(0,rect.top-8);
 }
 let sheetFocusTimers=[],sheetUserScrolling=false,suppressSheetReveal=false,suppressRestoreFocusedRow=false,lastFocusedSheetRow=0;function stopSheetAutoScroll(){sheetUserScrolling=true;sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[]}function queueRevealFocusedSheetCell(el){sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[260].map(ms=&gt;setTimeout(()=&gt;revealFocusedSheetCell(el),ms))}function restoreLastFocusedSheetRow(){requestAnimationFrame(()=&gt;{const wrap=document.querySelector(&#x27;.wrap&#x27;),row=document.querySelectorAll(&#x27;#rows tr&#x27;)[lastFocusedSheetRow];if(!wrap||!row)return;const wr=wrap.getBoundingClientRect(),rr=row.getBoundingClientRect(),vh=window.visualViewport?.height||window.innerHeight,targetTop=wr.top+Math.min(120,Math.max(48,vh*.16)),targetBottom=Math.min(wr.bottom,window.visualViewport?.offsetTop+vh||vh)-12;if(rr.top&lt;targetTop||rr.bottom&gt;targetBottom)wrap.scrollTop+=rr.top-targetTop})}
 /* While ordinary sheet cells are edited, hide all toolbar controls as before.
@@ -8590,6 +8678,7 @@ document.addEventListener(&#x27;focusin&#x27;,e=&gt;{
   lastFocusedSheetRow=Number(e.target.dataset.i)||0;
   sheetFocusTimers.forEach(clearTimeout);sheetFocusTimers=[];
   sheetUserScrolling=false;
+  scheduleSheetRowVisibility(Number(e.target.dataset.i),e.target.dataset.k);
  }
  /* Only the specifically requested Camber editor may pop into view. */
  if(!suppressSheetReveal&amp;&amp;e.target.matches(&#x27;input,textarea,select&#x27;)&amp;&amp;!e.target.matches(&#x27;[data-k]&#x27;))queueRevealFocusedSheetCell(e.target);
@@ -8597,6 +8686,13 @@ document.addEventListener(&#x27;focusin&#x27;,e=&gt;{
 document.addEventListener(&#x27;focusout&#x27;,e=&gt;{
  if(!e.target.matches(&#x27;[data-k]&#x27;))return;
  lastFocusedSheetRow=Number(e.target.dataset.i)||lastFocusedSheetRow;
+ // Chainage completion and L/R -&gt; LHS/RHS deliberately blur their cell.
+ // Neither action is a Back/Menu command or a request to jump to row 1.
+ if(e.target.dataset.sheetAutoBlur===&#x27;1&#x27;){
+   delete e.target.dataset.sheetAutoBlur;
+   scheduleSheetRowVisibility(Number(e.target.dataset.i),e.target.dataset.k);
+   return;
+ }
  setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){
   const keyboardWasOpen=document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;);
   document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);
@@ -8609,7 +8705,19 @@ document.addEventListener(&#x27;focusout&#x27;,e=&gt;{
   }
  }},180);
 },true);
-const sheetViewport=window.visualViewport;if(sheetViewport)sheetViewport.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);window.addEventListener(&#x27;resize&#x27;,visibleSheetViewport);const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
+const sheetViewport=window.visualViewport;function sheetVisibleResize(){
+ visibleSheetViewport();
+ const el=document.activeElement;
+ if(el?.matches?.(&#x27;[data-k]&#x27;))scheduleSheetRowVisibility(el.dataset.i,el.dataset.k);
+ else if(document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;) &amp;&amp; lastFocusedSheetRow!=null)
+  scheduleSheetRowVisibility(lastFocusedSheetRow,null);
+}
+if(sheetViewport)sheetViewport.addEventListener(&#x27;resize&#x27;,sheetVisibleResize);
+window.addEventListener(&#x27;resize&#x27;,sheetVisibleResize);document.addEventListener(&#x27;input&#x27;,e=&gt;{
+ const el=e.target;
+ if(el?.matches?.(&#x27;[data-k]&#x27;))scheduleSheetRowVisibility(el.dataset.i,el.dataset.k);
+},true);
+const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
 $(&#x27;download&#x27;).onclick=()=&gt;{updatePrintWorkTitle();preparePrintRows();window.print()};$(&#x27;handwritingPdf&#x27;).onclick=async()=&gt;{updatePrintWorkTitle();preparePrintRows();document.body.classList.add(&#x27;handwriting-print&#x27;);try{if(document.fonts){await document.fonts.load(&#x27;8px KalamHand&#x27;);await document.fonts.ready}}catch(_){}window.print()};window.addEventListener(&#x27;beforeprint&#x27;,preparePrintRows);window.addEventListener(&#x27;afterprint&#x27;,()=&gt;{restorePrintRows();document.body.classList.remove(&#x27;handwriting-print&#x27;)});
 if($(&#x27;csv&#x27;))$(&#x27;csv&#x27;).onclick=()=&gt;{calculate();const out=[[&#x27;SL.NO&#x27;,&#x27;CHAINAGE&#x27;,&#x27;SIDE&#x27;,&#x27;OFFSET&#x27;,&#x27;BS&#x27;,&#x27;IS&#x27;,&#x27;FS&#x27;,&#x27;HI&#x27;,&#x27;A.RL&#x27;,&#x27;D.RL&#x27;,&#x27;Diff.&#x27;,&#x27;REMARKS&#x27;],...rows.filter(hasData).map((r,n)=&gt;[n+1,r.chainage,r.side,r.offset,r.bs,r.is,r.fs,fmt(r.hi),fmt(r.arl),fmt(num(r.drlCalc)),r.closed?&#x27;Closed&#x27;:(isManualText(r)?r.diffManual:(r.diff===null?&#x27;&#x27;:formatDiff(r.diff))),[r.remarks,r.averageDiff===null||r.averageDiff===undefined?&#x27;&#x27;:`Average ${formatDiff(r.averageDiff)}`].filter(Boolean).join(&#x27; | &#x27;)])];const csv=out.map(a=&gt;a.map(v=&gt;&#x27;&quot;&#x27;+String(v??&#x27;&#x27;).replace(/&quot;/g,&#x27;&quot;&quot;&#x27;)+&#x27;&quot;&#x27;).join(&#x27;,&#x27;)).join(&#x27;\r\n&#x27;);const a=document.createElement(&#x27;a&#x27;);a.href=URL.createObjectURL(new Blob([&#x27;\ufeff&#x27;+csv],{type:&#x27;text/csv;charset=utf-8&#x27;}));a.download=&#x27;Level_Checking_Field_Book.csv&#x27;;a.click();setTimeout(()=&gt;URL.revokeObjectURL(a.href),1000)};
 window.showSheetMenu=()=&gt;{
@@ -9116,6 +9224,20 @@ html,body,.level-sheet-form{width:100%!important;max-width:none!important;margin
   #book tbody td.sno,#book.compact tbody td.sno {
     width:auto!important;min-width:0!important;padding:1px 0!important;
     font-size:11px!important;
+  }
+}
+&lt;/style&gt;
+
+&lt;style id=&quot;vcStayOnEditedRow20261023&quot;&gt;
+@media screen {
+  /* Only during Camber entry: pin its controls at the top of the grid viewport
+     while the DRL cell remains in view. Ordinary grid/menu behaviour is intact. */
+  body.sheet-keyboard-open.camber-editing .toolbar {
+    position:sticky!important;
+    top:0!important;
+    z-index:120!important;
+    background:#fff!important;
+    flex-shrink:0!important;
   }
 }
 &lt;/style&gt;
