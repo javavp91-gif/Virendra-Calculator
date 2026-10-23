@@ -6034,15 +6034,50 @@ body.tool-open main.wrap > section#autoLevelSheet.card:not(#basicCalc):not(.hidd
  }
 }
 </style>
-<style id="levelSheetMenuStaticLabelOnly20261022">
-/* Display-only Menu label. No tap or click action. */
+<style id="levelSheetMenuClickable20261023">
+/* Menu must receive real taps inside the Android WebView. */
 #autoLevelSheet #levelSheetMenuButton{
-  pointer-events:none!important;
-  cursor:default!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  cursor:pointer!important;
   user-select:none!important;
   -webkit-user-select:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
 }
 </style>
+<script id="vcLevelSheetWorkingMenu20261023">
+(function(){
+  'use strict';
+  var lastTap=0;
+  window.vcOpenLevelController=function(ev){
+    if(ev){
+      try{ev.stopPropagation();}catch(_){}
+      // Prevent a second synthetic click immediately after a touch/pointer event.
+      if(ev.type==='touchend'){
+        try{ev.preventDefault();}catch(_){}
+      }
+    }
+    var now=Date.now();
+    if(now-lastTap<280){return false;}
+    lastTap=now;
+    var frame=document.getElementById('autoLevelSheetFrame');
+    if(!frame){return false;}
+    try{
+      // postMessage crosses iframe/Android WebView origins safely and does not
+      // depend on direct cross-frame access.
+      if(frame.contentWindow){
+        frame.contentWindow.postMessage({type:'VC_LEVEL_SHOW_CONTROLLER'},'*');
+        return false;
+      }
+    }catch(err){}
+    // Fallback only if the WebView supports direct same-origin access.
+    try{frame.contentWindow.showSheetMenu();}catch(_){}
+    return false;
+  };
+})();
+</script>
 </head>
 <body class="">
 
@@ -8121,7 +8156,7 @@ window.addEventListener('resize',()=&gt;{if(currentRows.length)setTimeout(applyF
 
 
 <section id="autoLevelSheet" class="card hidden" style="padding:0;overflow:hidden">
-<div class="vcToolFullHeader" id="levelSheetHeader"><span id="levelSheetMenuButton" class="menu-top-btn" aria-label="Menu">Menu</span></div>
+<div class="vcToolFullHeader" id="levelSheetHeader"><button id="levelSheetMenuButton" type="button" class="menu-top-btn" aria-label="Show Level Sheet Controller" onclick="vcOpenLevelController(event)" onpointerup="vcOpenLevelController(event)" ontouchend="vcOpenLevelController(event)">Menu</button></div>
 <iframe id="autoLevelSheetFrame" title="Level Sheet (Auto calculation)" style="display:block;width:100%;height:calc(100dvh - 56px);min-height:calc(100dvh - 56px);border:0;background:#f2f5f7" srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
