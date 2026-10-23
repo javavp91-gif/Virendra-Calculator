@@ -8690,20 +8690,20 @@ document.addEventListener(&#x27;focusout&#x27;,e=&gt;{
  // Neither action is a Back/Menu command or a request to jump to row 1.
  if(e.target.dataset.sheetAutoBlur===&#x27;1&#x27;){
    delete e.target.dataset.sheetAutoBlur;
+   sheetUserScrolling=false;
    scheduleSheetRowVisibility(Number(e.target.dataset.i),e.target.dataset.k);
    return;
  }
- setTimeout(()=&gt;{if(!document.activeElement?.matches(&#x27;[data-k],#camberPercent&#x27;)){
-  const keyboardWasOpen=document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;);
-  document.body.classList.remove(&#x27;sheet-keyboard-open&#x27;);
+ // Android WebView can temporarily blur a field as the IME commits a
+ // Chainage/Side value. That is NOT a Menu/Back action. In particular,
+ // showSheetMenu() deliberately scrolls to row 1 and must never be called
+ // from a mere field blur. Only the frozen Menu or the explicit Back path
+ // may reveal the Controller.
+ setTimeout(()=&gt;{
+  if(document.activeElement?.matches?.(&#x27;[data-k],#camberPercent&#x27;))return;
   sheetUserScrolling=false;
-  // The Android keyboard may absorb the first hardware Back before the app sees it.
-  // Restore the Controller if editing ended, without affecting Back inside other tools.
-  if(keyboardWasOpen){
-    try{window.showSheetMenu?.()}catch(_){}
-    try{window.parent.postMessage({type:&#x27;VC_LEVEL_CONTROLLER_VISIBLE&#x27;},&#x27;*&#x27;)}catch(_){}
-  }
- }},180);
+  scheduleSheetRowVisibility(lastFocusedSheetRow,null);
+ },180);
 },true);
 const sheetViewport=window.visualViewport;function sheetVisibleResize(){
  visibleSheetViewport();
@@ -8712,10 +8712,18 @@ const sheetViewport=window.visualViewport;function sheetVisibleResize(){
  else if(document.body.classList.contains(&#x27;sheet-keyboard-open&#x27;) &amp;&amp; lastFocusedSheetRow!=null)
   scheduleSheetRowVisibility(lastFocusedSheetRow,null);
 }
-if(sheetViewport)sheetViewport.addEventListener(&#x27;resize&#x27;,sheetVisibleResize);
+if(sheetViewport){
+ sheetViewport.addEventListener(&#x27;resize&#x27;,sheetVisibleResize);
+ sheetViewport.addEventListener(&#x27;scroll&#x27;,sheetVisibleResize);
+}
+
 window.addEventListener(&#x27;resize&#x27;,sheetVisibleResize);document.addEventListener(&#x27;input&#x27;,e=&gt;{
  const el=e.target;
- if(el?.matches?.(&#x27;[data-k]&#x27;))scheduleSheetRowVisibility(el.dataset.i,el.dataset.k);
+ if(el?.matches?.(&#x27;[data-k]&#x27;)){
+  sheetUserScrolling=false;
+  lastFocusedSheetRow=Number(el.dataset.i)||0;
+  scheduleSheetRowVisibility(el.dataset.i,el.dataset.k);
+ }
 },true);
 const sheetTableBox=document.querySelector(&#x27;.tablebox&#x27;);if(sheetTableBox){sheetTableBox.addEventListener(&#x27;touchstart&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;pointerdown&#x27;,stopSheetAutoScroll,{passive:true});sheetTableBox.addEventListener(&#x27;wheel&#x27;,stopSheetAutoScroll,{passive:true})}visibleSheetViewport();
 $(&#x27;download&#x27;).onclick=()=&gt;{updatePrintWorkTitle();preparePrintRows();window.print()};$(&#x27;handwritingPdf&#x27;).onclick=async()=&gt;{updatePrintWorkTitle();preparePrintRows();document.body.classList.add(&#x27;handwriting-print&#x27;);try{if(document.fonts){await document.fonts.load(&#x27;8px KalamHand&#x27;);await document.fonts.ready}}catch(_){}window.print()};window.addEventListener(&#x27;beforeprint&#x27;,preparePrintRows);window.addEventListener(&#x27;afterprint&#x27;,()=&gt;{restorePrintRows();document.body.classList.remove(&#x27;handwriting-print&#x27;)});
