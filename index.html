@@ -6109,7 +6109,11 @@ posthog.init('phc_s5XQSvTktznWtpeNAhkfKSiYaDV8yftuKnn8JTSdA5J2', {
   defaults: '2026-05-30',
   person_profiles: 'identified_only',
   autocapture: false,
-  capture_pageview: false,
+  capture_pageview: true,
+  // Respect opt-out before automatic pageview capture begins.
+  opt_out_capturing_by_default: (function(){
+    try{return localStorage.getItem('vc_analytics_disabled_v3')==='yes'}catch(e){return false}
+  })(),
   capture_pageleave: false,
   disable_session_recording: true,
   disable_surveys: true
