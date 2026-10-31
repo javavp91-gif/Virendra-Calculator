@@ -1,0 +1,153 @@
+name: Deploy Virendra Calculator Website and Direct APK
+
+# APK is served from the SAME GitHub Pages origin as the website.
+# No GitHub Releases redirect is involved when visitors download it.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'download-app.html'
+      - 'download-app-direct.html'
+      - 'download-stats.html'
+      - 'virendra-analytics.html'
+      - 'version.json'
+      - 'icon.png'
+      - 'splash.png'
+      - 'robots.txt'
+      - '.github/workflows/deploy-site-apk.yml'
+  workflow_run:
+    workflows:
+      - Build Virendra Calculator Release APK
+    types: [completed]
+
+concurrency:
+  group: virendra-calculator-website-apk
+  cancel-in-progress: false
+
+jobs:
+  package-site:
+    name: Prepare website with signed APK
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Get website files from main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Find latest successful signed APK build
+        id: source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          UPSTREAM_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_run" ]]; then
+            RUN_ID="$UPSTREAM_RUN_ID"
+          else
+            RUN_ID="$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow build-apk.yml \
+              --branch main \
+              --status success \
+              --limit 1 \
+              --json databaseId \
+              --jq '.[0].databaseId')"
+          fi
+          if [[ ! "$RUN_ID" =~ ^[0-9]+$ ]]; then
+            echo 'No successful APK build found. Build the APK first.' >&2
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Using signed APK build $RUN_ID"
+
+      - name: Download successful APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Virendra-Calculator-Release-APK
+          run-id: ${{ steps.source.outputs.run_id }}
+          github-token: ${{ github.token }}
+          path: release
+
+      - name: Validate signed APK and determine version
+        id: apk
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          apks=(release/Virendra-Calculator-v*-release.apk)
+          if (( ${#apks[@]} != 1 )); then
+            echo "Expected one signed APK; found ${#apks[@]}" >&2
+            exit 1
+          fi
+          apk="${apks[0]}"
+          name="$(basename "$apk")"
+          version="${name#Virendra-Calculator-v}"
+          version="${version%-release.apk}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid APK version: $version" >&2
+            exit 1
+          fi
+          test -s "$apk"
+          echo "file=$apk" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          sha256sum "$apk"
+
+      - name: Package original website plus direct-download APK
+        shell: bash
+        env:
+          APK_FILE: ${{ steps.apk.outputs.file }}
+          APK_VERSION: ${{ steps.apk.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p site
+          for file in \
+            index.html \
+            download-app.html \
+            download-app-direct.html \
+            download-stats.html \
+            virendra-analytics.html \
+            icon.png splash.png version.json robots.txt; do
+            if [[ -f "$file" ]]; then
+              cp "$file" "site/$file"
+            fi
+          done
+          test -s site/index.html
+          test -s site/download-app.html
+          test -s site/download-app-direct.html
+          cp "$APK_FILE" site/Virendra-Calculator-latest.apk
+          printf '%s\n' "$APK_VERSION" > site/apk-version.txt
+          touch site/.nojekyll
+          test -s site/Virendra-Calculator-latest.apk
+          ls -lah site
+
+      - name: Upload site for GitHub Pages
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy-site:
+    name: Deploy website and APK together
+    needs: package-site
+    if: success()
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
