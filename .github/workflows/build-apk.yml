@@ -244,6 +244,7 @@ jobs:
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
               <uses-permission android:name="android.permission.INTERNET"/>
+              <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
               <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
               <uses-permission android:name="android.permission.CAMERA"/>
               <uses-feature android:name="android.hardware.camera" android:required="false"/>
@@ -278,6 +279,13 @@ jobs:
 
           import android.Manifest;
           import android.app.Activity;
+          import android.app.DownloadManager;
+          import android.content.BroadcastReceiver;
+          import android.content.Context;
+          import android.content.IntentFilter;
+          import android.database.Cursor;
+          import android.os.Environment;
+          import android.provider.Settings;
           import android.os.Build;
           import android.os.Bundle;
           import android.os.Handler;
@@ -338,11 +346,37 @@ jobs:
               private ValueCallback<Uri[]> filePathCallback;
               private Uri cameraImageUri;
 
+          private static final String APK_VERSION_URL =
+                  "https://javavp91-gif.github.io/Virendra-Calculator/apk-version.txt";
+          private static final String APK_DOWNLOAD_URL =
+                  "https://javavp91-gif.github.io/Virendra-Calculator/Virendra-Calculator-latest.apk";
+          private static final String APK_AUTO_PREFS = "virendra_apk_auto";
+          private boolean apkReceiverRegistered = false;
+          private boolean appInForeground = false;
+
+          private final BroadcastReceiver apkDownloadReceiver = new BroadcastReceiver() {
+              @Override public void onReceive(Context context, Intent intent) {
+                  if (!DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) return;
+                  long completed = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L);
+                  SharedPreferences prefs = getSharedPreferences(APK_AUTO_PREFS, MODE_PRIVATE);
+                  if (completed > 0 && completed == prefs.getLong("download_id", -1L)) {
+                      maybeOpenApkInstaller();
+                  }
+              }
+          };
+
               @Override
               public void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
 
                   showNativeSplash();
+                  IntentFilter completed = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+                  if (Build.VERSION.SDK_INT >= 33) {
+                      registerReceiver(apkDownloadReceiver, completed, Context.RECEIVER_EXPORTED);
+                  } else {
+                      registerReceiver(apkDownloadReceiver, completed);
+                  }
+                  apkReceiverRegistered = true;
 
                   new Handler(Looper.getMainLooper()).postDelayed(
                           this::showWebApp,
@@ -799,94 +833,131 @@ jobs:
                   }
               }
 
-                        private void checkForApkUpdate() {
-                  HttpURLConnection connection = null;
+          // Regular index.html tools update quietly, as before.
+          // New native APK files download automatically; Android controls installation.
+          private void checkForApkUpdate() {
+              HttpURLConnection connection = null;
+              try {
+                  connection = (HttpURLConnection) new URL(APK_VERSION_URL +
+                          "?t=" + System.currentTimeMillis()).openConnection();
+                  connection.setConnectTimeout(7000);
+                  connection.setReadTimeout(7000);
+                  connection.setUseCaches(false);
+                  if (connection.getResponseCode() != 200) return;
+                  String version = readText(connection.getInputStream()).trim();
+                  if (!version.matches("[0-9]+\\.[0-9]+\\.[0-9]+")) return;
+                  if (compareVersions(version, getInstalledVersion()) <= 0) return;
+                  runOnUiThread(() -> ensureLatestApkDownloaded(version));
+              } catch (Exception ignored) {
+                  // Offline: normal app and cached tools keep working.
+              } finally {
+                  if (connection != null) connection.disconnect();
+              }
+          }
 
-                  try {
-                      connection = (HttpURLConnection) new URL(
-                              "https://api.github.com/repos/javavp91-gif/Virendra-Calculator/releases/latest"
-                      ).openConnection();
+          private int apkDownloadStatus(DownloadManager manager, long id) {
+              if (id <= 0) return -1;
+              try (Cursor cursor = manager.query(
+                      new DownloadManager.Query().setFilterById(id))) {
+                  if (cursor != null && cursor.moveToFirst()) {
+                      return cursor.getInt(cursor.getColumnIndexOrThrow(
+                              DownloadManager.COLUMN_STATUS));
+                  }
+              } catch (Exception ignored) {}
+              return -1;
+          }
 
-                      connection.setConnectTimeout(7000);
-                      connection.setReadTimeout(7000);
-                      connection.setUseCaches(false);
-                      connection.setRequestProperty(
-                              "Accept",
-                              "application/vnd.github+json"
-                      );
-
-                      if (connection.getResponseCode() != 200) return;
-
-                      String jsonText =
-                              readText(connection.getInputStream());
-
-                      JSONObject json =
-                              new JSONObject(jsonText);
-
-                      String latestVersion =
-                              json.optString("tag_name", "")
-                                      .replaceFirst("^v", "");
-
-                      String currentVersion =
-                              getInstalledVersion();
-
-                      if (latestVersion.isEmpty() ||
-                              compareVersions(
-                                      latestVersion,
-                                      currentVersion
-                              ) <= 0) {
+          private void ensureLatestApkDownloaded(String version) {
+              if (isFinishing() || isDestroyed()) return;
+              try {
+                  DownloadManager manager =
+                          (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                  if (manager == null) return;
+                  SharedPreferences prefs = getSharedPreferences(APK_AUTO_PREFS, MODE_PRIVATE);
+                  long previousId = prefs.getLong("download_id", -1L);
+                  String previousVersion = prefs.getString("download_version", "");
+                  int status = apkDownloadStatus(manager, previousId);
+                  if (version.equals(previousVersion)) {
+                      if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                          maybeOpenApkInstaller();
                           return;
                       }
-
-                      final String version = latestVersion;
-
-                      final String apkUrl =
-                              "https://github.com/javavp91-gif/Virendra-Calculator/releases/download/v"
-                                      + version
-                                      + "/Virendra-Calculator-v"
-                                      + version
-                                      + "-release.apk";
-
-                      runOnUiThread(() -> {
-
-                          if (isFinishing() || isDestroyed()) return;
-
-                          new android.app.AlertDialog.Builder(
-                                  MainActivity.this
-                          )
-                                  .setTitle("New Version Available")
-                                  .setMessage(
-                                          "Virendra Calculator "
-                                                  + version
-                                                  + " उपलब्ध है।"
-                                  )
-                                  .setPositiveButton(
-                                          "Update",
-                                          (dialog, which) -> {
-                                              Intent intent =
-                                                      new Intent(
-                                                              Intent.ACTION_VIEW,
-                                                              Uri.parse(apkUrl)
-                                                      );
-                                              startActivity(intent);
-                                          }
-                                  )
-                                  .setNegativeButton(
-                                          "Later",
-                                          null
-                                  )
-                                  .show();
-                      });
-
-                  } catch (Exception ignored) {
-
-                  } finally {
-
-                      if (connection != null) {
-                          connection.disconnect();
-                      }
+                      if (status == DownloadManager.STATUS_PENDING ||
+                              status == DownloadManager.STATUS_RUNNING ||
+                              status == DownloadManager.STATUS_PAUSED) return;
                   }
-              }    private String getInstalledVersion() {
+                  DownloadManager.Request request = new DownloadManager.Request(
+                          Uri.parse(APK_DOWNLOAD_URL + "?v=" + Uri.encode(version)));
+                  request.setTitle("Virendra Calculator v" + version);
+                  request.setDescription("नया APK अपने-आप डाउनलोड हो रहा है");
+                  request.setMimeType("application/vnd.android.package-archive");
+                  request.setNotificationVisibility(
+                          DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                  request.setDestinationInExternalFilesDir(
+                          this, Environment.DIRECTORY_DOWNLOADS,
+                          "Virendra-Calculator-v" + version + "-release.apk");
+                  long id = manager.enqueue(request);
+                  prefs.edit().putLong("download_id", id)
+                          .putString("download_version", version)
+                          .remove("permission_requested_version")
+                          .apply();
+              } catch (Exception ignored) {
+                  // Never show the old-style Update/Later popup on download error.
+              }
+          }
+
+          private void maybeOpenApkInstaller() {
+              if (!appInForeground || isFinishing() || isDestroyed()) return;
+              try {
+                  SharedPreferences prefs = getSharedPreferences(APK_AUTO_PREFS, MODE_PRIVATE);
+                  long id = prefs.getLong("download_id", -1L);
+                  String version = prefs.getString("download_version", "");
+                  if (id <= 0 || version.isEmpty() ||
+                          compareVersions(version, getInstalledVersion()) <= 0 ||
+                          version.equals(prefs.getString("installer_shown_version", ""))) return;
+                  DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                  if (manager == null ||
+                          apkDownloadStatus(manager, id) != DownloadManager.STATUS_SUCCESSFUL)
+                      return;
+                  Uri apk = manager.getUriForDownloadedFile(id);
+                  if (apk == null) return;
+
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                          !getPackageManager().canRequestPackageInstalls()) {
+                      if (!version.equals(prefs.getString("permission_requested_version", ""))) {
+                          prefs.edit().putString("permission_requested_version", version).apply();
+                          Intent permission = new Intent(
+                                  Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                                  Uri.parse("package:" + getPackageName()));
+                          startActivity(permission);
+                      }
+                      return;
+                  }
+
+                  Intent install = new Intent(Intent.ACTION_VIEW);
+                  install.setDataAndType(apk, "application/vnd.android.package-archive");
+                  install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                  prefs.edit().putString("installer_shown_version", version).apply();
+                  startActivity(install);
+              } catch (Exception ignored) {
+                  // Completed APK is also available through Android Downloads.
+              }
+          }
+
+          @Override
+          protected void onResume() {
+              super.onResume();
+              appInForeground = true;
+              maybeOpenApkInstaller();
+          }
+
+          @Override
+          protected void onPause() {
+              appInForeground = false;
+              super.onPause();
+          }
+
+    private String getInstalledVersion() {
 
                   try {
                       return getPackageManager()
@@ -1097,6 +1168,10 @@ jobs:
                   if (webView != null) {
                       webView.destroy();
                       webView = null;
+                  }
+                  if (apkReceiverRegistered) {
+                      unregisterReceiver(apkDownloadReceiver);
+                      apkReceiverRegistered = false;
                   }
                   super.onDestroy();
               }
