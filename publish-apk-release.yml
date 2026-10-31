@@ -6,7 +6,7 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/publish-apk-release.yml'
+      - '.github/workflows/.github/workflows/publish-apk-release.yml'
   workflow_dispatch:
   workflow_run:
     workflows:
