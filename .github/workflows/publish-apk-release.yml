@@ -1,5 +1,7 @@
 name: Publish Virendra Calculator APK Release
 
+# Publish an already-built signed APK immediately when this file is updated,
+# or publish the APK from a successful future build.
 on:
   push:
     branches: [main]
@@ -12,40 +14,57 @@ on:
     types: [completed]
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
-  start-build:
-    name: Start latest APK build
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+  publish-apk:
+    name: Publish latest successful APK
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      actions: write
     steps:
-      - name: Run existing signed APK build workflow
+      - name: Select successful APK build
+        id: source
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run build-apk.yml --repo "$GITHUB_REPOSITORY" --ref main
+          EVENT_NAME: ${{ github.event_name }}
+          UPSTREAM_RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_run" ]]; then
+            RUN_ID="$UPSTREAM_RUN_ID"
+          else
+            # A newly edited publisher should publish the last good build
+            # without waiting for a brand-new Android build.
+            RUN_ID="$(gh run list \
+              --repo "$GITHUB_REPOSITORY" \
+              --workflow build-apk.yml \
+              --branch main \
+              --status success \
+              --limit 1 \
+              --json databaseId \
+              --jq '.[0].databaseId')"
+          fi
+          if [[ ! "$RUN_ID" =~ ^[0-9]+$ ]]; then
+            echo "No successful APK build could be found" >&2
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Publishing artifact from workflow run $RUN_ID"
 
-  publish-apk:
-    name: Publish signed APK to latest Release
-    if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: read
-    steps:
-      - name: Download signed APK from successful build
+      - name: Download the signed APK artifact
         uses: actions/download-artifact@v4
         with:
           name: Virendra-Calculator-Release-APK
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ steps.source.outputs.run_id }}
           github-token: ${{ github.token }}
           path: release
 
-      - name: Identify APK version and file
+      - name: Identify the APK version
         id: apk
         shell: bash
         run: |
@@ -53,26 +72,26 @@ jobs:
           shopt -s nullglob
           apks=(release/Virendra-Calculator-v*-release.apk)
           if (( ${#apks[@]} != 1 )); then
-            echo "Expected exactly one release APK; found ${#apks[@]}" >&2
+            echo "Expected exactly one signed APK; found ${#apks[@]}" >&2
             exit 1
           fi
-          apk="${apks[0]}"
-          filename="$(basename "$apk")"
-          version="${filename#Virendra-Calculator-v}"
+          file="${apks[0]}"
+          name="$(basename "$file")"
+          version="${name#Virendra-Calculator-v}"
           version="${version%-release.apk}"
           if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Invalid APK version: $version" >&2
             exit 1
           fi
+          echo "file=$file" >> "$GITHUB_OUTPUT"
           echo "tag=v$version" >> "$GITHUB_OUTPUT"
-          echo "file=$apk" >> "$GITHUB_OUTPUT"
 
-      - name: Create or update GitHub Latest Release
+      - name: Publish APK to GitHub Latest Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.apk.outputs.tag }}
           name: Virendra Calculator ${{ steps.apk.outputs.tag }}
-          target_commitish: ${{ github.event.workflow_run.head_sha }}
+          target_commitish: ${{ github.sha }}
           files: ${{ steps.apk.outputs.file }}
           fail_on_unmatched_files: true
           make_latest: true
