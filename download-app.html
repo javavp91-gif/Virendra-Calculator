@@ -13,7 +13,7 @@
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#1b2d40}
 .wrap{max-width:760px;margin:auto;padding:18px}.hero{background:linear-gradient(155deg,#e6f8ff,#d9f2fb);border:1px solid #cbe7f2;border-radius:26px;padding:24px;text-align:center;box-shadow:0 10px 28px rgba(23,52,83,.08)}
 h1{margin:4px 0 10px;font-size:31px;color:var(--navy)}.sub{color:var(--muted);line-height:1.55;margin:0 auto 18px;max-width:620px}.appicon{width:92px;height:92px;border-radius:24px;margin:0 auto 12px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:44px;color:#fff;box-shadow:0 8px 18px rgba(23,52,83,.18)}
-.btn{display:block;text-decoration:none;border-radius:15px;padding:15px 16px;font-size:18px;font-weight:800;margin:11px 0;text-align:center}.primary{background:var(--navy);color:#fff}.secondary{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn{display:block;text-decoration:none;border-radius:15px;padding:15px 16px;font-size:18px;font-weight:800;margin:11px 0;text-align:center}.primary{background:var(--navy);color:#fff}.secondary{background:#fff;color:var(--navy);border:1px solid var(--line)}.is-loading{opacity:.58;pointer-events:none;cursor:wait}.retry{margin:10px auto 0;display:block;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 16px;color:var(--navy);font-weight:700}.retry[hidden]{display:none}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin:16px 0}.card h2{margin:0 0 12px;font-size:21px}.features{margin:0;padding-left:20px;line-height:1.8}.small{font-size:13px;color:var(--muted);line-height:1.5}.notice{background:#fff8e6;border:1px solid #ecdba5;border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.5}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@media(max-width:520px){h1{font-size:27px}.wrap{padding:13px}.hero{padding:20px 15px}}
 </style>
@@ -25,8 +25,9 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@
     <h1>Virendra Calculator</h1>
     <p class="sub">Android calculator app for survey, road work, RL, quantity, concrete, brick, mortar and useful daily calculations.</p>
     <!-- Native link navigation: no asynchronous download interception on tap. -->
-    <a id="downloadApkBtn" class="btn primary" href="https://github.com/javavp91-gif/Virendra-Calculator/releases/latest" target="_blank" rel="noopener noreferrer">⬇ Download Latest APK</a>
+    <a id="downloadApkBtn" class="btn primary is-loading" aria-disabled="true">⬇ Download Latest APK</a>
     <div id="latestVersion" class="small" aria-live="polite">नया APK लिंक तैयार किया जा रहा है...</div>
+    <button id="retryDownloadLink" class="retry" type="button" hidden>↻ फिर जाँचें</button>
     <a class="btn secondary" href="https://javavp91-gif.github.io/Virendra-Calculator/">🌐 Open Online Calculator</a>
   </section>
   <section class="card">
@@ -39,7 +40,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@
       <li>Dedicated Android app</li>
     </ul>
   </section>
-  <div class="notice"><b>नया डाउनलोड तरीका:</b> पेज खुलने पर सबसे नया GitHub APK लिंक तैयार हो जाएगा। <b>Download Latest APK</b> दबाते ही लिंक सीधे नए ब्राउज़र टैब में खुलेगा। डाउनलोड न चले तो मोबाइल के Chrome ब्राउज़र में यही पेज खोलें। GitHub API उपलब्ध न होने पर Latest Release पेज खुलेगा; पुराना APK नहीं।</div>
+  <div class="notice"><b>डाउनलोड तरीका:</b> पेज खुलने पर नवीनतम APK का सीधा लिंक तैयार होगा। उसके बाद <b>Download Latest APK</b> दबाते ही ब्राउज़र APK डाउनलोड करेगा। GitHub का Releases पेज नहीं खोला जाएगा। यदि लिंक उपलब्ध न हो तो “फिर जाँचें” दबाएँ।</div>
   <section class="card">
     <h2>Use Online</h2>
     <p class="small">बिना app install किए browser में भी Virendra Calculator इस्तेमाल कर सकते हैं.</p>
@@ -50,36 +51,54 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@
 <script>
 (function(){
   'use strict';
-  var btn = document.getElementById('downloadApkBtn');
+  var button = document.getElementById('downloadApkBtn');
   var status = document.getElementById('latestVersion');
+  var retry = document.getElementById('retryDownloadLink');
   var api = 'https://api.github.com/repos/javavp91-gif/Virendra-Calculator/releases/latest';
-  var latestPage = 'https://github.com/javavp91-gif/Virendra-Calculator/releases/latest';
-  // Important: The link starts at the real Latest Release page, not at an old APK.
-  // Once the latest release is known, use its actual direct .apk URL.
-  var controller = new AbortController();
-  var timeout = setTimeout(function(){ controller.abort(); }, 7000);
-  fetch(api + '?t=' + Date.now(), {
-    cache: 'no-store', signal: controller.signal,
-    headers: { 'Accept': 'application/vnd.github+json' }
-  })
-  .then(function(r){ if(!r.ok) throw new Error('GitHub API'); return r.json(); })
-  .then(function(release){
-    if (release.draft || release.prerelease) throw new Error('Not a stable release');
-    var apk = (release.assets || []).find(function(file){
-      return file && typeof file.name === 'string' && /\.apk$/i.test(file.name) &&
-        typeof file.browser_download_url === 'string' &&
-        file.browser_download_url.indexOf('https://github.com/javavp91-gif/Virendra-Calculator/releases/download/') === 0;
-    });
-    if (!apk) throw new Error('Release APK unavailable');
-    btn.href = apk.browser_download_url;
-    status.textContent = 'Latest APK: ' + (release.tag_name || 'newest') + ' · सीधे GitHub से डाउनलोड';
-  })
-  .catch(function(){
-    btn.href = latestPage;
-    status.textContent = 'GitHub Latest Release खोलें और APK चुनें';
-  })
-  .finally(function(){ clearTimeout(timeout); });
-  // No click handler / preventDefault: browser handles the APK URL natively.
+  var prefix = 'https://github.com/javavp91-gif/Virendra-Calculator/releases/download/';
+  var loading = false;
+  async function prepareDirectApkLink(){
+    if (loading) return;
+    loading = true;
+    button.removeAttribute('href');
+    button.setAttribute('aria-disabled', 'true');
+    button.classList.add('is-loading');
+    retry.hidden = true;
+    status.textContent = 'नवीनतम APK का लिंक तैयार किया जा रहा है...';
+    var controller = new AbortController();
+    var timeout = setTimeout(function(){ controller.abort(); }, 10000);
+    try {
+      var response = await fetch(api + '?t=' + Date.now(), {
+        cache: 'no-store',
+        signal: controller.signal,
+        headers: {'Accept':'application/vnd.github+json'}
+      });
+      if (!response.ok) throw new Error('Latest release cannot be checked');
+      var release = await response.json();
+      if (!release || release.draft || release.prerelease) throw new Error('No stable release');
+      var apk = (release.assets || []).find(function(file){
+        return file && typeof file.name === 'string' && /\.apk$/i.test(file.name) &&
+          typeof file.browser_download_url === 'string' &&
+          file.browser_download_url.indexOf(prefix) === 0;
+      });
+      if (!apk) throw new Error('APK missing from latest release');
+      // Native browser download directly from the APK asset. No releases page
+      // fallback, no popup, and no asynchronous click interception.
+      button.href = apk.browser_download_url;
+      button.removeAttribute('aria-disabled');
+      button.classList.remove('is-loading');
+      status.textContent = 'तैयार: ' + (release.tag_name || 'Latest') + ' • डाउनलोड दबाएँ';
+    } catch (error) {
+      // Never route visitors to the public GitHub Releases UI as a fallback.
+      status.textContent = 'अभी डाउनलोड लिंक नहीं मिला। इंटरनेट जाँचकर फिर प्रयास करें।';
+      retry.hidden = false;
+    } finally {
+      clearTimeout(timeout);
+      loading = false;
+    }
+  }
+  retry.addEventListener('click', prepareDirectApkLink);
+  prepareDirectApkLink();
 })();
 </script>
 <!-- Cloudflare Web Analytics -->
