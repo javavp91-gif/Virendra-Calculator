@@ -957,7 +957,7 @@ jobs:
               super.onPause();
           }
 
-    private String getInstalledVersion() {
+              private String getInstalledVersion() {
 
                   try {
                       return getPackageManager()
