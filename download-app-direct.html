@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Download Virendra Calculator App | Android APK</title>
-<meta name="description" content="Download the Virendra Calculator Android app for survey, road work, RL, concrete, brick, mortar, quantity and daily calculations.">
+<meta name="theme-color" content="#173453">
+<title>Download Virendra Calculator App | Latest Android APK</title>
+<meta name="description" content="Download the latest Virendra Calculator Android APK for survey, road work, RL, concrete, brick, mortar and quantity calculations.">
 <link rel="canonical" href="https://javavp91-gif.github.io/Virendra-Calculator/download-app.html">
 <meta name="robots" content="index,follow">
 <style>
@@ -23,10 +24,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@
     <div class="appicon">🧮</div>
     <h1>Virendra Calculator</h1>
     <p class="sub">Android calculator app for survey, road work, RL, quantity, concrete, brick, mortar and useful daily calculations.</p>
-    <a class="btn primary" href="https://github.com/javavp91-gif/Virendra-Calculator/releases/download/v1.1.75/Virendra-Calculator-v1.1.75-release.apk">⬇ Download Latest APK</a>
+    <a id="downloadApkBtn" class="btn primary" href="https://github.com/javavp91-gif/Virendra-Calculator/releases/latest">⬇ Download Latest APK</a>
+    <div id="latestVersion" class="small" aria-live="polite">Latest APK: checking GitHub release...</div>
     <a class="btn secondary" href="https://javavp91-gif.github.io/Virendra-Calculator/">🌐 Open Online Calculator</a>
   </section>
-
   <section class="card">
     <h2>App Features</h2>
     <ul class="features">
@@ -37,9 +38,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@
       <li>Dedicated Android app</li>
     </ul>
   </section>
-
-  <div class="notice"><b>Download तरीका:</b> “Download Latest APK” दबाते ही Virendra Calculator APK सीधे डाउनलोड होगा.</div>
-
+  <div class="notice"><b>Download तरीका:</b> “Download Latest APK” दबाने पर GitHub से सबसे नया APK खोजकर डाउनलोड होगा। GitHub API उपलब्ध न होने पर Latest Release पेज खुलेगा—पुराना APK नहीं।</div>
   <section class="card">
     <h2>Use Online</h2>
     <p class="small">बिना app install किए browser में भी Virendra Calculator इस्तेमाल कर सकते हैं.</p>
@@ -47,10 +46,65 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}@
   </section>
 </main>
 <footer>© Virendra Calculator</footer>
-
+<script>
+(function(){
+  'use strict';
+  const btn=document.getElementById('downloadApkBtn');
+  const label=document.getElementById('latestVersion');
+  const latestPage='https://github.com/javavp91-gif/Virendra-Calculator/releases/latest';
+  const api='https://api.github.com/repos/javavp91-gif/Virendra-Calculator/releases/latest';
+  let pending=null;
+  function getLatestApk(){
+    if(pending) return pending;
+    pending=(async function(){
+      const controller=new AbortController();
+      const timeout=setTimeout(function(){controller.abort()},9000);
+      try{
+        const response=await fetch(api+'?cachebust='+Date.now(),{
+          cache:'no-store',
+          signal:controller.signal,
+          headers:{Accept:'application/vnd.github+json'}
+        });
+        if(!response.ok) throw new Error('GitHub release unavailable');
+        const release=await response.json();
+        if(release.draft||release.prerelease) throw new Error('Latest release is not stable');
+        const apk=(release.assets||[]).find(function(file){
+          return file && typeof file.name==='string' && /\.apk$/i.test(file.name) && file.browser_download_url;
+        });
+        if(!apk) throw new Error('No APK found in latest release');
+        return {url:apk.browser_download_url,version:release.tag_name||'latest'};
+      }finally{clearTimeout(timeout)}
+    })();
+    pending.catch(function(){pending=null});
+    return pending;
+  }
+  getLatestApk().then(function(apk){
+    btn.href=apk.url;
+    label.textContent='Latest APK: '+apk.version;
+  }).catch(function(){
+    btn.href=latestPage;
+    label.textContent='Latest APK: open GitHub Releases';
+  });
+  btn.addEventListener('click',async function(ev){
+    ev.preventDefault();
+    if(btn.dataset.busy==='yes')return;
+    btn.dataset.busy='yes';
+    const oldText=btn.textContent;
+    btn.textContent='Checking latest APK...';
+    try{
+      const apk=await getLatestApk();
+      window.location.assign(apk.url);
+    }catch(e){
+      window.location.assign(latestPage);
+    }finally{
+      btn.dataset.busy='no';
+      btn.textContent=oldText;
+    }
+  });
+})();
+</script>
 <!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b71cd92b597d42e5bb31c65cd0c23f2c"}'></script>
 <!-- End Cloudflare Web Analytics -->
-
 </body>
 </html>
